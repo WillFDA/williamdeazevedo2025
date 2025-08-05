@@ -1,23 +1,14 @@
 import Image from 'next/image';
-import { pictures } from './data/pictures';
+import { pictures, skillsIcons } from './data/picturesandicons';
 
 export default function Home() {
   return (
     <main>
       <header className="my-5 flex justify-between items-center mx-auto p-4 border border-gay-100 max-w-2xl"></header>
-      <div className=" border-gray-200 min-h-screen h-full absolute custom-position-left"></div>
-      <div className=" border-gray-200 min-h-screen h-full absolute custom-position-right"></div>
+      <div className="xl:max-w-7xl max-w-3xl absolute top-0 bottom-0 w-full mx-auto  left-1/2 -translate-x-1/2 border border-gray-200 z-[-1]"></div>
       <section className="w-full mt-20 max-w-4xl mx-auto p-4">
         <div className="flex flex-col mx-auto max-w-lg">
-          <div className="size-20 bg-gray-200 rounded-full mb-4 overflow-hidden">
-            <Image
-              src="/william.png"
-              alt="profile"
-              width={80}
-              height={80}
-              className="rounded-full"
-            />
-          </div>
+          <div className="size-20 bg-gray-200 rounded-full mb-4 overflow-hidden flex items-center justify-center"></div>
           <h1 className="text-4xl font-bold mb-3">
             Hello moi c&apos;est William <br />
             Développeur Front end junior
@@ -35,7 +26,19 @@ export default function Home() {
           </button>
         </div>
       </section>
-      <div className=" flex gap-8 mt-20 bg-white py-12 z-10 relative border border-gray-200 border-l-0 border-r-0 px-8">
+      <div className="flex items-center justify-between bg-white w-full relative border border-gray-200 border-l-0 border-r-0 mt-20 mb-25">
+        <div className="flex items-center justify-between gap-2 mx-auto xl:max-w-7xl max-w-3xl w-full">
+          {skillsIcons.map((icon, index) => (
+            <div
+              key={index + icon.alt}
+              className=" aspect-square size-25 border border-gray-200 border-t-0 border-b-0 flex items-center justify-center grayscale hover:grayscale-0"
+            >
+              <Image src={icon.src} alt={icon.alt} width={50} height={50} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className=" flex gap-8 bg-white py-12 z-10 relative border border-gray-200 border-l-0 border-r-0 px-8 items-center justify-center">
         {pictures.map((picture) => (
           <div
             key={picture.id}
