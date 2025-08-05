@@ -51,38 +51,38 @@ export const pictures = [
 export const skillsIcons = [
   {
     src: reactIcon,
-    alt: 'React icon ',
+    alt: 'React',
   },
   {
     src: nextIcon,
-    alt: 'Next.js icon',
+    alt: 'Next.js',
   },
   {
     src: tailwindIcon,
-    alt: 'Tailwind CSS icon',
+    alt: 'Tailwind CSS',
   },
   {
     src: typescriptIcon,
-    alt: 'Typescript icon',
+    alt: 'Typescript',
   },
   {
     src: tanstackQueryIcon,
-    alt: 'Tanstack Query icon',
+    alt: 'Tanstack Query',
   },
   {
     src: zustandIcon,
-    alt: 'Zustand icon',
+    alt: 'Zustand',
   },
   {
     src: shadcnIcon,
-    alt: 'Shadcn icon',
+    alt: 'Shadcn',
   },
   {
     src: prismaIcon,
-    alt: 'Prisma icon',
+    alt: 'Prisma',
   },
   {
     src: materialuiIcon,
-    alt: 'Material UI icon',
+    alt: 'Material UI',
   },
 ];
