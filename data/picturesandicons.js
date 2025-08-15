@@ -1,4 +1,5 @@
 // pictures
+import figmaIcon from '@/public/icons/figma-icon.svg';
 import setupPicture from '@/public/pictures/Gr3V6nfWwAAQQrE.jpeg';
 import gokuPicture from '@/public/pictures/IMG_1320.jpeg';
 import majorquePicture from '@/public/pictures/IMG_1939.jpeg';
@@ -84,5 +85,9 @@ export const skillsIcons = [
   {
     src: materialuiIcon,
     alt: 'Material UI',
+  },
+  {
+    src: figmaIcon,
+    alt: 'Figma',
   },
 ];

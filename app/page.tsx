@@ -37,11 +37,17 @@ export default function Home() {
         </div>
       </section>
       <div className="flex items-center justify-between bg-white w-full relative mt-20 mb-25">
-        <div className="flex items-center justify-between gap-2 mx-auto max-w-2xl w-full flex-wrap">
+        <div className="grid grid-cols-5 grid-rows-2 gap-2 mx-auto max-w-2xl w-full flex-wrap justify-center items-center">
           {skillsIcons.map((icon, index) => (
             <HoverTooltip key={index} item={icon}>
-              <div className=" aspect-square size-25 flex items-center justify-center grayscale hover:grayscale-0">
-                <Image src={icon.src} alt={icon.alt} width={50} height={50} />
+              <div className="aspect-square col-span-1 row-span-1 size-25 flex items-center justify-center grayscale hover:grayscale-0">
+                <Image
+                  src={icon.src}
+                  alt={icon.alt}
+                  width={50}
+                  height={50}
+                  className="max-w-[50px] max-h-[50px]"
+                />
               </div>
             </HoverTooltip>
           ))}
