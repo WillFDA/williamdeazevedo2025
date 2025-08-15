@@ -30,17 +30,17 @@ export default function Home() {
                 Actuellement à la recherche d&apos;un CDI
               </span>
             </div>
-            <button className="bg-black hover:bg-black/85 cursor-pointer text-white px-8 py-4 w-full rounded-lg transition-all duration-150 ease-in-out">
+            <button className="bg-black hover:bg-black/85 cursor-pointer text-white px-8 py-4 w-full rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]">
               Voir mon CV
             </button>
           </div>
         </div>
       </section>
       <div className="flex items-center justify-between bg-white w-full relative mt-20 mb-25">
-        <div className="grid grid-cols-5 grid-rows-2 gap-2 mx-auto max-w-2xl w-full flex-wrap justify-center items-center">
+        <div className="grid grid-cols-5 grid-rows-2 gap-2 mx-auto max-w-2xl w-full flex-wrap justify-center items-center group">
           {skillsIcons.map((icon, index) => (
             <HoverTooltip key={index} item={icon}>
-              <div className="aspect-square col-span-1 row-span-1 size-25 flex items-center justify-center grayscale hover:grayscale-0">
+              <div className="aspect-square col-span-1 row-span-1 size-25 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 group-hover:[&:not(:hover)]:opacity-30">
                 <Image
                   src={icon.src}
                   alt={icon.alt}
