@@ -1,6 +1,7 @@
 import ProjectLink from '@/components/project-link';
 import { pictures } from '@/data/picturesandicons';
 import motivai from '@/public/motivai-logo.png';
+import william from '@/public/pictures/william.png';
 import Image from 'next/image';
 
 export default function About() {
@@ -40,7 +41,7 @@ export default function About() {
           </div>
         </div>
       </section>
-      <section className="flex gap-8 py-12 px-8 items-center justify-center">
+      <section className="flex gap-8 py-15 px-8 items-center justify-center">
         {pictures.map((picture, index) => (
           <div
             key={picture.id}
@@ -61,7 +62,7 @@ export default function About() {
           </div>
         ))}
       </section>
-      <section className="flex flex-col max-w-2xl mx-auto mt-20 gap-8 ">
+      <section className="flex flex-col max-w-2xl mx-auto  gap-8 ">
         <div className="flex gap-8">
           <h2 className="font-medium mb-auto text-gray-500">Projets</h2>
           <span>
@@ -73,7 +74,7 @@ export default function About() {
         <div className="group/projects flex flex-col gap-4">
           <ProjectLink
             href="https://motivai.fr"
-            title="Motivai"
+            title="Motivai - Créateur de lettre de motivation"
             description="Développement en solo d'un SaaS de génération de lettres de motivation par IA avec Next.js. Maîtrise complète de la stack : SSR, Better Auth, Prisma, shadcn/ui et intégration de Vercel AI SDK permettant le choix du modèle d'IA. Gestion end-to-end du projet incluant architecture, CI/CD, environnements multiples et déploiements versionnés. Une expérience formatrice sur les défis techniques et organisationnels d'un projet complet."
             image={motivai}
             technologies={[
@@ -86,18 +87,11 @@ export default function About() {
             ]}
           />
           <ProjectLink
-            href="https://motivai.fr"
-            title="Motivai"
-            description="Développement en solo d'un SaaS de génération de lettres de motivation par IA avec Next.js. Maîtrise complète de la stack : SSR, Better Auth, Prisma, shadcn/ui et intégration de Vercel AI SDK permettant le choix du modèle d'IA. Gestion end-to-end du projet incluant architecture, CI/CD, environnements multiples et déploiements versionnés. Une expérience formatrice sur les défis techniques et organisationnels d'un projet complet."
-            image={motivai}
-            technologies={[
-              'NextJS',
-              'TypeScript',
-              'Prisma',
-              'Better Auth',
-              'AI',
-              'CI / CD',
-            ]}
+            href="https://github.com/WillFDA/williamdeazevedo2025"
+            title="Mon portfolio - 2025"
+            description="Pour ce portfolio, l'objectif était différent des anciens. Je voulais créer un portfolio simple, efficace, concis. J'avais aussi pour objectif de commencer à créer des posts de blog, pour apprendre en partageant et pour avoir un endroit où expérimenter et partager."
+            image={william}
+            technologies={['NextJS', 'TypeScript', 'MDX']}
           />
         </div>
       </section>

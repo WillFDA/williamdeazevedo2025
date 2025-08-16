@@ -1,11 +1,11 @@
 import HoverTooltip from '@/components/hover-tooltip';
+import ProjectLink from '@/components/project-link';
 import { skillsIcons } from '@/data/picturesandicons';
 import kominLogo from '@/public/komin-logo.png';
 import motivai from '@/public/motivai-logo.png';
 import william from '@/public/pictures/william.png';
 import susuLogo from '@/public/susu-logo.png';
 import Image from 'next/image';
-import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -64,56 +64,28 @@ export default function Home() {
         <div className="flex flex-col gap-4 w-full ">
           <span>+ 2 ans d&apos;expérience</span>
           <div className="group/work flex flex-col gap-4">
-            <Link
+            <ProjectLink
               href="https://susu.fr"
-              target="_blank"
-              className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/work:[&:not(:hover)]:opacity-30"
-            >
-              <div className="flex gap-4 items-center">
-                <div className="size-13 rounded-full flex items-center justify-center overflow-hidden">
-                  <Image
-                    src={susuLogo}
-                    alt="Komin io logo"
-                    width={40}
-                    height={40}
-                  />
-                </div>
-                <div className="flex flex-col justify-center gap-1">
-                  <span className="text-gray-800 font-medium text-lg leading-tight">
-                    Développeur Front end
-                  </span>
-                  <span className="text-gray-600 leading-tight font-medium">
-                    Susu
-                  </span>
-                </div>
-              </div>
-              <span className="text-gray-500 font-medium">2024 - Now</span>
-            </Link>
-            <Link
+              title="Développeur Front end"
+              description="Susu"
+              image={susuLogo}
+              variant="simple"
+              groupName="work"
+              rightContent="2024 - Now"
+              imageContainer="size-13 rounded-full flex items-center justify-center overflow-hidden"
+              imageSize={{ width: 40, height: 40 }}
+            />
+            <ProjectLink
               href="https://komin.io"
-              target="_blank"
-              className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/work:[&:not(:hover)]:opacity-30"
-            >
-              <div className="flex gap-4 items-center">
-                <div className="size-13 rounded-full flex items-center justify-center overflow-hidden">
-                  <Image
-                    src={kominLogo}
-                    alt="Komin io logo"
-                    width={40}
-                    height={40}
-                  />
-                </div>
-                <div className="flex flex-col justify-center gap-1">
-                  <span className="text-gray-800 font-medium text-lg leading-tight">
-                    Développeur Front end
-                  </span>
-                  <span className="text-gray-600 leading-tight font-medium">
-                    Komin
-                  </span>
-                </div>
-              </div>
-              <span className="text-gray-500 font-medium">2023 - 2024</span>
-            </Link>
+              title="Développeur Front end"
+              description="Komin"
+              image={kominLogo}
+              variant="simple"
+              groupName="work"
+              rightContent="2023 - 2024"
+              imageContainer="size-13 rounded-full flex items-center justify-center overflow-hidden"
+              imageSize={{ width: 40, height: 40 }}
+            />
           </div>
         </div>
       </section>
@@ -124,52 +96,20 @@ export default function Home() {
             J&apos;aime développer des projets en solo ou collaboratif
           </span>
           <div className="group/projects flex flex-col gap-4">
-            <Link
+            <ProjectLink
               href="https://motivai.fr"
-              target="_blank"
-              className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/projects:[&:not(:hover)]:opacity-30"
-            >
-              <div className="flex gap-4 items-center">
-                <Image
-                  src={motivai}
-                  alt="Motivai"
-                  width={52}
-                  height={52}
-                  className="rounded-full"
-                />
-                <div className="flex flex-col justify-center gap-1">
-                  <span className="text-gray-800 font-medium text-lg leading-tight">
-                    Motivai
-                  </span>
-                  <span className="text-gray-600 leading-tight font-medium">
-                    Un SaaS de création de lettre de motivation avec IA
-                  </span>
-                </div>
-              </div>
-            </Link>
-            <Link
+              title="Motivai"
+              description="Un SaaS de création de lettre de motivation avec IA"
+              image={motivai}
+              variant="simple"
+            />
+            <ProjectLink
               href="https://github.com/WillFDA/williamdeazevedo2025"
-              target="_blank"
-              className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/projects:[&:not(:hover)]:opacity-30"
-            >
-              <div className="flex gap-4 items-center">
-                <Image
-                  src={william}
-                  alt="Motivai"
-                  width={52}
-                  height={52}
-                  className="rounded-full"
-                />
-                <div className="flex flex-col justify-center gap-1">
-                  <span className="text-gray-800 font-medium text-lg leading-tight">
-                    Mon site
-                  </span>
-                  <span className="text-gray-600 leading-tight font-medium">
-                    Le site actuel que vous êtes entrain de visiter
-                  </span>
-                </div>
-              </div>
-            </Link>
+              title="Mon site"
+              description="Le site actuel que vous êtes entrain de visiter"
+              image={william}
+              variant="simple"
+            />
           </div>
         </div>
       </section>
