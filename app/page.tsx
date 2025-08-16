@@ -1,103 +1,174 @@
-import Image from "next/image";
+import HoverTooltip from '@/components/hover-tooltip';
+import { skillsIcons } from '@/data/picturesandicons';
+import kominLogo from '@/public/komin-logo.png';
+import motivai from '@/public/motivai-logo.png';
+import william from '@/public/pictures/william.png';
+import susuLogo from '@/public/susu-logo.png';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <>
+      <section className="w-full mt-20 max-w-4xl mx-auto p-4">
+        <div className="flex mx-auto max-w-2xl gap-8">
+          <Image
+            src={william}
+            alt="Photo de profil"
+            width={80}
+            height={80}
+            className="rounded-full size-20 fade-up [--animation-delay:100ms]"
+          />
+          <div className="flex flex-col">
+            <h1 className="text-4xl font-bold mb-3 fade-up [--animation-delay:100ms]">
+              Hello moi c&apos;est William <br />
+              Développeur Front end junior
+            </h1>
+            <div className="flex gap-2 items-center mb-8 fade-up [--animation-delay:200ms]">
+              <div className="size-4 bg-green-100 rounded-full flex items-center justify-center">
+                <div className="size-1 bg-green-400 rounded-full"></div>
+              </div>
+              <span className="text-gray-500">
+                Actuellement à la recherche d&apos;un CDI
+              </span>
+            </div>
+            <button className="bg-black fade-up [--animation-delay:300ms] hover:bg-black/85 cursor-pointer text-white px-8 py-4 w-full rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]">
+              Voir mon CV
+            </button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+      <div className="flex items-center justify-between bg-white w-full relative mt-20 mb-25">
+        <div className="grid grid-cols-5 grid-rows-2 gap-2 mx-auto max-w-2xl w-full flex-wrap justify-center items-center group">
+          {skillsIcons.map((icon, index) => (
+            <HoverTooltip key={index} item={icon}>
+              <div className="aspect-square col-span-1 row-span-1 size-25 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 group-hover:[&:not(:hover)]:opacity-30">
+                <Image
+                  src={icon.src}
+                  alt={icon.alt}
+                  width={50}
+                  height={50}
+                  className="max-w-[50px] max-h-[50px]"
+                />
+              </div>
+            </HoverTooltip>
+          ))}
+        </div>
+      </div>
+      <section className="flex max-w-2xl mx-auto mt-20 gap-8 ">
+        <h2 className="font-medium mb-auto text-gray-500">Travail</h2>
+        <div className="flex flex-col gap-4 w-full ">
+          <span>+ 2 ans d&apos;expérience</span>
+          <div className="group/work flex flex-col gap-4">
+            <Link
+              href="https://susu.fr"
+              target="_blank"
+              className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/work:[&:not(:hover)]:opacity-30"
+            >
+              <div className="flex gap-4 items-center">
+                <div className="size-13 rounded-full flex items-center justify-center overflow-hidden">
+                  <Image
+                    src={susuLogo}
+                    alt="Komin io logo"
+                    width={40}
+                    height={40}
+                  />
+                </div>
+                <div className="flex flex-col justify-center gap-1">
+                  <span className="text-gray-800 font-medium text-lg leading-tight">
+                    Développeur Front end
+                  </span>
+                  <span className="text-gray-600 leading-tight font-medium">
+                    Susu
+                  </span>
+                </div>
+              </div>
+              <span className="text-gray-500 font-medium">2024 - Now</span>
+            </Link>
+            <Link
+              href="https://komin.io"
+              target="_blank"
+              className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/work:[&:not(:hover)]:opacity-30"
+            >
+              <div className="flex gap-4 items-center">
+                <div className="size-13 rounded-full flex items-center justify-center overflow-hidden">
+                  <Image
+                    src={kominLogo}
+                    alt="Komin io logo"
+                    width={40}
+                    height={40}
+                  />
+                </div>
+                <div className="flex flex-col justify-center gap-1">
+                  <span className="text-gray-800 font-medium text-lg leading-tight">
+                    Développeur Front end
+                  </span>
+                  <span className="text-gray-600 leading-tight font-medium">
+                    Komin
+                  </span>
+                </div>
+              </div>
+              <span className="text-gray-500 font-medium">2023 - 2024</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+      <section className="flex max-w-2xl mx-auto mt-20 gap-8 ">
+        <h2 className="font-medium mb-auto text-gray-500">Projets</h2>
+        <div className="flex flex-col gap-4 w-full">
+          <span>
+            J&apos;aime développer des projets en solo ou collaboratif
+          </span>
+          <div className="group/projects flex flex-col gap-4">
+            <Link
+              href="https://motivai.fr"
+              target="_blank"
+              className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/projects:[&:not(:hover)]:opacity-30"
+            >
+              <div className="flex gap-4 items-center">
+                <Image
+                  src={motivai}
+                  alt="Motivai"
+                  width={52}
+                  height={52}
+                  className="rounded-full"
+                />
+                <div className="flex flex-col justify-center gap-1">
+                  <span className="text-gray-800 font-medium text-lg leading-tight">
+                    Motivai
+                  </span>
+                  <span className="text-gray-600 leading-tight font-medium">
+                    Un SaaS de création de lettre de motivation avec IA
+                  </span>
+                </div>
+              </div>
+            </Link>
+            <Link
+              href="https://github.com/WillFDA/williamdeazevedo2025"
+              target="_blank"
+              className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/projects:[&:not(:hover)]:opacity-30"
+            >
+              <div className="flex gap-4 items-center">
+                <Image
+                  src={william}
+                  alt="Motivai"
+                  width={52}
+                  height={52}
+                  className="rounded-full"
+                />
+                <div className="flex flex-col justify-center gap-1">
+                  <span className="text-gray-800 font-medium text-lg leading-tight">
+                    Mon site
+                  </span>
+                  <span className="text-gray-600 leading-tight font-medium">
+                    Le site actuel que vous êtes entrain de visiter
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
