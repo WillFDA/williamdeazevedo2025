@@ -1,7 +1,7 @@
+import ProjectLink from '@/components/project-link';
 import { pictures } from '@/data/picturesandicons';
 import motivai from '@/public/motivai-logo.png';
 import Image from 'next/image';
-import Link from 'next/link';
 
 export default function About() {
   return (
@@ -71,56 +71,34 @@ export default function About() {
           </span>
         </div>
         <div className="group/projects flex flex-col gap-4">
-          <Link
+          <ProjectLink
             href="https://motivai.fr"
-            target="_blank"
-            className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/projects:[&:not(:hover)]:opacity-30"
-          >
-            <div className="flex gap-4 items-start">
-              <Image
-                src={motivai}
-                alt="Motivai"
-                width={52}
-                height={52}
-                className="rounded-full"
-              />
-              <div className="flex flex-col justify-center gap-1">
-                <span className="text-gray-800 font-semibold text-md leading-tight">
-                  Motivai
-                </span>
-                <span className="text-gray-600 leading-tight text-sm ">
-                  Développement en solo d'un SaaS de génération de lettres de
-                  motivation par IA avec Next.js. Maîtrise complète de la stack
-                  : SSR, Better Auth, Prisma, shadcn/ui et intégration de Vercel
-                  AI SDK permettant le choix du modèle d'IA. Gestion end-to-end
-                  du projet incluant architecture, CI/CD, environnements
-                  multiples et déploiements versionnés. Une expérience
-                  formatrice sur les défis techniques et organisationnels d'un
-                  projet complet.
-                </span>
-                <div className="flex flex-wrap mt-3 gap-3">
-                  <span className="border  bg-gray-100 px-3 py-1 leading-tight rounded-full text-sm">
-                    NextJS
-                  </span>
-                  <span className="border  bg-gray-100 px-3 py-1 leading-tight rounded-full text-sm">
-                    TypeScript
-                  </span>
-                  <span className="border  bg-gray-100 px-3 py-1 leading-tight rounded-full text-sm">
-                    Prisma
-                  </span>
-                  <span className="border  bg-gray-100 px-3 py-1 leading-tight rounded-full text-sm">
-                    Better Auth
-                  </span>
-                  <span className="border  bg-gray-100 px-3 py-1 leading-tight rounded-full text-sm">
-                    AI
-                  </span>
-                  <span className="border  bg-gray-100 px-3 py-1 leading-tight rounded-full text-sm">
-                    CI / CD
-                  </span>
-                </div>
-              </div>
-            </div>
-          </Link>
+            title="Motivai"
+            description="Développement en solo d'un SaaS de génération de lettres de motivation par IA avec Next.js. Maîtrise complète de la stack : SSR, Better Auth, Prisma, shadcn/ui et intégration de Vercel AI SDK permettant le choix du modèle d'IA. Gestion end-to-end du projet incluant architecture, CI/CD, environnements multiples et déploiements versionnés. Une expérience formatrice sur les défis techniques et organisationnels d'un projet complet."
+            image={motivai}
+            technologies={[
+              'NextJS',
+              'TypeScript',
+              'Prisma',
+              'Better Auth',
+              'AI',
+              'CI / CD',
+            ]}
+          />
+          <ProjectLink
+            href="https://motivai.fr"
+            title="Motivai"
+            description="Développement en solo d'un SaaS de génération de lettres de motivation par IA avec Next.js. Maîtrise complète de la stack : SSR, Better Auth, Prisma, shadcn/ui et intégration de Vercel AI SDK permettant le choix du modèle d'IA. Gestion end-to-end du projet incluant architecture, CI/CD, environnements multiples et déploiements versionnés. Une expérience formatrice sur les défis techniques et organisationnels d'un projet complet."
+            image={motivai}
+            technologies={[
+              'NextJS',
+              'TypeScript',
+              'Prisma',
+              'Better Auth',
+              'AI',
+              'CI / CD',
+            ]}
+          />
         </div>
       </section>
     </>
