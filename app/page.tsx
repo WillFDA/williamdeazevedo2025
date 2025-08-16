@@ -17,14 +17,18 @@ export default function Home() {
             alt="Photo de profil"
             width={80}
             height={80}
-            className="rounded-full size-20 fade-up [--animation-delay:100ms]"
+            className="rounded-full size-20 fade-up [--animation-delay:200ms]"
           />
           <div className="flex flex-col">
-            <h1 className="text-4xl font-bold mb-3 fade-up [--animation-delay:100ms]">
+            <h1 className="text-4xl font-bold mb-3 fade-up [--animation-delay:200ms]">
               Hello moi c&apos;est William <br />
               Développeur Front end junior
             </h1>
-            <div className="flex gap-2 items-center mb-8 fade-up [--animation-delay:200ms]">
+            <p className="text-gray-500 text-md mb-4 fade-up [--animation-delay:400ms]">
+              Développeur front end, enthousiaste de l'IA. Je suis passionné par
+              la création de produits qui aident les gens.
+            </p>
+            <div className="flex gap-2 items-center mb-8 fade-up [--animation-delay:400ms]">
               <div className="size-4 bg-green-100 rounded-full flex items-center justify-center">
                 <div className="size-1 bg-green-400 rounded-full"></div>
               </div>
@@ -32,7 +36,7 @@ export default function Home() {
                 Actuellement à la recherche d&apos;un CDI
               </span>
             </div>
-            <button className="bg-black fade-up [--animation-delay:300ms] hover:bg-black/85 cursor-pointer text-white px-8 py-4 w-full rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]">
+            <button className="bg-black fade-up [--animation-delay:600ms] hover:bg-black/85 cursor-pointer text-white px-8 py-4 w-full rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]">
               Voir mon CV
             </button>
           </div>
