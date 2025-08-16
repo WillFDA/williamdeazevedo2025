@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Navbar() {
   return (
     <header className="my-5 flex items-center mx-auto p-4 sticky top-0 bg-white/50 backdrop-blur-sm z-10 w-full">
-      <nav className="max-w-lg min-w-lg mx-auto ">
+      <nav className="max-w-lg lg:min-w-lg mx-auto ">
         <ol className="flex gap-6 items-center ml-8">
           <li>
             <Link

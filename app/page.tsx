@@ -10,8 +10,8 @@ import Image from 'next/image';
 export default function Home() {
   return (
     <>
-      <section className="w-full mt-20 max-w-4xl mx-auto p-4">
-        <div className="flex mx-auto max-w-2xl gap-8">
+      <section className="w-full lg:mt-20 max-w-4xl mx-auto p-4">
+        <div className="flex flex-col lg:flex-row mx-auto max-w-2xl gap-8 items-center lg:items-start">
           <Image
             src={william}
             alt="Photo de profil"
@@ -19,16 +19,16 @@ export default function Home() {
             height={80}
             className="rounded-full size-20 fade-up [--animation-delay:200ms]"
           />
-          <div className="flex flex-col">
-            <h1 className="text-4xl font-bold mb-3 fade-up [--animation-delay:200ms]">
+          <div className="flex flex-col lg:text-start text-center">
+            <h1 className="lg:text-4xl text-3xl font-bold mb-3 fade-up [--animation-delay:200ms]">
               Hello moi c&apos;est William <br />
               Développeur Front end junior
             </h1>
-            <p className="text-gray-500 text-md mb-4 fade-up [--animation-delay:400ms]">
+            <p className="text-gray-500 text-sm lg:text-md mb-4 fade-up [--animation-delay:400ms]">
               Développeur front end, enthousiaste de l'IA. Je suis passionné par
               la création de produits qui aident les gens.
             </p>
-            <div className="flex gap-2 items-center mb-8 fade-up [--animation-delay:400ms]">
+            <div className=" mx-auto lg:ml-0 flex gap-2 items-center mb-8 fade-up [--animation-delay:400ms]">
               <div className="size-4 bg-green-100 rounded-full flex items-center justify-center">
                 <div className="size-1 bg-green-400 rounded-full"></div>
               </div>
@@ -36,17 +36,17 @@ export default function Home() {
                 Actuellement à la recherche d&apos;un CDI
               </span>
             </div>
-            <button className="bg-black fade-up [--animation-delay:600ms] hover:bg-black/85 cursor-pointer text-white px-12 py-4 w-fit rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]">
+            <button className="bg-black fade-up mx-auto lg:ml-0 [--animation-delay:600ms] hover:bg-black/85 cursor-pointer text-white px-12 py-4 w-fit rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]">
               Voir mon CV
             </button>
           </div>
         </div>
       </section>
-      <div className="flex items-center justify-between bg-white w-full relative mt-20 mb-25">
-        <div className="grid grid-cols-5 grid-rows-2 gap-2 mx-auto max-w-2xl w-full flex-wrap justify-center items-center group">
+      <div className="flex items-center justify-between bg-white w-full relative lg:mt-20 lg:mb-25 mt-12">
+        <div className="grid grid-cols-5 grid-rows-2 gap-2 mx-auto max-w-2xl w-full flex-wrap justify-center items-center group ">
           {skillsIcons.map((icon, index) => (
             <HoverTooltip key={index} item={icon}>
-              <div className="aspect-square col-span-1 row-span-1 size-25 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 group-hover:[&:not(:hover)]:opacity-30">
+              <div className="aspect-square col-span-1 row-span-1 lg:size-25 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 group-hover:[&:not(:hover)]:opacity-30">
                 <Image
                   src={icon.src}
                   alt={icon.alt}
@@ -59,7 +59,7 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <section className="flex max-w-2xl mx-auto mt-20 gap-8 ">
+      <section className="flex max-w-2xl mx-auto mt-15 lg:mt-20 gap-4 lg:gap-8 lg:flex-row flex-col px-4 lg:px-0">
         <h2 className="font-medium mb-auto text-gray-500">Travail</h2>
         <div className="flex flex-col gap-4 w-full ">
           <span>+ 2 ans d&apos;expérience</span>
@@ -89,7 +89,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="flex max-w-2xl mx-auto mt-20 gap-8 ">
+      <section className="flex max-w-2xl mx-auto mt-8 lg:mt-20 gap-4 lg:gap-8 lg:flex-row flex-col px-4 lg:px-0">
         <h2 className="font-medium mb-auto text-gray-500">Projets</h2>
         <div className="flex flex-col gap-4 w-full">
           <span>

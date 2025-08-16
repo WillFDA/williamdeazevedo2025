@@ -7,7 +7,7 @@ import Image from 'next/image';
 export default function About() {
   return (
     <>
-      <section className="flex max-w-2xl mx-auto mt-20 gap-8 ">
+      <section className="flex max-w-2xl mx-auto mt-20 gap-8 lg:flex-row flex-col px-4">
         <h2 className="font-medium mb-auto text-gray-500 fade-up [--animation-delay:300ms]">
           A propos de moi
         </h2>
@@ -62,8 +62,8 @@ export default function About() {
           </div>
         ))}
       </section>
-      <section className="flex flex-col max-w-2xl mx-auto  gap-8 ">
-        <div className="flex gap-8">
+      <section className="flex flex-col max-w-2xl mx-auto gap-8 px-4 lg:px-0">
+        <div className="flex gap-8 lg:flex-row flex-col">
           <h2 className="font-medium mb-auto text-gray-500">Projets</h2>
           <span>
             Plus de détails des projets que j'ai réalisés lors de mes
@@ -71,7 +71,7 @@ export default function About() {
             design à l'intégration
           </span>
         </div>
-        <div className="group/projects flex flex-col gap-4">
+        <div className="group/projects flex flex-col gap-8 lg:gap-4">
           <ProjectLink
             href="https://motivai.fr"
             title="Motivai - Créateur de lettre de motivation"

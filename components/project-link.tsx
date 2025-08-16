@@ -34,11 +34,11 @@ export default function ProjectLink({
     <Link
       href={href}
       target={target}
-      className={`flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl ${groupHoverClass}`}
+      className={`flex justify-between p-2 lg:p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl ${groupHoverClass}`}
     >
       <div
         className={`flex gap-4 ${
-          imageContainer ? 'items-center' : 'items-start'
+          imageContainer ? 'items-center' : 'items-start flex-col lg:flex-row'
         }`}
       >
         {imageContainer ? (
