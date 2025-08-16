@@ -41,7 +41,7 @@ export default function About() {
           </div>
         </div>
       </section>
-      <section className="flex gap-8 py-15 px-8 items-center justify-center">
+      <section className="flex gap-8 py-20 px-8 items-center justify-center">
         {pictures.map((picture, index) => (
           <div
             key={picture.id}

@@ -36,7 +36,7 @@ export default function Home() {
                 Actuellement à la recherche d&apos;un CDI
               </span>
             </div>
-            <button className="bg-black fade-up [--animation-delay:600ms] hover:bg-black/85 cursor-pointer text-white px-8 py-4 w-full rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]">
+            <button className="bg-black fade-up [--animation-delay:600ms] hover:bg-black/85 cursor-pointer text-white px-12 py-4 w-fit rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]">
               Voir mon CV
             </button>
           </div>

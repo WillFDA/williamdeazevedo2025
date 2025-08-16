@@ -36,7 +36,11 @@ export default function ProjectLink({
       target={target}
       className={`flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl ${groupHoverClass}`}
     >
-      <div className="flex gap-4 items-center">
+      <div
+        className={`flex gap-4 ${
+          imageContainer ? 'items-center' : 'items-start'
+        }`}
+      >
         {imageContainer ? (
           <div className={imageContainer}>
             <Image
@@ -75,7 +79,7 @@ export default function ProjectLink({
               {technologies.map((tech) => (
                 <span
                   key={tech}
-                  className="border bg-gray-100 px-3 py-1 leading-tight rounded-full text-sm"
+                  className=" bg-gray-100 px-3 py-1 leading-tight rounded-full text-sm"
                 >
                   {tech}
                 </span>
