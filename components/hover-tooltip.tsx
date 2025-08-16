@@ -4,12 +4,13 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { SkillsIcons } from '@/data/picturesandicons';
 
 export default function HoverTooltip({
   item,
   children,
 }: {
-  item: any;
+  item: SkillsIcons;
   children: React.ReactNode;
 }) {
   return (

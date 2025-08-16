@@ -15,8 +15,21 @@ import shadcnIcon from '@/public/icons/shadcn-ui.svg'; // done
 import tailwindIcon from '@/public/icons/tailwindcss.svg'; // done
 import typescriptIcon from '@/public/icons/typescript.svg'; // done
 import zustandIcon from '@/public/icons/zustand.svg'; // done
+import { StaticImageData } from 'next/image';
 
-export const pictures = [
+export interface Pictures {
+  id: number;
+  src: StaticImageData;
+  alt: string;
+  rotate: string;
+}
+
+export interface SkillsIcons {
+  src: string;
+  alt: string;
+}
+
+export const pictures: Pictures[] = [
   {
     id: 1,
     src: bourgetPicture,
@@ -49,7 +62,7 @@ export const pictures = [
   },
 ];
 
-export const skillsIcons = [
+export const skillsIcons: SkillsIcons[] = [
   {
     src: reactIcon,
     alt: 'React',
