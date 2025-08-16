@@ -9,7 +9,7 @@ export default function Navbar() {
         <ol className="flex gap-6 items-center ml-8">
           <li>
             <Link
-              className={`text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 ease-in-out  ${
+              className={`text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 ease-in-out fade-up [--animation-delay:50ms] ${
                 useGetIsActive('/')
                   ? 'bg-gray-400/20 text-black'
                   : 'text-gray-900/50 hover:text-black'
@@ -21,7 +21,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link
-              className={`text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 ease-in-out  ${
+              className={`text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 ease-in-out fade-up [--animation-delay:100ms] ${
                 useGetIsActive('/about')
                   ? 'bg-gray-400/20 text-black'
                   : 'text-gray-900/50 hover:text-black'
@@ -33,7 +33,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link
-              className={`text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 ease-in-out  ${
+              className={`text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 ease-in-out fade-up [--animation-delay:200ms]  ${
                 useGetIsActive('/blog')
                   ? 'bg-gray-100 text-black'
                   : 'text-gray-900/50 hover:text-black'
