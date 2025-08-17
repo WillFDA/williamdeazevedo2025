@@ -1,30 +1,34 @@
 import HoverTooltip from '@/components/hover-tooltip';
+import ProjectLink from '@/components/project-link';
 import { skillsIcons } from '@/data/picturesandicons';
 import kominLogo from '@/public/komin-logo.png';
 import motivai from '@/public/motivai-logo.png';
 import william from '@/public/pictures/william.png';
 import susuLogo from '@/public/susu-logo.png';
 import Image from 'next/image';
-import Link from 'next/link';
 
 export default function Home() {
   return (
     <>
-      <section className="w-full mt-20 max-w-4xl mx-auto p-4">
-        <div className="flex mx-auto max-w-2xl gap-8">
+      <section className="w-full lg:mt-20 max-w-4xl mx-auto p-4">
+        <div className="flex flex-col lg:flex-row mx-auto max-w-2xl gap-8 items-center lg:items-start">
           <Image
             src={william}
             alt="Photo de profil"
             width={80}
             height={80}
-            className="rounded-full size-20 fade-up [--animation-delay:100ms]"
+            className="rounded-full size-20 fade-up [--animation-delay:200ms]"
           />
-          <div className="flex flex-col">
-            <h1 className="text-4xl font-bold mb-3 fade-up [--animation-delay:100ms]">
+          <div className="flex flex-col lg:text-start text-center">
+            <h1 className="lg:text-4xl text-3xl font-bold mb-3 fade-up [--animation-delay:200ms]">
               Hello moi c&apos;est William <br />
               Développeur Front end junior
             </h1>
-            <div className="flex gap-2 items-center mb-8 fade-up [--animation-delay:200ms]">
+            <p className="text-gray-500 text-sm lg:text-md mb-4 fade-up [--animation-delay:400ms]">
+              Développeur front end, enthousiaste de l&apos;IA. Je suis
+              passionné par la création de produits qui aident les gens.
+            </p>
+            <div className=" mx-auto lg:ml-0 flex gap-2 items-center mb-8 fade-up [--animation-delay:400ms]">
               <div className="size-4 bg-green-100 rounded-full flex items-center justify-center">
                 <div className="size-1 bg-green-400 rounded-full"></div>
               </div>
@@ -32,17 +36,17 @@ export default function Home() {
                 Actuellement à la recherche d&apos;un CDI
               </span>
             </div>
-            <button className="bg-black fade-up [--animation-delay:300ms] hover:bg-black/85 cursor-pointer text-white px-8 py-4 w-full rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]">
+            <button className="bg-black fade-up mx-auto lg:ml-0 [--animation-delay:600ms] hover:bg-black/85 cursor-pointer text-white px-12 py-4 w-fit rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]">
               Voir mon CV
             </button>
           </div>
         </div>
       </section>
-      <div className="flex items-center justify-between bg-white w-full relative mt-20 mb-25">
-        <div className="grid grid-cols-5 grid-rows-2 gap-2 mx-auto max-w-2xl w-full flex-wrap justify-center items-center group">
+      <div className="flex items-center justify-between bg-white w-full relative lg:mt-20 lg:mb-25 mt-12">
+        <div className="grid grid-cols-5 grid-rows-2 gap-2 mx-auto max-w-2xl w-full flex-wrap justify-center items-center group ">
           {skillsIcons.map((icon, index) => (
             <HoverTooltip key={index} item={icon}>
-              <div className="aspect-square col-span-1 row-span-1 size-25 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 group-hover:[&:not(:hover)]:opacity-30">
+              <div className="aspect-square col-span-1 row-span-1 lg:size-25 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 group-hover:[&:not(:hover)]:opacity-30">
                 <Image
                   src={icon.src}
                   alt={icon.alt}
@@ -55,117 +59,57 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <section className="flex max-w-2xl mx-auto mt-20 gap-8 ">
+      <section className="flex max-w-2xl mx-auto mt-15 lg:mt-20 gap-4 lg:gap-8 lg:flex-row flex-col px-4 lg:px-0">
         <h2 className="font-medium mb-auto text-gray-500">Travail</h2>
         <div className="flex flex-col gap-4 w-full ">
-          <span>+ 2 ans d&apos;expérience</span>
+          <span className="lg:block hidden">+ 2 ans d&apos;expérience</span>
           <div className="group/work flex flex-col gap-4">
-            <Link
+            <ProjectLink
               href="https://susu.fr"
-              target="_blank"
-              className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/work:[&:not(:hover)]:opacity-30"
-            >
-              <div className="flex gap-4 items-center">
-                <div className="size-13 rounded-full flex items-center justify-center overflow-hidden">
-                  <Image
-                    src={susuLogo}
-                    alt="Komin io logo"
-                    width={40}
-                    height={40}
-                  />
-                </div>
-                <div className="flex flex-col justify-center gap-1">
-                  <span className="text-gray-800 font-medium text-lg leading-tight">
-                    Développeur Front end
-                  </span>
-                  <span className="text-gray-600 leading-tight font-medium">
-                    Susu
-                  </span>
-                </div>
-              </div>
-              <span className="text-gray-500 font-medium">2024 - Now</span>
-            </Link>
-            <Link
+              title="Développeur Front end"
+              description="Susu"
+              image={susuLogo}
+              variant="simple"
+              groupName="work"
+              rightContent="2024 - Now"
+              imageClassName=""
+              imageSize={{ width: 40, height: 40 }}
+            />
+            <ProjectLink
               href="https://komin.io"
-              target="_blank"
-              className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/work:[&:not(:hover)]:opacity-30"
-            >
-              <div className="flex gap-4 items-center">
-                <div className="size-13 rounded-full flex items-center justify-center overflow-hidden">
-                  <Image
-                    src={kominLogo}
-                    alt="Komin io logo"
-                    width={40}
-                    height={40}
-                  />
-                </div>
-                <div className="flex flex-col justify-center gap-1">
-                  <span className="text-gray-800 font-medium text-lg leading-tight">
-                    Développeur Front end
-                  </span>
-                  <span className="text-gray-600 leading-tight font-medium">
-                    Komin
-                  </span>
-                </div>
-              </div>
-              <span className="text-gray-500 font-medium">2023 - 2024</span>
-            </Link>
+              title="Développeur Front end"
+              description="Komin"
+              image={kominLogo}
+              variant="simple"
+              groupName="work"
+              rightContent="2023 - 2024"
+              imageClassName=""
+              imageSize={{ width: 40, height: 40 }}
+            />
           </div>
         </div>
       </section>
-      <section className="flex max-w-2xl mx-auto mt-20 gap-8 ">
+      <section className="flex max-w-2xl mx-auto mt-8 lg:mt-20 gap-4 lg:gap-8 lg:flex-row flex-col px-4 lg:px-0">
         <h2 className="font-medium mb-auto text-gray-500">Projets</h2>
         <div className="flex flex-col gap-4 w-full">
-          <span>
+          <span className="lg:block hidden">
             J&apos;aime développer des projets en solo ou collaboratif
           </span>
           <div className="group/projects flex flex-col gap-4">
-            <Link
+            <ProjectLink
               href="https://motivai.fr"
-              target="_blank"
-              className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/projects:[&:not(:hover)]:opacity-30"
-            >
-              <div className="flex gap-4 items-center">
-                <Image
-                  src={motivai}
-                  alt="Motivai"
-                  width={52}
-                  height={52}
-                  className="rounded-full"
-                />
-                <div className="flex flex-col justify-center gap-1">
-                  <span className="text-gray-800 font-medium text-lg leading-tight">
-                    Motivai
-                  </span>
-                  <span className="text-gray-600 leading-tight font-medium">
-                    Un SaaS de création de lettre de motivation avec IA
-                  </span>
-                </div>
-              </div>
-            </Link>
-            <Link
+              title="Motivai"
+              description="Un SaaS de création de lettre de motivation avec IA"
+              image={motivai}
+              variant="simple"
+            />
+            <ProjectLink
               href="https://github.com/WillFDA/williamdeazevedo2025"
-              target="_blank"
-              className="flex justify-between p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl group-hover/projects:[&:not(:hover)]:opacity-30"
-            >
-              <div className="flex gap-4 items-center">
-                <Image
-                  src={william}
-                  alt="Motivai"
-                  width={52}
-                  height={52}
-                  className="rounded-full"
-                />
-                <div className="flex flex-col justify-center gap-1">
-                  <span className="text-gray-800 font-medium text-lg leading-tight">
-                    Mon site
-                  </span>
-                  <span className="text-gray-600 leading-tight font-medium">
-                    Le site actuel que vous êtes entrain de visiter
-                  </span>
-                </div>
-              </div>
-            </Link>
+              title="Mon site"
+              description="Le site actuel que vous êtes entrain de visiter"
+              image={william}
+              variant="simple"
+            />
           </div>
         </div>
       </section>
