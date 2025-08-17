@@ -25,8 +25,8 @@ export default function Home() {
               Développeur Front end junior
             </h1>
             <p className="text-gray-500 text-sm lg:text-md mb-4 fade-up [--animation-delay:400ms]">
-              Développeur front end, enthousiaste de l'IA. Je suis passionné par
-              la création de produits qui aident les gens.
+              Développeur front end, enthousiaste de l&apos;IA. Je suis
+              passionné par la création de produits qui aident les gens.
             </p>
             <div className=" mx-auto lg:ml-0 flex gap-2 items-center mb-8 fade-up [--animation-delay:400ms]">
               <div className="size-4 bg-green-100 rounded-full flex items-center justify-center">

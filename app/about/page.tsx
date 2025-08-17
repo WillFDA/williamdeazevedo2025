@@ -17,32 +17,34 @@ export default function About() {
           </span>
           <div className="group/work flex flex-col gap-4 text-md text-gray-500 ">
             <span className="fade-up [--animation-delay:300ms]">
-              Je suis un développeur front-end basé en Île-de-France, j'ai 27
-              ans. Je suis dans le monde de l'infographie depuis très jeune.
+              Je suis un développeur front-end basé en Île-de-France, j&apos;ai
+              27 ans. Je suis dans le monde de l&apos;infographie depuis très
+              jeune.
               <br />
-              J'ai commencé par de la 3D, du motion design, puis du graphisme
-              classique (cartes de visite, logos, affiches). Cette expérience
-              m'a donné une grande sensibilité artistique et ce parcours s'est
-              poursuivi jusqu'en 2022, où la décision de me lancer dans le
-              développement web s'est imposée pour donner vie à des projets.
+              J&apos;ai commencé par de la 3D, du motion design, puis du
+              graphisme classique (cartes de visite, logos, affiches). Cette
+              expérience m&apos;a donné une grande sensibilité artistique et ce
+              parcours s&apos;est poursuivi jusqu&apos;en 2022, où la décision
+              de me lancer dans le développement web s&apos;est imposée pour
+              donner vie à des projets.
             </span>
             <span className="fade-up [--animation-delay:500ms]">
-              Ma formation d'intégrateur web chez OpenClassrooms est maintenant
-              terminée avec l'obtention du diplôme. Je suis actuellement en fin
-              de formation de développeur JavaScript React après 2 ans
-              d'alternance.
+              Ma formation d&apos;intégrateur web chez OpenClassrooms est
+              maintenant terminée avec l&apos;obtention du diplôme. Je suis
+              actuellement en fin de formation de développeur JavaScript React
+              après 2 ans d&apos;alternance.
             </span>
             <span className="fade-up [--animation-delay:700ms]">
-              Je suis maintenant à la recherche d'un poste en tant que
+              Je suis maintenant à la recherche d&apos;un poste en tant que
               développeur front-end junior pour continuer à contribuer à des
               projets stimulants et approfondir mes compétences au sein
-              d'entreprises innovantes
+              d&apos;entreprises innovantes
             </span>
           </div>
         </div>
       </section>
       <section className="flex gap-2  md:gap-8 py-10 lg:py-20 md:px-8 px-2 items-center justify-center overflow-auto">
-        {pictures.map((picture, index) => (
+        {pictures.map((picture) => (
           <div
             key={picture.id}
             className={`aspect-[9/10] group w-44 overflow-hidden rounded-md md:rounded-xl bg-zinc-100 sm:w-72 lg:rounded-2xl ${picture.rotate} transition-all duration-300 ease-in-out relative`}
@@ -62,9 +64,9 @@ export default function About() {
         <div className="flex gap-8 lg:flex-row flex-col">
           <h2 className="font-medium mb-auto text-gray-500">Projets</h2>
           <span>
-            Plus de détails des projets que j'ai réalisés lors de mes
-            alternances ou simplement des projets personnels que j'ai menés du
-            design à l'intégration
+            Plus de détails des projets que j&apos;ai réalisés lors de mes
+            alternances ou simplement des projets personnels que j&apos;ai menés
+            du design à l&apos;intégration
           </span>
         </div>
         <div className="group/projects flex flex-col gap-8 lg:gap-4">

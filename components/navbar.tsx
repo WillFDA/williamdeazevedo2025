@@ -21,6 +21,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link
+              prefetch
               className={`text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 ease-in-out fade-up [--animation-delay:100ms] ${
                 useGetIsActive('/about')
                   ? 'bg-gray-400/20 text-black'

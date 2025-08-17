@@ -9,7 +9,8 @@ export default function NotFound() {
           Page introuvable
         </h2>
         <p className="text-gray-500 mb-8 max-w-md">
-          Désolé, la page que vous recherchez n'existe pas ou a été déplacée.
+          Désolé, la page que vous recherchez n&apos;existe pas ou a été
+          déplacée.
         </p>
       </div>
 
@@ -18,7 +19,7 @@ export default function NotFound() {
           href="/"
           className="bg-black hover:bg-black/85 text-white px-6 py-3 rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]"
         >
-          Retour à l'accueil
+          Retour à l&apos;accueil
         </Link>
       </div>
     </section>
