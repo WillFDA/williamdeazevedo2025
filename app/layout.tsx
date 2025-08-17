@@ -24,7 +24,7 @@ export const metadata = {
     siteName: 'Portfolio de William De Azevedo',
     images: [
       {
-        url: 'https://williamdeazevedo.fr/william-de-azevedo-og-image.jpg',
+        url: 'https://williamdeazevedo.fr/pictures/william.png',
         width: 1200,
         height: 630,
         alt: 'William De Azevedo - Développeur Front-end',
@@ -37,7 +37,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'William De Azevedo - Développeur Front-end',
     description: 'Explorez mon portfolio de développeur React / NextJS',
-    images: ['https://williamdeazevedo.fr/og-image.jpg'],
+    images: ['https://williamdeazevedo.fr/pictures/william.png'],
     creator: '@Williamdazevedo',
   },
   other: {
@@ -51,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white min-h-screen overflow-x-hidden flex flex-col`}
       >
