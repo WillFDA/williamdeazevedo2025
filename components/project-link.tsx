@@ -11,7 +11,7 @@ interface ProjectLinkProps {
   variant?: 'detailed' | 'simple';
   groupName?: string;
   rightContent?: string;
-  imageContainer?: string;
+  imageClassName?: string;
   imageSize?: { width: number; height: number };
 }
 
@@ -25,7 +25,7 @@ export default function ProjectLink({
   variant = 'detailed',
   groupName = 'projects',
   rightContent,
-  imageContainer,
+  imageClassName = 'rounded-full',
   imageSize = { width: 52, height: 52 },
 }: ProjectLinkProps) {
   const groupHoverClass = `group-hover/${groupName}:[&:not(:hover)]:opacity-30`;
@@ -36,29 +36,14 @@ export default function ProjectLink({
       target={target}
       className={`flex justify-between p-2 lg:p-4 hover:bg-gray-50 transition-all duration-300 ease-in-out rounded-xl ${groupHoverClass}`}
     >
-      <div
-        className={`flex gap-4 ${
-          imageContainer ? 'items-center' : 'items-start flex-col lg:flex-row'
-        }`}
-      >
-        {imageContainer ? (
-          <div className={imageContainer}>
-            <Image
-              src={image}
-              alt={title}
-              width={imageSize.width}
-              height={imageSize.height}
-            />
-          </div>
-        ) : (
-          <Image
-            src={image}
-            alt={title}
-            width={imageSize.width}
-            height={imageSize.height}
-            className="rounded-full"
-          />
-        )}
+      <div className={`flex gap-4 items-center`}>
+        <Image
+          className={imageClassName}
+          src={image}
+          alt={title}
+          width={imageSize.width}
+          height={imageSize.height}
+        />
         <div className="flex flex-col justify-center gap-1">
           <span
             className={`text-gray-800 font-${

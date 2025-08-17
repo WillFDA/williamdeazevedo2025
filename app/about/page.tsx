@@ -41,15 +41,11 @@ export default function About() {
           </div>
         </div>
       </section>
-      <section className="flex gap-8 py-20 px-8 items-center justify-center">
+      <section className="flex gap-2  md:gap-8 py-10 lg:py-20 md:px-8 px-2 items-center justify-center overflow-auto">
         {pictures.map((picture, index) => (
           <div
             key={picture.id}
-            className={`aspect-[9/10] group w-44 overflow-hidden rounded-xl bg-zinc-100 sm:w-72 sm:rounded-2xl ${
-              picture.rotate
-            } transition-all duration-300 ease-in-out relative fade-up [--animation-delay:${
-              200 + 200 * index
-            }ms]`}
+            className={`aspect-[9/10] group w-44 overflow-hidden rounded-md md:rounded-xl bg-zinc-100 sm:w-72 lg:rounded-2xl ${picture.rotate} transition-all duration-300 ease-in-out relative`}
           >
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out bg-black/70 px-4 py-1 rounded-xl ">
               <span className="text-white text-xl">{picture.alt}</span>

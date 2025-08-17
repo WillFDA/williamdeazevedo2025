@@ -62,7 +62,7 @@ export default function Home() {
       <section className="flex max-w-2xl mx-auto mt-15 lg:mt-20 gap-4 lg:gap-8 lg:flex-row flex-col px-4 lg:px-0">
         <h2 className="font-medium mb-auto text-gray-500">Travail</h2>
         <div className="flex flex-col gap-4 w-full ">
-          <span>+ 2 ans d&apos;expérience</span>
+          <span className="lg:block hidden">+ 2 ans d&apos;expérience</span>
           <div className="group/work flex flex-col gap-4">
             <ProjectLink
               href="https://susu.fr"
@@ -72,7 +72,7 @@ export default function Home() {
               variant="simple"
               groupName="work"
               rightContent="2024 - Now"
-              imageContainer="size-13 rounded-full flex items-center justify-center overflow-hidden"
+              imageClassName=""
               imageSize={{ width: 40, height: 40 }}
             />
             <ProjectLink
@@ -83,7 +83,7 @@ export default function Home() {
               variant="simple"
               groupName="work"
               rightContent="2023 - 2024"
-              imageContainer="size-13 rounded-full flex items-center justify-center overflow-hidden"
+              imageClassName=""
               imageSize={{ width: 40, height: 40 }}
             />
           </div>
@@ -92,7 +92,7 @@ export default function Home() {
       <section className="flex max-w-2xl mx-auto mt-8 lg:mt-20 gap-4 lg:gap-8 lg:flex-row flex-col px-4 lg:px-0">
         <h2 className="font-medium mb-auto text-gray-500">Projets</h2>
         <div className="flex flex-col gap-4 w-full">
-          <span>
+          <span className="lg:block hidden">
             J&apos;aime développer des projets en solo ou collaboratif
           </span>
           <div className="group/projects flex flex-col gap-4">

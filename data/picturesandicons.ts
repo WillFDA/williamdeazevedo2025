@@ -1,10 +1,10 @@
 // pictures
 import figmaIcon from '@/public/icons/figma-icon.svg';
-import setupPicture from '@/public/pictures/Gr3V6nfWwAAQQrE.jpeg';
-import gokuPicture from '@/public/pictures/IMG_1320.jpeg';
-import majorquePicture from '@/public/pictures/IMG_1939.jpeg';
-import madeira from '@/public/pictures/IMG_3175.jpeg';
-import bourgetPicture from '@/public/pictures/IMG_9465.jpeg';
+import bourgetPicture from '@/public/pictures/bourget-opti.jpg';
+import setupPicture from '@/public/pictures/desktop-opti.jpg';
+import gokuPicture from '@/public/pictures/goku-opti.jpg';
+import madeira from '@/public/pictures/madere-opti.jpg';
+import majorquePicture from '@/public/pictures/majorque-opti.jpg';
 // skills pictures
 import materialuiIcon from '@/public/icons/material-ui.svg';
 import nextIcon from '@/public/icons/next.svg'; // done
@@ -34,31 +34,31 @@ export const pictures: Pictures[] = [
     id: 1,
     src: bourgetPicture,
     alt: 'Bourget ✈️',
-    rotate: 'rotate-2',
+    rotate: 'rotate-2 fade-up [--animation-delay:400ms]',
   },
   {
     id: 2,
     src: majorquePicture,
     alt: 'Majorque 🚂',
-    rotate: '-rotate-2',
+    rotate: '-rotate-2 fade-up [--animation-delay:600ms]',
   },
   {
     id: 3,
     src: madeira,
     alt: 'Madeira 🇵🇹',
-    rotate: 'rotate-2',
+    rotate: 'rotate-2 fade-up [--animation-delay:800ms]',
   },
   {
     id: 4,
     src: gokuPicture,
     alt: 'Goku 🐈',
-    rotate: '-rotate-2',
+    rotate: '-rotate-2 md:block hidden fade-up [--animation-delay:1000ms] ',
   },
   {
     id: 5,
     src: setupPicture,
     alt: 'Setup 🖥️',
-    rotate: 'rotate-2',
+    rotate: 'rotate-2 md:block hidden fade-up [--animation-delay:1200ms]',
   },
 ];
 
