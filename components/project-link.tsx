@@ -35,7 +35,7 @@ export default function ProjectLink({
   imageClassName = 'rounded-full',
   imageSize = { width: 52, height: 52 },
 }: ProjectLinkProps) {
-  const groupHoverClass = GroupHoverClasses[groupName];
+  const groupHoverClass = GroupHoverClasses[groupName ?? 'projects'];
 
   return (
     <Link
