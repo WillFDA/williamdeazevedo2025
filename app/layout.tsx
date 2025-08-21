@@ -1,5 +1,5 @@
-import Footer from '@/components/footer';
 import { Geist, Geist_Mono } from 'next/font/google';
+import Footer from '@/components/footer';
 import Navbar from '../components/navbar';
 import './globals.css';
 
@@ -53,7 +53,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white min-h-screen overflow-x-hidden flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col overflow-x-hidden bg-white antialiased`}
       >
         <Navbar />
         <main className="grow">{children}</main>
