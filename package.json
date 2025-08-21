@@ -6,8 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "test": "next lint && next build",
+    "lint": "biome check .",
+    "format": "ultracite format",
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm lint && pnpm typecheck && next build",
     "prepare": "husky"
   },
   "dependencies": {
