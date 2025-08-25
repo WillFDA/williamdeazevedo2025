@@ -1,10 +1,7 @@
 // pictures
+
+import type { StaticImageData } from 'next/image';
 import figmaIcon from '@/public/icons/figma-icon.svg';
-import bourgetPicture from '@/public/pictures/bourget-opti.jpg';
-import setupPicture from '@/public/pictures/desktop-opti.jpg';
-import gokuPicture from '@/public/pictures/goku-opti.jpg';
-import madeira from '@/public/pictures/madere-opti.jpg';
-import majorquePicture from '@/public/pictures/majorque-opti.jpg';
 // skills pictures
 import materialuiIcon from '@/public/icons/material-ui.svg';
 import nextIcon from '@/public/icons/next.svg'; // done
@@ -15,7 +12,11 @@ import shadcnIcon from '@/public/icons/shadcn-ui.svg'; // done
 import tailwindIcon from '@/public/icons/tailwindcss.svg'; // done
 import typescriptIcon from '@/public/icons/typescript.svg'; // done
 import zustandIcon from '@/public/icons/zustand.svg'; // done
-import { StaticImageData } from 'next/image';
+import bourgetPicture from '@/public/pictures/bourget-opti.jpg';
+import setupPicture from '@/public/pictures/desktop-opti.jpg';
+import gokuPicture from '@/public/pictures/goku-opti.jpg';
+import madeira from '@/public/pictures/madere-opti.jpg';
+import majorquePicture from '@/public/pictures/majorque-opti.jpg';
 
 export interface Pictures {
   id: number;

@@ -4,7 +4,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { SkillsIcons } from '@/data/picturesandicons';
+import type { SkillsIcons } from '@/data/picturesandicons';
 
 export default function HoverTooltip({
   item,
