@@ -1,7 +1,7 @@
 // pictures
 
-import type { StaticImageData } from 'next/image';
 import figmaIcon from '@/public/icons/figma-icon.svg';
+import type { StaticImageData } from 'next/image';
 // skills pictures
 import materialuiIcon from '@/public/icons/material-ui.svg';
 import nextIcon from '@/public/icons/next.svg'; // done
@@ -18,17 +18,17 @@ import gokuPicture from '@/public/pictures/goku-opti.jpg';
 import madeira from '@/public/pictures/madere-opti.jpg';
 import majorquePicture from '@/public/pictures/majorque-opti.jpg';
 
-export interface Pictures {
+export type Pictures = {
   id: number;
   src: StaticImageData;
   alt: string;
   rotate: string;
-}
+};
 
-export interface SkillsIcons {
+export type SkillsIcons = {
   src: string;
   alt: string;
-}
+};
 
 export const pictures: Pictures[] = [
   {

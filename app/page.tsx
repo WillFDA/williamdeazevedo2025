@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import HoverTooltip from '@/components/hover-tooltip';
 import ProjectLink from '@/components/project-link';
 import { skillsIcons } from '@/data/picturesandicons';
@@ -6,6 +5,7 @@ import kominLogo from '@/public/komin-logo.png';
 import motivai from '@/public/motivai-logo.png';
 import william from '@/public/pictures/william.png';
 import susuLogo from '@/public/susu-logo.png';
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -50,7 +50,7 @@ export default function Home() {
       <div className="relative mt-12 flex w-full items-center justify-between bg-white lg:mt-20 lg:mb-25">
         <div className="group mx-auto grid w-full max-w-2xl grid-cols-5 grid-rows-2 flex-wrap items-center justify-center gap-2">
           {skillsIcons.map((icon, index) => (
-            <HoverTooltip item={icon} key={index}>
+            <HoverTooltip item={icon} key={`${icon.alt + index}`}>
               <div className="col-span-1 row-span-1 flex aspect-square items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 lg:size-25 group-hover:[&:not(:hover)]:opacity-30">
                 <Image
                   alt={icon.alt}

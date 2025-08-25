@@ -14,11 +14,9 @@ export default function HoverTooltip({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <Tooltip>
-        <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent>{item.alt}</TooltipContent>
-      </Tooltip>
-    </>
+    <Tooltip>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent>{item.alt}</TooltipContent>
+    </Tooltip>
   );
 }

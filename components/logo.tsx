@@ -1,8 +1,10 @@
 export default function Logo() {
   return (
     <svg
+      aria-label="Logo W for William"
       fill="none"
       height="30"
+      role="img"
       viewBox="0 0 58 30"
       width="58"
       xmlns="http://www.w3.org/2000/svg"

@@ -1,14 +1,14 @@
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
 
-enum GroupHoverClasses {
-  work = 'group-hover/work:[&:not(:hover)]:opacity-30',
-  projects = 'group-hover/projects:[&:not(:hover)]:opacity-30',
-}
+const GroupHoverClasses = {
+  work: 'group-hover/work:[&:not(:hover)]:opacity-30',
+  projects: 'group-hover/projects:[&:not(:hover)]:opacity-30',
+} as const;
 
 type GroupName = keyof typeof GroupHoverClasses;
 
-interface ProjectLinkProps {
+type ProjectLinkProps = {
   href: string;
   title: string;
   description: string;
@@ -20,7 +20,7 @@ interface ProjectLinkProps {
   rightContent?: string;
   imageClassName?: string;
   imageSize?: { width: number; height: number };
-}
+};
 
 export default function ProjectLink({
   href,
