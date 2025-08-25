@@ -4,7 +4,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { SkillsIcons } from '@/data/picturesandicons';
+import type { SkillsIcons } from '@/data/picturesandicons';
 
 export default function HoverTooltip({
   item,
@@ -14,11 +14,9 @@ export default function HoverTooltip({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <Tooltip>
-        <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent>{item.alt}</TooltipContent>
-      </Tooltip>
-    </>
+    <Tooltip>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent>{item.alt}</TooltipContent>
+    </Tooltip>
   );
 }

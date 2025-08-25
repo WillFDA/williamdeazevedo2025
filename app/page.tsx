@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import HoverTooltip from '@/components/hover-tooltip';
 import ProjectLink from '@/components/project-link';
 import { skillsIcons } from '@/data/picturesandicons';
@@ -5,109 +6,113 @@ import kominLogo from '@/public/komin-logo.png';
 import motivai from '@/public/motivai-logo.png';
 import william from '@/public/pictures/william.png';
 import susuLogo from '@/public/susu-logo.png';
-import Image from 'next/image';
 
 export default function Home() {
   return (
     <>
-      <section className="w-full lg:mt-20 max-w-4xl mx-auto p-4">
-        <div className="flex flex-col lg:flex-row mx-auto max-w-2xl gap-8 items-center lg:items-start">
+      <section className="mx-auto w-full max-w-4xl p-4 lg:mt-20">
+        <div className="mx-auto flex max-w-2xl flex-col items-center gap-8 lg:flex-row lg:items-start">
           <Image
-            src={william}
             alt="Photo de profil"
-            width={80}
+            className="fade-up size-20 rounded-full [--animation-delay:200ms]"
             height={80}
-            className="rounded-full size-20 fade-up [--animation-delay:200ms]"
+            src={william}
+            width={80}
           />
-          <div className="flex flex-col lg:text-start text-center">
-            <h1 className="lg:text-4xl text-3xl font-bold mb-3 fade-up [--animation-delay:200ms]">
+          <div className="flex flex-col text-center lg:text-start">
+            <h1 className="fade-up mb-3 font-bold text-3xl [--animation-delay:200ms] lg:text-4xl">
               Hello moi c&apos;est William <br />
               Développeur Front end junior
             </h1>
-            <p className="text-gray-500 text-sm lg:text-md mb-4 fade-up [--animation-delay:400ms]">
+            <p className="fade-up mb-4 text-gray-500 text-sm [--animation-delay:400ms] lg:text-md">
               Développeur front end, enthousiaste de l&apos;IA. Je suis
               passionné par la création de produits qui aident les gens.
             </p>
-            <div className=" mx-auto lg:ml-0 flex gap-2 items-center mb-8 fade-up [--animation-delay:400ms]">
-              <div className="size-4 bg-green-100 rounded-full flex items-center justify-center">
-                <div className="size-1 bg-green-400 rounded-full"></div>
+            <div className="fade-up mx-auto mb-8 flex items-center gap-2 [--animation-delay:400ms] lg:ml-0">
+              <div className="flex size-4 items-center justify-center rounded-full bg-green-100">
+                <div className="size-1 rounded-full bg-green-400" />
               </div>
               <span className="text-gray-500">
                 Actuellement à la recherche d&apos;un CDI
               </span>
             </div>
-            <button className="bg-black fade-up mx-auto lg:ml-0 [--animation-delay:600ms] hover:bg-black/85 cursor-pointer text-white px-12 py-4 w-fit rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]">
+            <a
+              className="fade-up mx-auto w-fit cursor-pointer rounded-lg bg-black px-12 py-4 text-white shadow-[0_8px_30px_rgb(0,0,0,0.15)] transition-all duration-150 ease-in-out [--animation-delay:600ms] hover:bg-black/85 lg:ml-0"
+              href="/cv-25-08-25.pdf"
+              rel="noopener"
+              target="_blank"
+            >
               Voir mon CV
-            </button>
+            </a>
           </div>
         </div>
       </section>
-      <div className="flex items-center justify-between bg-white w-full relative lg:mt-20 lg:mb-25 mt-12">
-        <div className="grid grid-cols-5 grid-rows-2 gap-2 mx-auto max-w-2xl w-full flex-wrap justify-center items-center group ">
+      <div className="relative mt-12 flex w-full items-center justify-between bg-white lg:mt-20 lg:mb-25">
+        <div className="group mx-auto grid w-full max-w-2xl grid-cols-5 grid-rows-2 flex-wrap items-center justify-center gap-2">
           {skillsIcons.map((icon, index) => (
-            <HoverTooltip key={index} item={icon}>
-              <div className="aspect-square col-span-1 row-span-1 lg:size-25 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 group-hover:[&:not(:hover)]:opacity-30">
+            <HoverTooltip item={icon} key={`${icon.alt + index}`}>
+              <div className="col-span-1 row-span-1 flex aspect-square items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 lg:size-25 group-hover:[&:not(:hover)]:opacity-30">
                 <Image
-                  src={icon.src}
                   alt={icon.alt}
-                  width={50}
+                  className="max-h-[50px] max-w-[50px]"
                   height={50}
-                  className="max-w-[50px] max-h-[50px]"
+                  src={icon.src}
+                  width={50}
                 />
               </div>
             </HoverTooltip>
           ))}
         </div>
       </div>
-      <section className="flex max-w-2xl mx-auto mt-15 lg:mt-20 gap-4 lg:gap-8 lg:flex-row flex-col px-4 lg:px-0">
-        <h2 className="font-medium mb-auto text-gray-500">Travail</h2>
-        <div className="flex flex-col gap-4 w-full ">
-          <span className="lg:block hidden">+ 2 ans d&apos;expérience</span>
+      <section className="mx-auto mt-15 flex max-w-2xl flex-col gap-4 px-4 lg:mt-20 lg:flex-row lg:gap-8 lg:px-0">
+        <h2 className="mb-auto font-medium text-gray-500">Travail</h2>
+        <div className="flex w-full flex-col gap-4">
+          <span className="hidden lg:block">+ 2 ans d&apos;expérience</span>
           <div className="group/work flex flex-col gap-4">
             <ProjectLink
-              href="https://susu.fr"
-              title="Développeur Front end"
               description="Susu"
-              image={susuLogo}
-              variant="simple"
               groupName="work"
-              rightContent="2024 - Now"
+              href="https://susu.fr"
+              image={susuLogo}
               imageClassName=""
               imageSize={{ width: 40, height: 40 }}
+              rightContent="2024 - Now"
+              title="Développeur Front end"
+              variant="simple"
             />
             <ProjectLink
-              href="https://komin.io"
-              title="Développeur Front end"
               description="Komin"
-              image={kominLogo}
-              variant="simple"
               groupName="work"
-              rightContent="2023 - 2024"
+              href="https://komin.io"
+              image={kominLogo}
               imageClassName=""
               imageSize={{ width: 40, height: 40 }}
+              rightContent="2023 - 2024"
+              title="Développeur Front end"
+              variant="simple"
             />
           </div>
         </div>
       </section>
-      <section className="flex max-w-2xl mx-auto mt-8 lg:mt-20 gap-4 lg:gap-8 lg:flex-row flex-col px-4 lg:px-0">
-        <h2 className="font-medium mb-auto text-gray-500">Projets</h2>
-        <div className="flex flex-col gap-4 w-full">
-          <span className="lg:block hidden">
+      <section className="mx-auto mt-8 flex max-w-2xl flex-col gap-4 px-4 lg:mt-20 lg:flex-row lg:gap-8 lg:px-0">
+        <h2 className="mb-auto font-medium text-gray-500">Projets</h2>
+        <div className="flex w-full flex-col gap-4">
+          <span className="hidden lg:block">
             J&apos;aime développer des projets en solo ou collaboratif
           </span>
           <div className="group/projects flex flex-col gap-4">
             <ProjectLink
-              href="https://motivai.fr"
-              title="Motivai"
               description="Un SaaS de création de lettre de motivation avec IA"
+              href="https://motivai.fr"
               image={motivai}
+              title="Motivai"
               variant="simple"
             />
             <ProjectLink
-              href="https://github.com/WillFDA/williamdeazevedo2025"
-              title="Mon site"
               description="Le site actuel que vous êtes entrain de visiter"
+              href="https://github.com/WillFDA/williamdeazevedo2025"
               image={william}
+              title="Mon site"
               variant="simple"
             />
           </div>
