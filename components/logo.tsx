@@ -1,10 +1,12 @@
 export default function Logo() {
   return (
     <svg
-      width="58"
-      height="30"
-      viewBox="0 0 58 30"
+      aria-label="Logo W for William"
       fill="none"
+      height="30"
+      role="img"
+      viewBox="0 0 58 30"
+      width="58"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path d="M57.3152 0L48.6476 13.8047L40.0791 0H57.3152Z" fill="#4182FF" />
