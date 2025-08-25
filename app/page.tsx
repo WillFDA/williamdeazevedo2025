@@ -36,9 +36,14 @@ export default function Home() {
                 Actuellement à la recherche d&apos;un CDI
               </span>
             </div>
-            <button className="bg-black fade-up mx-auto lg:ml-0 [--animation-delay:600ms] hover:bg-black/85 cursor-pointer text-white px-12 py-4 w-fit rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]">
+            <a
+              href="/cv-25-08-25.pdf"
+              rel="noopener"
+              target="_blank"
+              className="bg-black fade-up mx-auto lg:ml-0 [--animation-delay:600ms] hover:bg-black/85 cursor-pointer text-white px-12 py-4 w-fit rounded-lg transition-all duration-150 ease-in-out shadow-[0_8px_30px_rgb(0,0,0,0.15)]"
+            >
               Voir mon CV
-            </button>
+            </a>
           </div>
         </div>
       </section>
