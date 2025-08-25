@@ -1,6 +1,13 @@
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 
+enum GroupHoverClasses {
+  work = 'group-hover/work:[&:not(:hover)]:opacity-30',
+  projects = 'group-hover/projects:[&:not(:hover)]:opacity-30',
+}
+
+type GroupName = keyof typeof GroupHoverClasses;
+
 interface ProjectLinkProps {
   href: string;
   title: string;
@@ -9,7 +16,7 @@ interface ProjectLinkProps {
   technologies?: string[];
   target?: '_blank' | '_self';
   variant?: 'detailed' | 'simple';
-  groupName?: string;
+  groupName?: GroupName;
   rightContent?: string;
   imageClassName?: string;
   imageSize?: { width: number; height: number };
@@ -28,7 +35,7 @@ export default function ProjectLink({
   imageClassName = 'rounded-full',
   imageSize = { width: 52, height: 52 },
 }: ProjectLinkProps) {
-  const groupHoverClass = `group-hover/${groupName}:[&:not(:hover)]:opacity-30`;
+  const groupHoverClass = GroupHoverClasses[groupName ?? 'projects'];
 
   return (
     <Link
