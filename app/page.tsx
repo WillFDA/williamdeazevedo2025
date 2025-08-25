@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import HoverTooltip from '@/components/hover-tooltip';
 import ProjectLink from '@/components/project-link';
 import { skillsIcons } from '@/data/picturesandicons';
@@ -5,7 +6,6 @@ import kominLogo from '@/public/komin-logo.png';
 import motivai from '@/public/motivai-logo.png';
 import william from '@/public/pictures/william.png';
 import susuLogo from '@/public/susu-logo.png';
-import Image from 'next/image';
 
 export default function Home() {
   return (

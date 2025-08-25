@@ -1,7 +1,7 @@
 // pictures
 
-import figmaIcon from '@/public/icons/figma-icon.svg';
 import type { StaticImageData } from 'next/image';
+import figmaIcon from '@/public/icons/figma-icon.svg';
 // skills pictures
 import materialuiIcon from '@/public/icons/material-ui.svg';
 import nextIcon from '@/public/icons/next.svg'; // done
