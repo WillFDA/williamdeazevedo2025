@@ -55,6 +55,10 @@ export default function About() {
             <Image
               alt={picture.alt}
               className="h-full w-full object-cover"
+              fill
+              loading="lazy"
+              placeholder="blur"
+              sizes="(max-width: 640px) 176px, (max-width: 768px) 288px, 288px"
               src={picture.src}
             />
           </div>
