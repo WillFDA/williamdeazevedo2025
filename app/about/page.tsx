@@ -2,7 +2,7 @@ import Image from 'next/image';
 import ProjectLink from '@/components/project-link';
 import { pictures } from '@/data/picturesandicons';
 import motivai from '@/public/motivai-logo.png';
-import william from '@/public/pictures/william.png';
+import william from '@/public/pictures/william-low.jpg';
 
 export default function About() {
   return (
@@ -36,8 +36,8 @@ export default function About() {
             </span>
             <span className="fade-up [--animation-delay:700ms]">
               Je suis maintenant à la recherche d&apos;un poste en tant que
-              développeur front-end junior pour continuer à contribuer à des
-              projets stimulants et approfondir mes compétences au sein
+              développeur front-end pour continuer à contribuer à des projets
+              stimulants et approfondir mes compétences au sein
               d&apos;entreprises innovantes
             </span>
           </div>
