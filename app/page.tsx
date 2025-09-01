@@ -4,7 +4,7 @@ import ProjectLink from '@/components/project-link';
 import { skillsIcons } from '@/data/picturesandicons';
 import kominLogo from '@/public/komin-logo.png';
 import motivai from '@/public/motivai-logo.png';
-import william from '@/public/pictures/william.png';
+import william from '@/public/pictures/william-low.jpg';
 import susuLogo from '@/public/susu-logo.png';
 
 export default function Home() {
@@ -22,7 +22,7 @@ export default function Home() {
           <div className="flex flex-col text-center lg:text-start">
             <h1 className="fade-up mb-3 font-bold text-3xl [--animation-delay:200ms] lg:text-4xl">
               Hello moi c&apos;est William <br />
-              Développeur Front end junior
+              Développeur Front end
             </h1>
             <p className="fade-up mb-4 text-gray-500 text-sm [--animation-delay:400ms] lg:text-md">
               Développeur front end, enthousiaste de l&apos;IA. Je suis
@@ -38,7 +38,7 @@ export default function Home() {
             </div>
             <a
               className="fade-up mx-auto w-fit cursor-pointer rounded-lg bg-black px-12 py-4 text-white shadow-[0_8px_30px_rgb(0,0,0,0.15)] transition-all duration-150 ease-in-out [--animation-delay:600ms] hover:bg-black/85 lg:ml-0"
-              href="/cv-25-08-25.pdf"
+              href="/cv-01-09-25.pdf"
               rel="noopener"
               target="_blank"
             >
