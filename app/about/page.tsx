@@ -12,9 +12,6 @@ export default function About() {
           A propos de moi
         </h2>
         <div className="flex w-full flex-col gap-4">
-          <span className="fade-up [--animation-delay:200ms]">
-            Mon histoire et ambitions
-          </span>
           <div className="group/work flex flex-col gap-4 text-gray-500 text-md">
             <span className="fade-up [--animation-delay:300ms]">
               Je suis un développeur front-end basé en Île-de-France, j&apos;ai

@@ -5,9 +5,6 @@ export default function NotFound() {
     <section className="mx-auto mt-32 flex max-w-2xl flex-col items-center justify-center gap-8">
       <div className="fade-up text-center [--animation-delay:200ms]">
         <h1 className="mb-4 font-bold text-6xl text-gray-900">404</h1>
-        <h2 className="mb-4 font-medium text-2xl text-gray-700">
-          Page introuvable
-        </h2>
         <p className="mb-8 max-w-md text-gray-500">
           Désolé, la page que vous recherchez n&apos;existe pas ou a été
           déplacée.
