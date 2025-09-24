@@ -38,9 +38,9 @@ export default function Home() {
             </div>
             <a
               className="fade-up mx-auto w-fit cursor-pointer rounded-lg bg-black px-12 py-4 text-white shadow-[0_8px_30px_rgb(0,0,0,0.15)] transition-all duration-150 ease-in-out [--animation-delay:600ms] hover:bg-black/85 lg:ml-0"
-              href="/cv-01-09-25.pdf"
+              download
+              href="/cv-01-09-2025.pdf"
               rel="noopener"
-              target="_blank"
             >
               Voir mon CV
             </a>
