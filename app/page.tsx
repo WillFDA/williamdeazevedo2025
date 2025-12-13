@@ -1,11 +1,11 @@
-import Image from 'next/image';
-import HoverTooltip from '@/components/hover-tooltip';
-import ProjectLink from '@/components/project-link';
-import { skillsIcons } from '@/data/picturesandicons';
-import kominLogo from '@/public/komin-logo.png';
-import motivai from '@/public/motivai-logo.png';
-import william from '@/public/pictures/william-low.jpg';
-import susuLogo from '@/public/susu-logo.png';
+import Image from "next/image";
+import HoverTooltip from "@/components/hover-tooltip";
+import ProjectLink from "@/components/project-link";
+import { skillsIcons } from "@/data/picturesandicons";
+import kominLogo from "@/public/komin-logo.png";
+import motivai from "@/public/motivai-logo.png";
+import william from "@/public/pictures/william-low.jpg";
+import susuLogo from "@/public/susu-logo.png";
 
 export default function Home() {
   return (
@@ -29,17 +29,18 @@ export default function Home() {
               passionné par la création de produits qui aident les gens.
             </p>
             <div className="fade-up mx-auto mb-8 flex items-center gap-2 [--animation-delay:400ms] lg:ml-0">
-              <div className="flex size-4 items-center justify-center rounded-full bg-green-100">
-                <div className="size-1 rounded-full bg-green-400" />
+              <div className="relative flex size-4 items-center justify-center">
+                <div className="absolute size-4 animate-ping rounded-full bg-green-400/40" />
+                <div className="relative size-1.5 rounded-full bg-green-500" />
               </div>
               <span className="text-gray-500">
                 Actuellement à la recherche d&apos;un CDI
               </span>
             </div>
             <a
-              className="fade-up mx-auto w-fit cursor-pointer rounded-lg bg-black px-12 py-4 text-white shadow-[0_8px_30px_rgb(0,0,0,0.15)] transition-all duration-150 ease-in-out [--animation-delay:600ms] hover:bg-black/85 lg:ml-0"
+              className="fade-up mx-auto w-fit cursor-pointer rounded-md border border-gray-200 bg-white px-8 py-3 text-gray-800 text-sm transition-all duration-150 ease-in-out [--animation-delay:600ms] hover:border-gray-300 hover:bg-gray-50 lg:ml-0"
               download
-              href="/cv-01-09-2025.pdf"
+              href="https://t9mucy7hbqrvpht0.public.blob.vercel-storage.com/cv-12-12-2025-R.pdf"
               rel="noopener"
             >
               Voir mon CV
@@ -76,7 +77,7 @@ export default function Home() {
               image={susuLogo}
               imageClassName=""
               imageSize={{ width: 40, height: 40 }}
-              rightContent="2024 - Now"
+              rightContent="2024 - 2025"
               title="Développeur Front end"
               variant="simple"
             />
