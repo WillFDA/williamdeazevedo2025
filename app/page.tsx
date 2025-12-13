@@ -1,11 +1,11 @@
-import Image from 'next/image';
-import HoverTooltip from '@/components/hover-tooltip';
-import ProjectLink from '@/components/project-link';
-import { skillsIcons } from '@/data/picturesandicons';
-import kominLogo from '@/public/komin-logo.png';
-import motivai from '@/public/motivai-logo.png';
-import william from '@/public/pictures/william-low.jpg';
-import susuLogo from '@/public/susu-logo.png';
+import Image from "next/image";
+import HoverTooltip from "@/components/hover-tooltip";
+import ProjectLink from "@/components/project-link";
+import { skillsIcons } from "@/data/picturesandicons";
+import kominLogo from "@/public/komin-logo.png";
+import motivai from "@/public/motivai-logo.png";
+import william from "@/public/pictures/william-low.jpg";
+import susuLogo from "@/public/susu-logo.png";
 
 export default function Home() {
   return (
@@ -31,7 +31,6 @@ export default function Home() {
             <div className="fade-up mx-auto mb-8 flex items-center gap-2 [--animation-delay:400ms] lg:ml-0">
               <div className="relative flex size-4 items-center justify-center">
                 <div className="absolute size-4 animate-ping rounded-full bg-green-400/40" />
-                <div className="absolute size-4 rounded-full bg-green-100" />
                 <div className="relative size-1.5 rounded-full bg-green-500" />
               </div>
               <span className="text-gray-500">
@@ -78,7 +77,7 @@ export default function Home() {
               image={susuLogo}
               imageClassName=""
               imageSize={{ width: 40, height: 40 }}
-              rightContent="2024"
+              rightContent="2024 - 2025"
               title="Développeur Front end"
               variant="simple"
             />
