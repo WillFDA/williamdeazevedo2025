@@ -1,4 +1,5 @@
 import Image from "next/image";
+import FloatingAvatar from "@/components/floating-avatar";
 import HoverTooltip from "@/components/hover-tooltip";
 import ProjectLink from "@/components/project-link";
 import { skillsIcons } from "@/data/picturesandicons";
@@ -12,13 +13,7 @@ export default function Home() {
     <>
       <section className="mx-auto w-full max-w-4xl p-4 lg:mt-20">
         <div className="mx-auto flex max-w-2xl flex-col items-center gap-8 lg:flex-row lg:items-start">
-          <Image
-            alt="Photo de profil"
-            className="fade-up size-20 rounded-full [--animation-delay:200ms]"
-            height={80}
-            src={william}
-            width={80}
-          />
+          <FloatingAvatar alt="Photo de profil" image={william} />
           <div className="flex flex-col text-center lg:text-start">
             <h1 className="fade-up mb-3 font-bold text-3xl [--animation-delay:200ms] lg:text-4xl">
               Hello moi c&apos;est William <br />
