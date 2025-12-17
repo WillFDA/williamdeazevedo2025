@@ -24,7 +24,7 @@ export default function Home() {
               Hello moi c&apos;est William <br />
               Développeur Front end
             </h1>
-            <p className="fade-up mb-4 text-gray-500 text-sm [--animation-delay:400ms] lg:text-md">
+            <p className="fade-up mb-4 max-w-sm text-gray-500 text-sm [--animation-delay:400ms] lg:text-md">
               Développeur front end, enthousiaste de l&apos;IA. Je suis
               passionné par la création de produits qui aident les gens.
             </p>
