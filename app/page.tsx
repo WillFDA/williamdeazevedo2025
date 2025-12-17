@@ -20,7 +20,7 @@ export default function Home() {
             width={80}
           />
           <div className="flex flex-col text-center lg:text-start">
-            <h1 className="fade-up mb-3 font-bold font-[family-name:var(--font-instrument-serif)] text-4xl [--animation-delay:200ms] lg:text-5xl">
+            <h1 className="fade-up mb-3 font-[family-name:var(--font-instrument-serif)] text-3xl [--animation-delay:200ms] lg:text-4xl">
               Hello moi c&apos;est William <br />
               Développeur Front end
             </h1>
