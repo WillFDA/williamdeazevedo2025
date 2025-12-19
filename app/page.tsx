@@ -49,7 +49,13 @@ export default function Home() {
                 </span>
               </div>
             </div>
-            <div className="fade-up flex gap-2 mx-auto lg:ml-0 [--animation-delay:600ms]">
+            <div className="fade-up flex flex-wrap gap-2 mx-auto lg:ml-0 [--animation-delay:600ms]">
+              <a
+                className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-gray-900 text-white border-gray-900 hover:bg-gray-800 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+                href="mailto:william.ferreirapro@gmail.com"
+              >
+                Me contacter
+              </a>
               <a
                 className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
                 href="https://www.linkedin.com/in/william-de-azevedo/"
@@ -130,57 +136,103 @@ export default function Home() {
             </HoverTooltip>
           ))}
         </section>
-        <section className="flex max-w-2xl flex-col gap-4 px-4 lg:flex-row lg:gap-8 lg:px-0">
-          <h2 className="mb-auto font-medium text-gray-500">Travail</h2>
-          <div className="flex w-full flex-col gap-4">
-            <span className="hidden lg:block">+ 2 ans d&apos;expérience</span>
-            <div className="group/work flex flex-col gap-4">
-              <ProjectLink
-                description="Susu"
-                groupName="work"
-                href="https://susu.fr"
-                image={susuLogo}
-                imageClassName=""
-                imageSize={{ width: 40, height: 40 }}
-                rightContent="2024 - 2025"
-                title="Développeur Front end"
-                variant="simple"
-              />
-              <ProjectLink
-                description="Komin"
-                groupName="work"
-                href="https://komin.io"
-                image={kominLogo}
-                imageClassName=""
-                imageSize={{ width: 40, height: 40 }}
-                rightContent="2023 - 2024"
-                title="Développeur Front end"
-                variant="simple"
-              />
+        <section className="fade-up max-w-2xl px-4 lg:px-0 [--animation-delay:500ms]">
+          <div className="mb-6 flex flex-col gap-1">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-medium uppercase tracking-wider text-gray-700">
+                Expérience
+              </h2>
+              <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
+                +2 ans
+              </span>
             </div>
+            <p className="text-gray-600">
+              2 ans d&apos;expérience en tant que développeur front-end
+            </p>
+          </div>
+          <div className="group/work space-y-2">
+            <ProjectLink
+              description="Application React pour le secteur de l'assurance"
+              groupName="work"
+              href="https://susu.fr"
+              image={susuLogo}
+              imageClassName="rounded-xl"
+              imageSize={{ width: 48, height: 48 }}
+              rightContent="2024 - 2025"
+              title="Développeur Front-end · Susu"
+              variant="simple"
+            />
+            <ProjectLink
+              description="Interfaces SaaS B2B pour solution industrielle"
+              groupName="work"
+              href="https://komin.io"
+              image={kominLogo}
+              imageClassName="rounded-xl"
+              imageSize={{ width: 48, height: 48 }}
+              rightContent="2023 - 2024"
+              title="Développeur Front-end · Komin"
+              variant="simple"
+            />
           </div>
         </section>
-        <section className="flex max-w-2xl flex-col gap-4 px-4 lg:flex-row lg:gap-8 lg:px-0">
-          <h2 className="mb-auto font-medium text-gray-500">Projets</h2>
-          <div className="flex w-full flex-col gap-4">
-            <span className="hidden lg:block">
-              J&apos;aime développer des projets en solo ou collaboratif
-            </span>
-            <div className="group/projects flex flex-col gap-4">
-              <ProjectLink
-                description="Un SaaS de création de lettre de motivation avec IA"
-                href="https://motivai.fr"
-                image={motivai}
-                title="Motivai"
-                variant="simple"
-              />
-              <ProjectLink
-                description="Le site actuel que vous êtes entrain de visiter"
-                href="https://github.com/WillFDA/williamdeazevedo2025"
-                image={william}
-                title="Mon site"
-                variant="simple"
-              />
+        <section className="fade-up max-w-2xl px-4 lg:px-0 [--animation-delay:600ms]">
+          <div className="mb-6 flex flex-col gap-1">
+            <h2 className="text-sm font-medium uppercase tracking-wider text-gray-700">
+              Projets personnels
+            </h2>
+            <p className="text-gray-600">
+              J&apos;aime développer des projets en solo ou en collaboratif
+            </p>
+          </div>
+          <div className="group/projects space-y-2">
+            <ProjectLink
+              description="SaaS de génération de lettres de motivation avec IA"
+              href="https://motivai.fr"
+              image={motivai}
+              imageClassName="rounded-xl"
+              imageSize={{ width: 48, height: 48 }}
+              title="Motivai"
+              variant="simple"
+            />
+            <ProjectLink
+              description="Ce portfolio que vous visitez actuellement"
+              href="https://github.com/WillFDA/williamdeazevedo2025"
+              image={william}
+              imageClassName="rounded-xl"
+              imageSize={{ width: 48, height: 48 }}
+              title="Portfolio 2025"
+              variant="simple"
+            />
+          </div>
+        </section>
+        <section className="fade-up max-w-2xl px-4 lg:px-0 [--animation-delay:800ms]">
+          <div className="rounded-2xl border border-gray-100 bg-gradient-to-br from-gray-50 to-white p-6 lg:p-8">
+            <h2 className="mb-4 text-lg font-semibold text-gray-900">
+              Ce que je recherche
+            </h2>
+            <div className="space-y-4 text-gray-600">
+              <p>
+                Je suis à la recherche d&apos;un{" "}
+                <span className="font-medium text-gray-900">
+                  CDI ou de missions freelance
+                </span>{" "}
+                en tant que développeur front-end au sein d&apos;équipes
+                techniques où je pourrai contribuer à des produits ambitieux.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full bg-white border border-gray-200 px-3 py-1.5 text-sm">
+                  🏢 Startup ou Scale-up
+                </span>
+                <span className="rounded-full bg-white border border-gray-200 px-3 py-1.5 text-sm">
+                  🎯 Produit tech
+                </span>
+                <span className="rounded-full bg-white border border-gray-200 px-3 py-1.5 text-sm">
+                  📍 Paris / Île-de-France
+                </span>
+                <span className="rounded-full bg-white border border-gray-200 px-3 py-1.5 text-sm">
+                  🏠 Hybride ou Remote
+                </span>
+              </div>
             </div>
           </div>
         </section>
