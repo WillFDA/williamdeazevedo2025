@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { Github, Linkedin } from 'lucide-react';
-import Link from 'next/link';
-import { useGetIsActive } from '@/lib/utils';
+import { Github, Linkedin } from "lucide-react";
+import Link from "next/link";
+import { useGetIsActive } from "@/lib/utils";
 
 export default function Footer() {
   return (
-    <footer className="mt-8 w-full px-4 py-12 lg:mt-20 lg:mb-0 lg:h-50 lg:px-0">
+    <footer className="w-full px-4 py-12 lg:mb-0 lg:h-50 lg:px-0">
       <div className="mx-auto flex max-w-2xl flex-col-reverse items-center gap-4 lg:flex-row lg:items-start lg:justify-between lg:gap-0">
         <nav>
           <ol className="flex gap-4">
             <li>
               <Link
                 className={` ${
-                  useGetIsActive('/') ? 'text-black' : 'text-gray-500'
+                  useGetIsActive("/") ? "text-black" : "text-gray-500"
                 }`}
                 href="/"
               >
@@ -23,7 +23,7 @@ export default function Footer() {
             <li>
               <Link
                 className={`${
-                  useGetIsActive('/about') ? 'text-black' : 'text-gray-500'
+                  useGetIsActive("/about") ? "text-black" : "text-gray-500"
                 }`}
                 href="/about"
               >
@@ -33,7 +33,7 @@ export default function Footer() {
             <li>
               <Link
                 className={`${
-                  useGetIsActive('/blog') ? 'text-black' : 'text-gray-500'
+                  useGetIsActive("/blog") ? "text-black" : "text-gray-500"
                 }`}
                 href="/blog"
               >
