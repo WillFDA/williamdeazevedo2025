@@ -12,34 +12,75 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "William De Azevedo",
-  description: "Développeur Front-end React / NextJS",
+  metadataBase: new URL("https://williamdeazevedo.fr"),
+  title: {
+    default: "William De Azevedo | Développeur Front-end React & Next.js",
+    template: "%s | William De Azevedo",
+  },
+  description:
+    "Développeur Front-end avec 2 ans d'expérience, spécialisé en React, Next.js et TypeScript. Disponible pour CDI ou missions freelance en Île-de-France.",
+  keywords: [
+    "développeur front-end",
+    "développeur react",
+    "développeur next.js",
+    "développeur typescript",
+    "freelance react",
+    "développeur web paris",
+    "développeur île-de-france",
+    "william de azevedo",
+    "portfolio développeur",
+    "react developer",
+    "front-end developer france",
+  ],
+  authors: [{ name: "William De Azevedo", url: "https://williamdeazevedo.fr" }],
+  creator: "William De Azevedo",
+  publisher: "William De Azevedo",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: "https://williamdeazevedo.fr",
+  },
   openGraph: {
-    title: "William De Azevedo - Portfolio",
+    type: "website",
+    locale: "fr_FR",
+    url: "https://williamdeazevedo.fr",
+    siteName: "William De Azevedo - Portfolio",
+    title: "William De Azevedo | Développeur Front-end React & Next.js",
     description:
-      "Développeur Front-end React / NextJS | Explorez mes projets et compétences",
-    url: "https://williamdeazevedo.fr/",
-    siteName: "Portfolio de William De Azevedo",
+      "Développeur Front-end avec 2 ans d'expérience, spécialisé en React, Next.js et TypeScript. Découvrez mes projets et compétences.",
     images: [
       {
-        url: "https://williamdeazevedo.fr/william-de-azevedo-og-image.jpg",
+        url: "/william-de-azevedo-og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "William De Azevedo - Développeur Front-end",
+        alt: "William De Azevedo - Développeur Front-end React & Next.js",
       },
     ],
-    locale: "fr_FR",
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "William De Azevedo - Développeur Front-end",
-    description: "Explorez mon portfolio de développeur React / NextJS",
-    images: ["https://williamdeazevedo.fr/og-image.jpg"],
+    title: "William De Azevedo | Développeur Front-end React & Next.js",
+    description:
+      "Développeur Front-end avec 2 ans d'expérience, spécialisé en React, Next.js et TypeScript.",
+    images: ["/william-de-azevedo-og-image.jpg"],
     creator: "@Williamdazevedo",
   },
-  other: {
-    "linkedin:author": "https://www.linkedin.com/in/william-de-azevedo/",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "votre-code-google-search-console",
   },
 };
 
@@ -49,7 +90,44 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fr">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "William De Azevedo",
+              url: "https://williamdeazevedo.fr",
+              image: "https://williamdeazevedo.fr/william-de-azevedo-og-image.jpg",
+              sameAs: [
+                "https://www.linkedin.com/in/william-de-azevedo/",
+                "https://github.com/WillFDA",
+                "https://www.malt.fr/profile/williamferreiradeazevedo",
+              ],
+              jobTitle: "Développeur Front-end",
+              worksFor: {
+                "@type": "Organization",
+                name: "Freelance",
+              },
+              address: {
+                "@type": "PostalAddress",
+                addressRegion: "Île-de-France",
+                addressCountry: "FR",
+              },
+              knowsAbout: [
+                "React",
+                "Next.js",
+                "TypeScript",
+                "JavaScript",
+                "TailwindCSS",
+                "Front-end Development",
+              ],
+            }),
+          }}
+        />
+      </head>
       <body
         className={`${instrumentSerif.variable} flex min-h-screen flex-col overflow-x-hidden bg-white font-sans antialiased`}
       >

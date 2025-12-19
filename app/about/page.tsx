@@ -3,6 +3,21 @@ import ProjectLink from '@/components/project-link';
 import { pictures } from '@/data/picturesandicons';
 import motivai from '@/public/motivai-logo.png';
 import william from '@/public/pictures/william-low.jpg';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'À propos',
+  description:
+    'Découvrez mon parcours : du design graphique au développement front-end. 2 ans d\'expérience en React et Next.js, basé en Île-de-France.',
+  openGraph: {
+    title: 'À propos | William De Azevedo',
+    description:
+      'Découvrez mon parcours : du design graphique au développement front-end. 2 ans d\'expérience en React et Next.js.',
+  },
+  alternates: {
+    canonical: 'https://williamdeazevedo.fr/about',
+  },
+};
 
 export default function About() {
   return (

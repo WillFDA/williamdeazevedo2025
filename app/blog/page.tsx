@@ -1,5 +1,20 @@
 import { getAllPosts } from "./fetch";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Articles sur le développement front-end, React, Next.js, TypeScript et mes retours d'expérience en tant que développeur.",
+  openGraph: {
+    title: "Blog | William De Azevedo",
+    description:
+      "Articles sur le développement front-end, React, Next.js et TypeScript.",
+  },
+  alternates: {
+    canonical: "https://williamdeazevedo.fr/blog",
+  },
+};
 
 export default async function Blog() {
   const posts = await getAllPosts();
