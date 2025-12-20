@@ -100,7 +100,8 @@ export default function RootLayout({
               "@type": "Person",
               name: "William De Azevedo",
               url: "https://williamdeazevedo.fr",
-              image: "https://williamdeazevedo.fr/william-de-azevedo-og-image.jpg",
+              image:
+                "https://williamdeazevedo.fr/william-de-azevedo-og-image.jpg",
               sameAs: [
                 "https://www.linkedin.com/in/william-de-azevedo/",
                 "https://github.com/WillFDA",
@@ -132,7 +133,7 @@ export default function RootLayout({
         className={`${instrumentSerif.variable} flex min-h-screen flex-col overflow-x-hidden bg-white font-sans antialiased`}
       >
         <Navbar />
-        <main className="grow">{children}</main>
+        {children}
         <Footer />
       </body>
     </html>

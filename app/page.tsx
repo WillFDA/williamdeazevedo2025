@@ -10,7 +10,7 @@ import susuLogo from "@/public/susu-logo.png";
 export default function Home() {
   return (
     <>
-      <div className="flex flex-col gap-12 py-8 lg:gap-12 lg:max-w-2xl max-w-xl px-4 mx-auto w-full">
+      <main className="flex flex-col gap-12 py-8 lg:gap-12 lg:max-w-2xl max-w-xl px-4 mx-auto w-full grow">
         <section className="flex flex-col gap-4 justify-center">
           <div className="w-full flex gap-2">
             <Image
@@ -139,7 +139,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="group mx-auto -my-3 grid w-full max-w-2xl grid-cols-5 grid-rows-2 flex-wrap items-center justify-center gap-2">
+        <section className="group mx-auto -my-3 grid w-full max-w-2xl grid-cols-5 grid-rows-2 flex-wrap items-center justify-center gap-2 fade-up [--animation-delay:1000ms]">
           {skillsIcons.map((icon, index) => (
             <HoverTooltip item={icon} key={`${icon.alt + index}`}>
               <div className="col-span-1 row-span-1 flex aspect-square items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 lg:size-25 group-hover:[&:not(:hover)]:opacity-30">
@@ -254,7 +254,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-      </div>
+      </main>
     </>
   );
 }
