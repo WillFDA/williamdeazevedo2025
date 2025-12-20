@@ -1,21 +1,21 @@
-import Image from 'next/image';
-import ProjectLink from '@/components/project-link';
-import { pictures } from '@/data/picturesandicons';
-import motivai from '@/public/motivai-logo.png';
-import william from '@/public/pictures/william-low.jpg';
-import { Metadata } from 'next';
+import Image from "next/image";
+import ProjectLink from "@/components/project-link";
+import { pictures } from "@/data/picturesandicons";
+import motivai from "@/public/motivai-logo.png";
+import william from "@/public/pictures/william-low.png";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'À propos',
+  title: "À propos",
   description:
-    'Découvrez mon parcours : du design graphique au développement front-end. 2 ans d\'expérience en React et Next.js, basé en Île-de-France.',
+    "Découvrez mon parcours : du design graphique au développement front-end. 2 ans d'expérience en React et Next.js, basé en Île-de-France.",
   openGraph: {
-    title: 'À propos | William De Azevedo',
+    title: "À propos | William De Azevedo",
     description:
-      'Découvrez mon parcours : du design graphique au développement front-end. 2 ans d\'expérience en React et Next.js.',
+      "Découvrez mon parcours : du design graphique au développement front-end. 2 ans d'expérience en React et Next.js.",
   },
   alternates: {
-    canonical: 'https://williamdeazevedo.fr/about',
+    canonical: "https://williamdeazevedo.fr/about",
   },
 };
 
@@ -94,12 +94,12 @@ export default function About() {
             href="https://motivai.fr"
             image={motivai}
             technologies={[
-              'NextJS',
-              'TypeScript',
-              'Prisma',
-              'Better Auth',
-              'AI',
-              'CI / CD',
+              "NextJS",
+              "TypeScript",
+              "Prisma",
+              "Better Auth",
+              "AI",
+              "CI / CD",
             ]}
             title="Motivai - Créateur de lettre de motivation"
           />
@@ -107,7 +107,7 @@ export default function About() {
             description="Pour ce portfolio, l'objectif était différent des anciens. Je voulais créer un portfolio simple, efficace, concis. J'avais aussi pour objectif de commencer à créer des posts de blog, pour apprendre en partageant et pour avoir un endroit où expérimenter et partager."
             href="https://github.com/WillFDA/williamdeazevedo2025"
             image={william}
-            technologies={['NextJS', 'TypeScript', 'MDX']}
+            technologies={["NextJS", "TypeScript", "MDX"]}
             title="Mon portfolio - 2025"
           />
         </div>

@@ -4,7 +4,7 @@ import ProjectLink from "@/components/project-link";
 import { skillsIcons } from "@/data/picturesandicons";
 import kominLogo from "@/public/komin-logo.png";
 import motivai from "@/public/motivai-logo.png";
-import william from "@/public/pictures/william-low.jpg";
+import william from "@/public/pictures/william-low.png";
 import susuLogo from "@/public/susu-logo.png";
 
 export default function Home() {
@@ -31,8 +31,8 @@ export default function Home() {
           </div>
           <div className="flex flex-col text-center lg:text-start gap-4">
             <p className="fade-up text-gray-500 [--animation-delay:400ms] italic">
-              Développeur front end, enthousiaste de l&apos;IA. Je suis
-              passionné par la création de produits qui aident les gens.
+              Développeur front-end avec compétences full stack. Passionné par
+              l&apos;IA et la création de produits complets de A à Z.
             </p>
             <div className="fade-up mx-auto lg:ml-0 [--animation-delay:400ms]">
               <div className="group relative inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-50 px-4 py-1.5 transition-all duration-300 hover:border-green-300 hover:shadow-[0_0_20px_rgba(34,197,94,0.15)]">
