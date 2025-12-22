@@ -31,9 +31,16 @@ export async function getAllPosts(): Promise<Post[]> {
     }),
   );
 
-  // Filtrer les posts null et trier par date
+  const isDev = process.env.NODE_ENV === "development";
+
   return posts
     .filter((post): post is Post => post !== null)
+    .filter((post) => {
+      if (isDev) return true;
+      const isPublished = post.metadata.published;
+      const isReleased = new Date(post.metadata.date) <= new Date();
+      return isPublished && isReleased;
+    })
     .sort((a, b) => {
       return (
         new Date(b.metadata.date).getTime() -
@@ -57,13 +64,22 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       components,
     });
 
-    return {
+    const post = {
       metadata: {
         ...frontmatter,
         slug,
       },
       content,
     };
+
+    const isDev = process.env.NODE_ENV === "development";
+    if (!isDev) {
+      const isPublished = post.metadata.published;
+      const isReleased = new Date(post.metadata.date) <= new Date();
+      if (!isPublished || !isReleased) return null;
+    }
+
+    return post;
   } catch {
     return null;
   }
