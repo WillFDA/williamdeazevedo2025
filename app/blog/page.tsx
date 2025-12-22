@@ -36,8 +36,9 @@ export default async function Blog() {
           <Link
             key={post.metadata.slug}
             href={`/blog/${post.metadata.slug}`}
-            className="block"
+            className="group relative block pl-4"
           >
+            <span className="absolute left-0 bottom-0 w-0.5 h-0 bg-gray-300 transition-all duration-300 ease-out group-hover:h-full" />
             <article className="flex flex-col gap-2">
               <h2 className="font-bold text-lg text-gray-900">
                 {post.metadata.title}
