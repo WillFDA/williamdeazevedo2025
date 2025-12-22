@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug, getAllPostSlugs } from "../fetch";
+import williamPicture from "@/public/pictures/william-low.png";
 import { Metadata, ResolvingMetadata } from "next";
+import Image from "next/image";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -90,9 +92,34 @@ export default async function Page({
           }),
         }}
       />
-      <article className="prose mx-auto max-w-3xl px-4 py-8">
-        {post.content}
-      </article>
+      <header className="max-w-2xl mx-auto py-6">
+        <h1 className="font-bold text-4xl md:text-5xl tracking-tight text-gray-900 mb-4">
+          {post.metadata.title}
+        </h1>
+        <p className="text-lg text-gray-600 mb-6">
+          {post.metadata.description}
+        </p>
+        <div className="flex items-center gap-3 text-sm text-gray-500">
+          <Image
+            alt="Photo de William"
+            src={williamPicture}
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
+          <div>
+            <p className="font-medium text-gray-900">{post.metadata.author}</p>
+            <time dateTime={post.metadata.date}>
+              {new Date(post.metadata.date).toLocaleDateString("fr-FR", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </time>
+          </div>
+        </div>
+      </header>
+      <article className="prose mx-auto px-4 py-8">{post.content}</article>
     </>
   );
 }

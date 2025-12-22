@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       <main className="flex flex-col gap-12 py-8 lg:gap-12 lg:max-w-2xl max-w-xl px-4 mx-auto w-full grow">
-        <section className="flex flex-col gap-4 justify-center">
+        <section className="flex flex-col gap-6 justify-center">
           <div className="w-full flex gap-2">
             <Image
               alt="Photo de profil"
