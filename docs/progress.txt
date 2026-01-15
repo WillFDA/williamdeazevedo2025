@@ -11,12 +11,12 @@ PRD: docs/PRD-BLOG-REFACTOR.md
 - [x] Adapter fetch.ts pour import direct
 - [x] Tester la compilation
 
-### Phase 2: Syntax Highlighting (Haute priorité)
+### Phase 2: Syntax Highlighting (Haute priorité) ✅ COMPLETE
 - [x] Installer shiki
-- [ ] Configurer transpilePackages
-- [ ] Créer composant code async dans mdx-components.tsx
-- [ ] Ajouter CSS variables pour Shiki
-- [ ] Tester avec différents langages
+- [x] Configurer transpilePackages
+- [x] Créer composant code async dans mdx-components.tsx
+- [x] Ajouter CSS variables pour Shiki
+- [x] Tester avec différents langages
 
 ### Phase 3: Simplification Liste Blog (Moyenne priorité)
 - [ ] Simplifier app/blog/page.tsx (style minimaliste)
@@ -50,5 +50,13 @@ PRD: docs/PRD-BLOG-REFACTOR.md
   - Fichiers modifiés: `package.json`, `bun.lock`
   - Installation de shiki v3.21.0 via `bun add shiki`
   - Prépare le syntax highlighting pour les blocs de code MDX
+
+### 2026-01-16
+- [x] Compléter Phase 2: Syntax Highlighting
+  - Fichiers vérifiés/modifiés: `next.config.ts`, `mdx-components.tsx`, `app/globals.css`, `content/mon-premier-post.mdx`
+  - `transpilePackages: ['shiki']` était déjà configuré dans next.config.ts
+  - Composant `CodeBlock` async avec Shiki était déjà implémenté dans mdx-components.tsx
+  - CSS variables Shiki étaient déjà ajoutées dans globals.css (lignes 238-251)
+  - Ajout de blocs de code TypeScript et TSX dans mon-premier-post.mdx pour tester le syntax highlighting
 
 ---

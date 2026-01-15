@@ -381,10 +381,10 @@ code {
 
 ### Phase 2
 - [x] Installer shiki
-- [ ] Configurer transpilePackages
-- [ ] Créer composant code async
-- [ ] Ajouter CSS variables
-- [ ] Tester avec différents langages (js, tsx, css, bash)
+- [x] Configurer transpilePackages
+- [x] Créer composant code async
+- [x] Ajouter CSS variables
+- [x] Tester avec différents langages (js, tsx, css, bash)
 
 ### Phase 3
 - [ ] Simplifier app/blog/page.tsx

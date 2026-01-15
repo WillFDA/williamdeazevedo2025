@@ -234,3 +234,18 @@
     letter-spacing: 4px;
     color: #d1d5db;
 }
+
+/* Shiki Syntax Highlighting - CSS Variables Theme */
+pre code {
+    --shiki-color-text: #e4e4e7;
+    --shiki-color-background: transparent;
+    --shiki-token-constant: #79c0ff;
+    --shiki-token-string: #a5d6ff;
+    --shiki-token-comment: #8b949e;
+    --shiki-token-keyword: #ff7b72;
+    --shiki-token-parameter: #e4e4e7;
+    --shiki-token-function: #d2a8ff;
+    --shiki-token-string-expression: #a5d6ff;
+    --shiki-token-punctuation: #e4e4e7;
+    --shiki-token-link: #a5d6ff;
+}
