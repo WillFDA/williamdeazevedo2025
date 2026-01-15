@@ -18,11 +18,11 @@ PRD: docs/PRD-BLOG-REFACTOR.md
 - [x] Ajouter CSS variables pour Shiki
 - [x] Tester avec différents langages
 
-### Phase 3: Simplification Liste Blog (Moyenne priorité)
-- [ ] Simplifier app/blog/page.tsx (style minimaliste)
-- [ ] Supprimer les cards de la liste
-- [ ] Style dot leaders pour la liste
-- [ ] Tester responsive
+### Phase 3: Simplification Liste Blog (Moyenne priorité) ✅ COMPLETE
+- [x] Simplifier app/blog/page.tsx (style minimaliste)
+- [x] Supprimer les cards de la liste
+- [x] Style dot leaders pour la liste
+- [x] Tester responsive
 
 ### Phase 4: Composant Card (Basse priorité)
 - [ ] Créer components/blog/card.tsx
@@ -58,5 +58,15 @@ PRD: docs/PRD-BLOG-REFACTOR.md
   - Composant `CodeBlock` async avec Shiki était déjà implémenté dans mdx-components.tsx
   - CSS variables Shiki étaient déjà ajoutées dans globals.css (lignes 238-251)
   - Ajout de blocs de code TypeScript et TSX dans mon-premier-post.mdx pour tester le syntax highlighting
+
+- [x] Compléter Phase 3: Simplification Liste Blog
+  - Fichier modifié: `app/blog/page.tsx`
+  - Refactorisé la liste des articles vers un style minimaliste (inspiré de shud.in)
+  - Supprimé les cards avec descriptions, tags et hover effect vertical
+  - Remplacé par une liste simple: titre + dot-leaders + date
+  - Ajout d'une fonction `formatDate()` pour formater les dates en français (format court)
+  - Structure sémantique améliorée avec `<ul>` et `<li>`
+  - Hover effect subtil sur le titre (gray-900 → gray-600)
+  - Design responsive avec `whitespace-nowrap` sur la date et `min-w-[2rem]` sur les dot-leaders
 
 ---

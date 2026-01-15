@@ -387,10 +387,10 @@ code {
 - [x] Tester avec différents langages (js, tsx, css, bash)
 
 ### Phase 3
-- [ ] Simplifier app/blog/page.tsx
-- [ ] Supprimer les cards
-- [ ] Ajouter style dot leaders
-- [ ] Tester responsive
+- [x] Simplifier app/blog/page.tsx
+- [x] Supprimer les cards
+- [x] Ajouter style dot leaders
+- [x] Tester responsive
 
 ### Phase 4
 - [ ] Créer Card component
