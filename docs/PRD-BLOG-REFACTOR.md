@@ -393,10 +393,10 @@ code {
 - [x] Tester responsive
 
 ### Phase 4
-- [ ] Créer Card component
-- [ ] Exporter dans mdx-components
-- [ ] Documenter l'utilisation
-- [ ] Tester dans un article
+- [x] Créer Card component
+- [x] Exporter dans mdx-components
+- [x] Documenter l'utilisation
+- [x] Tester dans un article
 
 ---
 

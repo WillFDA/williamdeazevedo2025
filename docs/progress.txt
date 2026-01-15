@@ -24,10 +24,10 @@ PRD: docs/PRD-BLOG-REFACTOR.md
 - [x] Style dot leaders pour la liste
 - [x] Tester responsive
 
-### Phase 4: Composant Card (Basse priorité)
-- [ ] Créer components/blog/card.tsx
-- [ ] Exporter dans mdx-components.tsx
-- [ ] Documenter l'utilisation
+### Phase 4: Composant Card (Basse priorité) ✅ COMPLETE
+- [x] Créer components/blog/card.tsx
+- [x] Exporter dans mdx-components.tsx
+- [x] Documenter l'utilisation
 
 ---
 
@@ -68,5 +68,13 @@ PRD: docs/PRD-BLOG-REFACTOR.md
   - Structure sémantique améliorée avec `<ul>` et `<li>`
   - Hover effect subtil sur le titre (gray-900 → gray-600)
   - Design responsive avec `whitespace-nowrap` sur la date et `min-w-[2rem]` sur les dot-leaders
+
+- [x] Compléter Phase 4: Composant Card
+  - Fichiers créés/modifiés: `components/blog/card.tsx`, `mdx-components.tsx`, `content/mon-premier-post.mdx`
+  - Créé composant Card pour afficher des liens externes avec aperçu (titre, description, image optionnelle)
+  - Utilise Next.js Image pour les images optimisées
+  - Exporté le composant dans mdx-components.tsx pour utilisation dans tous les articles MDX
+  - Ajouté exemple d'utilisation dans mon-premier-post.mdx (lien vers Prisma)
+  - Design: bordure grise, hover effect (border + background), espacement adapté
 
 ---

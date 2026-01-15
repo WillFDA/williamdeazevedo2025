@@ -2,6 +2,7 @@ import type { MDXComponents } from "mdx/types";
 import Image from "next/image";
 import Link from "next/link";
 import MotiviaOldUI from "./components/blog/motivia-old-ui";
+import { Card } from "./components/blog/card";
 import { codeToHtml, createCssVariablesTheme } from "shiki";
 import { type ReactNode } from "react";
 
@@ -37,6 +38,7 @@ async function CodeBlock({
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     MotiviaOldUI,
+    Card,
     h1: ({ children }) => (
       <h1 className="mb-6 mt-10 font-bold text-3xl first:mt-0 mx-auto max-w-2xl">
         {children}
