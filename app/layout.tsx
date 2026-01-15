@@ -1,13 +1,13 @@
-import { Instrument_Serif } from "next/font/google";
+import { Inter } from "next/font/google";
+import { ViewTransition } from "react";
 import Footer from "@/components/footer";
 import Navbar from "../components/navbar";
 import "./globals.css";
 import { Metadata } from "next";
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: "400",
   display: "swap",
 });
 
@@ -130,10 +130,12 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${instrumentSerif.variable} flex min-h-screen flex-col overflow-x-hidden bg-white font-sans antialiased`}
+        className={`${inter.variable} flex min-h-screen flex-col overflow-x-hidden bg-white font-sans antialiased`}
       >
         <Navbar />
-        {children}
+        <ViewTransition name="page-transition">
+          {children}
+        </ViewTransition>
         <Footer />
       </body>
     </html>
