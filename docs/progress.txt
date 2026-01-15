@@ -1,0 +1,41 @@
+# Blog Refactor Progress Log
+Started: 2026-01-15
+PRD: docs/PRD-BLOG-REFACTOR.md
+---
+
+## Pending Tasks (by priority)
+
+### Phase 1: Configuration MDX (Haute priorité)
+- [x] Activer mdxRs dans next.config.ts
+- [ ] Migrer mon-premier-post.mdx vers export metadata
+- [ ] Adapter fetch.ts pour import direct
+- [ ] Tester la compilation
+
+### Phase 2: Syntax Highlighting (Haute priorité)
+- [ ] Installer shiki
+- [ ] Configurer transpilePackages
+- [ ] Créer composant code async dans mdx-components.tsx
+- [ ] Ajouter CSS variables pour Shiki
+- [ ] Tester avec différents langages
+
+### Phase 3: Simplification Liste Blog (Moyenne priorité)
+- [ ] Simplifier app/blog/page.tsx (style minimaliste)
+- [ ] Supprimer les cards de la liste
+- [ ] Style dot leaders pour la liste
+- [ ] Tester responsive
+
+### Phase 4: Composant Card (Basse priorité)
+- [ ] Créer components/blog/card.tsx
+- [ ] Exporter dans mdx-components.tsx
+- [ ] Documenter l'utilisation
+
+---
+
+## Completed Tasks
+
+### 2026-01-15
+- [x] Activer mdxRs dans next.config.ts
+  - Fichiers modifiés: `next.config.ts`
+  - Ajout de `experimental.mdxRs` avec `mdxType: "gfm"` pour activer le compilateur MDX Rust avec support GitHub Flavored Markdown
+
+---

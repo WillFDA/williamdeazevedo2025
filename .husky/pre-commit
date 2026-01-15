@@ -1,3 +1,1 @@
-pnpm test
-
-pnpm dlx ultracite format
+bun run build

@@ -6,9 +6,9 @@
     "dev": "bun --bun next dev",
     "build": "bun --bun next build",
     "start": "bun --bun next start",
-    "lint": "bunx ultracite lint",
-    "format": "bunx ultracite format --write",
-    "test": "bunx ultracite lint && next build",
+    "lint": "bunx ultracite check",
+    "format": "bunx ultracite fix",
+    "test": "bunx ultracite check && next build",
     "prepare": "husky"
   },
   "dependencies": {
