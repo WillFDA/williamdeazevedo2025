@@ -12,7 +12,7 @@ PRD: docs/PRD-BLOG-REFACTOR.md
 - [x] Tester la compilation
 
 ### Phase 2: Syntax Highlighting (Haute priorité)
-- [ ] Installer shiki
+- [x] Installer shiki
 - [ ] Configurer transpilePackages
 - [ ] Créer composant code async dans mdx-components.tsx
 - [ ] Ajouter CSS variables pour Shiki
@@ -45,5 +45,10 @@ PRD: docs/PRD-BLOG-REFACTOR.md
   - Suppression de la dépendance à `next-mdx-remote/rsc` pour le parsing
   - `Post.content` est maintenant un `ComponentType` au lieu de `React.ReactElement`
   - `[slug]/page.tsx`: Adapté pour rendre `<post.content />` comme composant
+
+- [x] Installer shiki
+  - Fichiers modifiés: `package.json`, `bun.lock`
+  - Installation de shiki v3.21.0 via `bun add shiki`
+  - Prépare le syntax highlighting pour les blocs de code MDX
 
 ---

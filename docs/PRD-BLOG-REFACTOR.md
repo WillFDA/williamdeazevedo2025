@@ -380,7 +380,7 @@ code {
 - [x] Tester la compilation
 
 ### Phase 2
-- [ ] Installer shiki
+- [x] Installer shiki
 - [ ] Configurer transpilePackages
 - [ ] Créer composant code async
 - [ ] Ajouter CSS variables

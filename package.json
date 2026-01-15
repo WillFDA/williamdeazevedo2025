@@ -26,6 +26,7 @@
     "next-mdx-remote": "^5.0.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "shiki": "^3.21.0",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
