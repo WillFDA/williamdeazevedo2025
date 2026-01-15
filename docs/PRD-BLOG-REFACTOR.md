@@ -375,9 +375,9 @@ code {
 
 ### Phase 1
 - [x] Activer mdxRs dans next.config.ts
-- [ ] Migrer mon-premier-post.mdx vers export metadata
-- [ ] Adapter fetch.ts pour import direct
-- [ ] Tester la compilation
+- [x] Migrer mon-premier-post.mdx vers export metadata
+- [x] Adapter fetch.ts pour import direct
+- [x] Tester la compilation
 
 ### Phase 2
 - [ ] Installer shiki

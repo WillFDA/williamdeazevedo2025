@@ -5,11 +5,11 @@ PRD: docs/PRD-BLOG-REFACTOR.md
 
 ## Pending Tasks (by priority)
 
-### Phase 1: Configuration MDX (Haute priorité)
+### Phase 1: Configuration MDX (Haute priorité) ✅ COMPLETE
 - [x] Activer mdxRs dans next.config.ts
-- [ ] Migrer mon-premier-post.mdx vers export metadata
-- [ ] Adapter fetch.ts pour import direct
-- [ ] Tester la compilation
+- [x] Migrer mon-premier-post.mdx vers export metadata
+- [x] Adapter fetch.ts pour import direct
+- [x] Tester la compilation
 
 ### Phase 2: Syntax Highlighting (Haute priorité)
 - [ ] Installer shiki
@@ -37,5 +37,13 @@ PRD: docs/PRD-BLOG-REFACTOR.md
 - [x] Activer mdxRs dans next.config.ts
   - Fichiers modifiés: `next.config.ts`
   - Ajout de `experimental.mdxRs` avec `mdxType: "gfm"` pour activer le compilateur MDX Rust avec support GitHub Flavored Markdown
+
+- [x] Migrer vers export metadata et import direct MDX
+  - Fichiers modifiés: `app/blog/fetch.ts`, `app/blog/[slug]/page.tsx`
+  - `content/mon-premier-post.mdx` était déjà migré vers `export const metadata`
+  - `fetch.ts`: Remplacé `compileMDX` par import dynamique direct (`import(`@/content/${slug}.mdx`)`)
+  - Suppression de la dépendance à `next-mdx-remote/rsc` pour le parsing
+  - `Post.content` est maintenant un `ComponentType` au lieu de `React.ReactElement`
+  - `[slug]/page.tsx`: Adapté pour rendre `<post.content />` comme composant
 
 ---

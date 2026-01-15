@@ -119,7 +119,9 @@ export default async function Page({
           </div>
         </div>
       </header>
-      <article className="prose mx-auto px-4 py-8">{post.content}</article>
+      <article className="prose mx-auto px-4 py-8">
+        <post.content />
+      </article>
     </>
   );
 }
