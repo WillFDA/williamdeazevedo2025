@@ -43,44 +43,48 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     MotiviaOldUI,
     Card,
     h1: ({ children }) => (
-      <h1 className="mb-6 mt-10 font-bold text-3xl first:mt-0 mx-auto max-w-2xl">
+      <h1 className="mb-4 mt-8 font-bold text-xl first:mt-0 mx-auto max-w-2xl text-gray-900">
         {children}
       </h1>
     ),
     h2: ({ children }) => (
-      <h2 className="mb-4 mt-8 font-bold text-2xl mx-auto max-w-2xl">
+      <h2 className="mb-3 mt-8 font-bold text-lg mx-auto max-w-2xl text-gray-900">
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="mb-3 mt-6 font-semibold text-xl mx-auto max-w-2xl">
+      <h3 className="mb-2 mt-6 font-semibold text-base mx-auto max-w-2xl text-gray-900">
         {children}
       </h3>
     ),
     p: ({ children }) => (
-      <p className="mb-4 leading-relaxed text-gray-700 mx-auto max-w-2xl">
+      <p className="mb-4 text-sm leading-relaxed text-gray-600 mx-auto max-w-2xl">
         {children}
       </p>
     ),
     a: ({ href, children }) => (
       <Link
         href={href || "#"}
-        className="text-blue-600 underline hover:text-blue-800 mx-auto max-w-2xl"
+        className="underline decoration-gray-300 underline-offset-2 transition-colors hover:text-gray-900"
+        target={href?.startsWith("http") ? "_blank" : undefined}
+        rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
       >
         {children}
       </Link>
     ),
     ul: ({ children }) => (
-      <ul className="mb-4 list-disc space-y-2 pl-6 max-w-2xl mx-auto">
+      <ul className="mb-4 list-disc space-y-1 pl-5 max-w-2xl mx-auto text-sm text-gray-600">
         {children}
       </ul>
     ),
     ol: ({ children }) => (
-      <ol className="mb-4 list-decimal space-y-2 pl-6">{children}</ol>
+      <ol className="mb-4 list-decimal space-y-1 pl-5 max-w-2xl mx-auto text-sm text-gray-600">
+        {children}
+      </ol>
     ),
-    li: ({ children }) => <li className="text-gray-700 -ml-2">{children}</li>,
+    li: ({ children }) => <li>{children}</li>,
     blockquote: ({ children }) => (
-      <blockquote className="my-6 border-gray-300 border-l-4 pl-4 italic text-gray-600 max-w-2xl mx-auto">
+      <blockquote className="my-6 border-gray-200 border-l-2 pl-4 text-sm italic text-gray-500 max-w-2xl mx-auto">
         {children}
       </blockquote>
     ),
@@ -92,19 +96,19 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       }
       // Sinon c'est du inline code
       return (
-        <code className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-sm">
+        <code className="rounded bg-gray-100 px-1 py-0.5 font-mono text-xs text-gray-900">
           {children}
         </code>
       );
     },
     // Block code (```lang)
     pre: ({ children }) => (
-      <pre className="my-6 overflow-x-auto rounded-lg bg-[#22272e] p-4 text-sm max-w-2xl mx-auto font-mono leading-relaxed [&>code]:bg-transparent [&>code]:p-0">
+      <pre className="my-6 overflow-x-auto rounded-lg bg-[#22272e] p-4 text-xs max-w-2xl mx-auto font-mono leading-relaxed [&>code]:bg-transparent [&>code]:p-0">
         {children}
       </pre>
     ),
     img: ({ src, alt }) => (
-      <span className="my-6 block">
+      <span className="my-6 block max-w-2xl mx-auto">
         <Image
           src={src || ""}
           alt={alt || ""}
@@ -115,10 +119,10 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </span>
     ),
     strong: ({ children }) => (
-      <strong className="font-bold text-gray-900">{children}</strong>
+      <strong className="font-medium text-gray-900">{children}</strong>
     ),
     em: ({ children }) => <em className="italic">{children}</em>,
-    hr: () => <hr className="my-8 border-gray-200" />,
+    hr: () => <hr className="my-8 border-gray-200 max-w-2xl mx-auto" />,
     ...components,
   };
 }

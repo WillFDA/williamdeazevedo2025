@@ -78,3 +78,4 @@ PRD: docs/PRD-BLOG-REFACTOR.md
   - Design: bordure grise, hover effect (border + background), espacement adapté
 
 ---
+Completed: Fri Jan 16 00:13:59 CET 2026
