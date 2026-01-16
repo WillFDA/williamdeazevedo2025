@@ -38,10 +38,14 @@ export default async function Blog() {
 
   return (
     <div className="container mx-auto px-4 py-16 max-w-2xl">
-      <h1 className="mb-12 font-bold text-4xl">Blog</h1>
+      <h1 className="fade-up mb-12 font-bold text-4xl [--animation-delay:200ms]">Blog</h1>
       <ul className="space-y-8">
-        {posts.map((post) => (
-          <li key={post.metadata.slug}>
+        {posts.map((post, index) => (
+          <li
+            key={post.metadata.slug}
+            className="fade-up"
+            style={{ "--animation-delay": `${300 + index * 100}ms` } as React.CSSProperties}
+          >
             <Link
               href={`/blog/${post.metadata.slug}`}
               className="group block"

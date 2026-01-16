@@ -92,7 +92,7 @@ export default async function Page({
           }),
         }}
       />
-      <header className="max-w-2xl mx-auto px-4 pt-10 pb-8">
+      <header className="fade-up max-w-2xl mx-auto px-4 pt-10 pb-8 [--animation-delay:200ms]">
         <h1 className="font-bold text-2xl md:text-3xl tracking-tight text-gray-900 mb-3">
           {post.metadata.title}
         </h1>
@@ -119,7 +119,7 @@ export default async function Page({
           </div>
         </div>
       </header>
-      <article className="mx-auto px-4 pb-16">
+      <article className="fade-up mx-auto px-4 pb-16 [--animation-delay:400ms]">
         <post.content />
       </article>
     </>
