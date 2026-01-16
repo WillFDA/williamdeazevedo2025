@@ -53,7 +53,7 @@ export const metadata: Metadata = {
       "Développeur Front-end avec 2 ans d'expérience, spécialisé en React, Next.js et TypeScript. Découvrez mes projets et compétences.",
     images: [
       {
-        url: "/william-de-azevedo-og-image.jpg",
+        url: "/api/og?title=William De Azevedo | Développeur Front-end",
         width: 1200,
         height: 630,
         alt: "William De Azevedo - Développeur Front-end React & Next.js",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     title: "William De Azevedo | Développeur Front-end React & Next.js",
     description:
       "Développeur Front-end avec 2 ans d'expérience, spécialisé en React, Next.js et TypeScript.",
-    images: ["/william-de-azevedo-og-image.jpg"],
+    images: ["/api/og?title=William De Azevedo | Développeur Front-end"],
     creator: "@Williamdazevedo",
   },
   robots: {
@@ -79,9 +79,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "votre-code-google-search-console",
-  },
+  // verification: {
+  //   google: "VOTRE_CODE_GOOGLE_SEARCH_CONSOLE",
+  // },
 };
 
 export default function RootLayout({

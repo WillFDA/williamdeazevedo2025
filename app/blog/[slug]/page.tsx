@@ -27,7 +27,7 @@ export async function generateMetadata(
 
   const { title, description, date } = post.metadata;
   const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://williamdeazevedo.com";
+    process.env.NEXT_PUBLIC_BASE_URL || "https://williamdeazevedo.fr";
   const ogImage = `${baseUrl}/api/og?title=${encodeURIComponent(title)}`;
 
   return {
@@ -67,7 +67,7 @@ export default async function Page({
   }
 
   const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://williamdeazevedo.com";
+    process.env.NEXT_PUBLIC_BASE_URL || "https://williamdeazevedo.fr";
   const ogImage = `${baseUrl}/api/og?title=${encodeURIComponent(post.metadata.title)}`;
 
   return (
