@@ -34,18 +34,17 @@ const MotiviaOldUI = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-gray-100 p-8 rounded-2xl my-12">
-      <p className="mb-6 text-center text-gray-700">
-        Ça c'était l'ancienne interface 😭, heureusement du chemin a été
-        parcouru depuis !{" "}
-        <span className="text-sm text-gray-500">
-          (Glisse le curseur pour comparer)
+    <div className="w-full max-w-2xl mx-auto my-8">
+      <p className="mb-4 text-sm text-center text-gray-600">
+        L'ancienne interface vs la nouvelle.{" "}
+        <span className="text-gray-400">
+          Glisse pour comparer
         </span>
       </p>
 
       <div
         ref={containerRef}
-        className="relative w-full aspect-video overflow-hidden rounded-xl cursor-ew-resize select-none bg-gray-200"
+        className="relative w-full aspect-[4/3] overflow-hidden rounded-lg cursor-ew-resize select-none border border-gray-200"
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
@@ -54,10 +53,10 @@ const MotiviaOldUI = () => {
       >
         <Image
           width={800}
-          height={500}
+          height={600}
           alt="Nouvelle interface de Motivia"
           src="https://igpmag5dwziffdrn.public.blob.vercel-storage.com/blog/motivai_new_ui.png"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-top"
           draggable={false}
         />
 
@@ -67,22 +66,25 @@ const MotiviaOldUI = () => {
         >
           <Image
             width={800}
-            height={500}
+            height={600}
             alt="Ancienne interface de Motivia"
             src="https://igpmag5dwziffdrn.public.blob.vercel-storage.com/blog/motivia_old_ui.jpeg"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover object-top"
             draggable={false}
           />
         </div>
+
+        {/* Slider line */}
         <div
-          className="absolute top-0 bottom-0 w-1 bg-white shadow-lg cursor-ew-resize"
+          className="absolute top-0 bottom-0 w-0.5 bg-white/90 cursor-ew-resize"
           style={{ left: `${sliderPosition}%`, transform: "translateX(-50%)" }}
           onMouseDown={handleMouseDown}
           onTouchStart={handleMouseDown}
         >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center">
+          {/* Slider handle */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center border border-gray-200">
             <svg
-              className="w-6 h-6 text-gray-600"
+              className="w-4 h-4 text-gray-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -96,10 +98,12 @@ const MotiviaOldUI = () => {
             </svg>
           </div>
         </div>
-        <div className="absolute bottom-4 left-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
+
+        {/* Labels */}
+        <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm text-gray-600 px-2 py-0.5 rounded text-xs font-medium">
           Avant
         </div>
-        <div className="absolute bottom-4 right-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
+        <div className="absolute bottom-3 right-3 bg-gray-900/80 backdrop-blur-sm text-white px-2 py-0.5 rounded text-xs font-medium">
           Après
         </div>
       </div>

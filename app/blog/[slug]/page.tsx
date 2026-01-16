@@ -27,7 +27,7 @@ export async function generateMetadata(
 
   const { title, description, date } = post.metadata;
   const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://williamdeazevedo.com";
+    process.env.NEXT_PUBLIC_BASE_URL || "https://williamdeazevedo.fr";
   const ogImage = `${baseUrl}/api/og?title=${encodeURIComponent(title)}`;
 
   return {
@@ -67,7 +67,7 @@ export default async function Page({
   }
 
   const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://williamdeazevedo.com";
+    process.env.NEXT_PUBLIC_BASE_URL || "https://williamdeazevedo.fr";
   const ogImage = `${baseUrl}/api/og?title=${encodeURIComponent(post.metadata.title)}`;
 
   return (
@@ -92,24 +92,24 @@ export default async function Page({
           }),
         }}
       />
-      <header className="max-w-2xl mx-auto py-6">
-        <h1 className="font-bold text-4xl md:text-5xl tracking-tight text-gray-900 mb-4">
+      <header className="fade-up max-w-2xl mx-auto px-4 pt-10 pb-8 [--animation-delay:200ms]">
+        <h1 className="font-bold text-2xl md:text-3xl tracking-tight text-gray-900 mb-3">
           {post.metadata.title}
         </h1>
-        <p className="text-lg text-gray-600 mb-6">
+        <p className="text-sm text-gray-600 mb-6">
           {post.metadata.description}
         </p>
-        <div className="flex items-center gap-3 text-sm text-gray-500">
+        <div className="flex items-center gap-3">
           <Image
             alt="Photo de William"
             src={williamPicture}
-            width={40}
-            height={40}
+            width={36}
+            height={36}
             className="rounded-full"
           />
-          <div>
+          <div className="text-sm">
             <p className="font-medium text-gray-900">{post.metadata.author}</p>
-            <time dateTime={post.metadata.date}>
+            <time dateTime={post.metadata.date} className="text-gray-400">
               {new Date(post.metadata.date).toLocaleDateString("fr-FR", {
                 day: "numeric",
                 month: "long",
@@ -119,7 +119,9 @@ export default async function Page({
           </div>
         </div>
       </header>
-      <article className="prose mx-auto px-4 py-8">{post.content}</article>
+      <article className="fade-up mx-auto px-4 pb-16 [--animation-delay:400ms]">
+        <post.content />
+      </article>
     </>
   );
 }

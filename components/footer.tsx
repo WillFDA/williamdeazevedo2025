@@ -29,7 +29,7 @@ export default function Footer() {
         <div className="flex flex-col-reverse items-center gap-6 lg:flex-row lg:justify-between">
           {/* Navigation */}
           <nav>
-            <ol className="flex gap-6">
+            <ul className="flex gap-6">
               <li>
                 <Link
                   className={`text-sm transition-colors hover:text-gray-900 ${
@@ -60,7 +60,7 @@ export default function Footer() {
                   Blog
                 </Link>
               </li>
-            </ol>
+            </ul>
           </nav>
 
           {/* Social + Copyright */}
@@ -106,7 +106,7 @@ export default function Footer() {
               </a>
             </div>
             <span className="text-xs text-gray-400">
-              © 2025 William De Azevedo
+              © 2026 William De Azevedo
             </span>
           </div>
         </div>

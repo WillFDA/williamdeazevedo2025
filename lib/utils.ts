@@ -8,5 +8,9 @@ export function cn(...inputs: ClassValue[]) {
 
 export function useGetIsActive(path: string) {
   const pathname = usePathname();
-  return pathname === path;
+  // Exact match for home, startsWith for other routes
+  if (path === "/") {
+    return pathname === "/";
+  }
+  return pathname.startsWith(path);
 }
