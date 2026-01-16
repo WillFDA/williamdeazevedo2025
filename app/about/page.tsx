@@ -147,46 +147,53 @@ export default function About() {
         <h2 className="text-sm text-gray-400">Compétences</h2>
         <div className="flex flex-col gap-2 text-sm">
           <div className="flex items-baseline gap-1">
-            <span className="text-gray-900">Front-end</span>
+            <span className="text-gray-900 shrink-0">Front-end</span>
             <span className="dot-leaders min-w-4 flex-1" />
-            <span className="text-gray-600">React, Next.js, TypeScript, Tailwind</span>
+            <span className="text-gray-600 text-right">React, Next.js, TypeScript, Tailwind, Redux, Tanstack Query</span>
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-gray-900">Back-end</span>
+            <span className="text-gray-900 shrink-0">Back-end</span>
             <span className="dot-leaders min-w-4 flex-1" />
-            <span className="text-gray-600">Node.js, Prisma, PostgreSQL, API</span>
+            <span className="text-gray-600 text-right">Node.js, Express, Prisma, PostgreSQL, REST API, Better Auth</span>
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-gray-900">Outils</span>
+            <span className="text-gray-900 shrink-0">Testing</span>
             <span className="dot-leaders min-w-4 flex-1" />
-            <span className="text-gray-600">Git, Vercel, Docker, Figma</span>
+            <span className="text-gray-600 text-right">Jest, Vitest, React Testing Library</span>
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-gray-900">IA</span>
+            <span className="text-gray-900 shrink-0">Outils</span>
             <span className="dot-leaders min-w-4 flex-1" />
-            <span className="text-gray-600">Vercel AI SDK, OpenAI, Claude</span>
+            <span className="text-gray-600 text-right">Git, GitHub, Vercel, Docker, Figma</span>
+          </div>
+          <div className="flex items-baseline gap-1">
+            <span className="text-gray-900 shrink-0">IA</span>
+            <span className="dot-leaders min-w-4 flex-1" />
+            <span className="text-gray-600 text-right">Vercel AI SDK, OpenAI, Claude, LangChain</span>
           </div>
         </div>
       </section>
 
-      {/* Section Photos */}
-      <section className="fade-up flex items-center justify-center gap-2 -mx-4 overflow-auto px-4 md:gap-6 [--animation-delay:500ms]">
-        {pictures.map((picture) => (
-          <div
-            className={`group aspect-[9/10] w-36 shrink-0 overflow-hidden rounded-lg bg-gray-100 sm:w-44 ${picture.rotate} relative transition-all duration-300`}
-            key={picture.id}
-          >
-            <Image
-              alt={picture.alt}
-              className="h-full w-full object-cover"
-              fill
-              loading="lazy"
-              placeholder="blur"
-              sizes="(max-width: 640px) 144px, 176px"
-              src={picture.src}
-            />
-          </div>
-        ))}
+      {/* Section Photos - déborde du container */}
+      <section className="fade-up w-screen relative left-1/2 -translate-x-1/2 [--animation-delay:500ms]">
+        <div className="flex items-center justify-start md:justify-center gap-3 md:gap-5 overflow-x-auto md:overflow-visible px-4 md:px-0 scrollbar-hide">
+          {pictures.map((picture) => (
+            <div
+              className={`group aspect-[9/10] w-36 sm:w-40 md:w-44 shrink-0 overflow-hidden rounded-lg bg-gray-100 ${picture.rotate} relative transition-all duration-300`}
+              key={picture.id}
+            >
+              <Image
+                alt={picture.alt}
+                className="h-full w-full object-cover"
+                fill
+                loading="lazy"
+                placeholder="blur"
+                sizes="(max-width: 640px) 144px, (max-width: 768px) 160px, 176px"
+                src={picture.src}
+              />
+            </div>
+          ))}
+        </div>
       </section>
     </main>
   );

@@ -55,31 +55,6 @@ Personne ne pouvait vraiment l'utiliser du coup, **comment faire ?**
 
 ## Les défis techniques ⚙️
 
-Voici un exemple de code TypeScript que j'ai dû écrire pour Prisma :
-
-```typescript
-// Exemple de schéma Prisma simplifié
-const user = await prisma.user.create({
-  data: {
-    email: "exemple@email.com",
-    name: "William",
-  },
-});
-```
-
-Et côté React, intégrer l'authentification :
-
-```tsx
-export function AuthButton() {
-  const { data: session } = useSession();
-
-  if (session) {
-    return <button onClick={() => signOut()}>Déconnexion</button>;
-  }
-  return <button onClick={() => signIn("google")}>Connexion</button>;
-}
-```
-
 Quelques questions que je me suis posées :
 
 - Il te faut de l'authentification ?
@@ -89,13 +64,6 @@ Quelques questions que je me suis posées :
 - Comment on gère le déploiement avec **Vercel** ?
 - Comment je connecte ma DB ?
 - Comment je mets une auth Google ?
-
-<Card
-  title="Prisma ORM"
-  desc="Next-generation Node.js and TypeScript ORM for PostgreSQL, MySQL, SQLite and more."
-  link="https://www.prisma.io/"
-  image="https://www.prisma.io/images/og-image.png"
-/>
 
 J'ai dû me renseigner, faire, j'ai pas mal utilisé l'IA, **un peu trop au début**. J'étais bloqué toutes les deux minutes, c'était frustrant.
 

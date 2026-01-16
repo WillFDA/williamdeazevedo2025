@@ -3,10 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import MotiviaOldUI from "./components/blog/motivia-old-ui";
 import { Card } from "./components/blog/card";
-import { codeToHtml, createCssVariablesTheme } from "shiki";
+import { codeToHtml } from "shiki";
 import { type ReactNode } from "react";
-
-const cssVariablesTheme = createCssVariablesTheme({});
 
 async function CodeBlock({
   children,
@@ -29,10 +27,15 @@ async function CodeBlock({
 
   const html = await codeToHtml(children.trim(), {
     lang,
-    theme: cssVariablesTheme,
+    theme: "github-dark-dimmed",
   });
 
-  return <code dangerouslySetInnerHTML={{ __html: html }} />;
+  // Extraire juste le contenu du code sans les balises pre/code de Shiki
+  const codeContent = html
+    .replace(/<pre[^>]*><code[^>]*>/, "")
+    .replace(/<\/code><\/pre>/, "");
+
+  return <code dangerouslySetInnerHTML={{ __html: codeContent }} />;
 }
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
@@ -96,7 +99,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     },
     // Block code (```lang)
     pre: ({ children }) => (
-      <pre className="my-6 overflow-x-auto rounded-lg bg-[#1a1a2e] p-4 text-sm max-w-2xl mx-auto [&>code]:bg-transparent [&>code]:p-0">
+      <pre className="my-6 overflow-x-auto rounded-lg bg-[#22272e] p-4 text-sm max-w-2xl mx-auto font-mono leading-relaxed [&>code]:bg-transparent [&>code]:p-0">
         {children}
       </pre>
     ),
