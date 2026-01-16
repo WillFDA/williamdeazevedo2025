@@ -6,9 +6,9 @@
     "dev": "bun --bun next dev",
     "build": "bun --bun next build",
     "start": "bun --bun next start",
-    "lint": "bunx ultracite lint",
-    "format": "bunx ultracite format --write",
-    "test": "bunx ultracite lint && next build",
+    "lint": "bunx ultracite check",
+    "format": "bunx ultracite fix",
+    "test": "bunx ultracite check && next build",
     "prepare": "husky"
   },
   "dependencies": {
@@ -26,6 +26,7 @@
     "next-mdx-remote": "^5.0.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "shiki": "^3.21.0",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {

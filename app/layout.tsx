@@ -1,13 +1,13 @@
-import { Instrument_Serif } from "next/font/google";
+import { Inter } from "next/font/google";
+import { ViewTransition } from "react";
 import Footer from "@/components/footer";
 import Navbar from "../components/navbar";
 import "./globals.css";
 import { Metadata } from "next";
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: "400",
   display: "swap",
 });
 
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
       "Développeur Front-end avec 2 ans d'expérience, spécialisé en React, Next.js et TypeScript. Découvrez mes projets et compétences.",
     images: [
       {
-        url: "/william-de-azevedo-og-image.jpg",
+        url: "/api/og?title=William De Azevedo | Développeur Front-end",
         width: 1200,
         height: 630,
         alt: "William De Azevedo - Développeur Front-end React & Next.js",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     title: "William De Azevedo | Développeur Front-end React & Next.js",
     description:
       "Développeur Front-end avec 2 ans d'expérience, spécialisé en React, Next.js et TypeScript.",
-    images: ["/william-de-azevedo-og-image.jpg"],
+    images: ["/api/og?title=William De Azevedo | Développeur Front-end"],
     creator: "@Williamdazevedo",
   },
   robots: {
@@ -79,9 +79,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "votre-code-google-search-console",
-  },
+  // verification: {
+  //   google: "VOTRE_CODE_GOOGLE_SEARCH_CONSOLE",
+  // },
 };
 
 export default function RootLayout({
@@ -130,10 +130,12 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${instrumentSerif.variable} flex min-h-screen flex-col overflow-x-hidden bg-white font-sans antialiased`}
+        className={`${inter.variable} flex min-h-screen flex-col overflow-x-hidden bg-white font-sans antialiased`}
       >
         <Navbar />
-        {children}
+        <ViewTransition name="page-transition">
+          {children}
+        </ViewTransition>
         <Footer />
       </body>
     </html>

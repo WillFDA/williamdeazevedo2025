@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { compileMDX } from "next-mdx-remote/rsc";
-import { useMDXComponents } from "@/mdx-components";
+import { ComponentType } from "react";
 
 const contentDirectory = path.join(process.cwd(), "content");
 
@@ -17,7 +16,22 @@ export interface PostMetadata {
 
 export interface Post {
   metadata: PostMetadata;
-  content: React.ReactElement;
+  content: ComponentType;
+}
+
+interface MDXModule {
+  metadata: Omit<PostMetadata, "slug">;
+  default: ComponentType;
+}
+
+async function importMDX(slug: string): Promise<MDXModule | null> {
+  try {
+    // Dynamic import of MDX files from content directory
+    const mdxModule = (await import(`@/content/${slug}.mdx`)) as MDXModule;
+    return mdxModule;
+  } catch {
+    return null;
+  }
 }
 
 export async function getAllPosts(): Promise<Post[]> {
@@ -50,39 +64,28 @@ export async function getAllPosts(): Promise<Post[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const filePath = path.join(contentDirectory, `${slug}.mdx`);
+  const mdxModule = await importMDX(slug);
 
-  try {
-    const fileContent = fs.readFileSync(filePath, "utf-8");
-    const components = useMDXComponents({});
-
-    const { frontmatter, content } = await compileMDX<
-      Omit<PostMetadata, "slug">
-    >({
-      source: fileContent,
-      options: { parseFrontmatter: true },
-      components,
-    });
-
-    const post = {
-      metadata: {
-        ...frontmatter,
-        slug,
-      },
-      content,
-    };
-
-    const isDev = process.env.NODE_ENV === "development";
-    if (!isDev) {
-      const isPublished = post.metadata.published;
-      const isReleased = new Date(post.metadata.date) <= new Date();
-      if (!isPublished || !isReleased) return null;
-    }
-
-    return post;
-  } catch {
+  if (!mdxModule) {
     return null;
   }
+
+  const post: Post = {
+    metadata: {
+      ...mdxModule.metadata,
+      slug,
+    },
+    content: mdxModule.default,
+  };
+
+  const isDev = process.env.NODE_ENV === "development";
+  if (!isDev) {
+    const isPublished = post.metadata.published;
+    const isReleased = new Date(post.metadata.date) <= new Date();
+    if (!isPublished || !isReleased) return null;
+  }
+
+  return post;
 }
 
 export function getAllPostSlugs() {

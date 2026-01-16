@@ -11,6 +11,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  transpilePackages: ["shiki"],
+  experimental: {
+    mdxRs: {
+      mdxType: "gfm",
+    },
+  },
 };
 
 const withMDX = createMDX({});
