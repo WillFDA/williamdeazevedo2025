@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import { ViewTransition } from "react";
 import Footer from "@/components/footer";
 import Navbar from "../components/navbar";
@@ -137,6 +138,13 @@ export default function RootLayout({
           {children}
         </ViewTransition>
         <Footer />
+        {process.env.NEXT_PUBLIC_BEAM_TOKEN && (
+          <Script
+            src="https://beamanalytics.b-cdn.net/beam.min.js"
+            data-token={process.env.NEXT_PUBLIC_BEAM_TOKEN}
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   );
