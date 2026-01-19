@@ -93,6 +93,13 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
+        {process.env.NEXT_PUBLIC_BEAM_TOKEN && (
+          <Script
+            src="https://beamanalytics.b-cdn.net/beam.min.js"
+            data-token={process.env.NEXT_PUBLIC_BEAM_TOKEN}
+            strategy="afterInteractive"
+          />
+        )}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -138,13 +145,6 @@ export default function RootLayout({
           {children}
         </ViewTransition>
         <Footer />
-        {process.env.NEXT_PUBLIC_BEAM_TOKEN && (
-          <Script
-            src="https://beamanalytics.b-cdn.net/beam.min.js"
-            data-token={process.env.NEXT_PUBLIC_BEAM_TOKEN}
-            strategy="afterInteractive"
-          />
-        )}
       </body>
     </html>
   );
