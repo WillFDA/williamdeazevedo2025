@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { pictures } from "@/data/picturesandicons";
+import { pictures, certifications } from "@/data/picturesandicons";
 import motivai from "@/public/motivai-logo.png";
 import william from "@/public/pictures/william-low.png";
 import { Metadata } from "next";
+import CertificationItem from "@/components/certification-item";
 
 export const metadata: Metadata = {
   title: "À propos",
@@ -190,8 +191,21 @@ export default function About() {
         </div>
       </section>
 
+      {/* Section Formations */}
+      <section className="fade-up flex flex-col gap-4 [--animation-delay:500ms]">
+        <h2 className="text-sm text-gray-400">Formations</h2>
+        <div className="flex flex-col gap-2 text-sm">
+          {certifications.map((certification) => (
+            <CertificationItem
+              key={certification.id}
+              certification={certification}
+            />
+          ))}
+        </div>
+      </section>
+
       {/* Section Photos - déborde du container */}
-      <section className="fade-up w-screen relative left-1/2 -translate-x-1/2 [--animation-delay:500ms]">
+      <section className="fade-up w-screen relative left-1/2 -translate-x-1/2 [--animation-delay:600ms]">
         <div className="flex items-center justify-start md:justify-center gap-3 md:gap-5 overflow-x-auto md:overflow-visible px-4 md:px-0 scrollbar-hide">
           {pictures.map((picture) => (
             <div

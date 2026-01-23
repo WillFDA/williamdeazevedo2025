@@ -17,6 +17,10 @@ import setupPicture from '@/public/pictures/desktop-opti.jpg';
 import gokuPicture from '@/public/pictures/goku-opti.jpg';
 import madeira from '@/public/pictures/madere-opti.jpg';
 import majorquePicture from '@/public/pictures/majorque-opti.jpg';
+// certifications
+import learnJsCertificate from '@/public/learn-js-jade.png';
+import ocDevCertificate from '@/public/oc-dev-jav-react-2025.png';
+import ocIntegCertificate from '@/public/oc-integ-web-2023.png';
 
 export type Pictures = {
   id: number;
@@ -60,6 +64,42 @@ export const pictures: Pictures[] = [
     src: setupPicture,
     alt: 'Setup 🖥️',
     rotate: 'rotate-2 md:block hidden fade-up [--animation-delay:1200ms]',
+  },
+];
+
+export type Certification = {
+  id: number;
+  name: string;
+  issuer: string;
+  year: string;
+  certificate: StaticImageData;
+  url?: string;
+};
+
+export const certifications: Certification[] = [
+  {
+    id: 1,
+    name: 'Learn JavaScript',
+    issuer: 'Jade Joubran',
+    year: '2024',
+    certificate: learnJsCertificate,
+    url: 'https://learnjavascript.online',
+  },
+  {
+    id: 2,
+    name: 'Developpeur integrateur web',
+    issuer: 'OpenClassrooms',
+    year: '2023',
+    certificate: ocIntegCertificate,
+    url: 'https://openclassrooms.com',
+  },
+  {
+    id: 3,
+    name: 'Developpeur concepteur logiciel',
+    issuer: 'OpenClassrooms',
+    year: '2025',
+    certificate: ocDevCertificate,
+    url: 'https://openclassrooms.com',
   },
 ];
 
