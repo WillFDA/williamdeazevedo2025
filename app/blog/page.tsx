@@ -38,13 +38,21 @@ export default async function Blog() {
 
   return (
     <div className="container mx-auto px-4 py-16 max-w-2xl">
-      <h1 className="fade-up mb-12 font-bold text-4xl [--animation-delay:200ms]">Blog</h1>
+      {/* Hero Section */}
+      <section className="fade-up mb-16 text-center [--animation-delay:200ms]">
+        <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl leading-tight mb-4">
+          "Enseigner, c'est apprendre deux fois"
+        </h1>
+        <p className="text-gray-500 text-sm">— Joseph Joubert</p>
+      </section>
+
+      <h2 className="fade-up mb-12 font-bold text-2xl [--animation-delay:300ms]">Articles</h2>
       <ul className="space-y-8">
         {posts.map((post, index) => (
           <li
             key={post.metadata.slug}
             className="fade-up"
-            style={{ "--animation-delay": `${300 + index * 100}ms` } as React.CSSProperties}
+            style={{ "--animation-delay": `${400 + index * 100}ms` } as React.CSSProperties}
           >
             <Link
               href={`/blog/${post.metadata.slug}`}
