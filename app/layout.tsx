@@ -54,7 +54,7 @@ export const metadata: Metadata = {
       "Développeur Front-end avec 2 ans d'expérience, spécialisé en React, Next.js et TypeScript. Découvrez mes projets et compétences.",
     images: [
       {
-        url: "/api/og?title=William De Azevedo | Développeur Front-end",
+        url: `https://williamdeazevedo.fr/api/og?title=${encodeURIComponent("William De Azevedo - Développeur Front-end")}`,
         width: 1200,
         height: 630,
         alt: "William De Azevedo - Développeur Front-end React & Next.js",
@@ -66,7 +66,9 @@ export const metadata: Metadata = {
     title: "William De Azevedo | Développeur Front-end React & Next.js",
     description:
       "Développeur Front-end avec 2 ans d'expérience, spécialisé en React, Next.js et TypeScript.",
-    images: ["/api/og?title=William De Azevedo | Développeur Front-end"],
+    images: [
+      `https://williamdeazevedo.fr/api/og?title=${encodeURIComponent("William De Azevedo - Développeur Front-end")}`,
+    ],
     creator: "@Williamdazevedo",
   },
   robots: {
@@ -101,8 +103,7 @@ export default function RootLayout({
               "@type": "Person",
               name: "William De Azevedo",
               url: "https://williamdeazevedo.fr",
-              image:
-                "https://williamdeazevedo.fr/william-de-azevedo-og-image.jpg",
+              image: `https://williamdeazevedo.fr/api/og?title=${encodeURIComponent("William De Azevedo - Développeur Front-end")}`,
               sameAs: [
                 "https://www.linkedin.com/in/william-de-azevedo/",
                 "https://github.com/WillFDA",
