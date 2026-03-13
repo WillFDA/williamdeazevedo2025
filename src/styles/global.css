@@ -2,4 +2,59 @@
 
 body {
     font-family: var(--geist-font);
+    color: var(--color-coffee-500);
+    background-color: var(--color-snow-500);
+}
+
+@theme {
+    --color-crayola-50: #ebf1ff;
+    --color-crayola-100: #c1d5ff;
+    --color-crayola-200: #a3c0ff;
+    --color-crayola-300: #79a4ff;
+    --color-crayola-400: #5f92ff;
+    --color-crayola-500: #3777ff;
+    --color-crayola-600: #326ce8;
+    --color-crayola-700: #2754b5;
+    --color-crayola-800: #1e418c;
+    --color-crayola-900: #17326b;
+    --color-lemon-50: #fcfeef;
+    --color-lemon-100: #f4fccc;
+    --color-lemon-200: #effab4;
+    --color-lemon-300: #e8f891;
+    --color-lemon-400: #e4f67c;
+    --color-lemon-500: #ddf45b;
+    --color-lemon-600: #c9de53;
+    --color-lemon-700: #9dad41;
+    --color-lemon-800: #7a8632;
+    --color-lemon-900: #5d6626;
+    --color-fuschia-50: #ffebf0;
+    --color-fuschia-100: #ffc0d0;
+    --color-fuschia-200: #ffa1b9;
+    --color-fuschia-300: #ff7698;
+    --color-fuschia-400: #ff5c85;
+    --color-fuschia-500: #ff3366;
+    --color-fuschia-600: #e82e5d;
+    --color-fuschia-700: #b52448;
+    --color-fuschia-800: #8c1c38;
+    --color-fuschia-900: #6b152b;
+    --color-snow-50: #ffffff;
+    --color-snow-100: #fffeff;
+    --color-snow-200: #fffeff;
+    --color-snow-300: #fffdff;
+    --color-snow-400: #fffdff;
+    --color-snow-500: #fffcff;
+    --color-snow-600: #e8e5e8;
+    --color-snow-700: #b5b3b5;
+    --color-snow-800: #8c8b8c;
+    --color-snow-900: #6b6a6b;
+    --color-coffee-50: #e8e7e8;
+    --color-coffee-100: #dcdbdd;
+    --color-coffee-200: #b7b6b8;
+    --color-coffee-300: #171219;
+    --color-coffee-400: #151017;
+    --color-coffee-500: #120e14;
+    --color-coffee-600: #110e13;
+    --color-coffee-700: #0e0b0f;
+    --color-coffee-800: #0a080b;
+    --color-coffee-900: #080609;
 }

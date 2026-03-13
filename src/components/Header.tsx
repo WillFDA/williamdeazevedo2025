@@ -11,7 +11,7 @@ export default function Header({ pathName }: { pathName: string }) {
     return (
       <motion.span
         layoutId="block-span"
-        className="absolute inset-0 bg-gray-100 rounded-full"
+        className="absolute inset-0 bg-snow-600 rounded-full"
       ></motion.span>
     );
   };
@@ -20,7 +20,7 @@ export default function Header({ pathName }: { pathName: string }) {
       <nav className="max-w-3xl mx-auto p-4">
         <ul className="flex gap-4 justify-center items-center">
           <MotionConfig
-            transition={{ type: "spring", bounce: 0.3, duration: 0.4 }}
+            transition={{ type: "spring", bounce: 0.25, duration: 0.4 }}
           >
             <li>
               <a className="relative z-10 px-5 py-3" href="/">
