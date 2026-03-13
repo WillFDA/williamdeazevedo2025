@@ -1,0 +1,61 @@
+---
+const { title } = Astro.props;
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header";
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+
+const anim = {
+    old: {
+        name: "viewtransition",
+        duration: "0.2s",
+        easing: "ease-in",
+        direction: "reverse",
+    },
+    new: {
+        name: "viewtransition",
+        duration: "0.2s",
+        easing: "ease-in-out",
+    },
+};
+
+const customTransition = {
+    forwards: anim,
+    backwards: anim,
+};
+---
+
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <link rel="sitemap" href="/sitemap-index.xml" />
+        <ClientRouter transition:animate="none" />
+        <title>{title}</title>
+    </head>
+    <body class="min-h-screen min-w-vw flex flex-col">
+        <Header client:load transition:persist pathName={Astro.url.pathname} />
+        <main
+            class="flex-1 max-w-3xl mx-auto flex flex-col"
+            transition:animate={customTransition}
+        >
+            <slot />
+        </main>
+        <Footer />
+    </body>
+</html>
+<style is:global>
+    @keyframes viewtransition {
+        from {
+            opacity: 0;
+            filter: blur(4px);
+        }
+        to {
+            opacity: 1;
+            filter: blur(0);
+        }
+    }
+</style>
