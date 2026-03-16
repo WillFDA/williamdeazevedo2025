@@ -2,23 +2,20 @@ import { useEffect, useState } from "react";
 import { MotionConfig, motion } from "motion/react";
 
 export default function Header({ pathName }: { pathName: string }) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
   const isActive = (path: string) => pathName === path;
 
   const blockSpan = () => {
     return (
       <motion.span
         layoutId="block-span"
-        className="absolute inset-0 bg-snow-600 rounded-full"
+        className="absolute inset-0 bg-gray-100 rounded-full"
       ></motion.span>
     );
   };
   return (
-    <header className="w-full p-4">
-      <nav className="max-w-3xl mx-auto p-4">
-        <ul className="flex gap-4 justify-center items-center">
+    <header className="w-full p-4 mb-12">
+      <nav className="max-w-5xl mx-auto p-4">
+        <ul className="flex gap-4 justify-center items-center font-light">
           <MotionConfig
             transition={{ type: "spring", bounce: 0.25, duration: 0.4 }}
           >

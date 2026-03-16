@@ -39,7 +39,7 @@ const customTransition = {
     <body class="min-h-screen min-w-vw flex flex-col">
         <Header client:load transition:persist pathName={Astro.url.pathname} />
         <main
-            class="flex-1 max-w-3xl mx-auto flex flex-col"
+            class="flex-1 max-w-5xl w-5xl mx-auto flex flex-col gap-8"
             transition:animate={customTransition}
         >
             <slot />

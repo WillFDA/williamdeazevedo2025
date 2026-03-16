@@ -1,5 +1,22 @@
 ---
 import Layout from "../layout/Layout.astro";
+import Link from "../components/Link.tsx";
+import Marquee from "../components/Marquee.tsx";
 ---
 
-<Layout> Je suis la page d'accueil zobi </Layout>
+<Layout>
+    <section class="flex flex-col gap-4">
+        <h1 class="text-4xl max-w-1/2 text-zinc-500">
+            Hello, moi c'est <span class="text-zinc-700">William</span>.<br />
+            Je suis Développeur Front-end avec un sens du <span
+                class="text-zinc-700">design</span
+            > et de <span class="text-zinc-700">l'animation</span>
+        </h1>
+        <p class="max-w-80 text-zinc-500 font-light">
+            Je construis des interfaces React soignées, animées et pensées dans
+            le détail.
+        </p>
+        <a class="font-light" href="#projects">Voir mes projets</a>
+    </section>
+    <Marquee client:load />
+</Layout>
