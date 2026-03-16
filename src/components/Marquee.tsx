@@ -1,5 +1,11 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 const icons = [
   { src: "/icons/figma-icon.svg", name: "Figma" },
@@ -28,16 +34,23 @@ function Slot({ iconIndex }: { iconIndex: number }) {
   return (
     <div className="flex items-center justify-center w-12 h-12">
       <AnimatePresence mode="wait">
-        <motion.img
-          key={iconIndex}
-          src={icon.src}
-          alt={icon.name}
-          className="h-8"
-          initial={{ opacity: 0, filter: "blur(8px)" }}
-          animate={{ opacity: 1, filter: "blur(0px)" }}
-          exit={{ opacity: 0, filter: "blur(8px)" }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
-        />
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <motion.img
+                key={iconIndex}
+                src={icon.src}
+                alt={icon.name}
+                className="h-8"
+                initial={{ opacity: 0, filter: "blur(8px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, filter: "blur(8px)" }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+              />
+            </TooltipTrigger>
+            <TooltipContent>{icon.name}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </AnimatePresence>
     </div>
   );
