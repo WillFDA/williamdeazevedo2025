@@ -22,13 +22,64 @@ import Carousel from "../components/Carousel.astro";
     <section id="projects">
         <Carousel>
             <div class="embla__slide">
-                <div class="bg-gray-100 rounded-md w-full h-full"></div>
+                <video
+                    width="100%"
+                    height="auto"
+                    muted
+                    playsinline
+                    autoplay
+                    loop
+                    preload="metadata"
+                    tabindex="-1"
+                    poster="motivai/motivai-landing.webp"
+                    aria-hidden="true"
+                    class="h-full w-full object-cover rounded-md"
+                >
+                    <source
+                        src="motivai/motivai-landing.mp4"
+                        type="video/mp4"
+                    />
+                </video>
             </div>
             <div class="embla__slide">
-                <div class="bg-red-100 rounded-md w-full h-full"></div>
+                <video
+                    width="100%"
+                    height="auto"
+                    muted
+                    playsinline
+                    autoplay
+                    loop
+                    preload="metadata"
+                    tabindex="-1"
+                    poster="motivai/motivai-onboarding.webp"
+                    aria-hidden="true"
+                    class="h-full w-full object-cover rounded-md"
+                >
+                    <source
+                        src="motivai/motivai-onboarding.mp4"
+                        type="video/mp4"
+                    />
+                </video>
             </div>
             <div class="embla__slide">
-                <div class="bg-blue-100 rounded-md w-full h-full"></div>
+                <video
+                    width="100%"
+                    height="auto"
+                    muted
+                    playsinline
+                    autoplay
+                    loop
+                    preload="metadata"
+                    tabindex="-1"
+                    poster="motivai/motivai-aichoose.webp"
+                    aria-hidden="true"
+                    class="h-full w-full object-cover rounded-md"
+                >
+                    <source
+                        src="motivai/motivai-aichoose.mp4"
+                        type="video/mp4"
+                    />
+                </video>
             </div>
         </Carousel>
     </section>

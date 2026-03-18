@@ -8,30 +8,73 @@
             <slot />
         </div>
     </div>
-
-    <button class="embla__prev">Scroll to prev</button>
-    <button class="embla__next">Scroll to next</button>
+    <div class="w-5xl flex gap-20 items-center justify-center mx-auto p-4">
+        <button class="embla__prev bg-zinc-100 p-2 rounded-full active:scale-95"
+            ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chevron-left-icon lucide-chevron-left"
+                ><path d="m15 18-6-6 6-6"></path></svg
+            ></button
+        >
+        <button class="embla__next bg-zinc-100 p-2 rounded-full active:scale-95"
+            ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chevron-right-icon lucide-chevron-right"
+                ><path d="m9 18 6-6-6-6"></path></svg
+            ></button
+        >
+    </div>
 </div>
 
 <script>
     import EmblaCarousel from "embla-carousel";
-    const wrapperNode = document.querySelector<HTMLElement>(".embla");
-    const viewportNode =
-        wrapperNode.querySelector<HTMLElement>(".embla__viewport");
-    const prevButtonNode = wrapperNode.querySelector(".embla__prev");
-    const nextButtonNode = wrapperNode.querySelector(".embla__next");
-    const emblaApi = EmblaCarousel(viewportNode, {
-        loop: false,
-        align: "center",
-    });
-    prevButtonNode.addEventListener(
-        "click",
-        () => emblaApi.scrollPrev(),
-        false,
-    );
-    nextButtonNode.addEventListener(
-        "click",
-        () => emblaApi.scrollNext(),
-        false,
-    );
+    function init() {
+        const wrapperNode = document.querySelector<HTMLElement>(".embla");
+        const viewportNode =
+            wrapperNode.querySelector<HTMLElement>(".embla__viewport");
+        const prevButtonNode = wrapperNode.querySelector(".embla__prev");
+        const nextButtonNode = wrapperNode.querySelector(".embla__next");
+
+        const videos = wrapperNode.querySelectorAll<HTMLVideoElement>("video");
+
+        const emblaApi = EmblaCarousel(viewportNode, {
+            loop: true,
+            align: "center",
+        });
+
+        function updateVideos() {
+            const activeIndex = emblaApi.selectedScrollSnap();
+            videos.forEach((video, i) => {
+                if (i === activeIndex) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+        }
+
+        emblaApi.on("select", updateVideos);
+        emblaApi.on("settle", updateVideos);
+        updateVideos();
+
+        prevButtonNode.addEventListener("click", () => emblaApi.scrollPrev());
+        nextButtonNode.addEventListener("click", () => emblaApi.scrollNext());
+    }
+    document.addEventListener("astro:page-load", init);
 </script>

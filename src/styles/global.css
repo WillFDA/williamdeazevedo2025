@@ -191,6 +191,7 @@ body {
     scrollbar-width: thin;
     scrollbar-color: #888 transparent;
     scrollbar-gutter: stable;
+    box-sizing: border-box;
 }
 
 .embla__viewport {
@@ -199,19 +200,30 @@ body {
 
 .embla {
     --slide-spacing: 32px;
-    --slide-size: calc(64rem + var(--slide-spacing) * 2);
+    --slide-size: calc(64rem);
     overflow: hidden;
 }
 
 .embla__container {
     display: flex;
     touch-action: pan-y;
-    margin-left: calc(var(--slide-spacing) * -1); /* Renders -10px */
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .embla__slide {
-    flex: 0 0 var(--slide-size);
+    flex: 0 0 calc(var(--slide-size) + var(--slide-spacing));
     min-width: 0;
     padding-left: var(--slide-spacing);
     aspect-ratio: var(--aspect-video);
+    transform: translateZ(0);
+}
+
+.embla__slide video {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+button {
+    cursor: pointer;
 }
