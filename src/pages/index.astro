@@ -1,11 +1,11 @@
 ---
 import Layout from "../layout/Layout.astro";
-import Link from "../components/Link.tsx";
 import Marquee from "../components/Marquee.tsx";
+import Carousel from "../components/Carousel.astro";
 ---
 
 <Layout>
-    <section class="flex flex-col gap-4">
+    <section class="flex flex-col gap-4 max-w-5xl w-5xl mx-auto">
         <h1 class="text-4xl max-w-1/2 text-zinc-500">
             Hello, moi c'est <span class="text-zinc-700">William</span>.<br />
             Je suis Développeur Front-end avec un sens du <span
@@ -20,6 +20,16 @@ import Marquee from "../components/Marquee.tsx";
     </section>
     <Marquee client:load />
     <section id="projects">
-        <div class="w-5xl aspect-video bg-gray-100 rounded-md"></div>
+        <Carousel>
+            <div class="embla__slide">
+                <div class="bg-gray-100 rounded-md w-full h-full"></div>
+            </div>
+            <div class="embla__slide">
+                <div class="bg-red-100 rounded-md w-full h-full"></div>
+            </div>
+            <div class="embla__slide">
+                <div class="bg-blue-100 rounded-md w-full h-full"></div>
+            </div>
+        </Carousel>
     </section>
 </Layout>

@@ -97,7 +97,7 @@ export default function Marquee() {
   }, []);
 
   return (
-    <section className="flex items-center justify-between my-8">
+    <section className="flex items-center justify-between my-8 max-w-5xl w-5xl mx-auto">
       {indices.map((iconIndex, slot) => (
         <Slot key={slot} iconIndex={iconIndex} />
       ))}

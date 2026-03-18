@@ -186,3 +186,32 @@ body {
         @apply font-sans;
     }
 }
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+    scrollbar-gutter: stable;
+}
+
+.embla__viewport {
+    overflow: visible;
+}
+
+.embla {
+    --slide-spacing: 32px;
+    --slide-size: calc(64rem + var(--slide-spacing) * 2);
+    overflow: hidden;
+}
+
+.embla__container {
+    display: flex;
+    touch-action: pan-y;
+    margin-left: calc(var(--slide-spacing) * -1); /* Renders -10px */
+}
+
+.embla__slide {
+    flex: 0 0 var(--slide-size);
+    min-width: 0;
+    padding-left: var(--slide-spacing);
+    aspect-ratio: var(--aspect-video);
+}

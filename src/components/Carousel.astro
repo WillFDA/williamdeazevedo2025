@@ -1,0 +1,37 @@
+---
+
+---
+
+<div class="embla">
+    <div class="embla__viewport">
+        <div class="embla__container">
+            <slot />
+        </div>
+    </div>
+
+    <button class="embla__prev">Scroll to prev</button>
+    <button class="embla__next">Scroll to next</button>
+</div>
+
+<script>
+    import EmblaCarousel from "embla-carousel";
+    const wrapperNode = document.querySelector<HTMLElement>(".embla");
+    const viewportNode =
+        wrapperNode.querySelector<HTMLElement>(".embla__viewport");
+    const prevButtonNode = wrapperNode.querySelector(".embla__prev");
+    const nextButtonNode = wrapperNode.querySelector(".embla__next");
+    const emblaApi = EmblaCarousel(viewportNode, {
+        loop: false,
+        align: "center",
+    });
+    prevButtonNode.addEventListener(
+        "click",
+        () => emblaApi.scrollPrev(),
+        false,
+    );
+    nextButtonNode.addEventListener(
+        "click",
+        () => emblaApi.scrollNext(),
+        false,
+    );
+</script>
