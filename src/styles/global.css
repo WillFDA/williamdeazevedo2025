@@ -196,6 +196,12 @@ body {
 
 .embla__viewport {
     overflow: visible;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.embla__viewport.is-ready {
+    opacity: 1;
 }
 
 .embla {

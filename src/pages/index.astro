@@ -2,15 +2,17 @@
 import Layout from "../layout/Layout.astro";
 import Marquee from "../components/Marquee.tsx";
 import Carousel from "../components/Carousel.astro";
+import { Link2 } from "lucide-react";
 ---
 
 <Layout>
     <section class="flex flex-col gap-4 max-w-5xl w-5xl mx-auto">
-        <h1 class="text-4xl max-w-1/2 text-zinc-500">
-            Hello, moi c'est <span class="text-zinc-700">William</span>.<br />
-            Je suis Développeur Front-end avec un sens du <span
-                class="text-zinc-700">design</span
-            > et de <span class="text-zinc-700">l'animation</span>
+        <h1
+            class="text-4xl max-w-1/2 text-zinc-500 [&_span]:text-zinc-700 [&_span]:font-medium"
+        >
+            Hello, moi c'est <span>William</span>.<br />
+            Je suis Développeur Front-end avec un sens du <span>design</span> et de
+            <span>l'animation</span>
         </h1>
         <p class="max-w-80 text-zinc-500 font-light">
             Je construis des interfaces React soignées, animées et pensées dans
@@ -19,7 +21,30 @@ import Carousel from "../components/Carousel.astro";
         <a class="font-light" href="#projects">Voir mes projets</a>
     </section>
     <Marquee client:load />
-    <section id="projects">
+    <section id="projects" class="mb-40">
+        <div class="flex flex-col gap-4 max-w-5xl mx-auto pb-10">
+            <a
+                target="_blank"
+                href="https://www.motivai.fr/"
+                class="flex items-center gap-4 w-fit"
+            >
+                <h2 class="text-3xl text-zinc-700 font-medium">Motivai</h2>
+                <Link2 size={20} className="text-zinc-500 mt-1" />
+            </a>
+            <p
+                class="text-zinc-500 font-light text-base [&_span]:text-zinc-700 [&_span]:font-normal"
+            >
+                SaaS de génération de lettres de motivation par IA, développé en
+                solo depuis 2024. J'ai conçu l'architecture complète avec
+                <span>Next.js</span>, <span>Drizzle ORM</span> et <span
+                    >Better Auth</span
+                >. L'intégration du <span>Vercel AI SDK</span> permet aux utilisateurs
+                de choisir leur modèle d'IA. Un projet formateur sur les défis d'un
+                produit complet : CI/CD, environnements multiples et déploiements
+                versionnés.
+            </p>
+        </div>
+
         <Carousel>
             <div class="embla__slide">
                 <video
@@ -82,5 +107,54 @@ import Carousel from "../components/Carousel.astro";
                 </video>
             </div>
         </Carousel>
+    </section>
+    <section
+        class="max-w-5xl flex justify-between w-5xl mx-auto flex-col gap-4"
+    >
+        <h2 class="text-zinc-700 font-medium text-2xl">
+            Ce qui me différencie
+        </h2>
+        <p class="text-zinc-500 font-light [&_strong]:font-medium max-w-2xl">
+            En 2026, un développeur ne fait pas que produire du code. Il
+            imagine, structure et donne forme aux idées. Je me situe entre
+            <strong>l’architecture</strong>, <strong>le design</strong> et <strong
+                >l’intégration</strong
+            >
+        </p>
+        <div class="flex justify-between gap-4 my-20">
+            <div class="flex flex-col gap-4">
+                <div class="size-10 rounded-full bg-zinc-100"></div>
+                <h3 class="text-zinc-700 font-medium text-2xl">
+                    Développement Front-end
+                </h3>
+                <p class="text-zinc-500 font-light">
+                    React / Next.js Applications<br /> Composants réutilisables<br
+                    />
+                    Architecture & State Management<br /> Intégration API & Auth<br
+                    />
+                    Optimisation des performances
+                </p>
+            </div>
+            <div class="flex flex-col gap-4">
+                <div class="size-10 rounded-full bg-zinc-100"></div>
+                <h3 class="text-zinc-700 font-medium text-2xl">UI & Motion</h3>
+                <p class="text-zinc-500 font-light">
+                    Intégration pixel-perfect <br />
+                    Animations & micro-interactions<br />
+                    Design System & Tokens<br />
+                    Responsive & Accessibilité
+                </p>
+            </div>
+            <div class="flex flex-col gap-4">
+                <div class="size-10 rounded-full bg-zinc-100"></div>
+                <h3 class="text-zinc-700 font-medium text-2xl">IA & Produit</h3>
+                <p class="text-zinc-500 font-light">
+                    Intégration Vercel AI SDK <br />
+                    Streaming & multi-modèles <br />
+                    MVP & POC rapides <br />
+                    Prompt engineering
+                </p>
+            </div>
+        </div>
     </section>
 </Layout>
