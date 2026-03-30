@@ -5,6 +5,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
+* {
+    box-sizing: border-box;
+}
 body {
     font-family: var(--geist-font);
     color: var(--color-coffee-500);
