@@ -6,6 +6,8 @@ import { Link2 } from "lucide-react";
 import Layers from "../components/icons/Layers.tsx";
 import Sparkles from "../components/icons/Sparkles.tsx";
 import RulerPen from "../components/icons/RulerPen.tsx";
+import Folder from "../components/icons/Folder.tsx";
+import AnimatedButton from "../components/ui/animated-button.tsx";
 ---
 
 <Layout>
@@ -127,9 +129,11 @@ import RulerPen from "../components/icons/RulerPen.tsx";
                     >l’intégration</strong
                 >
             </p>
-            <div class="my-10 flex flex-col gap-4 md:flex-row md:justify-between">
+            <div
+                class="my-10 flex flex-col gap-4 md:flex-row md:justify-between"
+            >
                 <div
-                    class="group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-2 md:w-3/10"
+                    class="group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-zinc-400 md:w-3/10"
                 >
                     <img
                         src="/gradient-1.png"
@@ -140,12 +144,18 @@ import RulerPen from "../components/icons/RulerPen.tsx";
                     <div
                         class="z-10 relative flex h-full flex-col gap-4 p-5 py-8 md:p-6 md:py-10"
                     >
-                        <RulerPen className="mb-3 size-7 text-zinc-700 md:mb-4 md:size-8" />
-                        <h3 class="text-xl font-medium text-zinc-700 md:text-2xl">
+                        <RulerPen
+                            className="mb-3 size-7 text-zinc-700 md:mb-4 md:size-8"
+                        />
+                        <h3
+                            class="text-xl font-medium text-zinc-700 md:text-2xl"
+                        >
                             Front-end
                         </h3>
                         <div class="flex h-full flex-col justify-between gap-8">
-                            <div class="flex flex-col gap-2 text-sm md:text-base">
+                            <div
+                                class="flex flex-col gap-2 text-sm md:text-base"
+                            >
                                 <span
                                     class="text-zinc-700 font-light mix-blend-multiply"
                                     >Composants réutilisables</span
@@ -167,16 +177,19 @@ import RulerPen from "../components/icons/RulerPen.tsx";
                                     >Optimisation</span
                                 >
                             </div>
-                            <button
-                                class="w-full bg-zinc-700 text-zinc-100 font-light py-2 px-4 rounded-md shadow inset-shadow-2xs inset-shadow-zinc-100/30 hover:bg-zinc-800 transition-all duration-150 text-shadow-2xs ease hover:shadow-xl"
+                            <AnimatedButton
+                                client:visible
+                                text="Voir mes projets"
                             >
-                                Voir mes projets
-                            </button>
+                                <Folder
+                                    className="size-4 col-start-6 col-end-9"
+                                />
+                            </AnimatedButton>
                         </div>
                     </div>
                 </div>
                 <div
-                    class="group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-2 md:w-3/10"
+                    class="group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-zinc-400 md:w-3/10"
                 >
                     <img
                         src="/gradient-1.png"
@@ -187,12 +200,18 @@ import RulerPen from "../components/icons/RulerPen.tsx";
                     <div
                         class="z-10 relative flex h-full flex-col gap-4 p-5 py-8 md:p-6 md:py-10"
                     >
-                        <Layers className="mb-3 size-7 text-zinc-700 md:mb-4 md:size-8" />
-                        <h3 class="text-xl font-medium text-zinc-700 md:text-2xl">
+                        <Layers
+                            className="mb-3 size-7 text-zinc-700 md:mb-4 md:size-8"
+                        />
+                        <h3
+                            class="text-xl font-medium text-zinc-700 md:text-2xl"
+                        >
                             UI & Motion
                         </h3>
                         <div class="flex h-full flex-col justify-between gap-8">
-                            <div class="flex flex-col gap-2 text-sm md:text-base">
+                            <div
+                                class="flex flex-col gap-2 text-sm md:text-base"
+                            >
                                 <span
                                     class="text-zinc-700 font-light mix-blend-multiply"
                                     >Intégration pixel-perfect</span
@@ -223,7 +242,7 @@ import RulerPen from "../components/icons/RulerPen.tsx";
                     </div>
                 </div>
                 <div
-                    class="group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-2 md:w-3/10"
+                    class="hover:shadow-inner-xl shadow-inner-zinc-100 group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-zinc-400 md:w-3/10"
                 >
                     <img
                         src="/gradient-1.png"
@@ -239,12 +258,18 @@ import RulerPen from "../components/icons/RulerPen.tsx";
                     <div
                         class="z-10 relative flex h-full flex-col gap-4 p-5 py-8 md:p-6 md:py-10"
                     >
-                        <Sparkles className="mb-3 size-7 text-zinc-700 md:mb-4 md:size-8" />
-                        <h3 class="text-xl font-medium text-zinc-700 md:text-2xl">
+                        <Sparkles
+                            className="mb-3 size-7 text-zinc-700 md:mb-4 md:size-8"
+                        />
+                        <h3
+                            class="text-xl font-medium text-zinc-700 md:text-2xl"
+                        >
                             IA & Produit
                         </h3>
                         <div class="flex h-full flex-col justify-between gap-8">
-                            <div class="flex flex-col gap-2 text-sm md:text-base">
+                            <div
+                                class="flex flex-col gap-2 text-sm md:text-base"
+                            >
                                 <span
                                     class="text-zinc-700 font-light mix-blend-multiply"
                                     >Vercel AI SDK</span
