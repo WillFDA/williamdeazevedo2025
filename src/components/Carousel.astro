@@ -48,39 +48,72 @@
 
 <script>
     import EmblaCarousel from "embla-carousel";
+
     function init() {
         const wrapperNode = document.querySelector<HTMLElement>(".embla");
+        if (!wrapperNode || wrapperNode.dataset.initialized === "true") return;
+
         const viewportNode =
             wrapperNode.querySelector<HTMLElement>(".embla__viewport");
         const prevButtonNode = wrapperNode.querySelector(".embla__prev");
         const nextButtonNode = wrapperNode.querySelector(".embla__next");
 
+        if (!viewportNode || !prevButtonNode || !nextButtonNode) return;
+
         const videos = wrapperNode.querySelectorAll<HTMLVideoElement>("video");
 
-        const emblaApi = EmblaCarousel(viewportNode, {
-            loop: true,
-            align: "center",
-        });
+        wrapperNode.dataset.initialized = "true";
 
-        function updateVideos() {
-            const activeIndex = emblaApi.selectedScrollSnap();
-            videos.forEach((video, i) => {
-                if (i === activeIndex) {
-                    video.play();
-                } else {
-                    video.pause();
-                }
+        const startCarousel = () => {
+            const emblaApi = EmblaCarousel(viewportNode, {
+                loop: true,
+                align: "center",
             });
-        }
 
-        emblaApi.on("select", updateVideos);
-        emblaApi.on("settle", updateVideos);
-        updateVideos();
+            function updateVideos() {
+                const activeIndex = emblaApi.selectedScrollSnap();
 
-        emblaApi.on("init", () => viewportNode.classList.add("is-ready"));
+                videos.forEach((video, i) => {
+                    const isActive = i === activeIndex;
+                    const nextPreload = isActive ? "metadata" : "none";
 
-        prevButtonNode.addEventListener("click", () => emblaApi.scrollPrev());
-        nextButtonNode.addEventListener("click", () => emblaApi.scrollNext());
+                    if (video.preload !== nextPreload) {
+                        video.preload = nextPreload;
+                        video.load();
+                    }
+
+                    if (isActive) {
+                        void video.play().catch(() => {});
+                        return;
+                    }
+
+                    video.pause();
+                    video.currentTime = 0;
+                });
+            }
+
+            emblaApi.on("select", updateVideos);
+            emblaApi.on("settle", updateVideos);
+            updateVideos();
+
+            emblaApi.on("init", () => viewportNode.classList.add("is-ready"));
+
+            prevButtonNode.addEventListener("click", () => emblaApi.scrollPrev());
+            nextButtonNode.addEventListener("click", () => emblaApi.scrollNext());
+        };
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (!entries[0]?.isIntersecting) return;
+
+                observer.disconnect();
+                startCarousel();
+            },
+            { rootMargin: "200px 0px" },
+        );
+
+        observer.observe(wrapperNode);
     }
+
     document.addEventListener("astro:page-load", init);
 </script>
