@@ -2,12 +2,16 @@
 import Layout from "../layout/Layout.astro";
 import Marquee from "../components/Marquee.tsx";
 import Carousel from "../components/Carousel.astro";
-import { Link2 } from "lucide-react";
+
 import Layers from "../components/icons/Layers.tsx";
 import Sparkles from "../components/icons/Sparkles.tsx";
 import RulerPen from "../components/icons/RulerPen.tsx";
 import Folder from "../components/icons/Folder.tsx";
 import AnimatedButton from "../components/ui/animated-button.tsx";
+import BoxFile from "../components/icons/BoxFile.tsx";
+import Envelope from "../components/icons/Envelope.tsx";
+import Link from "../components/icons/Link.tsx";
+import Differenciates from "@/sections/Differenciates.astro";
 ---
 
 <Layout>
@@ -34,7 +38,7 @@ import AnimatedButton from "../components/ui/animated-button.tsx";
                 class="flex items-center gap-4 w-fit"
             >
                 <h2 class="text-3xl text-zinc-700 font-medium">Motivai</h2>
-                <Link2 size={20} className="text-zinc-500 mt-1" />
+                <Link className="size-5 text-zinc-500" />
             </a>
             <p
                 class="text-zinc-500 font-light text-base [&_span]:text-zinc-700 [&_span]:font-normal"
@@ -113,189 +117,5 @@ import AnimatedButton from "../components/ui/animated-button.tsx";
             </div>
         </Carousel>
     </section>
-    <section class="bg-zinc-50 py-10">
-        <div
-            class="max-w-5xl flex justify-between w-5xl mx-auto flex-col gap-4"
-        >
-            <h2 class="text-zinc-700 font-medium text-2xl">
-                Ce qui me différencie
-            </h2>
-            <p
-                class="text-zinc-500 font-light [&_strong]:font-medium max-w-2xl"
-            >
-                En 2026, un développeur ne fait pas que produire du code. Il
-                imagine, structure et donne forme aux idées. Je me situe entre
-                <strong>l’architecture</strong>, <strong>le design</strong> et <strong
-                    >l’intégration</strong
-                >
-            </p>
-            <div
-                class="my-10 flex flex-col gap-4 md:flex-row md:justify-between"
-            >
-                <div
-                    class="group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-zinc-400 md:w-3/10"
-                >
-                    <img
-                        src="/gradient-1.png"
-                        alt="Gradient Random"
-                        class="absolute -right-8 -top-16 h-fit w-82 max-w-none translate-x-6 -translate-y-8 opacity-30 blur-xl saturate-150 hue-rotate-[190deg] transition-all duration-500 ease group-hover:translate-x-2 group-hover:-translate-y-1 group-hover:opacity-70"
-                    />
-
-                    <div
-                        class="z-10 relative flex h-full flex-col gap-4 p-5 py-8 md:p-6 md:py-10"
-                    >
-                        <RulerPen
-                            className="mb-3 size-7 text-zinc-700 md:mb-4 md:size-8"
-                        />
-                        <h3
-                            class="text-xl font-medium text-zinc-700 md:text-2xl"
-                        >
-                            Front-end
-                        </h3>
-                        <div class="flex h-full flex-col justify-between gap-8">
-                            <div
-                                class="flex flex-col gap-2 text-sm md:text-base"
-                            >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >Composants réutilisables</span
-                                >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >Architecture</span
-                                >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >State Management</span
-                                >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >Intégration API & Auth</span
-                                >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >Optimisation</span
-                                >
-                            </div>
-                            <AnimatedButton
-                                client:visible
-                                text="Voir mes projets"
-                            >
-                                <Folder
-                                    className="size-4 col-start-6 col-end-9"
-                                />
-                            </AnimatedButton>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-zinc-400 md:w-3/10"
-                >
-                    <img
-                        src="/gradient-1.png"
-                        alt="Gradient Random"
-                        class="absolute -left-4 -top-12 h-fit w-82 max-w-none -translate-y-10 opacity-30 blur-xl saturate-150 hue-rotate-[35deg] transition-all duration-500 ease group-hover:translate-y-0 group-hover:opacity-70"
-                    />
-
-                    <div
-                        class="z-10 relative flex h-full flex-col gap-4 p-5 py-8 md:p-6 md:py-10"
-                    >
-                        <Layers
-                            className="mb-3 size-7 text-zinc-700 md:mb-4 md:size-8"
-                        />
-                        <h3
-                            class="text-xl font-medium text-zinc-700 md:text-2xl"
-                        >
-                            UI & Motion
-                        </h3>
-                        <div class="flex h-full flex-col justify-between gap-8">
-                            <div
-                                class="flex flex-col gap-2 text-sm md:text-base"
-                            >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >Intégration pixel-perfect</span
-                                >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >Animations</span
-                                >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >Micro-interactions</span
-                                >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >Design System & Tokens</span
-                                >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >Responsive & Accessibilité</span
-                                >
-                            </div>
-                            <button
-                                class="w-full bg-zinc-700 text-zinc-100 font-light py-2 px-4 rounded-md shadow inset-shadow-2xs inset-shadow-zinc-100/30 hover:bg-zinc-800 transition-all duration-150 text-shadow-2xs ease hover:shadow-xl"
-                            >
-                                Voir ma grotte
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="hover:shadow-inner-xl shadow-inner-zinc-100 group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-zinc-400 md:w-3/10"
-                >
-                    <img
-                        src="/gradient-1.png"
-                        alt="Gradient Random"
-                        class="absolute -right-6 -top-20 h-fit w-72 max-w-none translate-x-4 -translate-y-6 opacity-15 blur-xl saturate-125 hue-rotate-[110deg] transition-all duration-500 ease group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:opacity-30"
-                    />
-                    <img
-                        src="/gradient-1.png"
-                        alt="Gradient Random"
-                        class="absolute -bottom-20 left-1/2 h-fit w-82 max-w-none -translate-x-1/2 translate-y-16 opacity-30 blur-xl saturate-150 hue-rotate-[110deg] transition-all duration-500 ease group-hover:-translate-x-1/2 group-hover:translate-y-0 group-hover:opacity-70"
-                    />
-
-                    <div
-                        class="z-10 relative flex h-full flex-col gap-4 p-5 py-8 md:p-6 md:py-10"
-                    >
-                        <Sparkles
-                            className="mb-3 size-7 text-zinc-700 md:mb-4 md:size-8"
-                        />
-                        <h3
-                            class="text-xl font-medium text-zinc-700 md:text-2xl"
-                        >
-                            IA & Produit
-                        </h3>
-                        <div class="flex h-full flex-col justify-between gap-8">
-                            <div
-                                class="flex flex-col gap-2 text-sm md:text-base"
-                            >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >Vercel AI SDK</span
-                                >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >Streaming & multi-modèles</span
-                                >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >MVP & POC rapides</span
-                                >
-                                <span
-                                    class="text-zinc-700 font-light mix-blend-multiply"
-                                    >Prompt engineering</span
-                                >
-                            </div>
-                            <button
-                                class="w-full bg-zinc-700 text-zinc-100 font-light py-2 px-4 rounded-md shadow inset-shadow-2xs inset-shadow-zinc-100/30 hover:bg-zinc-800 transition-all duration-150 text-shadow-2xs ease hover:shadow-xl"
-                            >
-                                Me contacter
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <Differenciates />
 </Layout>

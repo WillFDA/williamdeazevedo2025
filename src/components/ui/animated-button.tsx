@@ -2,8 +2,9 @@ import { motion } from "motion/react";
 
 const transition = {
   type: "spring",
-  stiffness: 450,
-  damping: 40,
+  stiffness: 320,
+  damping: 26,
+  mass: 0.8,
 } as const;
 
 const firstRowVariants = {
@@ -55,7 +56,7 @@ const AnimatedButton = ({
                         variants={firstRowVariants}
                         transition={{
                           ...transition,
-                          delay: (wordsBeforeChar + charIndex) * 0.02,
+                          delay: (wordsBeforeChar + charIndex) * 0.012,
                         }}
                         key={charIndex}
                       >
@@ -70,7 +71,7 @@ const AnimatedButton = ({
           <motion.div
             transition={{
               ...transition,
-              delay: (text.length + 1) * 0.02,
+              delay: (text.length + 1) * 0.012,
             }}
             variants={firstRowVariants}
           >
@@ -92,7 +93,7 @@ const AnimatedButton = ({
                       variants={secondRowVariants}
                       transition={{
                         ...transition,
-                        delay: (wordsBeforeChar + charIndex) * 0.02,
+                        delay: (wordsBeforeChar + charIndex) * 0.012,
                       }}
                       key={charIndex}
                     >
@@ -106,7 +107,7 @@ const AnimatedButton = ({
           <motion.div
             transition={{
               ...transition,
-              delay: (text.length + 1) * 0.02,
+              delay: (text.length + 1) * 0.012,
             }}
             variants={secondRowVariants}
           >
