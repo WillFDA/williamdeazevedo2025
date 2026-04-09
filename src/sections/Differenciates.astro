@@ -1,11 +1,13 @@
 ---
+import { Image } from "astro:assets";
 import RulerPen from "../components/icons/RulerPen.tsx";
-import AnimatedButton from "../components/ui/animated-button";
+import WaveAnimatedComponent from "../components/ui/wave-animated-component.tsx";
 import Folder from "../components/icons/Folder.tsx";
 import Layers from "../components/icons/Layers.tsx";
 import BoxFile from "../components/icons/BoxFile.tsx";
 import Sparkles from "../components/icons/Sparkles.tsx";
 import Envelope from "../components/icons/Envelope.tsx";
+import gradient1 from "../assets/gradient-1.png";
 ---
 
 <section class="bg-zinc-50 py-10">
@@ -24,11 +26,12 @@ import Envelope from "../components/icons/Envelope.tsx";
             <div
                 class="group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-zinc-400 md:w-3/10"
             >
-                <img
-                    src="/gradient-1.png"
-                    alt="Gradient Random"
+                <Image
+                    src={gradient1}
+                    alt=""
                     loading="lazy"
                     decoding="async"
+                    quality={70}
                     class="absolute -right-8 -top-16 h-fit w-82 max-w-none translate-x-6 -translate-y-8 opacity-30 blur-xl saturate-150 hue-rotate-190 transition-all duration-500 ease group-hover:translate-x-2 group-hover:-translate-y-1 group-hover:opacity-70"
                 />
 
@@ -64,20 +67,21 @@ import Envelope from "../components/icons/Envelope.tsx";
                                 >Optimisation</span
                             >
                         </div>
-                        <AnimatedButton client:visible text="Voir mes projets">
+                        <WaveAnimatedComponent client:visible text="Voir mes projets">
                             <Folder className="size-4 col-start-6 col-end-9" />
-                        </AnimatedButton>
+                        </WaveAnimatedComponent>
                     </div>
                 </div>
             </div>
             <div
                 class="group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-zinc-400 md:w-3/10"
             >
-                <img
-                    src="/gradient-1.png"
-                    alt="Gradient Random"
+                <Image
+                    src={gradient1}
+                    alt=""
                     loading="lazy"
                     decoding="async"
+                    quality={70}
                     class="absolute -left-4 -top-12 h-fit w-82 max-w-none -translate-y-10 opacity-30 blur-xl saturate-150 hue-rotate-35 transition-all duration-500 ease group-hover:translate-y-0 group-hover:opacity-70"
                 />
 
@@ -113,27 +117,29 @@ import Envelope from "../components/icons/Envelope.tsx";
                                 >Responsive & Accessibilité</span
                             >
                         </div>
-                        <AnimatedButton client:visible text="Voir ma grotte">
+                        <WaveAnimatedComponent client:visible text="Voir ma grotte">
                             <BoxFile className="size-4 col-start-6 col-end-9" />
-                        </AnimatedButton>
+                        </WaveAnimatedComponent>
                     </div>
                 </div>
             </div>
             <div
                 class="hover:shadow-inner-xl shadow-inner-zinc-100 group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-zinc-400 md:w-3/10"
             >
-                <img
-                    src="/gradient-1.png"
-                    alt="Gradient Random"
+                <Image
+                    src={gradient1}
+                    alt=""
                     loading="lazy"
                     decoding="async"
+                    quality={70}
                     class="absolute -right-6 -top-20 h-fit w-72 max-w-none translate-x-4 -translate-y-6 opacity-15 blur-xl saturate-125 hue-rotate-110 transition-all duration-500 ease group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:opacity-30"
                 />
-                <img
-                    src="/gradient-1.png"
-                    alt="Gradient Random"
+                <Image
+                    src={gradient1}
+                    alt=""
                     loading="lazy"
                     decoding="async"
+                    quality={70}
                     class="absolute -bottom-20 left-1/2 h-fit w-82 max-w-none -translate-x-1/2 translate-y-16 opacity-30 blur-xl saturate-150 hue-rotate-110 transition-all duration-500 ease group-hover:-translate-x-1/2 group-hover:translate-y-0 group-hover:opacity-70"
                 />
 
@@ -165,11 +171,11 @@ import Envelope from "../components/icons/Envelope.tsx";
                                 >Prompt engineering</span
                             >
                         </div>
-                        <AnimatedButton client:visible text="Me contacter">
+                        <WaveAnimatedComponent client:visible text="Me contacter">
                             <Envelope
                                 className="size-4 col-start-6 col-end-9"
                             />
-                        </AnimatedButton>
+                        </WaveAnimatedComponent>
                     </div>
                 </div>
             </div>

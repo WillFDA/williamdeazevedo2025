@@ -1,4 +1,5 @@
-import { motion } from "motion/react";
+import type { ElementType, ReactNode } from "react";
+import { motion, type HTMLMotionProps } from "motion/react";
 
 const transition = {
   type: "spring",
@@ -25,19 +26,40 @@ const secondRowVariants = {
   },
 };
 
-const AnimatedButton = ({
-  children,
-  text,
-}: {
-  children: React.ReactNode;
+const motionComponents = {
+  a: motion.a,
+  button: motion.button,
+  div: motion.div,
+  span: motion.span,
+} as const;
+
+type Tag = keyof typeof motionComponents;
+
+type OwnProps = {
+  as?: Tag;
   text: string;
-}) => {
+  children?: ReactNode;
+};
+
+type PolymorphicProps<T extends Tag> = OwnProps &
+  Omit<HTMLMotionProps<T>, keyof OwnProps>;
+
+const WaveAnimatedComponent = <T extends Tag = "button">({
+  as,
+  text,
+  children,
+  className,
+  ...props
+}: PolymorphicProps<T>) => {
   const arrayText = text.split(" ");
+  const Component = motionComponents[(as ?? "button") as T] as ElementType;
+
   return (
-    <motion.button
+    <Component
       initial="inactive"
       whileHover="active"
       className="w-full bg-zinc-700 text-zinc-100 font-light py-2 px-4 rounded-md shadow inset-shadow-2xs inset-shadow-zinc-100/30 hover:bg-zinc-800 transition-all duration-150 text-shadow-2xs ease hover:shadow-xl"
+      {...props}
     >
       <div className="mx-auto grid w-fit overflow-clip">
         <div className="col-start-1 row-start-1 flex items-center justify-center gap-4">
@@ -50,6 +72,7 @@ const AnimatedButton = ({
                       .slice(0, wordIndex)
                       .map((w) => w.length)
                       .reduce((a, b) => a + b, 0);
+
                     return (
                       <motion.span
                         className="inline-block"
@@ -80,13 +103,14 @@ const AnimatedButton = ({
         </div>
         <div className="col-start-1 row-start-1 flex items-center justify-center gap-4">
           <div className="flex gap-1">
-            {text.split(" ").map((word, wordIndex) => (
+            {arrayText.map((word, wordIndex) => (
               <div key={wordIndex + word}>
                 {word.split("").map((char, charIndex) => {
                   const wordsBeforeChar = arrayText
                     .slice(0, wordIndex)
                     .map((w) => w.length)
                     .reduce((a, b) => a + b, 0);
+
                   return (
                     <motion.span
                       className="inline-block"
@@ -115,8 +139,8 @@ const AnimatedButton = ({
           </motion.div>
         </div>
       </div>
-    </motion.button>
+    </Component>
   );
 };
 
-export default AnimatedButton;
+export default WaveAnimatedComponent;

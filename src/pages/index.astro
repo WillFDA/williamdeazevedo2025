@@ -2,14 +2,6 @@
 import Layout from "../layout/Layout.astro";
 import Marquee from "../components/Marquee.tsx";
 import Carousel from "../components/Carousel.astro";
-
-import Layers from "../components/icons/Layers.tsx";
-import Sparkles from "../components/icons/Sparkles.tsx";
-import RulerPen from "../components/icons/RulerPen.tsx";
-import Folder from "../components/icons/Folder.tsx";
-import AnimatedButton from "../components/ui/animated-button.tsx";
-import BoxFile from "../components/icons/BoxFile.tsx";
-import Envelope from "../components/icons/Envelope.tsx";
 import Link from "../components/icons/Link.tsx";
 import Differenciates from "@/sections/Differenciates.astro";
 ---
@@ -108,5 +100,5 @@ import Differenciates from "@/sections/Differenciates.astro";
             </div>
         </Carousel>
     </section>
-    <Differenciates />
+    <Differenciates client:visible />
 </Layout>
