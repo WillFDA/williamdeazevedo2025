@@ -7,19 +7,30 @@ import Differenciates from "@/sections/Differenciates.astro";
 ---
 
 <Layout>
-    <section class="flex flex-col gap-4 max-w-5xl w-5xl mx-auto">
+    <section class="flex flex-col gap-6 max-w-5xl mx-auto">
         <h1
-            class="text-4xl max-w-1/2 text-zinc-500 [&_span]:text-zinc-700 [&_span]:font-medium"
+            class="text-7xl text-gray-900 [&_span]:text-blue-500 text-center leading-tighter tracking-tighter"
         >
-            Hello, moi c'est <span>William</span>.<br />
-            Je suis Développeur Front-end avec un sens du <span>design</span> et de
-            <span>l'animation</span>
+            Je crée des sites web et des interfaces <span>rapides, soignés</span
+            > et pensés pour <span>convertir.</span>
         </h1>
-        <p class="max-w-80 text-zinc-500 font-light">
-            Je construis des interfaces React soignées, animées et pensées dans
-            le détail.
+        <p
+            class="max-w-120 tracking-tight leading-tight text-zinc-900 font-light text-center text-md mx-auto"
+        >
+            J’aide les petites structures et les équipes produit à lancer des
+            interfaces & sites performants, accessibles et SEO-friendly.
         </p>
-        <a class="font-light" href="#projects">Voir mes projets</a>
+        <div class="flex gap-8 items-center justify-center">
+            <a
+                class="font-light border border-black px-6 py-1.5"
+                href="#projects"
+                >Parlons de votre projet
+            </a>
+            <a
+                class="font-light border border-black px-6 py-1.5"
+                href="#projects">Voir les études de cas</a
+            >
+        </div>
     </section>
     <Marquee client:load />
     <section id="projects" class="mb-20">
