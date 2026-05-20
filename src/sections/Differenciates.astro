@@ -1,184 +1,48 @@
 ---
-import { Image } from "astro:assets";
-import RulerPen from "../components/icons/RulerPen.tsx";
-import WaveAnimatedComponent from "../components/ui/wave-animated-component.tsx";
-import Folder from "../components/icons/Folder.tsx";
-import Layers from "../components/icons/Layers.tsx";
-import BoxFile from "../components/icons/BoxFile.tsx";
-import Sparkles from "../components/icons/Sparkles.tsx";
-import Envelope from "../components/icons/Envelope.tsx";
-import gradient1 from "../assets/gradient-1.png";
+import SectionHeading from "../components/SectionHeading.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+
+const services = [
+    {
+        title: "Stratégie & contenu",
+        items: [
+            "Analyse concurrentielle",
+            "Collaboration sur le copywriting",
+            "Structure des pages pensée pour guider le visiteur",
+            "Analyse de votre offre",
+        ],
+    },
+    {
+        title: "Design d’interface",
+        items: [
+            "Direction visuelle adaptée à votre marque",
+            "Maquettes soignées, modernes et responsive",
+            "Parcours utilisateur simple et fluide",
+            "Interface réfléchie et user friendly",
+        ],
+    },
+    {
+        title: "Développement front-end",
+        items: [
+            "Intégration propre et performante",
+            "Site rapide, accessible et SEO-friendly",
+            "Animations et détails premiums",
+            "Code maintenable, propre et prêt à évoluer",
+        ],
+    },
+];
 ---
 
-<section class="bg-zinc-50 py-10">
-    <div class="max-w-5xl flex justify-between w-5xl mx-auto flex-col gap-4">
-        <h2 class="text-zinc-700 font-medium text-2xl">
-            Ce qui me différencie
-        </h2>
-        <p class="text-zinc-500 font-light [&_strong]:font-medium max-w-2xl">
-            En 2026, un développeur ne fait pas que produire du code. Il
-            imagine, structure et donne forme aux idées. Je me situe entre
-            <strong>l’architecture</strong>, <strong>le design</strong> et <strong
-                >l’intégration</strong
-            >
-        </p>
-        <div class="my-10 flex flex-col gap-4 md:flex-row md:justify-between">
-            <div
-                class="group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-zinc-400 md:w-3/10"
-            >
-                <Image
-                    src={gradient1}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    quality={70}
-                    class="absolute -right-8 -top-16 h-fit w-82 max-w-none translate-x-6 -translate-y-8 opacity-30 blur-xl saturate-150 hue-rotate-190 transition-all duration-500 ease group-hover:translate-x-2 group-hover:-translate-y-1 group-hover:opacity-70"
-                />
+<section class="bg-snow-500 py-20 md:py-28">
+    <div class="mx-auto flex w-full max-w-[1180px] flex-col items-center gap-12 px-4 sm:px-6">
+        <SectionHeading>
+            Concrètement, je construis<span class="md:hidden"> </span><br
+                class="hidden md:block"
+            /> un site qui travaille pour vous
+        </SectionHeading>
 
-                <div
-                    class="z-10 relative flex h-full flex-col gap-4 p-5 py-8 md:p-6 md:py-10"
-                >
-                    <RulerPen
-                        className="mb-3 size-7 text-zinc-700 md:mb-4 md:size-8"
-                    />
-                    <h3 class="text-xl font-medium text-zinc-700 md:text-2xl">
-                        Front-end
-                    </h3>
-                    <div class="flex h-full flex-col justify-between gap-8">
-                        <div class="flex flex-col gap-2 text-sm md:text-base">
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >Composants réutilisables</span
-                            >
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >Architecture</span
-                            >
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >State Management</span
-                            >
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >Intégration API & Auth</span
-                            >
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >Optimisation</span
-                            >
-                        </div>
-                        <WaveAnimatedComponent client:visible text="Voir mes projets">
-                            <Folder className="size-4 col-start-6 col-end-9" />
-                        </WaveAnimatedComponent>
-                    </div>
-                </div>
-            </div>
-            <div
-                class="group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-zinc-400 md:w-3/10"
-            >
-                <Image
-                    src={gradient1}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    quality={70}
-                    class="absolute -left-4 -top-12 h-fit w-82 max-w-none -translate-y-10 opacity-30 blur-xl saturate-150 hue-rotate-35 transition-all duration-500 ease group-hover:translate-y-0 group-hover:opacity-70"
-                />
-
-                <div
-                    class="z-10 relative flex h-full flex-col gap-4 p-5 py-8 md:p-6 md:py-10"
-                >
-                    <Layers
-                        className="mb-3 size-7 text-zinc-700 md:mb-4 md:size-8"
-                    />
-                    <h3 class="text-xl font-medium text-zinc-700 md:text-2xl">
-                        UI & Motion
-                    </h3>
-                    <div class="flex h-full flex-col justify-between gap-8">
-                        <div class="flex flex-col gap-2 text-sm md:text-base">
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >Intégration pixel-perfect</span
-                            >
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >Animations</span
-                            >
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >Micro-interactions</span
-                            >
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >Design System & Tokens</span
-                            >
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >Responsive & Accessibilité</span
-                            >
-                        </div>
-                        <WaveAnimatedComponent client:visible text="Voir ma grotte">
-                            <BoxFile className="size-4 col-start-6 col-end-9" />
-                        </WaveAnimatedComponent>
-                    </div>
-                </div>
-            </div>
-            <div
-                class="hover:shadow-inner-xl shadow-inner-zinc-100 group relative isolate w-full overflow-clip rounded-md bg-white ring ring-zinc-200 shadow-sm transition-all duration-150 ease-in-out hover:shadow-xl hover:ring-zinc-400 md:w-3/10"
-            >
-                <Image
-                    src={gradient1}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    quality={70}
-                    class="absolute -right-6 -top-20 h-fit w-72 max-w-none translate-x-4 -translate-y-6 opacity-15 blur-xl saturate-125 hue-rotate-110 transition-all duration-500 ease group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:opacity-30"
-                />
-                <Image
-                    src={gradient1}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    quality={70}
-                    class="absolute -bottom-20 left-1/2 h-fit w-82 max-w-none -translate-x-1/2 translate-y-16 opacity-30 blur-xl saturate-150 hue-rotate-110 transition-all duration-500 ease group-hover:-translate-x-1/2 group-hover:translate-y-0 group-hover:opacity-70"
-                />
-
-                <div
-                    class="z-10 relative flex h-full flex-col gap-4 p-5 py-8 md:p-6 md:py-10"
-                >
-                    <Sparkles
-                        className="mb-3 size-7 text-zinc-700 md:mb-4 md:size-8"
-                    />
-                    <h3 class="text-xl font-medium text-zinc-700 md:text-2xl">
-                        IA & Produit
-                    </h3>
-                    <div class="flex h-full flex-col justify-between gap-8">
-                        <div class="flex flex-col gap-2 text-sm md:text-base">
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >Vercel AI SDK</span
-                            >
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >Streaming & multi-modèles</span
-                            >
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >MVP & POC rapides</span
-                            >
-                            <span
-                                class="text-zinc-700 font-light mix-blend-multiply"
-                                >Prompt engineering</span
-                            >
-                        </div>
-                        <WaveAnimatedComponent client:visible text="Me contacter">
-                            <Envelope
-                                className="size-4 col-start-6 col-end-9"
-                            />
-                        </WaveAnimatedComponent>
-                    </div>
-                </div>
-            </div>
+        <div class="grid w-full grid-cols-1 gap-6 md:grid-cols-3 md:gap-10">
+            {services.map((service) => <ServiceCard {...service} />)}
         </div>
     </div>
 </section>
