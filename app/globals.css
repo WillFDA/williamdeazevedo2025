@@ -58,6 +58,9 @@
     --radius: 0.625rem;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
+    --scrollbar-track: oklch(0.985 0 0);
+    --scrollbar-thumb: oklch(0.72 0.012 255);
+    --scrollbar-thumb-hover: oklch(0.56 0.018 255);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
@@ -92,6 +95,9 @@
 .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
+    --scrollbar-track: oklch(0.19 0.006 255);
+    --scrollbar-thumb: oklch(0.44 0.012 255);
+    --scrollbar-thumb-hover: oklch(0.62 0.015 255);
     --card: oklch(0.205 0 0);
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.205 0 0);
@@ -121,6 +127,37 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
+}
+
+html {
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+}
+
+@supports not (scrollbar-gutter: stable) {
+    html {
+        overflow-y: scroll;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+    background-clip: content-box;
+    background-color: var(--scrollbar-thumb);
+    border: 3px solid transparent;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
 }
 
 /* Animations fluides et optimisées */
