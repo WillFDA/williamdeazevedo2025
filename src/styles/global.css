@@ -3,6 +3,10 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
+@view-transition {
+    navigation: auto;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 * {

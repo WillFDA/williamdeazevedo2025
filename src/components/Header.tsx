@@ -7,6 +7,7 @@ export default function Header({ pathName }: { pathName: string }) {
   const animationRef = useRef<JSAnimation | null>(null);
   const navItems = [
     { href: "/", label: "Accueil" },
+    { href: "/projets", label: "Projets" },
     { href: "/about", label: "À propos" },
     { href: "/blog", label: "Blog" },
     { href: "/vault", label: "La grotte" },
