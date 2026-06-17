@@ -4,32 +4,44 @@ import Marquee from "../components/Marquee.tsx";
 import Carousel from "../components/Carousel.astro";
 import Link from "../components/icons/Link.tsx";
 import Differenciates from "@/sections/Differenciates.astro";
+import ArrowRight from "../components/icons/ArrowRight.svg";
 ---
 
 <Layout>
     <section class="flex flex-col gap-6 max-w-5xl mx-auto">
         <h1
-            class="text-7xl text-gray-900 [&_span]:text-blue-500 text-center leading-tighter tracking-tighter"
+            class="text-7xl text-gray-900 [&_span]:text-blue-500 text-center leading-tighter tracking-[-4%] font-medium"
         >
             Je crée des sites web et des interfaces <span>rapides, soignés</span
             > et pensés pour <span>convertir.</span>
         </h1>
         <p
-            class="max-w-120 tracking-tight leading-tight text-zinc-900 font-light text-center text-md mx-auto"
+            class="max-w-120 tracking-[-4%] leading-tight text-coffee-300 font-light text-center text-md mx-auto"
         >
             J’aide les petites structures et les équipes produit à lancer des
             interfaces & sites performants, accessibles et SEO-friendly.
         </p>
         <div class="flex gap-8 items-center justify-center">
             <a
-                class="font-light border border-black px-6 py-1.5"
+                class="font-regular border text-[#EEF5FF] bg-coffee-300 px-6 text-md py-1.5 rounded-xl h-12 flex justify-center items-center"
                 href="#projects"
                 >Parlons de votre projet
+                <ArrowRight class="size-4 ml-3" aria-hidden="true" />
             </a>
             <a
-                class="font-light border border-black px-6 py-1.5"
+                class="font-regular px-6 py-1.5 rounded-xl h-12 flex text-md justify-center items-center bg-[#E8E5E8]"
                 href="#projects">Voir les études de cas</a
             >
+        </div>
+        <div
+            class="flex-col gap-2 mx-auto text-center text-xs flex items-center justify-center my-4"
+        >
+            <div class="size-8 rounded-full bg-[#E8E5E8]"></div>
+            <span class="">Quentin Leffelic</span>
+            <p class="max-w-70 mx-auto">
+                “Excellente collaboration avec william, site livré rapidement et
+                avec soin”
+            </p>
         </div>
     </section>
     <Marquee client:load />
