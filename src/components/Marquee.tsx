@@ -1,5 +1,5 @@
-import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { animate, spring, type JSAnimation } from "animejs";
 import {
   Tooltip,
   TooltipContent,
@@ -19,7 +19,6 @@ const icons = [
   { src: "/icons/tailwindcss.svg", name: "Tailwind CSS" },
   { src: "/icons/prisma.svg", name: "Prisma" },
   { src: "/icons/Drizzle.svg", name: "Drizzle" },
-  { src: "/icons/motion.svg", name: "Motion" },
   { src: "/icons/Astro.svg", name: "Astro" },
   { src: "/icons/linear-dark-logo.svg", name: "Linear" },
   { src: "/icons/claude-logo.svg", name: "Claude" },
@@ -30,28 +29,75 @@ const SLOTS = 7;
 const TICK_MS = 1400;
 
 function Slot({ iconIndex }: { iconIndex: number }) {
-  const icon = icons[iconIndex];
+  const [shownIndex, setShownIndex] = useState(iconIndex);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const animationRef = useRef<JSAnimation | null>(null);
+  const icon = icons[shownIndex];
+
+  useEffect(() => {
+    const img = imgRef.current;
+    if (!img || shownIndex === iconIndex) return;
+
+    animationRef.current?.cancel();
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setShownIndex(iconIndex);
+      return;
+    }
+
+    let active = true;
+    animationRef.current = animate(img, {
+      opacity: 0,
+      filter: "blur(8px)",
+      duration: 120,
+      ease: "inOut(2)",
+      onComplete: () => {
+        if (active) setShownIndex(iconIndex);
+      },
+    });
+
+    return () => {
+      active = false;
+      animationRef.current?.cancel();
+    };
+  }, [iconIndex, shownIndex]);
+
+  useEffect(() => {
+    const img = imgRef.current;
+    if (!img) return;
+
+    animationRef.current?.cancel();
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      Object.assign(img.style, { filter: "blur(0px)", opacity: "1" });
+      return;
+    }
+
+    animationRef.current = animate(img, {
+      opacity: [0, 1],
+      filter: ["blur(8px)", "blur(0px)"],
+      ease: spring({ duration: 240, bounce: 0.05 }),
+    });
+
+    return () => animationRef.current?.cancel();
+  }, [shownIndex]);
+
   return (
     <div className="flex items-center justify-center w-12 h-12">
-      <AnimatePresence mode="wait">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <motion.img
-                key={iconIndex}
-                src={icon.src}
-                alt={icon.name}
-                className="h-8"
-                initial={{ opacity: 0, filter: "blur(8px)" }}
-                animate={{ opacity: 1, filter: "blur(0px)" }}
-                exit={{ opacity: 0, filter: "blur(8px)" }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-              />
-            </TooltipTrigger>
-            <TooltipContent>{icon.name}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </AnimatePresence>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <img
+              ref={imgRef}
+              key={shownIndex}
+              src={icon.src}
+              alt={icon.name}
+              className="h-8"
+            />
+          </TooltipTrigger>
+          <TooltipContent>{icon.name}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 }
@@ -60,19 +106,11 @@ function randomBetween(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function initIndices() {
-  const shuffled = [...icons.keys()].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, SLOTS);
-}
-
 export default function Marquee() {
-  const [indices, setIndices] = useState<number[]>(initIndices);
-  const indicesRef = useRef(indices);
+  const [indices, setIndices] = useState<number[]>(() =>
+    [...icons.keys()].slice(0, SLOTS),
+  );
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
-
-  useEffect(() => {
-    indicesRef.current = indices;
-  }, [indices]);
 
   useEffect(() => {
     function tick() {
