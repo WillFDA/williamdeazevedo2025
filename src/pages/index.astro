@@ -10,6 +10,7 @@ import Differenciates from "@/sections/Differenciates.astro";
 import ArrowRight from "../components/icons/ArrowRight.svg";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
+import { homeProjects } from "../data/projects";
 
 const heroTitleWords = [
     "Je",
@@ -29,14 +30,6 @@ const heroTitleWords = [
 ];
 
 const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
-const heroTitleParts = heroTitleWords.flatMap((word) =>
-    word === "interfaces"
-        ? [
-              { type: "word" as const, value: word },
-              { type: "avatar" as const, value: "william" },
-          ]
-        : [{ type: "word" as const, value: word }],
-);
 ---
 
 <Layout>
@@ -53,27 +46,17 @@ const heroTitleParts = heroTitleWords.flatMap((word) =>
                 data-hero-title
             >
                 {
-                    heroTitleParts.map((part) =>
-                        part.type === "avatar" ? (
-                            <span
-                                class="hero-title-avatar"
-                                data-hero-title-word
-                                aria-hidden="true"
-                            >
-                                <span class="hero-title-avatar__placeholder" />
-                            </span>
-                        ) : (
-                            <span
-                                class:list={[
-                                    highlightedHeroWords.has(part.value) &&
-                                        "text-blue-500",
-                                ]}
-                                data-hero-title-word
-                            >
-                                {part.value}
-                            </span>
-                        ),
-                    )
+                    heroTitleWords.map((word) => (
+                        <span
+                            class:list={[
+                                highlightedHeroWords.has(word) &&
+                                    "text-blue-500",
+                            ]}
+                            data-hero-title-word
+                        >
+                            {word}
+                        </span>
+                    ))
                 }
             </h1>
             <FadeReveal delay={0.32}>
@@ -132,79 +115,55 @@ const heroTitleParts = heroTitleWords.flatMap((word) =>
     </FadeRevealOnScroll>
     <section id="projects" class="project-showcase mb-20" data-project-showcase>
         <div class="project-copy mx-auto max-w-5xl px-4 pb-10">
-            <article
-                class="project-copy__panel is-active"
-                data-project-panel
-                data-project-index="0"
-            >
-                <ProjectIntro
-                    detailsHref="/projets#motivai"
-                    href="https://www.motivai.fr/"
-                    title="Motivai"
-                >
-                    SaaS de génération de lettres de motivation par IA, développé
-                    en solo depuis 2024. J'ai conçu l'architecture complète avec
-                    <span>Next.js</span>, <span>Drizzle ORM</span> et <span
-                        >Better Auth</span
-                    >. L'intégration du <span>Vercel AI SDK</span> permet aux
-                    utilisateurs de choisir leur modèle d'IA.
-                </ProjectIntro>
-            </article>
-            <article
-                class="project-copy__panel"
-                data-project-panel
-                data-project-index="1"
-            >
-                <ProjectIntro detailsHref="/projets" href="/projets" title="Komin">
-                    Site vitrine sobre pour une marque locale, pensé pour
-                    clarifier l'offre, structurer le message et guider la prise
-                    de contact.
-                </ProjectIntro>
-            </article>
-            <article
-                class="project-copy__panel"
-                data-project-panel
-                data-project-index="2"
-            >
-                <ProjectIntro
-                    detailsHref="/projets"
-                    href="/projets"
-                    title="Studio Nova"
-                >
-                    Interface éditoriale fictive avec direction visuelle
-                    minimaliste, sections modulaires et rendu responsive.
-                </ProjectIntro>
-            </article>
+            {
+                homeProjects.map((project, index) => (
+                    <article
+                        class:list={[
+                            "project-copy__panel",
+                            index === 0 && "is-active",
+                        ]}
+                        data-project-panel
+                        data-project-index={index}
+                    >
+                        <ProjectIntro
+                            href={project.href}
+                            title={project.title}
+                        >
+                            {project.summary}
+                        </ProjectIntro>
+                    </article>
+                ))
+            }
         </div>
 
-        <Carousel autoplay>
-            <div class="embla__slide">
-                <video
-                    muted
-                    playsinline
-                    loop
-                    preload="metadata"
-                    tabindex="-1"
-                    poster="/motivai/motivai-landing.webp"
-                    aria-hidden="true"
-                    class="h-full w-full object-cover rounded-md"
-                >
-                    <source
-                        src="/motivai/motivai-landing.mp4"
-                        type="video/mp4"
-                    />
-                </video>
-            </div>
-            <div class="embla__slide">
-                <div class="project-placeholder rounded-md" data-project-name="Komin">
-                    <span>Komin</span>
-                </div>
-            </div>
-            <div class="embla__slide">
-                <div class="project-placeholder rounded-md" data-project-name="Studio Nova">
-                    <span>Studio Nova</span>
-                </div>
-            </div>
+        <Carousel autoplay autoplayDelay={6500}>
+            {
+                homeProjects.map((project, index) => (
+                    <div class="embla__slide">
+                        {project.media.type === "video" ? (
+                            <video
+                                muted
+                                playsinline
+                                loop
+                                preload={index === 0 ? "metadata" : "none"}
+                                tabindex="-1"
+                                poster={project.media.poster}
+                                aria-hidden="true"
+                                class="h-full w-full object-cover rounded-md"
+                            >
+                                <source src={project.media.src} type="video/mp4" />
+                            </video>
+                        ) : (
+                            <div
+                                class="project-placeholder rounded-md"
+                                data-project-name={project.title}
+                            >
+                                <span>{project.media.label}</span>
+                            </div>
+                        )}
+                    </div>
+                ))
+            }
         </Carousel>
     </section>
     <Differenciates />
@@ -352,33 +311,6 @@ const heroTitleParts = heroTitleWords.flatMap((word) =>
 
     [data-hero-title-word] {
         display: inline-block;
-    }
-
-    .hero-title-avatar {
-        align-self: center;
-        aspect-ratio: 1;
-        background: #e8e5e8;
-        border: 0.08em solid #fff;
-        border-radius: 9999px;
-        box-shadow:
-            0 18px 38px -18px rgba(17, 24, 39, 0.58),
-            0 4px 12px rgba(17, 24, 39, 0.14);
-        display: inline-flex;
-        height: 0.9em;
-        margin-inline: -0.04em;
-        overflow: hidden;
-    }
-
-    .hero-title-avatar__placeholder {
-        background:
-            radial-gradient(
-                circle at 35% 30%,
-                rgba(255, 255, 255, 0.95) 0 12%,
-                transparent 13%
-            ),
-            linear-gradient(135deg, #d7e3f8 0%, #e8e5e8 46%, #bac8dc 100%);
-        height: 100%;
-        width: 100%;
     }
 
     [data-hero-title]:not([data-hero-title-ready="true"])

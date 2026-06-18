@@ -6,10 +6,11 @@ import WaveText from "./ui/WaveText.astro";
 interface Props {
     detailsHref?: string;
     href: string;
+    stack?: string[];
     title: string;
 }
 
-const { detailsHref, href, title } = Astro.props;
+const { detailsHref, href, stack = [], title } = Astro.props;
 const isExternal = href.startsWith("http");
 const isDetailsExternal = detailsHref?.startsWith("http");
 ---
@@ -29,6 +30,15 @@ const isDetailsExternal = detailsHref?.startsWith("http");
     <p class="project-intro__description">
         <slot />
     </p>
+    {
+        stack.length > 0 && (
+            <ul class="project-intro__stack" aria-label="Stack technique">
+                {stack.map((item) => (
+                    <li>{item}</li>
+                ))}
+            </ul>
+        )
+    }
     <div class="project-intro__actions">
         <a
             class="project-intro__button project-intro__button--site font-regular px-6 py-1.5 rounded-xl h-12 flex text-md justify-center items-center"
@@ -182,6 +192,25 @@ const isDetailsExternal = detailsHref?.startsWith("http");
     .project-intro__description :global(span) {
         color: rgb(63 63 70);
         font-weight: 400;
+    }
+
+    .project-intro__stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .project-intro__stack li {
+        background: #e8e5e8;
+        border-radius: 9999px;
+        color: rgb(63 63 70);
+        font-size: 0.75rem;
+        font-weight: 300;
+        line-height: 1;
+        padding: 0.45rem 0.7rem;
     }
 
     .project-intro__actions {

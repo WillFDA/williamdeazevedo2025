@@ -69,6 +69,7 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
 
         if (!viewportNode || !prevButtonNode || !nextButtonNode) return;
 
+        const slides = wrapperNode.querySelectorAll<HTMLElement>(".embla__slide");
         const videos = wrapperNode.querySelectorAll<HTMLVideoElement>("video");
 
         wrapperNode.dataset.initialized = "true";
@@ -79,9 +80,50 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
                 align: "center",
             });
             let lastDispatchedIndex = emblaApi.selectedScrollSnap();
+            let scheduleAutoplay = () => {};
+
+            const playVideo = (video: HTMLVideoElement) => {
+                video.dataset.carouselActive = "true";
+                video.preload = "auto";
+
+                const play = () => {
+                    if (video.dataset.carouselActive !== "true") return;
+
+                    void video.play().catch(() => {});
+                };
+
+                if (video.readyState < 2 && video.dataset.carouselPlayQueued !== "true") {
+                    video.dataset.carouselPlayQueued = "true";
+                    video.addEventListener(
+                        "loadeddata",
+                        () => {
+                            delete video.dataset.carouselPlayQueued;
+                            play();
+                        },
+                        { once: true },
+                    );
+                    video.load();
+                }
+
+                window.requestAnimationFrame(play);
+            };
+
+            const pauseVideo = (video: HTMLVideoElement) => {
+                video.dataset.carouselActive = "false";
+                video.pause();
+                video.currentTime = 0;
+                video.preload = "none";
+            };
 
             function updateVideos(shouldDispatch = false) {
                 const activeIndex = emblaApi.selectedScrollSnap();
+                const activeVideos = new Set(
+                    Array.from(
+                        slides[activeIndex]?.querySelectorAll<HTMLVideoElement>(
+                            "video",
+                        ) ?? [],
+                    ),
+                );
 
                 if (shouldDispatch && activeIndex !== lastDispatchedIndex) {
                     const previousIndex = emblaApi.previousScrollSnap();
@@ -99,53 +141,87 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
                     );
                 }
 
-                videos.forEach((video, i) => {
-                    const isActive = i === activeIndex;
-                    const nextPreload = isActive ? "metadata" : "none";
-
-                    if (video.preload !== nextPreload) {
-                        video.preload = nextPreload;
-                        video.load();
-                    }
-
-                    if (isActive) {
-                        void video.play().catch(() => {});
+                videos.forEach((video) => {
+                    if (activeVideos.has(video)) {
+                        playVideo(video);
                         return;
                     }
 
-                    video.pause();
-                    video.currentTime = 0;
+                    pauseVideo(video);
                 });
             }
 
-            emblaApi.on("select", () => updateVideos(true));
+            emblaApi.on("select", () => {
+                updateVideos(true);
+                scheduleAutoplay();
+            });
             emblaApi.on("settle", () => updateVideos());
             updateVideos();
 
             emblaApi.on("init", () => viewportNode.classList.add("is-ready"));
 
-            prevButtonNode.addEventListener("click", () => emblaApi.scrollPrev());
-            nextButtonNode.addEventListener("click", () => emblaApi.scrollNext());
-
             const shouldAutoplay =
                 wrapperNode.dataset.carouselAutoplay === "true" &&
                 !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+            const scrollPrev = () => {
+                emblaApi.scrollPrev();
+                scheduleAutoplay();
+            };
+            const scrollNext = () => {
+                emblaApi.scrollNext();
+                scheduleAutoplay();
+            };
+
+            prevButtonNode.addEventListener("click", scrollPrev);
+            nextButtonNode.addEventListener("click", scrollNext);
+
             if (shouldAutoplay) {
+                let isInAutoplayZone = false;
                 let isPaused = false;
+                let timer = 0;
                 const delay =
                     Number(wrapperNode.dataset.carouselAutoplayDelay) || 4500;
+                const clearAutoplay = () => {
+                    window.clearTimeout(timer);
+                    timer = 0;
+                };
                 const setPaused = (nextPaused: boolean) => {
                     isPaused = nextPaused;
+                    scheduleAutoplay();
                 };
-                const timer = window.setInterval(() => {
-                    if (!document.contains(wrapperNode)) {
-                        window.clearInterval(timer);
-                        return;
-                    }
 
-                    if (!isPaused) emblaApi.scrollNext();
-                }, delay);
+                scheduleAutoplay = () => {
+                    clearAutoplay();
+                    if (!isInAutoplayZone || isPaused) return;
+
+                    timer = window.setTimeout(() => {
+                        if (!document.contains(wrapperNode)) {
+                            clearAutoplay();
+                            return;
+                        }
+
+                        if (isInAutoplayZone && !isPaused) emblaApi.scrollNext();
+                        scheduleAutoplay();
+                    }, delay);
+                };
+
+                const autoplayObserver = new IntersectionObserver(
+                    (entries) => {
+                        isInAutoplayZone = entries[0]?.isIntersecting ?? false;
+
+                        if (isInAutoplayZone) {
+                            updateVideos();
+                        } else {
+                            videos.forEach(pauseVideo);
+                        }
+
+                        scheduleAutoplay();
+                    },
+                    { rootMargin: "200px 0px" },
+                );
+
+                autoplayObserver.observe(wrapperNode);
 
                 wrapperNode.addEventListener("pointerenter", () => setPaused(true));
                 wrapperNode.addEventListener("pointerleave", () => setPaused(false));
