@@ -1,8 +1,18 @@
 ---
+interface Props {
+    autoplay?: boolean;
+    autoplayDelay?: number;
+}
 
+const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
 ---
 
-<div class="embla relative group" data-carousel>
+<div
+    class="embla relative group"
+    data-carousel
+    data-carousel-autoplay={autoplay ? "true" : undefined}
+    data-carousel-autoplay-delay={autoplay ? autoplayDelay : undefined}
+>
     <div class="embla__viewport">
         <div class="embla__container">
             <slot />
@@ -116,6 +126,32 @@
 
             prevButtonNode.addEventListener("click", () => emblaApi.scrollPrev());
             nextButtonNode.addEventListener("click", () => emblaApi.scrollNext());
+
+            const shouldAutoplay =
+                wrapperNode.dataset.carouselAutoplay === "true" &&
+                !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            if (shouldAutoplay) {
+                let isPaused = false;
+                const delay =
+                    Number(wrapperNode.dataset.carouselAutoplayDelay) || 4500;
+                const setPaused = (nextPaused: boolean) => {
+                    isPaused = nextPaused;
+                };
+                const timer = window.setInterval(() => {
+                    if (!document.contains(wrapperNode)) {
+                        window.clearInterval(timer);
+                        return;
+                    }
+
+                    if (!isPaused) emblaApi.scrollNext();
+                }, delay);
+
+                wrapperNode.addEventListener("pointerenter", () => setPaused(true));
+                wrapperNode.addEventListener("pointerleave", () => setPaused(false));
+                wrapperNode.addEventListener("focusin", () => setPaused(true));
+                wrapperNode.addEventListener("focusout", () => setPaused(false));
+            }
         };
 
         const observer = new IntersectionObserver(

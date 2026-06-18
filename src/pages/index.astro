@@ -137,7 +137,11 @@ const heroTitleParts = heroTitleWords.flatMap((word) =>
                 data-project-panel
                 data-project-index="0"
             >
-                <ProjectIntro href="https://www.motivai.fr/" title="Motivai">
+                <ProjectIntro
+                    detailsHref="/projets#motivai"
+                    href="https://www.motivai.fr/"
+                    title="Motivai"
+                >
                     SaaS de génération de lettres de motivation par IA, développé
                     en solo depuis 2024. J'ai conçu l'architecture complète avec
                     <span>Next.js</span>, <span>Drizzle ORM</span> et <span
@@ -151,7 +155,7 @@ const heroTitleParts = heroTitleWords.flatMap((word) =>
                 data-project-panel
                 data-project-index="1"
             >
-                <ProjectIntro href="/projets" title="Komin">
+                <ProjectIntro detailsHref="/projets" href="/projets" title="Komin">
                     Site vitrine sobre pour une marque locale, pensé pour
                     clarifier l'offre, structurer le message et guider la prise
                     de contact.
@@ -162,14 +166,18 @@ const heroTitleParts = heroTitleWords.flatMap((word) =>
                 data-project-panel
                 data-project-index="2"
             >
-                <ProjectIntro href="/projets" title="Studio Nova">
+                <ProjectIntro
+                    detailsHref="/projets"
+                    href="/projets"
+                    title="Studio Nova"
+                >
                     Interface éditoriale fictive avec direction visuelle
                     minimaliste, sections modulaires et rendu responsive.
                 </ProjectIntro>
             </article>
         </div>
 
-        <Carousel>
+        <Carousel autoplay>
             <div class="embla__slide">
                 <video
                     muted

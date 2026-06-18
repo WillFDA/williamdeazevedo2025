@@ -1,13 +1,17 @@
 ---
 import Link from "./icons/Link.tsx";
+import WaveIcon from "./ui/WaveIcon.astro";
+import WaveText from "./ui/WaveText.astro";
 
 interface Props {
+    detailsHref?: string;
     href: string;
     title: string;
 }
 
-const { href, title } = Astro.props;
+const { detailsHref, href, title } = Astro.props;
 const isExternal = href.startsWith("http");
+const isDetailsExternal = detailsHref?.startsWith("http");
 ---
 
 <div class="project-intro" data-project-intro>
@@ -25,6 +29,61 @@ const isExternal = href.startsWith("http");
     <p class="project-intro__description">
         <slot />
     </p>
+    <div class="project-intro__actions">
+        <a
+            class="project-intro__button project-intro__button--site font-regular px-6 py-1.5 rounded-xl h-12 flex text-md justify-center items-center"
+            href={href}
+            rel={isExternal ? "noreferrer" : undefined}
+            target={isExternal ? "_blank" : undefined}
+        >
+            <span>Voir le site</span>
+            <WaveIcon
+                class="project-intro__site-icon"
+                direction="up"
+                trigger="parent"
+            >
+                <svg
+                    aria-hidden="true"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="9"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                    />
+                    <path
+                        d="M3.5 12h17"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-width="1.7"
+                    />
+                    <path
+                        d="M12 3.5c2.1 2.2 3.1 5 3.1 8.5s-1 6.3-3.1 8.5c-2.1-2.2-3.1-5-3.1-8.5s1-6.3 3.1-8.5Z"
+                        stroke="currentColor"
+                        stroke-linejoin="round"
+                        stroke-width="1.7"
+                    />
+                </svg>
+            </WaveIcon>
+        </a>
+        {
+            detailsHref && (
+                <a
+                    class="project-intro__button project-intro__button--details font-regular px-6 py-1.5 rounded-xl h-12 flex text-md justify-center items-center"
+                    data-wui-wave-parent
+                    href={detailsHref}
+                    rel={isDetailsExternal ? "noreferrer" : undefined}
+                    target={isDetailsExternal ? "_blank" : undefined}
+                >
+                    <WaveText text="Détails du projet" trigger="parent" />
+                </a>
+            )
+        }
+    </div>
 </div>
 
 <script>
@@ -125,11 +184,70 @@ const isExternal = href.startsWith("http");
         font-weight: 400;
     }
 
+    .project-intro__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 0.25rem;
+    }
+
+    .project-intro__button {
+        align-items: center;
+        color: var(--color-coffee-300);
+        gap: 0.75rem;
+        isolation: isolate;
+        position: relative;
+        text-decoration: none;
+    }
+
+    .project-intro__button::before {
+        background: var(--project-button-bg);
+        border: 1px solid var(--project-button-border);
+        border-radius: inherit;
+        content: "";
+        inset: 0;
+        position: absolute;
+        transform: scale(1);
+        transition: transform 520ms
+            var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        will-change: transform;
+        z-index: -1;
+    }
+
+    .project-intro__button:hover::before,
+    .project-intro__button:focus-visible::before {
+        transform: scale(0.95);
+    }
+
+    .project-intro__button:focus-visible {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 3px;
+    }
+
+    .project-intro__button--site {
+        --project-button-bg: #e8e5e8;
+        --project-button-border: transparent;
+    }
+
+    .project-intro__button--details {
+        --project-button-bg: transparent;
+        --project-button-border: rgba(113, 113, 122, 0.22);
+    }
+
+    .project-intro__site-icon {
+        flex: 0 0 auto;
+    }
+
     @media (prefers-reduced-motion: reduce) {
         .project-intro__icon {
             filter: none !important;
             opacity: 1 !important;
             transform: none !important;
+            will-change: auto;
+        }
+
+        .project-intro__button::before {
+            transition: none;
             will-change: auto;
         }
     }
