@@ -4,7 +4,8 @@ import FadeReveal from "../components/animations/FadeReveal.astro";
 import FadeRevealOnScroll from "../components/animations/FadeRevealOnScroll.astro";
 import Marquee from "../components/Marquee.astro";
 import Carousel from "../components/Carousel.astro";
-import Link from "../components/icons/Link.tsx";
+import HeroDotMatrix from "../components/HeroDotMatrix.astro";
+import ProjectIntro from "../components/ProjectIntro.astro";
 import Differenciates from "@/sections/Differenciates.astro";
 import ArrowRight from "../components/icons/ArrowRight.svg";
 import WaveIcon from "../components/ui/WaveIcon.astro";
@@ -28,6 +29,14 @@ const heroTitleWords = [
 ];
 
 const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
+const heroTitleParts = heroTitleWords.flatMap((word) =>
+    word === "interfaces"
+        ? [
+              { type: "word" as const, value: word },
+              { type: "avatar" as const, value: "william" },
+          ]
+        : [{ type: "word" as const, value: word }],
+);
 ---
 
 <Layout>
@@ -44,17 +53,27 @@ const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
                 data-hero-title
             >
                 {
-                    heroTitleWords.map((word) => (
-                        <span
-                            class:list={[
-                                highlightedHeroWords.has(word) &&
-                                    "text-blue-500",
-                            ]}
-                            data-hero-title-word
-                        >
-                            {word}
-                        </span>
-                    ))
+                    heroTitleParts.map((part) =>
+                        part.type === "avatar" ? (
+                            <span
+                                class="hero-title-avatar"
+                                data-hero-title-word
+                                aria-hidden="true"
+                            >
+                                <span class="hero-title-avatar__placeholder" />
+                            </span>
+                        ) : (
+                            <span
+                                class:list={[
+                                    highlightedHeroWords.has(part.value) &&
+                                        "text-blue-500",
+                                ]}
+                                data-hero-title-word
+                            >
+                                {part.value}
+                            </span>
+                        ),
+                    )
                 }
             </h1>
             <FadeReveal delay={0.08}>
@@ -87,7 +106,7 @@ const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
                         class="hero-button hero-button--secondary font-regular px-6 py-1.5 rounded-xl h-12 flex text-md justify-center items-center"
                         href="#projects"
                         ><WaveText
-                            text="Voir les études de cas"
+                            text="Voir mes réalisations"
                             trigger="parent"
                         /></a
                     >
@@ -105,33 +124,49 @@ const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
                     </p>
                 </div>
             </FadeReveal>
+            <HeroDotMatrix />
         </div>
     </section>
     <FadeRevealOnScroll delay={0.12}>
         <Marquee />
     </FadeRevealOnScroll>
-    <section id="projects" class="mb-20">
-        <div class="flex flex-col gap-4 max-w-5xl mx-auto pb-10">
-            <a
-                target="_blank"
-                href="https://www.motivai.fr/"
-                class="flex items-center gap-4 w-fit"
+    <section id="projects" class="project-showcase mb-20" data-project-showcase>
+        <div class="project-copy mx-auto max-w-5xl px-4 pb-10">
+            <article
+                class="project-copy__panel is-active"
+                data-project-panel
+                data-project-index="0"
             >
-                <h2 class="text-3xl text-zinc-700 font-medium">Motivai</h2>
-                <Link className="size-5 text-zinc-500" />
-            </a>
-            <p
-                class="text-zinc-500 font-light text-base [&_span]:text-zinc-700 [&_span]:font-normal"
+                <ProjectIntro href="https://www.motivai.fr/" title="Motivai">
+                    SaaS de génération de lettres de motivation par IA, développé
+                    en solo depuis 2024. J'ai conçu l'architecture complète avec
+                    <span>Next.js</span>, <span>Drizzle ORM</span> et <span
+                        >Better Auth</span
+                    >. L'intégration du <span>Vercel AI SDK</span> permet aux
+                    utilisateurs de choisir leur modèle d'IA.
+                </ProjectIntro>
+            </article>
+            <article
+                class="project-copy__panel"
+                data-project-panel
+                data-project-index="1"
             >
-                SaaS de génération de lettres de motivation par IA, développé en
-                solo depuis 2024. J'ai conçu l'architecture complète avec
-                <span>Next.js</span>, <span>Drizzle ORM</span> et <span
-                    >Better Auth</span
-                >. L'intégration du <span>Vercel AI SDK</span> permet aux utilisateurs
-                de choisir leur modèle d'IA. Un projet formateur sur les défis d'un
-                produit complet : CI/CD, environnements multiples et déploiements
-                versionnés.
-            </p>
+                <ProjectIntro href="/projets" title="Komin">
+                    Site vitrine sobre pour une marque locale, pensé pour
+                    clarifier l'offre, structurer le message et guider la prise
+                    de contact.
+                </ProjectIntro>
+            </article>
+            <article
+                class="project-copy__panel"
+                data-project-panel
+                data-project-index="2"
+            >
+                <ProjectIntro href="/projets" title="Studio Nova">
+                    Interface éditoriale fictive avec direction visuelle
+                    minimaliste, sections modulaires et rendu responsive.
+                </ProjectIntro>
+            </article>
         </div>
 
         <Carousel>
@@ -153,38 +188,14 @@ const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
                 </video>
             </div>
             <div class="embla__slide">
-                <video
-                    muted
-                    playsinline
-                    loop
-                    preload="none"
-                    tabindex="-1"
-                    poster="/motivai/motivai-onboarding.webp"
-                    aria-hidden="true"
-                    class="h-full w-full object-cover rounded-md"
-                >
-                    <source
-                        src="/motivai/motivai-onboarding.mp4"
-                        type="video/mp4"
-                    />
-                </video>
+                <div class="project-placeholder rounded-md" data-project-name="Komin">
+                    <span>Komin</span>
+                </div>
             </div>
             <div class="embla__slide">
-                <video
-                    muted
-                    playsinline
-                    loop
-                    preload="none"
-                    tabindex="-1"
-                    poster="/motivai/motivai-aichoose.webp"
-                    aria-hidden="true"
-                    class="h-full w-full object-cover rounded-md"
-                >
-                    <source
-                        src="/motivai/motivai-aichoose.mp4"
-                        type="video/mp4"
-                    />
-                </video>
+                <div class="project-placeholder rounded-md" data-project-name="Studio Nova">
+                    <span>Studio Nova</span>
+                </div>
             </div>
         </Carousel>
     </section>
@@ -192,7 +203,7 @@ const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
 </Layout>
 
 <script>
-    import { animate, stagger } from "animejs";
+    import { animate, spring, stagger } from "animejs";
 
     const initHeroTitleAnimation = () => {
         const title = document.querySelector<HTMLElement>("[data-hero-title]");
@@ -230,8 +241,88 @@ const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
         });
     };
 
+    const projectTextAnimations = new WeakMap<HTMLElement, { cancel: () => void }>();
+
+    const animateProjectPanel = (panel: HTMLElement, direction: string) => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        const items = panel.querySelectorAll<HTMLElement>(
+            ".project-intro__title, .project-intro__description",
+        );
+        const fromY = direction === "prev" ? "1.15rem" : "-1.15rem";
+
+        projectTextAnimations.get(panel)?.cancel();
+        items.forEach((item) => {
+            item.style.willChange = "opacity, transform, filter";
+        });
+
+        projectTextAnimations.set(
+            panel,
+            animate(items, {
+                opacity: [0, 1],
+                translateY: [fromY, "0rem"],
+                filter: ["blur(8px)", "blur(0px)"],
+                delay: stagger(130),
+                ease: spring({ bounce: 0.12, duration: 760 }),
+                onComplete: () => {
+                    items.forEach((item) => {
+                        item.style.willChange = "auto";
+                    });
+                },
+            }),
+        );
+    };
+
+    const initProjectShowcases = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-project-showcase]")
+            .forEach((root) => {
+                if (root.dataset.projectShowcaseReady === "true") return;
+
+                const panels =
+                    root.querySelectorAll<HTMLElement>("[data-project-panel]");
+
+                const setActivePanel = (
+                    index: number,
+                    direction = "next",
+                    shouldAnimate = true,
+                ) => {
+                    root.dataset.projectDirection = direction;
+                    let activePanel: HTMLElement | undefined;
+
+                    panels.forEach((panel) => {
+                        const isActive =
+                            Number(panel.dataset.projectIndex) === index;
+
+                        panel.classList.toggle("is-active", isActive);
+                        panel.setAttribute("aria-hidden", String(!isActive));
+                        if (isActive) activePanel = panel;
+                    });
+
+                    if (shouldAnimate && activePanel) {
+                        animateProjectPanel(activePanel, direction);
+                    }
+                };
+
+                root.dataset.projectShowcaseReady = "true";
+                setActivePanel(0, "next", false);
+                root.addEventListener("carousel:select", (event) => {
+                    const { direction, index } = (
+                        event as CustomEvent<{
+                            direction?: string;
+                            index: number;
+                        }>
+                    ).detail;
+
+                    setActivePanel(index, direction);
+                });
+            });
+    };
+
     initHeroTitleAnimation();
+    initProjectShowcases();
     document.addEventListener("astro:page-load", initHeroTitleAnimation);
+    document.addEventListener("astro:page-load", initProjectShowcases);
 </script>
 
 <style>
@@ -255,6 +346,33 @@ const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
         display: inline-block;
     }
 
+    .hero-title-avatar {
+        align-self: center;
+        aspect-ratio: 1;
+        background: #e8e5e8;
+        border: 0.08em solid #fff;
+        border-radius: 9999px;
+        box-shadow:
+            0 18px 38px -18px rgba(17, 24, 39, 0.58),
+            0 4px 12px rgba(17, 24, 39, 0.14);
+        display: inline-flex;
+        height: 0.9em;
+        margin-inline: -0.04em;
+        overflow: hidden;
+    }
+
+    .hero-title-avatar__placeholder {
+        background:
+            radial-gradient(
+                circle at 35% 30%,
+                rgba(255, 255, 255, 0.95) 0 12%,
+                transparent 13%
+            ),
+            linear-gradient(135deg, #d7e3f8 0%, #e8e5e8 46%, #bac8dc 100%);
+        height: 100%;
+        width: 100%;
+    }
+
     [data-hero-title]:not([data-hero-title-ready="true"])
         [data-hero-title-word] {
         filter: blur(10px);
@@ -272,6 +390,39 @@ const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
             opacity: 1;
             transform: none;
         }
+    }
+
+    .project-copy {
+        display: grid;
+    }
+
+    .project-copy__panel {
+        filter: blur(6px);
+        grid-area: 1 / 1;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+            opacity 320ms cubic-bezier(0.2, 0, 0, 1),
+            filter 420ms cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .project-copy__panel.is-active {
+        filter: blur(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .project-placeholder {
+        align-items: center;
+        aspect-ratio: 16 / 9;
+        background: #e8e5e8;
+        color: rgb(63 63 70);
+        display: flex;
+        font-size: clamp(2rem, 6vw, 5rem);
+        font-weight: 500;
+        height: 100%;
+        justify-content: center;
+        width: 100%;
     }
 
     .hero-button {

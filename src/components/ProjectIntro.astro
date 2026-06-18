@@ -1,0 +1,136 @@
+---
+import Link from "./icons/Link.tsx";
+
+interface Props {
+    href: string;
+    title: string;
+}
+
+const { href, title } = Astro.props;
+const isExternal = href.startsWith("http");
+---
+
+<div class="project-intro" data-project-intro>
+    <a
+        class="project-intro__title"
+        href={href}
+        rel={isExternal ? "noreferrer" : undefined}
+        target={isExternal ? "_blank" : undefined}
+    >
+        <h2>{title}</h2>
+        <span class="project-intro__icon" data-project-intro-icon>
+            <Link className="size-5" />
+        </span>
+    </a>
+    <p class="project-intro__description">
+        <slot />
+    </p>
+</div>
+
+<script>
+    import { animate, spring } from "animejs";
+
+    const animations = new WeakMap<HTMLElement, { cancel: () => void }>();
+
+    const animateIcon = (icon: HTMLElement, active: boolean) => {
+        animations.get(icon)?.cancel();
+        animations.set(
+            icon,
+            animate(icon, {
+                opacity: active ? 1 : 0,
+                x: active ? 0 : "-1.25rem",
+                filter: active ? "blur(0px)" : "blur(5px)",
+                ease: spring({ bounce: 0.18, duration: 420 }),
+            }),
+        );
+    };
+
+    const initProjectIntros = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-project-intro]")
+            .forEach((root) => {
+                if (root.dataset.projectIntroReady === "true") return;
+
+                const icon = root.querySelector<HTMLElement>(
+                    "[data-project-intro-icon]",
+                );
+                const trigger = root.closest<HTMLElement>(".project-showcase") ?? root;
+
+                if (!icon) return;
+
+                root.dataset.projectIntroReady = "true";
+                animateIcon(icon, false);
+
+                trigger.addEventListener("pointerenter", () =>
+                    animateIcon(icon, true),
+                );
+                trigger.addEventListener("pointerleave", () =>
+                    animateIcon(icon, false),
+                );
+                trigger.addEventListener("focusin", () =>
+                    animateIcon(icon, true),
+                );
+                trigger.addEventListener("focusout", () =>
+                    animateIcon(icon, false),
+                );
+            });
+    };
+
+    initProjectIntros();
+    document.addEventListener("astro:page-load", initProjectIntros);
+</script>
+
+<style>
+    .project-intro {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .project-intro__title {
+        align-items: center;
+        color: inherit;
+        display: flex;
+        gap: 1rem;
+        text-decoration: none;
+        width: fit-content;
+    }
+
+    .project-intro__title h2 {
+        color: rgb(63 63 70);
+        font-size: 1.875rem;
+        font-weight: 500;
+        line-height: 1;
+        margin: 0;
+    }
+
+    .project-intro__icon {
+        color: rgb(113 113 122);
+        display: inline-flex;
+        opacity: 0;
+        transform: translateX(-1.25rem);
+        will-change: opacity, transform, filter;
+    }
+
+    .project-intro__description {
+        color: rgb(113 113 122);
+        font-size: 1rem;
+        font-weight: 300;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .project-intro__description :global(span) {
+        color: rgb(63 63 70);
+        font-weight: 400;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .project-intro__icon {
+            filter: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+            will-change: auto;
+        }
+    }
+</style>

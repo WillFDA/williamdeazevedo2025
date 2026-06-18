@@ -2,7 +2,7 @@
 
 ---
 
-<div class="embla relative group">
+<div class="embla relative group" data-carousel>
     <div class="embla__viewport">
         <div class="embla__container">
             <slot />
@@ -49,9 +49,8 @@
 <script>
     import EmblaCarousel from "embla-carousel";
 
-    function init() {
-        const wrapperNode = document.querySelector<HTMLElement>(".embla");
-        if (!wrapperNode || wrapperNode.dataset.initialized === "true") return;
+    function initCarousel(wrapperNode: HTMLElement) {
+        if (wrapperNode.dataset.initialized === "true") return;
 
         const viewportNode =
             wrapperNode.querySelector<HTMLElement>(".embla__viewport");
@@ -69,9 +68,26 @@
                 loop: true,
                 align: "center",
             });
+            let lastDispatchedIndex = emblaApi.selectedScrollSnap();
 
-            function updateVideos() {
+            function updateVideos(shouldDispatch = false) {
                 const activeIndex = emblaApi.selectedScrollSnap();
+
+                if (shouldDispatch && activeIndex !== lastDispatchedIndex) {
+                    const previousIndex = emblaApi.previousScrollSnap();
+                    const snapCount = emblaApi.scrollSnapList().length;
+                    const delta =
+                        (activeIndex - previousIndex + snapCount) % snapCount;
+                    const direction = delta <= snapCount / 2 ? "next" : "prev";
+
+                    lastDispatchedIndex = activeIndex;
+                    wrapperNode.dispatchEvent(
+                        new CustomEvent("carousel:select", {
+                            bubbles: true,
+                            detail: { direction, index: activeIndex },
+                        }),
+                    );
+                }
 
                 videos.forEach((video, i) => {
                     const isActive = i === activeIndex;
@@ -92,8 +108,8 @@
                 });
             }
 
-            emblaApi.on("select", updateVideos);
-            emblaApi.on("settle", updateVideos);
+            emblaApi.on("select", () => updateVideos(true));
+            emblaApi.on("settle", () => updateVideos());
             updateVideos();
 
             emblaApi.on("init", () => viewportNode.classList.add("is-ready"));
@@ -113,6 +129,12 @@
         );
 
         observer.observe(wrapperNode);
+    }
+
+    function init() {
+        document
+            .querySelectorAll<HTMLElement>("[data-carousel]")
+            .forEach(initCarousel);
     }
 
     init();

@@ -1,7 +1,7 @@
 ---
 import Layout from "../layout/Layout.astro";
 import Carousel from "../components/Carousel.astro";
-import Link from "../components/icons/Link.tsx";
+import ProjectIntro from "../components/ProjectIntro.astro";
 ---
 
 <Layout title="Projets">
@@ -14,19 +14,9 @@ import Link from "../components/icons/Link.tsx";
         </div>
     </section>
 
-    <section id="motivai" class="mb-20">
+    <section id="motivai" class="project-showcase mb-20">
         <div class="flex flex-col gap-4 max-w-5xl mx-auto px-4 pb-10">
-            <a
-                target="_blank"
-                href="https://www.motivai.fr/"
-                class="flex items-center gap-4 w-fit"
-            >
-                <h2 class="text-3xl text-zinc-700 font-medium">Motivai</h2>
-                <Link className="size-5 text-zinc-500" />
-            </a>
-            <p
-                class="text-zinc-500 font-light text-base [&_span]:text-zinc-700 [&_span]:font-normal"
-            >
+            <ProjectIntro href="https://www.motivai.fr/" title="Motivai">
                 SaaS de génération de lettres de motivation par IA, développé en
                 solo depuis 2024. J'ai conçu l'architecture complète avec
                 <span>Next.js</span>, <span>Drizzle ORM</span> et <span
@@ -35,7 +25,7 @@ import Link from "../components/icons/Link.tsx";
                 de choisir leur modèle d'IA. Un projet formateur sur les défis d'un
                 produit complet : CI/CD, environnements multiples et déploiements
                 versionnés.
-            </p>
+            </ProjectIntro>
         </div>
 
         <Carousel>
