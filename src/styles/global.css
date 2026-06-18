@@ -7,6 +7,32 @@
     navigation: auto;
 }
 
+::view-transition-old(root) {
+    animation: none;
+    opacity: 0;
+}
+
+::view-transition-new(root) {
+    animation: none;
+    opacity: 1;
+}
+
+::view-transition-group(nav-active-indicator) {
+    animation-duration: 320ms;
+    animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+    z-index: 0;
+}
+
+::view-transition-group(nav-label-home),
+::view-transition-group(nav-label-projects),
+::view-transition-group(nav-label-about),
+::view-transition-group(nav-label-blog),
+::view-transition-group(nav-label-vault) {
+    animation-duration: 320ms;
+    animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+    z-index: 1;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 * {

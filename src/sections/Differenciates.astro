@@ -1,48 +1,42 @@
 ---
-import SectionHeading from "../components/SectionHeading.astro";
-import ServiceCard from "../components/ServiceCard.astro";
-
-const services = [
+const offers = [
     {
-        title: "Stratégie & contenu",
+        title: "Cadrage & direction",
+        description:
+            "On clarifie votre offre, vos pages importantes et le message qui doit guider le visiteur.",
+        tone: "blue",
         items: [
-            "Analyse concurrentielle",
-            "Collaboration sur le copywriting",
-            "Structure des pages pensée pour guider le visiteur",
-            "Analyse de votre offre",
+            "Analyse de votre activité et de vos objectifs",
+            "Structure des pages et parcours de conversion",
+            "Base SEO propre dès la conception",
         ],
+        footer: "Stratégie & contenu",
     },
     {
-        title: "Design d’interface",
+        title: "Design d'interface",
+        description:
+            "Je transforme la structure en pages lisibles, cohérentes et adaptées à votre marque.",
+        tone: "dark",
         items: [
-            "Direction visuelle adaptée à votre marque",
-            "Maquettes soignées, modernes et responsive",
-            "Parcours utilisateur simple et fluide",
-            "Interface réfléchie et user friendly",
+            "Design responsive adapté à votre marque",
+            "Sections pensées pour guider le visiteur",
+            "Maquettes modernes et faciles à comprendre",
+            "Détails visuels sobres, utiles et cohérents",
         ],
+        footer: "UI, responsive, expérience",
     },
     {
-        title: "Développement front-end",
+        title: "Développement",
+        description:
+            "J'intègre le site proprement, avec une attention forte à la vitesse et à la maintenance.",
+        tone: "slate",
         items: [
-            "Intégration propre et performante",
-            "Site rapide, accessible et SEO-friendly",
-            "Animations et détails premiums",
-            "Code maintenable, propre et prêt à évoluer",
+            "Intégration front-end propre et accessible",
+            "Animations utiles, sans ralentir l'expérience",
+            "Site rapide, responsive et SEO-friendly",
+            "Code maintenable, clair et facile à reprendre",
         ],
+        footer: "Front-end, performance, suivi",
     },
 ];
 ---
-
-<section class="bg-snow-500 py-20 md:py-28">
-    <div class="mx-auto flex w-full max-w-[1180px] flex-col items-center gap-12 px-4 sm:px-6">
-        <SectionHeading>
-            Concrètement, je construis<span class="md:hidden"> </span><br
-                class="hidden md:block"
-            /> un site qui travaille pour vous
-        </SectionHeading>
-
-        <div class="grid w-full grid-cols-1 gap-6 md:grid-cols-3 md:gap-10">
-            {services.map((service) => <ServiceCard {...service} />)}
-        </div>
-    </div>
-</section>

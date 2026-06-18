@@ -1,106 +1,279 @@
 ---
 import Layout from "../layout/Layout.astro";
+import FadeReveal from "../components/animations/FadeReveal.astro";
+import FadeRevealOnScroll from "../components/animations/FadeRevealOnScroll.astro";
 import Marquee from "../components/Marquee.astro";
+import Carousel from "../components/Carousel.astro";
+import Link from "../components/icons/Link.tsx";
 import Differenciates from "@/sections/Differenciates.astro";
 import ArrowRight from "../components/icons/ArrowRight.svg";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
 
-const projects = [
-    {
-        title: "Motivai",
-        description:
-            "SaaS IA pour générer des lettres de motivation, avec onboarding, génération et parcours produit complet.",
-    },
-    {
-        title: "Komin",
-        description:
-            "Site vitrine sobre pour une marque locale, pensé pour clarifier l'offre et guider la prise de contact.",
-    },
-    {
-        title: "Studio Nova",
-        description:
-            "Interface éditoriale fictive avec direction visuelle minimaliste, sections modulaires et responsive.",
-    },
+const heroTitleWords = [
+    "Je",
+    "crée",
+    "des",
+    "sites",
+    "web",
+    "et",
+    "des",
+    "interfaces",
+    "rapides,",
+    "soignés",
+    "et",
+    "pensés",
+    "pour",
+    "convertir.",
 ];
+
+const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
 ---
 
 <Layout>
-    <section class="flex flex-col gap-6 max-w-5xl mx-auto">
-        <h1
-            class="text-7xl text-gray-900 [&_span]:text-blue-500 text-center leading-tighter tracking-[-4%] font-medium"
-        >
-            Je crée des sites web et des interfaces <span>rapides, soignés</span
-            > et pensés pour <span>convertir.</span>
-        </h1>
-        <p
-            class="max-w-120 tracking-[-4%] leading-tight text-coffee-300 font-light text-center text-md mx-auto"
-        >
-            J’aide les petites structures et les équipes produit à lancer des
-            interfaces & sites performants, accessibles et SEO-friendly.
-        </p>
-        <div class="flex gap-8 items-center justify-center">
-            <a
-                class="hero-button hero-button--primary font-regular px-6 text-md py-1.5 rounded-xl h-12 flex justify-center items-center"
-                href="#projects"
-                ><WaveText text="Parlons de votre projet" trigger="parent" />
-                <WaveIcon
-                    style="--wui-wave-icon-size: 1rem;"
-                    direction="right"
-                    trigger="parent"
-                >
-                    <ArrowRight class="size-full" aria-hidden="true" />
-                </WaveIcon>
-            </a>
-            <a
-                class="hero-button hero-button--secondary font-regular px-6 py-1.5 rounded-xl h-12 flex text-md justify-center items-center"
-                href="#projects"><WaveText text="Voir les études de cas" trigger="parent" /></a
+    <section class="max-w-5xl mx-auto">
+        <div class="flex flex-col gap-6">
+            <p
+                class="mx-auto w-fit rounded-xl bg-blue-500 px-4 py-1.5 text-sm font-light leading-none text-snow-50 shadow-[0_10px_18px_-8px_rgba(37,99,235,0.85)] ring-1 ring-blue-400/70 md:text-base"
+                data-hero-eyebrow
             >
-        </div>
-        <div
-            class="flex-col gap-2 mx-auto text-center text-xs flex items-center justify-center my-4"
-        >
-            <div class="size-8 rounded-full bg-[#E8E5E8]"></div>
-            <span class="">Quentin Leffelic</span>
-            <p class="max-w-70 mx-auto">
-                “Excellente collaboration avec william, site livré rapidement et
-                avec soin”
+                Freelance front-end orienté design et produit
             </p>
-        </div>
-    </section>
-    <Marquee />
-    <section id="projects" class="mb-20 px-4">
-        <div class="mx-auto flex max-w-5xl flex-col gap-8">
-            <div class="flex items-end justify-between gap-6">
-                <h2 class="text-3xl text-zinc-700 font-medium">Projets</h2>
-                <a class="text-sm font-light text-zinc-500" href="/projets"
-                    >Voir les réalisations</a
-                >
-            </div>
-
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <h1
+                class="flex flex-wrap justify-center gap-x-[0.18em] text-7xl text-gray-900 text-center leading-tighter tracking-[-4%] font-medium"
+                data-hero-title
+            >
                 {
-                    projects.map((project) => (
-                        <article class="flex flex-col gap-4">
-                            <div class="aspect-video rounded-lg bg-gray-100" />
-                            <div class="flex flex-col gap-2">
-                                <h3 class="text-xl font-medium leading-tight text-zinc-700">
-                                    {project.title}
-                                </h3>
-                                <p class="text-sm font-light leading-tight text-zinc-500">
-                                    {project.description}
-                                </p>
-                            </div>
-                        </article>
+                    heroTitleWords.map((word) => (
+                        <span
+                            class:list={[
+                                highlightedHeroWords.has(word) &&
+                                    "text-blue-500",
+                            ]}
+                            data-hero-title-word
+                        >
+                            {word}
+                        </span>
                     ))
                 }
-            </div>
+            </h1>
+            <FadeReveal delay={0.08}>
+                <p
+                    class="max-w-120 tracking-[-4%] leading-tight text-coffee-300 font-light text-center text-md mx-auto"
+                >
+                    J’aide les petites structures et les équipes produit à lancer
+                    des interfaces & sites performants, accessibles et
+                    SEO-friendly.
+                </p>
+            </FadeReveal>
+            <FadeReveal delay={0.16}>
+                <div class="flex gap-8 items-center justify-center">
+                    <a
+                        class="hero-button hero-button--primary font-regular px-6 text-md py-1.5 rounded-xl h-12 flex justify-center items-center"
+                        href="#projects"
+                        ><WaveText
+                            text="Parlons de votre projet"
+                            trigger="parent"
+                        />
+                        <WaveIcon
+                            style="--wui-wave-icon-size: 1rem;"
+                            direction="right"
+                            trigger="parent"
+                        >
+                            <ArrowRight class="size-full" aria-hidden="true" />
+                        </WaveIcon>
+                    </a>
+                    <a
+                        class="hero-button hero-button--secondary font-regular px-6 py-1.5 rounded-xl h-12 flex text-md justify-center items-center"
+                        href="#projects"
+                        ><WaveText
+                            text="Voir les études de cas"
+                            trigger="parent"
+                        /></a
+                    >
+                </div>
+            </FadeReveal>
+            <FadeReveal delay={0.24}>
+                <div
+                    class="flex-col gap-2 mx-auto text-center text-xs flex items-center justify-center my-4"
+                >
+                    <div class="size-8 rounded-full bg-[#E8E5E8]"></div>
+                    <span class="">Quentin Leffelic</span>
+                    <p class="max-w-70 mx-auto">
+                        “Excellente collaboration avec william, site livré
+                        rapidement et avec soin”
+                    </p>
+                </div>
+            </FadeReveal>
         </div>
+    </section>
+    <FadeRevealOnScroll delay={0.12}>
+        <Marquee />
+    </FadeRevealOnScroll>
+    <section id="projects" class="mb-20">
+        <div class="flex flex-col gap-4 max-w-5xl mx-auto pb-10">
+            <a
+                target="_blank"
+                href="https://www.motivai.fr/"
+                class="flex items-center gap-4 w-fit"
+            >
+                <h2 class="text-3xl text-zinc-700 font-medium">Motivai</h2>
+                <Link className="size-5 text-zinc-500" />
+            </a>
+            <p
+                class="text-zinc-500 font-light text-base [&_span]:text-zinc-700 [&_span]:font-normal"
+            >
+                SaaS de génération de lettres de motivation par IA, développé en
+                solo depuis 2024. J'ai conçu l'architecture complète avec
+                <span>Next.js</span>, <span>Drizzle ORM</span> et <span
+                    >Better Auth</span
+                >. L'intégration du <span>Vercel AI SDK</span> permet aux utilisateurs
+                de choisir leur modèle d'IA. Un projet formateur sur les défis d'un
+                produit complet : CI/CD, environnements multiples et déploiements
+                versionnés.
+            </p>
+        </div>
+
+        <Carousel>
+            <div class="embla__slide">
+                <video
+                    muted
+                    playsinline
+                    loop
+                    preload="metadata"
+                    tabindex="-1"
+                    poster="/motivai/motivai-landing.webp"
+                    aria-hidden="true"
+                    class="h-full w-full object-cover rounded-md"
+                >
+                    <source
+                        src="/motivai/motivai-landing.mp4"
+                        type="video/mp4"
+                    />
+                </video>
+            </div>
+            <div class="embla__slide">
+                <video
+                    muted
+                    playsinline
+                    loop
+                    preload="none"
+                    tabindex="-1"
+                    poster="/motivai/motivai-onboarding.webp"
+                    aria-hidden="true"
+                    class="h-full w-full object-cover rounded-md"
+                >
+                    <source
+                        src="/motivai/motivai-onboarding.mp4"
+                        type="video/mp4"
+                    />
+                </video>
+            </div>
+            <div class="embla__slide">
+                <video
+                    muted
+                    playsinline
+                    loop
+                    preload="none"
+                    tabindex="-1"
+                    poster="/motivai/motivai-aichoose.webp"
+                    aria-hidden="true"
+                    class="h-full w-full object-cover rounded-md"
+                >
+                    <source
+                        src="/motivai/motivai-aichoose.mp4"
+                        type="video/mp4"
+                    />
+                </video>
+            </div>
+        </Carousel>
     </section>
     <Differenciates />
 </Layout>
 
+<script>
+    import { animate, stagger } from "animejs";
+
+    const initHeroTitleAnimation = () => {
+        const title = document.querySelector<HTMLElement>("[data-hero-title]");
+
+        if (!title || title.dataset.heroTitleReady) return;
+
+        const words = title.querySelectorAll<HTMLElement>(
+            "[data-hero-title-word]",
+        );
+
+        title.dataset.heroTitleReady = "running";
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            title.dataset.heroTitleReady = "true";
+            return;
+        }
+
+        words.forEach((word) => {
+            word.style.willChange = "opacity, transform, filter";
+        });
+
+        animate(words, {
+            opacity: [0, 1],
+            translateY: ["-0.65em", "0em"],
+            filter: ["blur(10px)", "blur(0px)"],
+            duration: 1100,
+            delay: stagger(65),
+            ease: "out(4)",
+            onComplete: () => {
+                title.dataset.heroTitleReady = "true";
+                words.forEach((word) => {
+                    word.style.willChange = "auto";
+                });
+            },
+        });
+    };
+
+    initHeroTitleAnimation();
+    document.addEventListener("astro:page-load", initHeroTitleAnimation);
+</script>
+
 <style>
+    [data-hero-eyebrow] {
+        animation: hero-eyebrow-fade 780ms cubic-bezier(0.2, 0, 0, 1) both;
+    }
+
+    @keyframes hero-eyebrow-fade {
+        from {
+            filter: blur(8px);
+            opacity: 0;
+        }
+
+        to {
+            filter: blur(0);
+            opacity: 1;
+        }
+    }
+
+    [data-hero-title-word] {
+        display: inline-block;
+    }
+
+    [data-hero-title]:not([data-hero-title-ready="true"])
+        [data-hero-title-word] {
+        filter: blur(10px);
+        opacity: 0;
+        transform: translateY(-0.65em);
+    }
+
+    @media (scripting: none), (prefers-reduced-motion: reduce) {
+        [data-hero-eyebrow] {
+            animation: none;
+        }
+
+        [data-hero-title] [data-hero-title-word] {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
     .hero-button {
         --hero-button-bg: #e8e5e8;
         --hero-button-border: transparent;
