@@ -27,7 +27,7 @@ export default function Header({ pathName }: { pathName: string }) {
                   {active && (
                     <span
                       aria-hidden="true"
-                      className="absolute inset-0 rounded-full bg-gray-100"
+                      className="absolute inset-0 rounded-full bg-[#e8e5e8]"
                       style={{ viewTransitionName: "nav-active-indicator" }}
                     />
                   )}
