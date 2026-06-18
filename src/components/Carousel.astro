@@ -12,6 +12,7 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
     data-carousel
     data-carousel-autoplay={autoplay ? "true" : undefined}
     data-carousel-autoplay-delay={autoplay ? autoplayDelay : undefined}
+    data-carousel-paused={autoplay ? "false" : undefined}
 >
     <div class="embla__viewport">
         <div class="embla__container">
@@ -54,9 +55,57 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
             ></button
         >
     </div>
+    {
+        autoplay && (
+            <div class="embla__autoplay mt-5 flex items-center justify-center gap-2">
+                <button
+                    type="button"
+                    class="embla__autoplay-toggle flex size-9 items-center justify-center rounded-full bg-[#E8E5E8] text-gray-900 transition-transform duration-200 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900/30"
+                    data-carousel-autoplay-toggle
+                    aria-label="Mettre le carousel en pause"
+                    aria-pressed="false"
+                >
+                    <svg
+                        data-carousel-pause-icon
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path d="M7 5h3v14H7zM14 5h3v14h-3z" />
+                    </svg>
+                    <svg
+                        data-carousel-play-icon
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </button>
+                <div
+                    class="flex h-9 w-32 items-center rounded-full bg-[#E8E5E8] px-3"
+                    aria-hidden="true"
+                >
+                    <span class="h-1.5 w-full overflow-hidden rounded-full bg-white/70">
+                        <span
+                            class="embla__progress block h-full origin-left rounded-full bg-gray-900"
+                            data-carousel-progress
+                        />
+                    </span>
+                </div>
+            </div>
+        )
+    }
 </div>
 
 <script>
+    import { animate } from "animejs";
     import EmblaCarousel from "embla-carousel";
 
     function initCarousel(wrapperNode: HTMLElement) {
@@ -66,6 +115,13 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
             wrapperNode.querySelector<HTMLElement>(".embla__viewport");
         const prevButtonNode = wrapperNode.querySelector(".embla__prev");
         const nextButtonNode = wrapperNode.querySelector(".embla__next");
+        const autoplayButtonNode =
+            wrapperNode.querySelector<HTMLButtonElement>(
+                "[data-carousel-autoplay-toggle]",
+            );
+        const progressNode = wrapperNode.querySelector<HTMLElement>(
+            "[data-carousel-progress]",
+        );
 
         if (!viewportNode || !prevButtonNode || !nextButtonNode) return;
 
@@ -115,17 +171,10 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
                 video.preload = "none";
             };
 
-            function updateVideos(shouldDispatch = false) {
+            function dispatchSlideChange() {
                 const activeIndex = emblaApi.selectedScrollSnap();
-                const activeVideos = new Set(
-                    Array.from(
-                        slides[activeIndex]?.querySelectorAll<HTMLVideoElement>(
-                            "video",
-                        ) ?? [],
-                    ),
-                );
 
-                if (shouldDispatch && activeIndex !== lastDispatchedIndex) {
+                if (activeIndex !== lastDispatchedIndex) {
                     const previousIndex = emblaApi.previousScrollSnap();
                     const snapCount = emblaApi.scrollSnapList().length;
                     const delta =
@@ -140,6 +189,17 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
                         }),
                     );
                 }
+            }
+
+            function updateVideos() {
+                const activeIndex = emblaApi.selectedScrollSnap();
+                const activeVideos = new Set(
+                    Array.from(
+                        slides[activeIndex]?.querySelectorAll<HTMLVideoElement>(
+                            "video",
+                        ) ?? [],
+                    ),
+                );
 
                 videos.forEach((video) => {
                     if (activeVideos.has(video)) {
@@ -152,7 +212,7 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
             }
 
             emblaApi.on("select", () => {
-                updateVideos(true);
+                dispatchSlideChange();
                 scheduleAutoplay();
             });
             emblaApi.on("settle", () => updateVideos());
@@ -180,28 +240,72 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
                 let isInAutoplayZone = false;
                 let isPaused = false;
                 let timer = 0;
+                let progressAnimation:
+                    | ReturnType<typeof animate>
+                    | undefined;
                 const delay =
                     Number(wrapperNode.dataset.carouselAutoplayDelay) || 4500;
+
+                const resetProgress = () => {
+                    if (!progressNode) return;
+
+                    progressAnimation?.cancel();
+                    progressAnimation = undefined;
+                    progressNode.style.transform = "scaleX(0)";
+                };
+
+                const startProgress = () => {
+                    if (!progressNode) return;
+
+                    resetProgress();
+                    if (!isInAutoplayZone || isPaused) return;
+
+                    progressAnimation = animate(progressNode, {
+                        scaleX: [0, 1],
+                        duration: delay,
+                        ease: "linear",
+                    });
+                };
+
+                const syncPausedUi = () => {
+                    wrapperNode.dataset.carouselPaused = String(isPaused);
+                    autoplayButtonNode?.setAttribute(
+                        "aria-pressed",
+                        String(isPaused),
+                    );
+                    autoplayButtonNode?.setAttribute(
+                        "aria-label",
+                        isPaused
+                            ? "Relancer le carousel"
+                            : "Mettre le carousel en pause",
+                    );
+                };
+
                 const clearAutoplay = () => {
                     window.clearTimeout(timer);
                     timer = 0;
+                    resetProgress();
                 };
-                const setPaused = (nextPaused: boolean) => {
-                    isPaused = nextPaused;
+                const toggleUserPaused = () => {
+                    isPaused = !isPaused;
                     scheduleAutoplay();
                 };
 
                 scheduleAutoplay = () => {
                     clearAutoplay();
+                    syncPausedUi();
                     if (!isInAutoplayZone || isPaused) return;
 
+                    startProgress();
                     timer = window.setTimeout(() => {
                         if (!document.contains(wrapperNode)) {
                             clearAutoplay();
                             return;
                         }
 
-                        if (isInAutoplayZone && !isPaused) emblaApi.scrollNext();
+                        if (isInAutoplayZone && !isPaused) {
+                            emblaApi.scrollNext();
+                        }
                         scheduleAutoplay();
                     }, delay);
                 };
@@ -209,6 +313,8 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
                 const autoplayObserver = new IntersectionObserver(
                     (entries) => {
                         isInAutoplayZone = entries[0]?.isIntersecting ?? false;
+                        wrapperNode.dataset.carouselAutoplayVisible =
+                            String(isInAutoplayZone);
 
                         if (isInAutoplayZone) {
                             updateVideos();
@@ -218,15 +324,13 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
 
                         scheduleAutoplay();
                     },
-                    { rootMargin: "200px 0px" },
+                    { threshold: 0.2 },
                 );
 
                 autoplayObserver.observe(wrapperNode);
+                syncPausedUi();
 
-                wrapperNode.addEventListener("pointerenter", () => setPaused(true));
-                wrapperNode.addEventListener("pointerleave", () => setPaused(false));
-                wrapperNode.addEventListener("focusin", () => setPaused(true));
-                wrapperNode.addEventListener("focusout", () => setPaused(false));
+                autoplayButtonNode?.addEventListener("click", toggleUserPaused);
             }
         };
 
@@ -237,7 +341,7 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
                 observer.disconnect();
                 startCarousel();
             },
-            { rootMargin: "200px 0px" },
+            { rootMargin: "120px 0px" },
         );
 
         observer.observe(wrapperNode);
@@ -252,3 +356,65 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
     init();
     document.addEventListener("astro:page-load", init);
 </script>
+
+<style>
+    .embla {
+        --carousel-slide-size: min(64rem, calc(100vw - 2rem));
+        --carousel-slide-spacing: clamp(0.75rem, 1.6vw, 1.25rem);
+    }
+
+    .embla :global(.embla__container) {
+        gap: var(--carousel-slide-spacing);
+        margin: 0;
+    }
+
+    .embla :global(.embla__slide) {
+        aspect-ratio: 16 / 9;
+        background: #e8e5e8;
+        border-radius: 0.75rem;
+        flex: 0 0 var(--carousel-slide-size);
+        overflow: hidden;
+        padding-left: 0;
+    }
+
+    .embla :global(.embla__slide video),
+    .embla :global(.project-placeholder) {
+        background: #e8e5e8;
+        border-radius: inherit;
+        display: block;
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .embla:not([data-carousel-paused="true"]) [data-carousel-play-icon],
+    .embla[data-carousel-paused="true"] [data-carousel-pause-icon] {
+        display: none;
+    }
+
+    .embla__progress {
+        transform: scaleX(0);
+    }
+
+    .embla__autoplay {
+        filter: blur(4px);
+        opacity: 0;
+        transform: translateY(0.5rem);
+        transition:
+            opacity 520ms var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+            transform 520ms var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+            filter 520ms var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    }
+
+    .embla[data-carousel-autoplay-visible="true"] .embla__autoplay {
+        filter: blur(0);
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .embla__autoplay {
+            display: none;
+        }
+    }
+</style>
