@@ -177,7 +177,7 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
 
                 load();
             },
-            { rootMargin: "480px 0px" },
+            { rootMargin: "128px 0px" },
         );
         state.observer.observe(root);
     };
@@ -205,13 +205,7 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
     }
 
     .embla__viewport {
-        opacity: 0;
         overflow: visible;
-        transition: opacity 0.3s ease;
-    }
-
-    .embla__viewport.is-ready {
-        opacity: 1;
     }
 
     .embla__container {
