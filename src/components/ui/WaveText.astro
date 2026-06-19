@@ -80,106 +80,6 @@ const splitWords = text.trim()
     </span>
 </Tag>
 
-<script>
-    import { animate, spring, stagger } from "animejs";
-
-    const activeAnimations = new WeakMap<HTMLElement, Array<{ cancel: () => void }>>();
-
-    const cancelWaveTextAnimations = (root: HTMLElement) => {
-        activeAnimations.get(root)?.forEach((animation) => animation.cancel());
-        activeAnimations.delete(root);
-    };
-
-    const setWaveTextState = (root: HTMLElement, active: boolean) => {
-        root
-            .querySelectorAll<HTMLElement>(
-                '[data-wui-wave-row="first"] [data-wui-wave-char]',
-            )
-            .forEach((char) => {
-                char.style.transform = `translateY(${active ? "-115%" : "0%"})`;
-            });
-
-        root
-            .querySelectorAll<HTMLElement>(
-                '[data-wui-wave-row="second"] [data-wui-wave-char]',
-            )
-            .forEach((char) => {
-                char.style.transform = `translateY(${active ? "0%" : "115%"})`;
-            });
-    };
-
-    const animateWaveText = (root: HTMLElement, active: boolean) => {
-        if (root.dataset.wuiWaveTextActive === String(active)) return;
-
-        root.dataset.wuiWaveTextActive = String(active);
-        cancelWaveTextAnimations(root);
-
-        const firstRowChars = root.querySelectorAll<HTMLElement>(
-            '[data-wui-wave-row="first"] [data-wui-wave-char]',
-        );
-        const secondRowChars = root.querySelectorAll<HTMLElement>(
-            '[data-wui-wave-row="second"] [data-wui-wave-char]',
-        );
-        const charDelay = Number(root.dataset.wuiWaveStagger) || 8;
-        const transition = {
-            delay: stagger(charDelay),
-            ease: spring({ bounce: 0.16, duration: 340 }),
-        };
-
-        activeAnimations.set(root, [
-            animate(firstRowChars, {
-                y: active ? "-115%" : "0%",
-                ...transition,
-            }),
-            animate(secondRowChars, {
-                y: active ? "0%" : "115%",
-                ...transition,
-            }),
-        ]);
-    };
-
-    const getWaveTextTrigger = (root: HTMLElement) =>
-        root.dataset.wuiWaveTrigger === "parent"
-            ? root.parentElement ?? root
-            : root;
-
-    const initWaveTexts = () => {
-        const prefersReducedMotion = window.matchMedia(
-            "(prefers-reduced-motion: reduce)",
-        ).matches;
-
-        document
-            .querySelectorAll<HTMLElement>("[data-wui-wave-text]")
-            .forEach((root) => {
-                if (root.dataset.wuiWaveTextReady === "true") return;
-
-                root.dataset.wuiWaveTextReady = "true";
-                root.dataset.wuiWaveTextActive = "false";
-                setWaveTextState(root, false);
-
-                if (prefersReducedMotion) return;
-
-                const trigger = getWaveTextTrigger(root);
-
-                trigger.addEventListener("pointerenter", () =>
-                    animateWaveText(root, true),
-                );
-                trigger.addEventListener("pointerleave", () =>
-                    animateWaveText(root, false),
-                );
-                trigger.addEventListener("focusin", () =>
-                    animateWaveText(root, true),
-                );
-                trigger.addEventListener("focusout", () =>
-                    animateWaveText(root, false),
-                );
-            });
-    };
-
-    initWaveTexts();
-    document.addEventListener("astro:page-load", initWaveTexts);
-</script>
-
 <style>
     .wui-wave-text {
         align-items: center;
@@ -223,62 +123,48 @@ const splitWords = text.trim()
         transform: translateY(115%);
     }
 
-    .wui-wave-text:not([data-wui-wave-text-ready="true"])
-        [data-wui-wave-char] {
-        transition: transform 520ms
-            var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    [data-wui-wave-char] {
+        transition: transform 520ms cubic-bezier(0.34, 1.56, 0.64, 1);
         transition-delay: var(--wui-wave-delay, 0ms);
     }
 
-    .wui-wave-text:not([data-wui-wave-text-ready="true"]):hover
+    .wui-wave-text:hover
         [data-wui-wave-row="first"]
         [data-wui-wave-char],
-    .wui-wave-text:not([data-wui-wave-text-ready="true"]):focus-visible
+    .wui-wave-text:focus-visible
         [data-wui-wave-row="first"]
         [data-wui-wave-char],
     :global(:where(a, button, [data-wui-wave-parent]):hover)
-        .wui-wave-text[data-wui-wave-trigger="parent"]:not(
-            [data-wui-wave-text-ready="true"]
-        )
+        .wui-wave-text[data-wui-wave-trigger="parent"]
         [data-wui-wave-row="first"]
         [data-wui-wave-char],
     :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
-        .wui-wave-text[data-wui-wave-trigger="parent"]:not(
-            [data-wui-wave-text-ready="true"]
-        )
+        .wui-wave-text[data-wui-wave-trigger="parent"]
         [data-wui-wave-row="first"]
         [data-wui-wave-char],
     :global(:where(a, button, [data-wui-wave-parent]):focus-within)
-        .wui-wave-text[data-wui-wave-trigger="parent"]:not(
-            [data-wui-wave-text-ready="true"]
-        )
+        .wui-wave-text[data-wui-wave-trigger="parent"]
         [data-wui-wave-row="first"]
         [data-wui-wave-char] {
         transform: translateY(-115%);
     }
 
-    .wui-wave-text:not([data-wui-wave-text-ready="true"]):hover
+    .wui-wave-text:hover
         [data-wui-wave-row="second"]
         [data-wui-wave-char],
-    .wui-wave-text:not([data-wui-wave-text-ready="true"]):focus-visible
+    .wui-wave-text:focus-visible
         [data-wui-wave-row="second"]
         [data-wui-wave-char],
     :global(:where(a, button, [data-wui-wave-parent]):hover)
-        .wui-wave-text[data-wui-wave-trigger="parent"]:not(
-            [data-wui-wave-text-ready="true"]
-        )
+        .wui-wave-text[data-wui-wave-trigger="parent"]
         [data-wui-wave-row="second"]
         [data-wui-wave-char],
     :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
-        .wui-wave-text[data-wui-wave-trigger="parent"]:not(
-            [data-wui-wave-text-ready="true"]
-        )
+        .wui-wave-text[data-wui-wave-trigger="parent"]
         [data-wui-wave-row="second"]
         [data-wui-wave-char],
     :global(:where(a, button, [data-wui-wave-parent]):focus-within)
-        .wui-wave-text[data-wui-wave-trigger="parent"]:not(
-            [data-wui-wave-text-ready="true"]
-        )
+        .wui-wave-text[data-wui-wave-trigger="parent"]
         [data-wui-wave-row="second"]
         [data-wui-wave-char] {
         transform: translateY(0%);

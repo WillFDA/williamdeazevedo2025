@@ -81,22 +81,23 @@ const displayedTestimonials = temoignages
     <section class="max-w-5xl mx-auto">
         <div class="flex flex-col gap-6">
             <p
-                class="mx-auto w-fit rounded-xl bg-blue-500 px-4 py-1.5 text-sm font-light leading-none text-snow-50 shadow-[0_10px_18px_-8px_rgba(37,99,235,0.85)] ring-1 ring-blue-400/70 md:text-base"
+                class="mx-auto w-fit max-w-[calc(100vw-2rem)] rounded-xl bg-blue-500 px-4 py-1.5 text-center text-sm font-light leading-none text-snow-50 shadow-[0_10px_18px_-8px_rgba(37,99,235,0.85)] ring-1 ring-blue-400/70 md:text-base"
                 data-hero-eyebrow
             >
                 Freelance front-end orienté design et produit
             </p>
             <h1
-                class="flex flex-wrap justify-center gap-x-[0.18em] text-7xl text-gray-900 text-center leading-tighter tracking-[-4%] font-medium"
+                class="flex max-w-full flex-wrap justify-center gap-x-[0.18em] px-4 text-center text-5xl font-medium leading-tighter tracking-[-4%] text-gray-900 sm:text-6xl md:text-7xl"
                 data-animated-title
             >
                 {
-                    heroTitleWords.map((word) => (
+                    heroTitleWords.map((word, index) => (
                         <span
                             class:list={[
                                 highlightedHeroWords.has(word) &&
                                     "text-blue-500",
                             ]}
+                            style={`--animated-word-index: ${index}`}
                             data-animated-title-word
                         >
                             {word}
@@ -114,9 +115,9 @@ const displayedTestimonials = temoignages
                 </p>
             </FadeReveal>
             <FadeReveal delay={0.44}>
-                <div class="flex gap-8 items-center justify-center">
+                <div class="flex flex-wrap gap-3 items-center justify-center px-4 sm:gap-8">
                     <a
-                        class="hero-button hero-button--primary font-regular px-6 text-md py-1.5 rounded-xl h-12 flex justify-center items-center"
+                        class="hero-button hero-button--primary font-regular px-5 text-md py-1.5 rounded-xl h-12 flex justify-center items-center sm:px-6"
                         href="#projects"
                         ><WaveText
                             text="Parlons de votre projet"
@@ -131,7 +132,7 @@ const displayedTestimonials = temoignages
                         </WaveIcon>
                     </a>
                     <a
-                        class="hero-button hero-button--secondary font-regular px-6 py-1.5 rounded-xl h-12 flex text-md justify-center items-center"
+                        class="hero-button hero-button--secondary font-regular px-5 py-1.5 rounded-xl h-12 flex text-md justify-center items-center sm:px-6"
                         href="#projects"
                         ><WaveText
                             text="Voir mes réalisations"
@@ -172,7 +173,17 @@ const displayedTestimonials = temoignages
                                         <span>{temoignage.initials}</span>
                                     )}
                                 </div>
-                                <figcaption>{temoignage.name}</figcaption>
+                                <figcaption>
+                                    <a
+                                        class="testimonial-rotator__link"
+                                        href={temoignage.href}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        aria-label={`Voir le site de ${temoignage.name}`}
+                                    >
+                                        {temoignage.name}
+                                    </a>
+                                </figcaption>
                                 <blockquote>
                                     “{temoignage.excerpt ?? temoignage.text}”
                                 </blockquote>
@@ -195,7 +206,7 @@ const displayedTestimonials = temoignages
                 data-animated-title
             >
                 {
-                    aboutTitleWords.map((word) => (
+                    aboutTitleWords.map((word, index) => (
                         <>
                             <span
                                 class:list={[
@@ -203,6 +214,7 @@ const displayedTestimonials = temoignages
                                         ? "text-blue-400"
                                         : "text-snow-50",
                                 ]}
+                                style={`--animated-word-index: ${index}`}
                                 data-animated-title-word
                             >
                                 {word}
@@ -210,6 +222,7 @@ const displayedTestimonials = temoignages
                             {word === "William," && (
                                 <span
                                     class="about-title-avatar"
+                                    style={`--animated-word-index: ${index + 0.5}`}
                                     data-animated-title-word
                                     aria-hidden="true"
                                 />
@@ -392,8 +405,6 @@ const displayedTestimonials = temoignages
 </Layout>
 
 <script>
-    import { animate, spring, stagger } from "animejs";
-
     type HomeInteractionState = {
         destroy: () => void;
     };
@@ -407,7 +418,6 @@ const displayedTestimonials = temoignages
         new Set<HomeInteractionState>();
     windowWithHomeInteractions.__wuiHomeInteractionStates =
         activeHomeInteractionStates;
-    const activeTitleAnimations = new Set<{ cancel: () => void }>();
 
     function registerHomeInteractionCleanup(destroy: () => void) {
         let state: HomeInteractionState;
@@ -423,50 +433,14 @@ const displayedTestimonials = temoignages
     }
 
     function resetHomeInteractions() {
-        activeTitleAnimations.forEach((animation) => animation.cancel());
-        activeTitleAnimations.clear();
         Array.from(activeHomeInteractionStates).forEach((state) =>
             state.destroy(),
         );
     }
 
-    const animateTitle = (title: HTMLElement) => {
+    const revealTitle = (title: HTMLElement) => {
         if (title.dataset.animatedTitleReady === "true") return;
-
-        const words = title.querySelectorAll<HTMLElement>(
-            "[data-animated-title-word]",
-        );
-
-        title.dataset.animatedTitleReady = "running";
-
-        if (
-            words.length === 0 ||
-            window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ) {
-            title.dataset.animatedTitleReady = "true";
-            return;
-        }
-
-        words.forEach((word) => {
-            word.style.willChange = "opacity, transform, filter";
-        });
-
-        const animation = animate(words, {
-            opacity: [0, 1],
-            translateY: ["-0.65em", "0em"],
-            filter: ["blur(10px)", "blur(0px)"],
-            duration: 1100,
-            delay: stagger(65),
-            ease: "out(4)",
-            onComplete: () => {
-                title.dataset.animatedTitleReady = "true";
-                words.forEach((word) => {
-                    word.style.willChange = "auto";
-                });
-                activeTitleAnimations.delete(animation);
-            },
-        });
-        activeTitleAnimations.add(animation);
+        title.dataset.animatedTitleReady = "true";
     };
 
     const initTitleAnimations = () => {
@@ -479,7 +453,7 @@ const displayedTestimonials = temoignages
                     const title = entry.target as HTMLElement;
 
                     observer.unobserve(title);
-                    animateTitle(title);
+                    revealTitle(title);
                 });
             },
             { rootMargin: "0px 0px -10% 0px", threshold: 0.2 },
@@ -502,36 +476,12 @@ const displayedTestimonials = temoignages
         }
     };
 
-    const projectTextAnimations = new WeakMap<HTMLElement, { cancel: () => void }>();
-
-    const animateProjectPanel = (panel: HTMLElement, direction: string) => {
+    const replayProjectPanelAnimation = (panel: HTMLElement) => {
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-        const items = panel.querySelectorAll<HTMLElement>(
-            ".project-intro__title, .project-intro__description, .project-intro__button",
-        );
-        const fromY = direction === "prev" ? "1.15rem" : "-1.15rem";
-
-        projectTextAnimations.get(panel)?.cancel();
-        items.forEach((item) => {
-            item.style.willChange = "opacity, transform, filter";
-        });
-
-        projectTextAnimations.set(
-            panel,
-            animate(items, {
-                opacity: [0, 1],
-                translateY: [fromY, "0rem"],
-                filter: ["blur(8px)", "blur(0px)"],
-                delay: stagger(130),
-                ease: spring({ bounce: 0.12, duration: 760 }),
-                onComplete: () => {
-                    items.forEach((item) => {
-                        item.style.willChange = "auto";
-                    });
-                },
-            }),
-        );
+        delete panel.dataset.projectPanelAnimate;
+        void panel.offsetWidth;
+        panel.dataset.projectPanelAnimate = "true";
     };
 
     const initTestimonialRotators = () => {
@@ -612,6 +562,7 @@ const displayedTestimonials = temoignages
                         const isActive =
                             Number(panel.dataset.projectIndex) === index;
 
+                        delete panel.dataset.projectPanelAnimate;
                         panel.classList.toggle("is-active", isActive);
                         panel.setAttribute("aria-hidden", String(!isActive));
                         panel.toggleAttribute("inert", !isActive);
@@ -619,7 +570,7 @@ const displayedTestimonials = temoignages
                     });
 
                     if (shouldAnimate && activePanel) {
-                        animateProjectPanel(activePanel, direction);
+                        replayProjectPanelAnimation(activePanel);
                     }
                 };
 
@@ -643,14 +594,7 @@ const displayedTestimonials = temoignages
                         handleCarouselSelect,
                     );
                     panels.forEach((panel) => {
-                        projectTextAnimations.get(panel)?.cancel();
-                        panel
-                            .querySelectorAll<HTMLElement>(
-                                ".project-intro__title, .project-intro__description, .project-intro__button",
-                            )
-                            .forEach((item) => {
-                                item.style.willChange = "auto";
-                            });
+                        delete panel.dataset.projectPanelAnimate;
                     });
                     delete root.dataset.projectShowcaseReady;
                 });
@@ -765,6 +709,17 @@ const displayedTestimonials = temoignages
         line-height: 1.2;
     }
 
+    .testimonial-rotator__link {
+        color: inherit;
+        text-decoration: none;
+        text-underline-offset: 0.2em;
+    }
+
+    .testimonial-rotator__link:hover,
+    .testimonial-rotator__link:focus-visible {
+        text-decoration: underline;
+    }
+
     .testimonial-rotator blockquote {
         color: #141016;
         font-size: 1rem;
@@ -795,12 +750,34 @@ const displayedTestimonials = temoignages
         transform: translateY(-0.65em);
     }
 
+    [data-animated-title][data-animated-title-ready="true"]
+        [data-animated-title-word] {
+        animation: animated-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
+            both;
+        animation-delay: calc(var(--animated-word-index, 0) * 65ms);
+    }
+
+    @keyframes animated-title-word {
+        from {
+            filter: blur(10px);
+            opacity: 0;
+            transform: translateY(-0.65em);
+        }
+
+        to {
+            filter: blur(0);
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
     @media (scripting: none), (prefers-reduced-motion: reduce) {
         [data-hero-eyebrow] {
             animation: none;
         }
 
         [data-animated-title] [data-animated-title-word] {
+            animation: none;
             filter: none;
             opacity: 1;
             transform: none;
@@ -830,6 +807,48 @@ const displayedTestimonials = temoignages
         filter: blur(0);
         opacity: 1;
         pointer-events: auto;
+    }
+
+    .project-showcase {
+        --project-panel-from-y: -1.15rem;
+    }
+
+    .project-showcase[data-project-direction="prev"] {
+        --project-panel-from-y: 1.15rem;
+    }
+
+    .project-copy__panel[data-project-panel-animate="true"]
+        :global(.project-intro__title),
+    .project-copy__panel[data-project-panel-animate="true"]
+        :global(.project-intro__description),
+    .project-copy__panel[data-project-panel-animate="true"]
+        :global(.project-intro__button) {
+        animation: project-panel-copy-reveal 760ms
+            cubic-bezier(0.34, 1.2, 0.64, 1) both;
+    }
+
+    .project-copy__panel[data-project-panel-animate="true"]
+        :global(.project-intro__description) {
+        animation-delay: 130ms;
+    }
+
+    .project-copy__panel[data-project-panel-animate="true"]
+        :global(.project-intro__button) {
+        animation-delay: 260ms;
+    }
+
+    @keyframes project-panel-copy-reveal {
+        from {
+            filter: blur(8px);
+            opacity: 0;
+            transform: translateY(var(--project-panel-from-y));
+        }
+
+        to {
+            filter: blur(0);
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .project-placeholder {

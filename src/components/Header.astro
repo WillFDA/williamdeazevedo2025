@@ -20,15 +20,17 @@ const items = navItems.map((item) => ({
 }));
 ---
 
-<header class="w-full p-4 mb-12">
-    <nav class="max-w-5xl mx-auto p-4">
-        <ul class="relative flex gap-4 justify-center items-center font-light">
+<header class="w-full p-3 mb-12 sm:p-4">
+    <nav class="max-w-5xl mx-auto p-2 sm:p-4">
+        <ul
+            class="relative flex flex-wrap gap-1 justify-center items-center text-sm font-light sm:gap-4 sm:text-base"
+        >
             {
                 items.map((item) => (
                     <li>
                         <a
                             aria-current={item.active ? "page" : undefined}
-                            class="nav-link relative block px-5 py-3"
+                            class="nav-link relative block px-3 py-2 sm:px-5 sm:py-3"
                             data-wui-wave-parent
                             href={item.href}
                         >
