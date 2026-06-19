@@ -1,0 +1,69 @@
+---
+import Layout from "../layout/Layout.astro";
+
+const sections = [
+    {
+        title: "Éditeur",
+        content:
+            "Ce site est édité par William De Azevedo, développeur front-end freelance. Les informations administratives comme le SIRET, l'adresse professionnelle et le statut juridique sont à compléter.",
+    },
+    {
+        title: "Contact",
+        content:
+            "Pour toute demande, vous pouvez écrire à william.deazevedopro@gmail.com.",
+    },
+    {
+        title: "Responsable de publication",
+        content: "William De Azevedo.",
+    },
+    {
+        title: "Hébergement",
+        content:
+            "Le site est hébergé via Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, États-Unis.",
+    },
+    {
+        title: "Propriété intellectuelle",
+        content:
+            "Les contenus, textes, images et éléments graphiques présents sur ce site restent la propriété de William De Azevedo ou de leurs auteurs respectifs, sauf mention contraire.",
+    },
+    {
+        title: "Données personnelles",
+        content:
+            "Les informations envoyées par email sont utilisées uniquement pour répondre à votre demande. Vous pouvez demander leur suppression à tout moment via la même adresse de contact.",
+    },
+];
+---
+
+<Layout
+    title="Mentions légales - William De Azevedo"
+    description="Mentions légales du site de William De Azevedo, développeur front-end freelance."
+>
+    <section class="mx-auto flex max-w-3xl flex-col gap-10 px-4 py-4">
+        <div class="flex flex-col gap-4">
+            <p class="text-sm font-light text-blue-500">Informations légales</p>
+            <h1
+                class="text-4xl font-medium leading-tight text-gray-900 sm:text-5xl"
+            >
+                Mentions légales
+            </h1>
+            <p class="max-w-2xl font-light leading-relaxed text-gray-600">
+                Cette page rassemble les informations essentielles liées à
+                l'édition, l'hébergement et l'utilisation du site.
+            </p>
+        </div>
+        <div class="flex flex-col divide-y divide-snow-600/80">
+            {
+                sections.map((section) => (
+                    <section class="grid gap-3 py-6 sm:grid-cols-[12rem_1fr]">
+                        <h2 class="text-base font-medium text-gray-900">
+                            {section.title}
+                        </h2>
+                        <p class="font-light leading-relaxed text-gray-600">
+                            {section.content}
+                        </p>
+                    </section>
+                ))
+            }
+        </div>
+    </section>
+</Layout>

@@ -10,15 +10,15 @@ import shadcnIcon from "@/public/icons/shadcn-ui.svg"; // done
 import tailwindIcon from "@/public/icons/tailwindcss.svg"; // done
 import typescriptIcon from "@/public/icons/typescript.svg"; // done
 import zustandIcon from "@/public/icons/zustand.webp"; // done
+// certifications
+import learnJsCertificate from "@/public/learn-js-jade.png";
+import ocDevCertificate from "@/public/oc-dev-jav-react-2025.png";
+import ocIntegCertificate from "@/public/oc-integ-web-2023.png";
 import bourgetPicture from "@/public/pictures/bourget-opti.jpg";
 import setupPicture from "@/public/pictures/desktop-opti.jpg";
 import gokuPicture from "@/public/pictures/goku-opti.jpg";
 import madeira from "@/public/pictures/madere-opti.jpg";
 import majorquePicture from "@/public/pictures/majorque-opti.jpg";
-// certifications
-import learnJsCertificate from "@/public/learn-js-jade.png";
-import ocDevCertificate from "@/public/oc-dev-jav-react-2025.png";
-import ocIntegCertificate from "@/public/oc-integ-web-2023.png";
 
 export type Pictures = {
   id: number;
