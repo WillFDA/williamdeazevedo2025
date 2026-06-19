@@ -716,10 +716,25 @@ const displayedTestimonials = temoignages
     }
 
     .testimonial-rotator__item.is-active {
+        animation: testimonial-item-in 420ms cubic-bezier(0.2, 0, 0, 1) both;
         filter: blur(0);
         opacity: 1;
         pointer-events: auto;
         transform: translateY(0);
+    }
+
+    @keyframes testimonial-item-in {
+        from {
+            filter: blur(8px);
+            opacity: 0;
+            transform: translateY(0.45rem);
+        }
+
+        to {
+            filter: blur(0);
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .testimonial-avatar {
@@ -792,6 +807,7 @@ const displayedTestimonials = temoignages
         }
 
         .testimonial-rotator__item {
+            animation: none;
             transition: none;
         }
     }

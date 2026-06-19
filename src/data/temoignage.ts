@@ -24,13 +24,12 @@ export const temoignages: Temoignage[] = [
     {
         id: "cedrine-marmasse",
         excerpt:
-            "Un accompagnement clair et sensible, avec un site fidèle à mon univers.",
+            "Réactif, rigoureux et à l’écoute, il a su traduire mes besoins en un site clair, professionnel et fidèle à mon activité.",
         imageAlt: "Portrait de Cédrine Marmasse",
-        imageFile: "cedrine-marmasse.webp",
+        imageFile: "persistance-cedrine-marmasse.webp",
         initials: "CM",
         name: "Cédrine Marmasse",
-        published: false,
         text:
-            "Le site Persistance m’a permis de présenter mon univers, mes offres et mes réalisations avec clarté. William a su structurer le contenu, garder une interface fluide et me rendre autonome sur la gestion des pages. Les échanges ont été simples, précis et le résultat correspond très bien à l’image que je voulais transmettre.",
+            "J’ai fait appel à William pour la réalisation de mon site internet. Force de conseil et de proposition, il a su me mettre en confiance dès le début du projet. Son expertise technique, associée à une approche pédagogique, m’a permis de mieux comprendre les enjeux liés à la conception du site. Réactif, rigoureux et à l’écoute, il a su traduire mes besoins en un site clair, professionnel et fidèle à mon activité. Je suis pleinement satisfait du résultat final. Le résultat final correspond parfaitement à mes attentes et reflète fidèlement l’identité de mon activité.",
     },
 ];
