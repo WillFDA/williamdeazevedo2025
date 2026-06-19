@@ -8,7 +8,7 @@ import {
 
 const Slot = (props: PropsWithChildren) => {
   const children = Children.toArray(props.children).filter((c) =>
-    isValidElement(c),
+    isValidElement(c)
   );
 
   if (children.length !== 1) {
