@@ -8,10 +8,7 @@ interface Props {
 const { pathName } = Astro.props;
 const navItems = [
     { href: "/", id: "home", label: "Accueil" },
-    { href: "/projets", id: "projects", label: "Projets" },
     { href: "/about", id: "about", label: "À propos" },
-    { href: "/blog", id: "blog", label: "Blog" },
-    { href: "/vault", id: "vault", label: "La grotte" },
 ];
 const currentPath = pathName.replace(/\/$/, "") || "/";
 const items = navItems.map((item) => ({
