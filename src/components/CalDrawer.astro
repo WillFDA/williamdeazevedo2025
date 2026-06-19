@@ -1,0 +1,368 @@
+---
+const calLink = String(
+    import.meta.env.PUBLIC_CAL_LINK ?? "william-de-azevedo-rbyobm/15min",
+)
+    .replace(/^https?:\/\/(?:app\.)?cal\.com\//, "")
+    .replace(/^\/+/, "")
+    .replace(/\/+$/, "");
+---
+
+<dialog
+    aria-label="Planifier un créneau"
+    class="cal-drawer"
+    data-cal-drawer
+>
+    <div class="cal-drawer__header">
+        <button
+            aria-label="Fermer"
+            class="cal-drawer__close"
+            data-cal-close
+            type="button"
+        >
+            <svg
+                aria-hidden="true"
+                fill="none"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="m6 6 12 12M18 6 6 18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-width="1.8"
+                />
+            </svg>
+        </button>
+    </div>
+    <div
+        aria-label="Réserver un appel avec William De Azevedo"
+        class="cal-drawer__embed"
+        data-cal-inline
+        data-cal-link={calLink}
+    ></div>
+</dialog>
+
+<script>
+    const drawer = document.querySelector("[data-cal-drawer]");
+    const inlineEmbed = document.querySelector("[data-cal-inline]");
+    const root = document.documentElement;
+    const closeAnimationMs = 320;
+    let isCalEmbedded = false;
+    let isCalConfigured = false;
+    let closeTimer;
+
+    function loadCalEmbed() {
+        if ("Cal" in window) return;
+
+        (function initCalEmbedSnippet(C, A, L) {
+            const push = (api, args) => api.q.push(args);
+            const documentRef = C.document;
+
+            if (!C.Cal) {
+                C.Cal = function Cal(...args) {
+                    const cal = C.Cal;
+
+                    if (!cal.loaded) {
+                        cal.ns ||= {};
+                        cal.q ||= [];
+
+                        const script = documentRef.createElement("script");
+                        script.src = A;
+                        documentRef.head.append(script);
+                        cal.loaded = true;
+                    }
+
+                    if (args[0] === L) {
+                        const api = function api(...namespaceArgs) {
+                            push(api, namespaceArgs);
+                        };
+                        const namespace = args[1];
+
+                        api.q ||= [];
+                        if (typeof namespace === "string") {
+                            cal.ns[namespace] ||= api;
+                            push(cal.ns[namespace], args);
+                            push(cal, ["initNamespace", namespace]);
+                        } else {
+                            push(cal, args);
+                        }
+                        return;
+                    }
+
+                    push(cal, args);
+                };
+            }
+        })(window, "https://app.cal.com/embed/embed.js", "init");
+    }
+
+    function getCalLink() {
+        if (!(inlineEmbed instanceof HTMLElement)) return "";
+        return inlineEmbed.dataset.calLink ?? "";
+    }
+
+    function configureCalEmbed(calLink) {
+        if (isCalConfigured) return;
+
+        loadCalEmbed();
+        window.Cal("init", { origin: "https://cal.com" });
+        window.Cal("ui", {
+            cssVarsPerTheme: {
+                dark: {
+                    "cal-bg": "#141016",
+                    "cal-bg-muted": "#171219",
+                    "cal-bg-subtle": "#1f1822",
+                    "cal-border": "#2a2230",
+                    "cal-border-subtle": "#2a2230",
+                },
+            },
+            styles: {
+                body: { background: "#141016" },
+                eventTypeListItem: { background: "#1f1822" },
+            },
+            theme: "dark",
+        });
+        window.Cal("preload", { calLink });
+        isCalConfigured = true;
+    }
+
+    function mountCalEmbed() {
+        if (isCalEmbedded || !(inlineEmbed instanceof HTMLElement)) return;
+
+        const calLink = getCalLink();
+        if (!calLink) return;
+
+        configureCalEmbed(calLink);
+        window.Cal("inline", {
+            calLink,
+            config: { theme: "dark", "ui.color-scheme": "dark" },
+            elementOrSelector: inlineEmbed,
+        });
+        isCalEmbedded = true;
+    }
+
+    function openCalDrawer() {
+        if (!(drawer instanceof HTMLDialogElement)) return;
+        mountCalEmbed();
+        window.clearTimeout(closeTimer);
+        drawer.classList.remove("is-closing");
+        if (!drawer.open) {
+            drawer.showModal();
+        }
+        root.classList.add("cal-drawer-open");
+    }
+
+    function closeCalDrawer() {
+        if (!(drawer instanceof HTMLDialogElement) || !drawer.open) return;
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            drawer.close();
+            return;
+        }
+
+        drawer.classList.add("is-closing");
+        window.clearTimeout(closeTimer);
+        closeTimer = window.setTimeout(() => drawer.close(), closeAnimationMs);
+    }
+
+    drawer?.addEventListener("close", () => {
+        window.clearTimeout(closeTimer);
+        drawer.classList.remove("is-closing");
+        root.classList.remove("cal-drawer-open");
+    });
+
+    drawer?.addEventListener("cancel", (event) => {
+        event.preventDefault();
+        closeCalDrawer();
+    });
+
+    document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+
+        if (target.closest("[data-cal-open]")) {
+            event.preventDefault();
+            openCalDrawer();
+            return;
+        }
+
+        if (
+            (target.closest("[data-cal-close]") || target === drawer) &&
+            drawer instanceof HTMLDialogElement
+        ) {
+            closeCalDrawer();
+        }
+    });
+
+    // ponytail: preload once so the first CTA click doesn't show Cal's loader.
+    mountCalEmbed();
+</script>
+
+<style>
+    :global(html.cal-drawer-open),
+    :global(html.cal-drawer-open body) {
+        overflow: hidden;
+    }
+
+    .cal-drawer {
+        background: #141016;
+        border: 0;
+        border-radius: 8px;
+        color: var(--color-snow-50);
+        height: calc(100dvh - 2rem);
+        inset: 1rem 1rem 1rem auto;
+        margin: auto 0 auto auto;
+        max-height: calc(100dvh - 2rem);
+        max-width: min(720px, calc(100dvw - 2rem));
+        overflow: hidden;
+        padding: 0;
+        position: fixed;
+        width: min(720px, calc(100dvw - 2rem));
+    }
+
+    .cal-drawer::backdrop {
+        backdrop-filter: blur(5px);
+        background: rgb(232 229 232 / 0.48);
+    }
+
+    .cal-drawer[open] {
+        animation: cal-drawer-in 440ms cubic-bezier(0.16, 1, 0.3, 1);
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .cal-drawer[open]::backdrop {
+        animation: cal-backdrop-in 440ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cal-drawer[open].is-closing {
+        animation: cal-drawer-out 320ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .cal-drawer[open].is-closing::backdrop {
+        animation: cal-backdrop-out 320ms cubic-bezier(0.4, 0, 0.2, 1)
+            forwards;
+    }
+
+    .cal-drawer__header {
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
+        padding: 1rem;
+    }
+
+    .cal-drawer__close {
+        align-items: center;
+        background: rgb(255 255 255 / 0.1);
+        border: 0;
+        border-radius: 8px;
+        color: var(--color-snow-50);
+        display: inline-flex;
+        height: 2.75rem;
+        justify-content: center;
+        padding: 0;
+        width: 2.75rem;
+    }
+
+    .cal-drawer__close svg {
+        height: 1.25rem;
+        width: 1.25rem;
+    }
+
+    .cal-drawer__close:focus-visible {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 3px;
+    }
+
+    .cal-drawer__embed {
+        height: 100%;
+        margin: 0 auto;
+        max-width: 640px;
+        min-height: 0;
+        overflow: auto;
+        scrollbar-width: none;
+        width: 100%;
+    }
+
+    .cal-drawer__embed::-webkit-scrollbar {
+        display: none;
+    }
+
+    .cal-drawer__embed :global(iframe) {
+        display: block;
+        margin: 0 auto;
+        max-width: 640px;
+        width: 100%;
+    }
+
+    @media (max-width: 640px) {
+        .cal-drawer {
+            height: calc(100dvh - 1rem);
+            inset: 0.5rem;
+            margin: auto;
+            max-height: calc(100dvh - 1rem);
+            max-width: calc(100dvw - 1rem);
+            width: calc(100dvw - 1rem);
+        }
+
+        .cal-drawer__embed {
+            width: 100%;
+        }
+    }
+
+    @keyframes cal-drawer-in {
+        from {
+            filter: blur(12px);
+            opacity: 0;
+            transform: translateY(1rem) scale(0.98);
+        }
+        to {
+            filter: blur(0);
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes cal-drawer-out {
+        from {
+            filter: blur(0);
+            opacity: 1;
+            transform: none;
+        }
+        to {
+            filter: blur(10px);
+            opacity: 0;
+            transform: translateY(0.75rem) scale(0.985);
+        }
+    }
+
+    @keyframes cal-backdrop-in {
+        from {
+            backdrop-filter: blur(0);
+            background: rgb(232 229 232 / 0);
+        }
+        to {
+            backdrop-filter: blur(5px);
+            background: rgb(232 229 232 / 0.48);
+        }
+    }
+
+    @keyframes cal-backdrop-out {
+        from {
+            backdrop-filter: blur(5px);
+            background: rgb(232 229 232 / 0.48);
+        }
+        to {
+            backdrop-filter: blur(0);
+            background: rgb(232 229 232 / 0);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .cal-drawer[open],
+        .cal-drawer[open]::backdrop,
+        .cal-drawer[open].is-closing,
+        .cal-drawer[open].is-closing::backdrop {
+            animation: none;
+        }
+    }
+</style>
