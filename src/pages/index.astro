@@ -10,6 +10,7 @@ import ProjectIntro from "../components/ProjectIntro.astro";
 import Differenciates from "@/sections/Differenciates.astro";
 import ArrowRight from "../components/icons/ArrowRight.svg";
 import { Image } from "astro:assets";
+import williamPortrait from "../assets/williamdeazevedo.webp";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
 import { homeProjects } from "../data/projects";
@@ -50,7 +51,7 @@ const highlightedAboutWords = new Set(["design !"]);
 const aboutPoints = [
     {
         icon: "code",
-        text: "3 ans d'expérience dans le développement",
+        text: "+3 ans d'expérience dans le développement",
     },
     {
         icon: "users",
@@ -61,6 +62,8 @@ const aboutPoints = [
         text: "Expérience produit sur des SaaS B2B et IA",
     },
 ];
+// ponytail: temporary flag; flip to true to bring the logo marquee back.
+const showLogoMarquee = false;
 
 const testimonialImages = import.meta.glob<{ default: ImageMetadata }>(
     "../assets/temoignages/*.{jpg,jpeg,png,webp}",
@@ -195,9 +198,13 @@ const displayedTestimonials = temoignages
             <HeroDotMatrix />
         </div>
     </section>
-    <FadeRevealOnScroll delay={0.12}>
-        <Marquee />
-    </FadeRevealOnScroll>
+    {
+        showLogoMarquee && (
+            <FadeRevealOnScroll delay={0.12}>
+                <Marquee />
+            </FadeRevealOnScroll>
+        )
+    }
     <section class="about-section relative isolate mx-4 overflow-hidden rounded-2xl bg-coffee-300 py-16 md:rounded-3xl md:py-24">
         <AboutLogoMatrix />
         <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-12 px-4 md:gap-14">
@@ -225,7 +232,16 @@ const displayedTestimonials = temoignages
                                     style={`--animated-word-index: ${index + 0.5}`}
                                     data-animated-title-word
                                     aria-hidden="true"
-                                />
+                                >
+                                    <Image
+                                        class="about-title-avatar__image"
+                                        src={williamPortrait}
+                                        alt=""
+                                        width={72}
+                                        height={72}
+                                        loading="eager"
+                                    />
+                                </span>
                             )}
                         </>
                     ))
@@ -653,25 +669,43 @@ const displayedTestimonials = temoignages
         pointer-events: none;
         transform: translateY(0.35rem);
         transition:
-            opacity 260ms cubic-bezier(0.2, 0, 0, 1),
-            filter 260ms cubic-bezier(0.2, 0, 0, 1),
-            transform 260ms cubic-bezier(0.2, 0, 0, 1);
+            opacity 360ms cubic-bezier(0.2, 0, 0, 1),
+            filter 520ms cubic-bezier(0.2, 0, 0, 1),
+            transform 520ms cubic-bezier(0.2, 0, 0, 1);
         width: 100%;
     }
 
     .testimonial-rotator__item.is-active {
-        animation: testimonial-item-in 420ms cubic-bezier(0.2, 0, 0, 1) both;
         filter: blur(0);
         opacity: 1;
         pointer-events: auto;
         transform: translateY(0);
     }
 
-    @keyframes testimonial-item-in {
+    .testimonial-rotator__item.is-active .testimonial-avatar,
+    .testimonial-rotator__item.is-active figcaption,
+    .testimonial-rotator__item.is-active blockquote {
+        animation: testimonial-content-in 920ms
+            cubic-bezier(0.22, 1.16, 0.36, 1) both;
+    }
+
+    .testimonial-rotator__item.is-active .testimonial-avatar {
+        animation-delay: 120ms;
+    }
+
+    .testimonial-rotator__item.is-active figcaption {
+        animation-delay: 360ms;
+    }
+
+    .testimonial-rotator__item.is-active blockquote {
+        animation-delay: 660ms;
+    }
+
+    @keyframes testimonial-content-in {
         from {
             filter: blur(8px);
             opacity: 0;
-            transform: translateY(0.45rem);
+            transform: translateY(-0.65rem);
         }
 
         to {
@@ -706,6 +740,7 @@ const displayedTestimonials = temoignages
     .testimonial-rotator figcaption {
         color: #141016;
         font-size: 1rem;
+        font-weight: 600;
         line-height: 1.2;
     }
 
@@ -731,8 +766,8 @@ const displayedTestimonials = temoignages
     .about-title-avatar {
         align-self: center;
         aspect-ratio: 1;
-        background: #141016;
-        border: 0.09em solid #fff;
+        background: #e8e5e8;
+        border: 0.06em solid #fff;
         border-radius: 9999px;
         box-shadow:
             0 18px 38px -18px rgba(0, 0, 0, 0.72),
@@ -741,6 +776,13 @@ const displayedTestimonials = temoignages
         height: 1.08em;
         margin-inline: -0.05em;
         overflow: hidden;
+    }
+
+    .about-title-avatar__image {
+        display: block;
+        height: 100%;
+        object-fit: contain;
+        width: 100%;
     }
 
     [data-animated-title]:not([data-animated-title-ready="true"])
@@ -784,8 +826,13 @@ const displayedTestimonials = temoignages
         }
 
         .testimonial-rotator__item {
-            animation: none;
             transition: none;
+        }
+
+        .testimonial-avatar,
+        .testimonial-rotator figcaption,
+        .testimonial-rotator blockquote {
+            animation: none;
         }
     }
 
