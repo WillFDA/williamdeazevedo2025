@@ -2,6 +2,9 @@
 import Layout from "../layout/Layout.astro";
 import Carousel from "../components/Carousel.astro";
 import ProjectIntro from "../components/ProjectIntro.astro";
+import motivaiAiChoosePoster from "../assets/projects/motivai-aichoose.webp";
+import motivaiLandingPoster from "../assets/projects/motivai-landing.webp";
+import motivaiOnboardingPoster from "../assets/projects/motivai-onboarding.webp";
 ---
 
 <Layout title="Projets">
@@ -36,7 +39,7 @@ import ProjectIntro from "../components/ProjectIntro.astro";
                     loop
                     preload="metadata"
                     tabindex="-1"
-                    poster="/motivai/motivai-landing.webp"
+                    poster={motivaiLandingPoster.src}
                     aria-hidden="true"
                     class="h-full w-full object-cover rounded-md"
                 >
@@ -53,7 +56,7 @@ import ProjectIntro from "../components/ProjectIntro.astro";
                     loop
                     preload="none"
                     tabindex="-1"
-                    poster="/motivai/motivai-onboarding.webp"
+                    poster={motivaiOnboardingPoster.src}
                     aria-hidden="true"
                     class="h-full w-full object-cover rounded-md"
                 >
@@ -70,7 +73,7 @@ import ProjectIntro from "../components/ProjectIntro.astro";
                     loop
                     preload="none"
                     tabindex="-1"
-                    poster="/motivai/motivai-aichoose.webp"
+                    poster={motivaiAiChoosePoster.src}
                     aria-hidden="true"
                     class="h-full w-full object-cover rounded-md"
                 >

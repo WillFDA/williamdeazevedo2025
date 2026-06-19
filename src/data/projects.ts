@@ -1,3 +1,7 @@
+import leFellicHomePoster from "../assets/projects/lefellic-home.webp";
+import motivaiLandingPoster from "../assets/projects/motivai-landing.webp";
+import persistanceHomePoster from "../assets/projects/persistance-home.webp";
+
 export type Project = {
     caseStudy: {
         need: string;
@@ -39,7 +43,7 @@ export const homeProjects: Project[] = [
         ],
         media: {
             type: "video",
-            poster: "/lefellic/lefellic-home.webp",
+            poster: leFellicHomePoster.src,
             src: "/lefellic/lefellic-home.mp4",
         },
         caseStudy: {
@@ -68,7 +72,7 @@ export const homeProjects: Project[] = [
         ],
         media: {
             type: "video",
-            poster: "/persistance/persistance-home.webp",
+            poster: persistanceHomePoster.src,
             src: "/persistance/persistance-home.mp4",
         },
         caseStudy: {
@@ -96,7 +100,7 @@ export const homeProjects: Project[] = [
         ],
         media: {
             type: "video",
-            poster: "/motivai/motivai-landing.webp",
+            poster: motivaiLandingPoster.src,
             src: "/motivai/motivai-landing.mp4",
         },
         caseStudy: {

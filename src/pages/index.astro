@@ -9,9 +9,11 @@ import AboutLogoMatrix from "../components/AboutLogoMatrix.astro";
 import ProjectIntro from "../components/ProjectIntro.astro";
 import Differenciates from "@/sections/Differenciates.astro";
 import ArrowRight from "../components/icons/ArrowRight.svg";
+import { Image } from "astro:assets";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
 import { homeProjects } from "../data/projects";
+import { temoignages } from "../data/temoignage";
 
 const heroTitleWords = [
     "Je",
@@ -59,6 +61,20 @@ const aboutPoints = [
         text: "Expérience produit sur des SaaS B2B et IA",
     },
 ];
+
+const testimonialImages = import.meta.glob<{ default: ImageMetadata }>(
+    "../assets/temoignages/*.{jpg,jpeg,png,webp}",
+    { eager: true },
+);
+const displayedTestimonials = temoignages
+    .filter((temoignage) => temoignage.published !== false)
+    .map((temoignage) => ({
+        ...temoignage,
+        image: temoignage.imageFile
+            ? testimonialImages[`../assets/temoignages/${temoignage.imageFile}`]
+                  ?.default
+            : undefined,
+    }));
 ---
 
 <Layout>
@@ -126,14 +142,43 @@ const aboutPoints = [
             </FadeReveal>
             <FadeReveal delay={0.56}>
                 <div
-                    class="flex-col gap-2 mx-auto text-center text-xs flex items-center justify-center my-4"
+                    class="testimonial-rotator mx-auto my-4 text-center text-xs"
+                    data-testimonial-rotator
+                    data-testimonial-interval="5500"
                 >
-                    <div class="size-8 rounded-full bg-[#E8E5E8]"></div>
-                    <span class="">Quentin Leffelic</span>
-                    <p class="max-w-70 mx-auto">
-                        “Excellente collaboration avec william, site livré
-                        rapidement et avec soin”
-                    </p>
+                    {
+                        displayedTestimonials.map((temoignage, index) => (
+                            <figure
+                                class:list={[
+                                    "testimonial-rotator__item",
+                                    index === 0 && "is-active",
+                                ]}
+                                data-testimonial-item
+                                aria-hidden={index === 0 ? undefined : "true"}
+                            >
+                                <div class="testimonial-avatar">
+                                    {temoignage.image ? (
+                                        <Image
+                                            class="testimonial-avatar__image"
+                                            src={temoignage.image}
+                                            alt={temoignage.imageAlt ?? ""}
+                                            width={64}
+                                            height={64}
+                                            loading={
+                                                index === 0 ? "eager" : "lazy"
+                                            }
+                                        />
+                                    ) : (
+                                        <span>{temoignage.initials}</span>
+                                    )}
+                                </div>
+                                <figcaption>{temoignage.name}</figcaption>
+                                <blockquote>
+                                    “{temoignage.excerpt ?? temoignage.text}”
+                                </blockquote>
+                            </figure>
+                        ))
+                    }
                 </div>
             </FadeReveal>
             <HeroDotMatrix />
@@ -489,6 +534,63 @@ const aboutPoints = [
         );
     };
 
+    const initTestimonialRotators = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-testimonial-rotator]")
+            .forEach((root) => {
+                if (root.dataset.testimonialRotatorReady === "true") return;
+
+                const items = Array.from(
+                    root.querySelectorAll<HTMLElement>(
+                        "[data-testimonial-item]",
+                    ),
+                );
+
+                if (items.length < 2) return;
+
+                const interval = Math.max(
+                    1200,
+                    Number.parseInt(root.dataset.testimonialInterval ?? "", 10) ||
+                        5500,
+                );
+                let activeIndex = items.findIndex((item) =>
+                    item.classList.contains("is-active"),
+                );
+                let timeout: number | undefined;
+
+                if (activeIndex < 0) activeIndex = 0;
+
+                const setActiveItem = (nextIndex: number) => {
+                    activeIndex = nextIndex;
+                    items.forEach((item, index) => {
+                        const isActive = index === activeIndex;
+
+                        item.classList.toggle("is-active", isActive);
+                        item.setAttribute("aria-hidden", String(!isActive));
+                    });
+                };
+
+                const schedule = () => {
+                    window.clearTimeout(timeout);
+                    timeout = window.setTimeout(() => {
+                        if (!document.hidden) {
+                            setActiveItem((activeIndex + 1) % items.length);
+                        }
+
+                        schedule();
+                    }, interval);
+                };
+
+                root.dataset.testimonialRotatorReady = "true";
+                setActiveItem(activeIndex);
+                schedule();
+                registerHomeInteractionCleanup(() => {
+                    window.clearTimeout(timeout);
+                    delete root.dataset.testimonialRotatorReady;
+                });
+            });
+    };
+
     const initProjectShowcases = () => {
         document
             .querySelectorAll<HTMLElement>("[data-project-showcase]")
@@ -556,12 +658,14 @@ const aboutPoints = [
     };
 
     initTitleAnimations();
+    initTestimonialRotators();
     initProjectShowcases();
 
     if (windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady !== true) {
         windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady = true;
         document.addEventListener("astro:before-swap", resetHomeInteractions);
         document.addEventListener("astro:page-load", initTitleAnimations);
+        document.addEventListener("astro:page-load", initTestimonialRotators);
         document.addEventListener("astro:page-load", initProjectShowcases);
     }
 </script>
@@ -585,6 +689,73 @@ const aboutPoints = [
 
     [data-animated-title-word] {
         display: inline-block;
+    }
+
+    .testimonial-rotator {
+        display: grid;
+        min-height: 10rem;
+        place-items: center;
+        width: min(100%, 24rem);
+    }
+
+    .testimonial-rotator__item {
+        align-items: center;
+        display: flex;
+        filter: blur(6px);
+        flex-direction: column;
+        gap: 0.5rem;
+        grid-area: 1 / 1;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(0.35rem);
+        transition:
+            opacity 260ms cubic-bezier(0.2, 0, 0, 1),
+            filter 260ms cubic-bezier(0.2, 0, 0, 1),
+            transform 260ms cubic-bezier(0.2, 0, 0, 1);
+        width: 100%;
+    }
+
+    .testimonial-rotator__item.is-active {
+        filter: blur(0);
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
+    .testimonial-avatar {
+        align-items: center;
+        aspect-ratio: 1;
+        background: #e8e5e8;
+        border-radius: 9999px;
+        color: #141016;
+        display: inline-flex;
+        font-size: 0.8rem;
+        font-weight: 500;
+        height: 3.25rem;
+        justify-content: center;
+        overflow: hidden;
+        width: 3.25rem;
+    }
+
+    .testimonial-avatar__image {
+        display: block;
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .testimonial-rotator figcaption {
+        color: #141016;
+        font-size: 1rem;
+        line-height: 1.2;
+    }
+
+    .testimonial-rotator blockquote {
+        color: #141016;
+        font-size: 1rem;
+        line-height: 1.25;
+        margin: 0 auto;
+        max-width: 20rem;
     }
 
     .about-title-avatar {
@@ -618,6 +789,10 @@ const aboutPoints = [
             filter: none;
             opacity: 1;
             transform: none;
+        }
+
+        .testimonial-rotator__item {
+            transition: none;
         }
     }
 
