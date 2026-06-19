@@ -1,0 +1,10 @@
+{
+  "name": "williamdeazevedo2025",
+  "compatibility_date": "2026-06-19",
+  "assets": {
+    "directory": "./dist"
+  },
+  "build": {
+    "command": "bun run build"
+  }
+}
