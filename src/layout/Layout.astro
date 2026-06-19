@@ -5,11 +5,20 @@ import "../styles/global.css";
 
 interface Props {
     title?: string;
+    description?: string;
+    image?: string;
 }
 
-const siteTitle = "William De Azevedo";
-const { title = siteTitle } = Astro.props;
-const pageTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
+const {
+    title = "William De Azevedo - Développeur front-end freelance",
+    description = "Développeur front-end freelance orienté design et produit, je crée des sites rapides, accessibles et pensés pour convertir.",
+    image = "/pictures/william-low.png",
+} = Astro.props;
+
+const siteName = "William De Azevedo";
+const siteUrl = Astro.site ?? Astro.url;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
+const imageUrl = new URL(image, siteUrl);
 ---
 
 <html lang="fr">
@@ -17,14 +26,36 @@ const pageTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="96x96"
+            href="/favicon-96x96.png"
+        />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta name="viewport" content="width=device-width" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#ffffff" />
         <meta name="generator" content={Astro.generator} />
-        <link rel="sitemap" href="/sitemap-index.xml" />
-        <title>{pageTitle}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonicalUrl.href} />
+        <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:site_name" content={siteName} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonicalUrl.href} />
+        <meta property="og:image" content={imageUrl.href} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={imageUrl.href} />
+        <title>{title}</title>
     </head>
     <body class="min-h-screen min-w-0 flex flex-col">
         <Header pathName={Astro.url.pathname} />
