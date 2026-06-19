@@ -1,8 +1,24 @@
 ---
-const { title } = Astro.props;
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import "../styles/global.css";
+
+interface Props {
+    title?: string;
+    description?: string;
+    image?: string;
+}
+
+const {
+    title = "William De Azevedo - Développeur front-end freelance",
+    description = "Développeur front-end freelance orienté design et produit, je crée des sites rapides, accessibles et pensés pour convertir.",
+    image = "/pictures/william-low.png",
+} = Astro.props;
+
+const siteName = "William De Azevedo";
+const siteUrl = Astro.site ?? Astro.url;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
+const imageUrl = new URL(image, siteUrl);
 ---
 
 <html lang="fr">
@@ -10,9 +26,22 @@ import "../styles/global.css";
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="generator" content={Astro.generator} />
-        <link rel="sitemap" href="/sitemap-index.xml" />
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonicalUrl.href} />
+        <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:site_name" content={siteName} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonicalUrl.href} />
+        <meta property="og:image" content={imageUrl.href} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={imageUrl.href} />
         <title>{title}</title>
     </head>
     <body class="min-h-screen min-w-0 flex flex-col">
