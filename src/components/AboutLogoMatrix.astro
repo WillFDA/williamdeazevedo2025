@@ -50,8 +50,12 @@ const classes = ["about-logo-matrix", className, classAttribute]
                 const source = root.querySelector<SVGSVGElement>("svg");
                 const context = canvas?.getContext("2d");
                 const probe = document.createElement("canvas").getContext("2d");
+                const staticCanvas = document.createElement("canvas");
+                const staticContext = staticCanvas.getContext("2d");
 
-                if (!canvas || !source || !context || !probe) return;
+                if (!canvas || !source || !context || !probe || !staticContext) {
+                    return;
+                }
 
                 root.dataset.aboutLogoMatrixReady = "true";
 
@@ -80,6 +84,9 @@ const classes = ["about-logo-matrix", className, classAttribute]
                 let isActive = false;
                 let lastRender = 0;
                 let color = "255 255 255";
+                let width = 0;
+                let height = 0;
+                let hasPainted = false;
 
                 const stop = () => {
                     isActive = false;
@@ -92,52 +99,65 @@ const classes = ["about-logo-matrix", className, classAttribute]
 
                 const resize = () => {
                     const rect = root.getBoundingClientRect();
-                    const ratio = Math.min(window.devicePixelRatio || 1, 2);
-                    const gap = rect.width > 720 ? 7 : 6;
+                    width = rect.width;
+                    height = rect.height;
+                    const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+                    const gap = width > 720 ? 9 : 7;
 
-                    if (rect.width === 0 || rect.height === 0) return;
+                    if (width === 0 || height === 0) return;
 
                     color =
                         getComputedStyle(root)
                             .getPropertyValue("--about-logo-matrix-color")
                             .trim() || "255 255 255";
 
-                    canvas.width = Math.max(1, Math.floor(rect.width * ratio));
-                    canvas.height = Math.max(
-                        1,
-                        Math.floor(rect.height * ratio),
-                    );
+                    canvas.width = Math.max(1, Math.floor(width * ratio));
+                    canvas.height = Math.max(1, Math.floor(height * ratio));
+                    staticCanvas.width = canvas.width;
+                    staticCanvas.height = canvas.height;
                     context.setTransform(ratio, 0, 0, ratio, 0, 0);
+                    staticContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+                    staticContext.clearRect(0, 0, width, height);
                     dots = [];
 
-                    for (let y = 1; y < rect.height; y += gap) {
-                        for (let x = 1; x < rect.width; x += gap) {
-                            const sourceX = (x / rect.width) * 53;
-                            const sourceY = (y / rect.height) * 30;
+                    for (let y = 1; y < height; y += gap) {
+                        for (let x = 1; x < width; x += gap) {
+                            const sourceX = (x / width) * 53;
+                            const sourceY = (y / height) * 30;
                             const active = paths.some((path) =>
                                 probe.isPointInPath(path, sourceX, sourceY),
                             );
-
-                            dots.push({
+                            const size = active ? 1.45 : 0.95;
+                            const alpha = active
+                                ? 0.12 + Math.random() * 0.24
+                                : 0.015 + Math.random() * 0.035;
+                            const dot = {
                                 x,
                                 y,
-                                size: active ? 1.45 : 0.95,
-                                alpha: active
-                                    ? 0.12 + Math.random() * 0.24
-                                    : 0.015 + Math.random() * 0.035,
+                                size,
+                                alpha,
                                 phase: Math.random() * Math.PI * 2,
                                 speed: 0.0018 + Math.random() * 0.0032,
                                 interval: 220 + Math.random() * 620,
                                 pop: active ? 0.28 : 0.16,
-                            });
+                            };
+
+                            if (!active) {
+                                staticContext.fillStyle = `rgb(${color} / ${alpha})`;
+                                staticContext.fillRect(x, y, size, size);
+                                continue;
+                            }
+
+                            dots.push(dot);
                         }
                     }
                 };
 
                 const render = (time = 0) => {
-                    const rect = root.getBoundingClientRect();
+                    if (width === 0 || height === 0) return;
 
-                    context.clearRect(0, 0, rect.width, rect.height);
+                    context.clearRect(0, 0, width, height);
+                    context.drawImage(staticCanvas, 0, 0, width, height);
 
                     dots.forEach((dot) => {
                         const wave = prefersReducedMotion
@@ -173,6 +193,14 @@ const classes = ["about-logo-matrix", className, classAttribute]
                     isActive = true;
                     frame = window.requestAnimationFrame(tick);
                 };
+                const paint = () => {
+                    if (hasPainted) return;
+
+                    hasPainted = true;
+                    resizeObserver.observe(root);
+                    resize();
+                    render(performance.now());
+                };
 
                 const resizeObserver = new ResizeObserver(() => {
                     resize();
@@ -181,12 +209,13 @@ const classes = ["about-logo-matrix", className, classAttribute]
                 const visibilityObserver = new IntersectionObserver(
                     ([entry]) => {
                         if (entry?.isIntersecting) {
+                            paint();
                             start();
                         } else {
                             stop();
                         }
                     },
-                    { rootMargin: "160px" },
+                    { rootMargin: "320px" },
                 );
                 const state = {
                     destroy: () => {
@@ -201,11 +230,13 @@ const classes = ["about-logo-matrix", className, classAttribute]
 
                 activeStates.add(state);
                 stateByRoot.set(root, state);
-                resizeObserver.observe(root);
-                resize();
-                render();
 
-                if (!prefersReducedMotion) visibilityObserver.observe(root);
+                if ("IntersectionObserver" in window) {
+                    visibilityObserver.observe(root);
+                } else {
+                    paint();
+                    start();
+                }
             });
     };
     const resetAboutLogoMatrices = () => {

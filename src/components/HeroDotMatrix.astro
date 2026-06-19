@@ -145,6 +145,8 @@
                 let frame = 0;
                 let isActive = false;
                 let lastRender = 0;
+                let width = 0;
+                let height = 0;
                 const randomUnit = (seed: number) => {
                     const value = Math.sin(seed) * 10000;
                     return value - Math.floor(value);
@@ -160,24 +162,23 @@
 
                 const resize = () => {
                     const rect = root.getBoundingClientRect();
+                    width = rect.width;
+                    height = rect.height;
                     const ratio = Math.min(window.devicePixelRatio || 1, 2);
-                    const gap = rect.width > 720 ? 5 : 4;
+                    const gap = width > 720 ? 5 : 4;
 
-                    if (rect.width === 0 || rect.height === 0) return;
+                    if (width === 0 || height === 0) return;
 
-                    canvas.width = Math.max(1, Math.floor(rect.width * ratio));
-                    canvas.height = Math.max(
-                        1,
-                        Math.floor(rect.height * ratio),
-                    );
+                    canvas.width = Math.max(1, Math.floor(width * ratio));
+                    canvas.height = Math.max(1, Math.floor(height * ratio));
                     context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
                     dots = [];
 
-                    for (let y = 1; y < rect.height; y += gap) {
-                        for (let x = 1; x < rect.width; x += gap) {
-                            const sourceX = (x / rect.width) * 1372;
-                            const sourceY = (y / rect.height) * 59;
+                    for (let y = 1; y < height; y += gap) {
+                        for (let x = 1; x < width; x += gap) {
+                            const sourceX = (x / width) * 1372;
+                            const sourceY = (y / height) * 59;
                             const active =
                                 probe &&
                                 paths.some((path) =>
@@ -201,9 +202,9 @@
                 };
 
                 const render = (time = 0) => {
-                    const rect = root.getBoundingClientRect();
+                    if (width === 0 || height === 0) return;
 
-                    context.clearRect(0, 0, rect.width, rect.height);
+                    context.clearRect(0, 0, width, height);
 
                     dots.forEach((dot) => {
                         const wave = prefersReducedMotion

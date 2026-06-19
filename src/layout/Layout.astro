@@ -1,8 +1,15 @@
 ---
-const { title } = Astro.props;
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import "../styles/global.css";
+
+interface Props {
+    title?: string;
+}
+
+const siteTitle = "William De Azevedo";
+const { title = siteTitle } = Astro.props;
+const pageTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
 ---
 
 <html lang="fr">
@@ -13,7 +20,7 @@ import "../styles/global.css";
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <link rel="sitemap" href="/sitemap-index.xml" />
-        <title>{title}</title>
+        <title>{pageTitle}</title>
     </head>
     <body class="min-h-screen min-w-0 flex flex-col">
         <Header pathName={Astro.url.pathname} />
