@@ -25,6 +25,9 @@ const pauseVideo = (video: HTMLVideoElement) => {
     video.preload = "none";
 };
 
+const isInViewport = (entry: IntersectionObserverEntry | undefined) =>
+    Boolean(entry?.isIntersecting && entry.intersectionRatio >= 0.2);
+
 export function resetCarousels() {
     Array.from(activeCarouselStates).forEach(destroyCarousel);
 }
@@ -162,7 +165,27 @@ export function initCarousel(wrapperNode: HTMLElement) {
         wrapperNode.dataset.carouselAutoplay === "true" &&
         !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     canUpdateVideos = !shouldAutoplay;
-    if (canUpdateVideos) updateVideos();
+    if (!shouldAutoplay && "IntersectionObserver" in window) {
+        canUpdateVideos = false;
+
+        const videoObserver = new IntersectionObserver(
+            (entries) => {
+                canUpdateVideos = isInViewport(entries[0]);
+
+                if (canUpdateVideos) {
+                    updateVideos();
+                } else {
+                    videos.forEach(pauseVideo);
+                }
+            },
+            { threshold: [0, 0.2] },
+        );
+
+        videoObserver.observe(wrapperNode);
+        state.cleanup.push(() => videoObserver.disconnect());
+    } else if (canUpdateVideos) {
+        updateVideos();
+    }
 
     const scrollPrev = () => {
         cancelAutoplay();
@@ -260,8 +283,7 @@ export function initCarousel(wrapperNode: HTMLElement) {
 
         const autoplayObserver = new IntersectionObserver(
             (entries) => {
-                const nextIsInAutoplayZone =
-                    entries[0]?.isIntersecting ?? false;
+                const nextIsInAutoplayZone = isInViewport(entries[0]);
 
                 if (nextIsInAutoplayZone === isInAutoplayZone) return;
 
@@ -278,7 +300,7 @@ export function initCarousel(wrapperNode: HTMLElement) {
                     videos.forEach(pauseVideo);
                 }
             },
-            { threshold: 0.2 },
+            { threshold: [0, 0.2] },
         );
 
         autoplayObserver.observe(wrapperNode);
