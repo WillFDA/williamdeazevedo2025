@@ -81,16 +81,16 @@ const displayedTestimonials = temoignages
 ---
 
 <Layout>
-    <section class="max-w-5xl mx-auto">
+    <section class="mx-auto w-full max-w-5xl px-2 sm:px-4">
         <div class="flex flex-col gap-6">
             <p
-                class="mx-auto w-fit max-w-[calc(100vw-2rem)] rounded-xl bg-blue-500 px-4 py-1.5 text-center text-sm font-light leading-none text-snow-50 shadow-[0_10px_18px_-8px_rgba(37,99,235,0.85)] ring-1 ring-blue-400/70 md:text-base"
+                class="mx-auto w-fit max-w-[calc(100vw-1rem)] rounded-xl bg-blue-500 px-4 py-1.5 text-center text-sm font-light leading-none text-snow-50 shadow-[0_10px_18px_-8px_rgba(37,99,235,0.85)] ring-1 ring-blue-400/70 md:text-base"
                 data-hero-eyebrow
             >
                 Freelance front-end orienté design et produit
             </p>
             <h1
-                class="flex max-w-full flex-wrap justify-center gap-x-[0.18em] px-4 text-center text-5xl font-medium leading-tighter tracking-[-4%] text-gray-900 sm:text-6xl md:text-7xl"
+                class="flex max-w-full flex-wrap justify-center gap-x-[0.18em] text-center text-5xl font-medium leading-tighter tracking-[-4%] text-gray-900 sm:text-6xl md:text-7xl"
                 data-animated-title
             >
                 {
@@ -118,7 +118,7 @@ const displayedTestimonials = temoignages
                 </p>
             </FadeReveal>
             <FadeReveal delay={0.44}>
-                <div class="flex flex-wrap gap-3 items-center justify-center px-4 sm:gap-8">
+                <div class="flex flex-wrap gap-3 items-center justify-center sm:gap-8">
                     <a
                         class="hero-button hero-button--primary font-regular px-5 text-md py-1.5 rounded-xl h-12 flex justify-center items-center sm:px-6"
                         href="#projects"
@@ -205,9 +205,9 @@ const displayedTestimonials = temoignages
             </FadeRevealOnScroll>
         )
     }
-    <section class="about-section relative isolate mx-4 overflow-hidden rounded-2xl bg-coffee-300 py-16 md:rounded-3xl md:py-24">
+    <section class="about-section relative isolate mx-2 overflow-hidden rounded-2xl bg-coffee-300 py-20 sm:mx-4 sm:py-24 md:rounded-3xl md:py-28">
         <AboutLogoMatrix />
-        <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-12 px-4 md:gap-14">
+        <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-14 px-6 sm:px-8 md:gap-16">
             <h2
                 class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-[0.18em] text-center text-4xl font-medium leading-tighter tracking-[-4%] text-snow-50 md:text-6xl"
                 data-animated-title
@@ -247,7 +247,7 @@ const displayedTestimonials = temoignages
                     ))
                 }
             </h2>
-            <ul class="mx-auto flex flex-col items-center justify-center gap-7 text-sm font-light text-snow-100 md:flex-row md:gap-12 md:text-base">
+            <ul class="mx-auto flex w-full max-w-md flex-col items-start gap-6 text-sm font-light text-snow-100 md:max-w-none md:flex-row md:justify-center md:gap-12 md:text-base">
                 {
                     aboutPoints.map((point) => (
                         <li class="flex items-center gap-3">
@@ -362,8 +362,8 @@ const displayedTestimonials = temoignages
             </a>
         </div>
     </section>
-    <section id="projects" class="project-showcase mb-20 md:mt-20" data-project-showcase>
-        <div class="project-copy mx-auto max-w-5xl px-4 pb-10">
+    <section id="projects" class="project-showcase md:mt-20" data-project-showcase>
+        <div class="project-copy mx-auto max-w-5xl px-2 pb-10 sm:px-4">
             {
                 homeProjects.map((project, index) => (
                     <article
@@ -642,7 +642,7 @@ const displayedTestimonials = temoignages
         }
 
         to {
-            filter: blur(0);
+            filter: none;
             opacity: 1;
         }
     }
@@ -676,10 +676,10 @@ const displayedTestimonials = temoignages
     }
 
     .testimonial-rotator__item.is-active {
-        filter: blur(0);
+        filter: none;
         opacity: 1;
         pointer-events: auto;
-        transform: translateY(0);
+        transform: none;
     }
 
     .testimonial-rotator__item.is-active .testimonial-avatar,
@@ -709,9 +709,9 @@ const displayedTestimonials = temoignages
         }
 
         to {
-            filter: blur(0);
+            filter: none;
             opacity: 1;
-            transform: translateY(0);
+            transform: none;
         }
     }
 
@@ -807,9 +807,9 @@ const displayedTestimonials = temoignages
         }
 
         to {
-            filter: blur(0);
+            filter: none;
             opacity: 1;
-            transform: translateY(0);
+            transform: none;
         }
     }
 
@@ -851,7 +851,7 @@ const displayedTestimonials = temoignages
     }
 
     .project-copy__panel.is-active {
-        filter: blur(0);
+        filter: none;
         opacity: 1;
         pointer-events: auto;
     }
@@ -892,9 +892,9 @@ const displayedTestimonials = temoignages
         }
 
         to {
-            filter: blur(0);
+            filter: none;
             opacity: 1;
-            transform: translateY(0);
+            transform: none;
         }
     }
 

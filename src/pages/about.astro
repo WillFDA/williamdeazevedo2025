@@ -81,7 +81,7 @@ const pictures = [
     title="À propos - William De Azevedo"
     description="Développeur front-end avec une approche produit, design et full stack. Découvrez mon parcours, mes projets, mes compétences et mes formations."
 >
-    <div class="mx-auto flex w-full max-w-2xl flex-col gap-16 px-4 pb-20">
+    <div class="mx-auto flex w-full max-w-2xl flex-col gap-16 px-2 pb-20 sm:px-4">
         <section class="flex flex-col gap-4">
             <h1 class="text-4xl font-medium leading-[0.96] text-gray-900 md:text-[56px]">
                 Du graphisme au code, je donne forme à des sites web utiles et
@@ -171,8 +171,8 @@ const pictures = [
             </div>
         </section>
 
-        <section class="relative left-1/2 w-screen -translate-x-1/2">
-            <div class="photo-strip flex items-center justify-start gap-3 overflow-x-auto px-4 md:justify-center md:gap-5 md:overflow-visible md:px-0">
+        <section class="relative left-1/2 w-[100dvw] -translate-x-1/2">
+            <div class="photo-strip flex items-center justify-start gap-3 overflow-x-auto px-2 sm:px-4 md:justify-center md:gap-5 md:overflow-visible md:px-0">
                 {
                     pictures.map((picture, index) => (
                         <div

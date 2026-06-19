@@ -199,8 +199,8 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
 
 <style>
     .embla {
-        --slide-spacing: 32px;
-        --slide-size: calc(64rem);
+        --slide-spacing: 0.5rem;
+        --slide-size: calc(100vw - 1rem);
         overflow: hidden;
     }
 
@@ -234,7 +234,7 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
         grid-template-columns: 1fr auto 1fr;
         margin: 1.25rem auto 0;
         max-width: var(--slide-size, 64rem);
-        padding-inline: 1rem;
+        padding-inline: 0.5rem;
         width: 100%;
     }
 
@@ -315,9 +315,20 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
     }
 
     .embla[data-carousel-autoplay-visible="true"] .embla__autoplay {
-        filter: blur(0);
+        filter: none;
         opacity: 1;
-        transform: translateY(0);
+        transform: none;
+    }
+
+    @media (min-width: 640px) {
+        .embla {
+            --slide-spacing: 2rem;
+            --slide-size: min(64rem, calc(100vw - 2rem));
+        }
+
+        .embla__controls {
+            padding-inline: 1rem;
+        }
     }
 
     @media (prefers-reduced-motion: reduce) {

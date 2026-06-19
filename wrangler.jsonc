@@ -7,4 +7,10 @@
   "build": {
     "command": "bun run build",
   },
+  "env": {
+    "preview": {
+      "name": "williamdeazevedo-preview",
+      "workers_dev": true,
+    },
+  },
 }
