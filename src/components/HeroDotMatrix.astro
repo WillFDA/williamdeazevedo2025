@@ -144,6 +144,8 @@
                 }> = [];
                 let frame = 0;
                 let isActive = false;
+                let pendingStart = 0;
+                let pendingStartType: "idle" | "timeout" | undefined;
                 let lastRender = 0;
                 let width = 0;
                 let height = 0;
@@ -152,6 +154,13 @@
                     return value - Math.floor(value);
                 };
                 const stop = () => {
+                    if (pendingStartType === "idle" && "cancelIdleCallback" in window) {
+                        window.cancelIdleCallback(pendingStart);
+                    } else if (pendingStartType === "timeout") {
+                        window.clearTimeout(pendingStart);
+                    }
+                    pendingStart = 0;
+                    pendingStartType = undefined;
                     isActive = false;
 
                     if (frame) {
@@ -234,11 +243,29 @@
                     if (isActive) frame = window.requestAnimationFrame(tick);
                 };
 
-                const start = () => {
+                const activate = () => {
+                    pendingStart = 0;
+                    pendingStartType = undefined;
                     if (prefersReducedMotion || isActive) return;
 
                     isActive = true;
                     frame = window.requestAnimationFrame(tick);
+                };
+
+                const start = () => {
+                    if (prefersReducedMotion || isActive || pendingStartType) {
+                        return;
+                    }
+
+                    if ("requestIdleCallback" in window) {
+                        pendingStartType = "idle";
+                        pendingStart = window.requestIdleCallback(activate, {
+                            timeout: 1200,
+                        });
+                    } else {
+                        pendingStartType = "timeout";
+                        pendingStart = window.setTimeout(activate, 420);
+                    }
                 };
 
                 const resizeObserver = new ResizeObserver(() => {
