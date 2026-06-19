@@ -91,11 +91,30 @@
 </div>
 
 <script>
+    type MatrixState = {
+        destroy: () => void;
+    };
+
+    const windowWithHeroDotMatrix = window as Window & {
+        __wuiHeroDotMatrixStates?: Set<MatrixState>;
+    };
+    const activeStates =
+        windowWithHeroDotMatrix.__wuiHeroDotMatrixStates ?? new Set<MatrixState>();
+
+    windowWithHeroDotMatrix.__wuiHeroDotMatrixStates = activeStates;
+
+    const stateByRoot = new WeakMap<HTMLElement, MatrixState>();
+
     const initHeroDotMatrices = () => {
         document
             .querySelectorAll<HTMLElement>("[data-hero-dot-matrix]")
             .forEach((root) => {
-                if (root.dataset.heroDotMatrixReady === "true") return;
+                if (
+                    root.dataset.heroDotMatrixReady === "true" ||
+                    stateByRoot.has(root)
+                ) {
+                    return;
+                }
 
                 const canvas =
                     root.querySelector<HTMLCanvasElement>("canvas");
@@ -124,14 +143,27 @@
                     pop: number;
                 }> = [];
                 let frame = 0;
+                let isActive = false;
+                let lastRender = 0;
                 const randomUnit = (seed: number) => {
                     const value = Math.sin(seed) * 10000;
                     return value - Math.floor(value);
+                };
+                const stop = () => {
+                    isActive = false;
+
+                    if (frame) {
+                        window.cancelAnimationFrame(frame);
+                        frame = 0;
+                    }
                 };
 
                 const resize = () => {
                     const rect = root.getBoundingClientRect();
                     const ratio = Math.min(window.devicePixelRatio || 1, 2);
+                    const gap = rect.width > 720 ? 5 : 4;
+
+                    if (rect.width === 0 || rect.height === 0) return;
 
                     canvas.width = Math.max(1, Math.floor(rect.width * ratio));
                     canvas.height = Math.max(
@@ -142,8 +174,8 @@
 
                     dots = [];
 
-                    for (let y = 1; y < rect.height; y += 4) {
-                        for (let x = 1; x < rect.width; x += 4) {
+                    for (let y = 1; y < rect.height; y += gap) {
+                        for (let x = 1; x < rect.width; x += gap) {
                             const sourceX = (x / rect.width) * 1372;
                             const sourceY = (y / rect.height) * 59;
                             const active =
@@ -168,7 +200,7 @@
                     }
                 };
 
-                const draw = (time = 0) => {
+                const render = (time = 0) => {
                     const rect = root.getBoundingClientRect();
 
                     context.clearRect(0, 0, rect.width, rect.height);
@@ -188,26 +220,73 @@
                         context.fillStyle = `rgb(17 24 39 / ${alpha})`;
                         context.fillRect(dot.x, dot.y, dot.size, dot.size);
                     });
-
-                    if (!prefersReducedMotion) {
-                        frame = window.requestAnimationFrame(draw);
-                    }
                 };
 
-                const observer = new ResizeObserver(() => {
-                    if (frame) window.cancelAnimationFrame(frame);
-                    resize();
-                    draw();
-                });
+                const tick = (time = 0) => {
+                    frame = 0;
 
-                observer.observe(root);
+                    if (time - lastRender > 33) {
+                        lastRender = time;
+                        render(time);
+                    }
+
+                    if (isActive) frame = window.requestAnimationFrame(tick);
+                };
+
+                const start = () => {
+                    if (prefersReducedMotion || isActive) return;
+
+                    isActive = true;
+                    frame = window.requestAnimationFrame(tick);
+                };
+
+                const resizeObserver = new ResizeObserver(() => {
+                    resize();
+                    render(performance.now());
+                });
+                const visibilityObserver = new IntersectionObserver(
+                    ([entry]) => {
+                        if (entry?.isIntersecting) {
+                            start();
+                        } else {
+                            stop();
+                        }
+                    },
+                    { rootMargin: "160px" },
+                );
+                const state = {
+                    destroy: () => {
+                        stop();
+                        resizeObserver.disconnect();
+                        visibilityObserver.disconnect();
+                        activeStates.delete(state);
+                        stateByRoot.delete(root);
+                        delete root.dataset.heroDotMatrixReady;
+                    },
+                };
+
+                activeStates.add(state);
+                stateByRoot.set(root, state);
+                resizeObserver.observe(root);
                 resize();
-                draw();
+                render();
+
+                if (!prefersReducedMotion) visibilityObserver.observe(root);
             });
     };
+    const resetHeroDotMatrices = () => {
+        activeStates.forEach((state) => state.destroy());
+        activeStates.clear();
+    };
+    const listenerKey = "__wuiHeroDotMatrixListenerReady";
 
     initHeroDotMatrices();
-    document.addEventListener("astro:page-load", initHeroDotMatrices);
+
+    if (!(listenerKey in window)) {
+        Object.defineProperty(window, listenerKey, { value: true });
+        document.addEventListener("astro:before-swap", resetHeroDotMatrices);
+        document.addEventListener("astro:page-load", initHeroDotMatrices);
+    }
 </script>
 
 <style>

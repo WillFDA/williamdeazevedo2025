@@ -373,32 +373,39 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
 
 <style>
     .embla {
-        --carousel-slide-size: min(64rem, calc(100vw - 2rem));
-        --carousel-slide-spacing: 2rem;
+        --slide-spacing: 32px;
+        --slide-size: calc(64rem);
+        overflow: hidden;
     }
 
-    .embla :global(.embla__container) {
-        gap: var(--carousel-slide-spacing);
-        margin: 0;
+    .embla__viewport {
+        opacity: 0;
+        overflow: visible;
+        transition: opacity 0.3s ease;
+    }
+
+    .embla__viewport.is-ready {
+        opacity: 1;
+    }
+
+    .embla__container {
+        backface-visibility: hidden;
+        display: flex;
+        touch-action: pan-y;
+        will-change: transform;
     }
 
     .embla :global(.embla__slide) {
-        aspect-ratio: 16 / 9;
-        background: #e8e5e8;
-        border-radius: 0.75rem;
-        flex: 0 0 var(--carousel-slide-size);
-        overflow: hidden;
-        padding-left: 0;
+        aspect-ratio: var(--aspect-video);
+        flex: 0 0 calc(var(--slide-size) + var(--slide-spacing));
+        min-width: 0;
+        padding-left: var(--slide-spacing);
+        transform: translateZ(0);
     }
 
-    .embla :global(.embla__slide video),
-    .embla :global(.project-placeholder) {
-        background: #e8e5e8;
-        border-radius: inherit;
-        display: block;
-        height: 100%;
-        object-fit: cover;
-        width: 100%;
+    .embla :global(.embla__slide video) {
+        transform: translateZ(0);
+        will-change: transform;
     }
 
     .embla__controls {
@@ -406,7 +413,7 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
         display: grid;
         grid-template-columns: 1fr auto 1fr;
         margin: 1.25rem auto 0;
-        max-width: var(--carousel-slide-size);
+        max-width: var(--slide-size, 64rem);
         padding-inline: 1rem;
         width: 100%;
     }

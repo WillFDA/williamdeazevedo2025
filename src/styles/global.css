@@ -250,42 +250,6 @@ html {
     scrollbar-gutter: stable;
 }
 
-.embla__viewport {
-    overflow: visible;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.embla__viewport.is-ready {
-    opacity: 1;
-}
-
-.embla {
-    --slide-spacing: 32px;
-    --slide-size: calc(64rem);
-    overflow: hidden;
-}
-
-.embla__container {
-    display: flex;
-    touch-action: pan-y;
-    will-change: transform;
-    backface-visibility: hidden;
-}
-
-.embla__slide {
-    flex: 0 0 calc(var(--slide-size) + var(--slide-spacing));
-    min-width: 0;
-    padding-left: var(--slide-spacing);
-    aspect-ratio: var(--aspect-video);
-    transform: translateZ(0);
-}
-
-.embla__slide video {
-    transform: translateZ(0);
-    will-change: transform;
-}
-
 button {
     cursor: pointer;
 }
