@@ -299,6 +299,8 @@ const aboutPoints = [
                         ]}
                         data-project-panel
                         data-project-index={index}
+                        aria-hidden={index === 0 ? undefined : "true"}
+                        inert={index === 0 ? undefined : true}
                     >
                         <ProjectIntro
                             href={project.href}
@@ -510,6 +512,7 @@ const aboutPoints = [
 
                         panel.classList.toggle("is-active", isActive);
                         panel.setAttribute("aria-hidden", String(!isActive));
+                        panel.toggleAttribute("inert", !isActive);
                         if (isActive) activePanel = panel;
                     });
 
