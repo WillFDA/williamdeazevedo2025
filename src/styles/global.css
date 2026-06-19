@@ -243,8 +243,11 @@ body {
 * {
     scrollbar-width: thin;
     scrollbar-color: #888 transparent;
-    scrollbar-gutter: stable;
     box-sizing: border-box;
+}
+
+html {
+    scrollbar-gutter: stable;
 }
 
 .embla__viewport {

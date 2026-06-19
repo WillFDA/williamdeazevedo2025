@@ -1,0 +1,178 @@
+---
+interface Props {
+    class?: string;
+    className?: string;
+}
+
+const { class: classAttribute, className } = Astro.props;
+const classes = ["about-logo-matrix", className, classAttribute]
+    .filter(Boolean)
+    .join(" ");
+---
+
+<div class={classes} data-about-logo-matrix aria-hidden="true">
+    <canvas class="about-logo-matrix__canvas"></canvas>
+    <svg class="about-logo-matrix__source" viewBox="0 0 53 30" fill="none">
+        <path d="M53 0L44.985 13.8765L37.0616 0H53Z" />
+        <path d="M35.6656 30L40.8419 21.0452L28.8221 0H18.5282L23.1758 8.12843L23.1724 8.13363L28.302 17.1144L28.3037 17.1109L35.6656 30Z" />
+        <path d="M17.1391 30L22.3137 21.0452L10.2938 0H0L4.64761 8.12843L4.64415 8.13363L9.7738 17.1144L9.77553 17.1109L17.1391 30Z" />
+    </svg>
+</div>
+
+<script>
+    const initAboutLogoMatrices = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-about-logo-matrix]")
+            .forEach((root) => {
+                if (root.dataset.aboutLogoMatrixReady === "true") return;
+
+                const canvas =
+                    root.querySelector<HTMLCanvasElement>("canvas");
+                const source = root.querySelector<SVGSVGElement>("svg");
+                const context = canvas?.getContext("2d");
+                const probe = document.createElement("canvas").getContext("2d");
+
+                if (!canvas || !source || !context || !probe) return;
+
+                root.dataset.aboutLogoMatrixReady = "true";
+
+                const paths = Array.from(source.querySelectorAll("path")).map(
+                    (path) => new Path2D(path.getAttribute("d") ?? ""),
+                );
+                const prefersReducedMotion = window.matchMedia(
+                    "(prefers-reduced-motion: reduce)",
+                ).matches;
+                const randomUnit = (seed: number) => {
+                    const value = Math.sin(seed) * 10000;
+
+                    return value - Math.floor(value);
+                };
+                let dots: Array<{
+                    x: number;
+                    y: number;
+                    size: number;
+                    alpha: number;
+                    phase: number;
+                    speed: number;
+                    interval: number;
+                    pop: number;
+                }> = [];
+                let frame = 0;
+
+                const resize = () => {
+                    const rect = root.getBoundingClientRect();
+                    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+
+                    canvas.width = Math.max(1, Math.floor(rect.width * ratio));
+                    canvas.height = Math.max(
+                        1,
+                        Math.floor(rect.height * ratio),
+                    );
+                    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+                    dots = [];
+
+                    for (let y = 1; y < rect.height; y += 5) {
+                        for (let x = 1; x < rect.width; x += 5) {
+                            const sourceX = (x / rect.width) * 53;
+                            const sourceY = (y / rect.height) * 30;
+                            const active = paths.some((path) =>
+                                probe.isPointInPath(path, sourceX, sourceY),
+                            );
+
+                            dots.push({
+                                x,
+                                y,
+                                size: active ? 1.45 : 0.95,
+                                alpha: active
+                                    ? 0.12 + Math.random() * 0.24
+                                    : 0.015 + Math.random() * 0.035,
+                                phase: Math.random() * Math.PI * 2,
+                                speed: 0.0018 + Math.random() * 0.0032,
+                                interval: 220 + Math.random() * 620,
+                                pop: active ? 0.28 : 0.16,
+                            });
+                        }
+                    }
+                };
+
+                const draw = (time = 0) => {
+                    const rect = root.getBoundingClientRect();
+                    const color =
+                        getComputedStyle(root)
+                            .getPropertyValue("--about-logo-matrix-color")
+                            .trim() || "255 255 255";
+
+                    context.clearRect(0, 0, rect.width, rect.height);
+
+                    dots.forEach((dot) => {
+                        const wave = prefersReducedMotion
+                            ? 0
+                            : (Math.sin(time * dot.speed + dot.phase) + 1) / 2;
+                        const tick = Math.floor(time / dot.interval);
+                        const blink =
+                            !prefersReducedMotion &&
+                            randomUnit(dot.phase + tick * 12.9898) > 0.8
+                                ? dot.pop
+                                : 0;
+                        const alpha = dot.alpha * (0.62 + wave * 0.22 + blink);
+
+                        context.fillStyle = `rgb(${color} / ${alpha})`;
+                        context.fillRect(dot.x, dot.y, dot.size, dot.size);
+                    });
+
+                    if (!prefersReducedMotion) {
+                        frame = window.requestAnimationFrame(draw);
+                    }
+                };
+
+                const observer = new ResizeObserver(() => {
+                    if (frame) window.cancelAnimationFrame(frame);
+                    resize();
+                    draw();
+                });
+
+                observer.observe(root);
+                resize();
+                draw();
+            });
+    };
+
+    initAboutLogoMatrices();
+    document.addEventListener("astro:page-load", initAboutLogoMatrices);
+</script>
+
+<style>
+    .about-logo-matrix {
+        --about-logo-matrix-color: 255 255 255;
+
+        aspect-ratio: 53 / 30;
+        display: block;
+        height: clamp(27rem, 60vw, 58rem);
+        left: 53%;
+        opacity: 0.55;
+        pointer-events: none;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-4deg);
+        width: auto;
+        z-index: 0;
+    }
+
+    .about-logo-matrix__canvas {
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
+
+    .about-logo-matrix__source {
+        display: none;
+    }
+
+    @media (max-width: 767px) {
+        .about-logo-matrix {
+            height: 27rem;
+            left: 54%;
+            transform: translate(-50%, -50%) rotate(-7deg);
+        }
+    }
+</style>
