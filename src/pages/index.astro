@@ -347,6 +347,42 @@ const aboutPoints = [
 <script>
     import { animate, spring, stagger } from "animejs";
 
+    type HomeInteractionState = {
+        destroy: () => void;
+    };
+
+    const windowWithHomeInteractions = window as Window & {
+        __wuiHomeInteractionLifecycleReady?: boolean;
+        __wuiHomeInteractionStates?: Set<HomeInteractionState>;
+    };
+    const activeHomeInteractionStates =
+        windowWithHomeInteractions.__wuiHomeInteractionStates ??
+        new Set<HomeInteractionState>();
+    windowWithHomeInteractions.__wuiHomeInteractionStates =
+        activeHomeInteractionStates;
+    const activeTitleAnimations = new Set<{ cancel: () => void }>();
+
+    function registerHomeInteractionCleanup(destroy: () => void) {
+        let state: HomeInteractionState;
+
+        state = {
+            destroy: () => {
+                if (!activeHomeInteractionStates.delete(state)) return;
+                destroy();
+            },
+        };
+
+        activeHomeInteractionStates.add(state);
+    }
+
+    function resetHomeInteractions() {
+        activeTitleAnimations.forEach((animation) => animation.cancel());
+        activeTitleAnimations.clear();
+        Array.from(activeHomeInteractionStates).forEach((state) =>
+            state.destroy(),
+        );
+    }
+
     const animateTitle = (title: HTMLElement) => {
         if (title.dataset.animatedTitleReady === "true") return;
 
@@ -368,7 +404,7 @@ const aboutPoints = [
             word.style.willChange = "opacity, transform, filter";
         });
 
-        animate(words, {
+        const animation = animate(words, {
             opacity: [0, 1],
             translateY: ["-0.65em", "0em"],
             filter: ["blur(10px)", "blur(0px)"],
@@ -380,11 +416,14 @@ const aboutPoints = [
                 words.forEach((word) => {
                     word.style.willChange = "auto";
                 });
+                activeTitleAnimations.delete(animation);
             },
         });
+        activeTitleAnimations.add(animation);
     };
 
     const initTitleAnimations = () => {
+        let observedCount = 0;
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -406,7 +445,14 @@ const aboutPoints = [
 
                 title.dataset.animatedTitleReady = "pending";
                 observer.observe(title);
+                observedCount += 1;
             });
+
+        if (observedCount > 0) {
+            registerHomeInteractionCleanup(() => observer.disconnect());
+        } else {
+            observer.disconnect();
+        }
     };
 
     const projectTextAnimations = new WeakMap<HTMLElement, { cancel: () => void }>();
@@ -474,7 +520,7 @@ const aboutPoints = [
 
                 root.dataset.projectShowcaseReady = "true";
                 setActivePanel(0, "next", false);
-                root.addEventListener("carousel:select", (event) => {
+                const handleCarouselSelect = (event: Event) => {
                     const { direction, index } = (
                         event as CustomEvent<{
                             direction?: string;
@@ -483,14 +529,38 @@ const aboutPoints = [
                     ).detail;
 
                     setActivePanel(index, direction);
+                };
+
+                root.addEventListener("carousel:select", handleCarouselSelect);
+                registerHomeInteractionCleanup(() => {
+                    root.removeEventListener(
+                        "carousel:select",
+                        handleCarouselSelect,
+                    );
+                    panels.forEach((panel) => {
+                        projectTextAnimations.get(panel)?.cancel();
+                        panel
+                            .querySelectorAll<HTMLElement>(
+                                ".project-intro__title, .project-intro__description, .project-intro__button",
+                            )
+                            .forEach((item) => {
+                                item.style.willChange = "auto";
+                            });
+                    });
+                    delete root.dataset.projectShowcaseReady;
                 });
             });
     };
 
     initTitleAnimations();
     initProjectShowcases();
-    document.addEventListener("astro:page-load", initTitleAnimations);
-    document.addEventListener("astro:page-load", initProjectShowcases);
+
+    if (windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady !== true) {
+        windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady = true;
+        document.addEventListener("astro:before-swap", resetHomeInteractions);
+        document.addEventListener("astro:page-load", initTitleAnimations);
+        document.addEventListener("astro:page-load", initProjectShowcases);
+    }
 </script>
 
 <style>

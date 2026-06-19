@@ -106,7 +106,54 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
 <script>
     import EmblaCarousel from "embla-carousel";
 
+    type CarouselState = {
+        cleanup: Array<() => void>;
+        destroyed: boolean;
+        lazyObserver?: IntersectionObserver;
+        started: boolean;
+        wrapperNode: HTMLElement;
+    };
+
+    const windowWithCarousel = window as Window & {
+        __wuiCarouselLifecycleReady?: boolean;
+        __wuiCarouselStates?: Set<CarouselState>;
+    };
+    const activeCarouselStates =
+        windowWithCarousel.__wuiCarouselStates ?? new Set<CarouselState>();
+    windowWithCarousel.__wuiCarouselStates = activeCarouselStates;
+    const carouselStateByRoot = new WeakMap<HTMLElement, CarouselState>();
+
+    const pauseVideo = (video: HTMLVideoElement) => {
+        video.dataset.carouselActive = "false";
+        video.pause();
+        video.currentTime = 0;
+        video.preload = "none";
+    };
+
+    function destroyCarousel(state: CarouselState) {
+        if (state.destroyed) return;
+
+        state.destroyed = true;
+        state.lazyObserver?.disconnect();
+        state.cleanup.splice(0).forEach((cleanup) => cleanup());
+        state.wrapperNode
+            .querySelectorAll<HTMLVideoElement>("video")
+            .forEach(pauseVideo);
+        state.wrapperNode
+            .querySelector<HTMLElement>(".embla__viewport")
+            ?.classList.remove("is-ready");
+        delete state.wrapperNode.dataset.initialized;
+        delete state.wrapperNode.dataset.carouselAutoplayVisible;
+        carouselStateByRoot.delete(state.wrapperNode);
+        activeCarouselStates.delete(state);
+    }
+
+    function resetCarousels() {
+        Array.from(activeCarouselStates).forEach(destroyCarousel);
+    }
+
     function initCarousel(wrapperNode: HTMLElement) {
+        if (carouselStateByRoot.has(wrapperNode)) return;
         if (wrapperNode.dataset.initialized === "true") return;
 
         const viewportNode =
@@ -127,12 +174,25 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
         const videos = wrapperNode.querySelectorAll<HTMLVideoElement>("video");
 
         wrapperNode.dataset.initialized = "true";
+        const state: CarouselState = {
+            cleanup: [],
+            destroyed: false,
+            started: false,
+            wrapperNode,
+        };
+
+        carouselStateByRoot.set(wrapperNode, state);
+        activeCarouselStates.add(state);
 
         const startCarousel = () => {
+            if (state.destroyed || state.started) return;
+
+            state.started = true;
             const emblaApi = EmblaCarousel(viewportNode, {
                 loop: true,
                 align: "center",
             });
+            state.cleanup.push(() => emblaApi.destroy());
             let lastDispatchedIndex = emblaApi.selectedScrollSnap();
             let isSettled = true;
             let canUpdateVideos = true;
@@ -163,13 +223,6 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
                 }
 
                 window.requestAnimationFrame(play);
-            };
-
-            const pauseVideo = (video: HTMLVideoElement) => {
-                video.dataset.carouselActive = "false";
-                video.pause();
-                video.currentTime = 0;
-                video.preload = "none";
             };
 
             function dispatchSlideChange() {
@@ -234,6 +287,10 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
 
             prevButtonNode.addEventListener("click", scrollPrev);
             nextButtonNode.addEventListener("click", scrollNext);
+            state.cleanup.push(() => {
+                prevButtonNode.removeEventListener("click", scrollPrev);
+                nextButtonNode.removeEventListener("click", scrollNext);
+            });
 
             if (shouldAutoplay) {
                 let isInAutoplayZone = false;
@@ -272,6 +329,7 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
                     progressAnimation.finished
                         .then(() => {
                             if (
+                                state.destroyed ||
                                 currentRun !== progressRun ||
                                 !document.contains(wrapperNode) ||
                                 !isInAutoplayZone ||
@@ -309,7 +367,7 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
 
                 scheduleAutoplay = () => {
                     syncPausedUi();
-                    if (!isInAutoplayZone || isPaused) {
+                    if (state.destroyed || !isInAutoplayZone || isPaused) {
                         clearAutoplay();
                         return;
                     }
@@ -343,8 +401,18 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
 
                 autoplayObserver.observe(wrapperNode);
                 syncPausedUi();
+                state.cleanup.push(() => {
+                    autoplayObserver.disconnect();
+                    resetProgress();
+                });
 
                 autoplayButtonNode?.addEventListener("click", toggleUserPaused);
+                state.cleanup.push(() => {
+                    autoplayButtonNode?.removeEventListener(
+                        "click",
+                        toggleUserPaused,
+                    );
+                });
             }
         };
 
@@ -358,6 +426,7 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
             { rootMargin: "120px 0px" },
         );
 
+        state.lazyObserver = observer;
         observer.observe(wrapperNode);
     }
 
@@ -368,7 +437,12 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
     }
 
     init();
-    document.addEventListener("astro:page-load", init);
+
+    if (windowWithCarousel.__wuiCarouselLifecycleReady !== true) {
+        windowWithCarousel.__wuiCarouselLifecycleReady = true;
+        document.addEventListener("astro:before-swap", resetCarousels);
+        document.addEventListener("astro:page-load", init);
+    }
 </script>
 
 <style>

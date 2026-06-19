@@ -60,19 +60,32 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
     };
 
     type LogoShuffleState = {
+        animations: Set<Animation>;
         autoplay: boolean;
+        destroyed: boolean;
         indexes: number[];
+        introPlayed: boolean;
+        isVisible: boolean;
         items: LogoItem[];
         lastSlotIndex?: number;
         maxDelay: number;
         minDelay: number;
         reducedMotion: boolean;
+        replayListener: () => void;
+        root: HTMLElement;
         slotQueue: number[];
         slots: HTMLElement[];
         timeout?: number;
+        visibilityObserver?: IntersectionObserver;
         visibleSlotCount: number;
     };
 
+    const windowWithLogoShuffle = window as Window & {
+        __wuiLogoShuffleStates?: Set<LogoShuffleState>;
+    };
+    const activeLogoShuffleStates =
+        windowWithLogoShuffle.__wuiLogoShuffleStates ?? new Set<LogoShuffleState>();
+    windowWithLogoShuffle.__wuiLogoShuffleStates = activeLogoShuffleStates;
     const stateByRoot = new WeakMap<HTMLElement, LogoShuffleState>();
 
     function parseInteger(value: string | undefined, fallback: number) {
@@ -165,41 +178,73 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
         if (label) label.textContent = item.name;
     }
 
+    function runSlotAnimation(
+        slot: HTMLElement,
+        state: LogoShuffleState,
+        keyframes: Keyframe[],
+        options: KeyframeAnimationOptions,
+    ) {
+        const animation = slot.animate(keyframes, options);
+
+        state.animations.add(animation);
+        animation.finished
+            .catch(() => {})
+            .finally(() => state.animations.delete(animation));
+
+        return animation;
+    }
+
     async function swapSlot(
         slot: HTMLElement,
         item: LogoItem,
         state: LogoShuffleState,
     ) {
+        if (state.destroyed || !document.contains(slot)) return;
+
         if (state.reducedMotion) {
             renderSlot(slot, item);
             return;
         }
 
-        await slot
-            .animate(
+        await runSlotAnimation(
+            slot,
+            state,
                 [
                     { filter: "blur(0px)", opacity: 1, transform: "translateY(0)" },
                     { filter: "blur(8px)", opacity: 0, transform: "translateY(8px)" },
                 ],
                 { duration: 140, easing: "cubic-bezier(0.4, 0, 0.2, 1)" },
-            )
-            .finished.catch(() => {});
+        ).finished.catch(() => {});
+
+        if (state.destroyed || !document.contains(slot)) return;
 
         renderSlot(slot, item);
 
-        await slot
-            .animate(
+        await runSlotAnimation(
+            slot,
+            state,
                 [
                     { filter: "blur(8px)", opacity: 0, transform: "translateY(-8px)" },
                     { filter: "blur(0px)", opacity: 1, transform: "translateY(0)" },
                 ],
                 { duration: 260, easing: "cubic-bezier(0.2, 0, 0, 1)" },
-            )
-            .finished.catch(() => {});
+        ).finished.catch(() => {});
     }
 
     function schedule(root: HTMLElement, state: LogoShuffleState) {
         window.clearTimeout(state.timeout);
+        state.timeout = undefined;
+
+        if (
+            state.destroyed ||
+            state.reducedMotion ||
+            !state.autoplay ||
+            !state.isVisible ||
+            !document.contains(root)
+        ) {
+            return;
+        }
+
         state.timeout = window.setTimeout(
             () => tick(root, state),
             randomInt(state.minDelay, state.maxDelay),
@@ -207,19 +252,39 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
     }
 
     function tick(root: HTMLElement, state: LogoShuffleState) {
+        if (state.destroyed || !state.isVisible || !document.contains(root)) {
+            return;
+        }
+
         const slotIndex = getNextSlotIndex(state);
         const nextItemIndex = getNextItemIndex(state);
+        const slot = state.slots[slotIndex];
 
-        if (nextItemIndex === undefined) return;
+        if (nextItemIndex === undefined || !slot) {
+            schedule(root, state);
+            return;
+        }
 
         state.indexes[slotIndex] = nextItemIndex;
-        void swapSlot(state.slots[slotIndex], state.items[nextItemIndex], state);
+        void swapSlot(slot, state.items[nextItemIndex], state);
         schedule(root, state);
     }
 
     function replayIntro(root: HTMLElement, state: LogoShuffleState) {
+        if (
+            state.destroyed ||
+            state.reducedMotion ||
+            !state.isVisible ||
+            !document.contains(root)
+        ) {
+            return;
+        }
+
+        state.introPlayed = true;
         state.slots.forEach((slot, index) => {
-            slot.animate(
+            runSlotAnimation(
+                slot,
+                state,
                 [
                     { filter: "blur(8px)", opacity: 0, transform: "translateY(8px)" },
                     { filter: "blur(0px)", opacity: 1, transform: "translateY(0)" },
@@ -231,6 +296,27 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
                 },
             );
         });
+    }
+
+    function destroyLogoShuffle(state: LogoShuffleState) {
+        if (state.destroyed) return;
+
+        state.destroyed = true;
+        window.clearTimeout(state.timeout);
+        state.visibilityObserver?.disconnect();
+        state.animations.forEach((animation) => animation.cancel());
+        state.animations.clear();
+        state.root.removeEventListener(
+            "willui:logo-shuffle:replay",
+            state.replayListener,
+        );
+        delete state.root.dataset.wuiLogoShuffleReady;
+        stateByRoot.delete(state.root);
+        activeLogoShuffleStates.delete(state);
+    }
+
+    function resetLogoShuffles() {
+        Array.from(activeLogoShuffleStates).forEach(destroyLogoShuffle);
     }
 
     function bindLogoShuffle(root: HTMLElement) {
@@ -262,19 +348,28 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
             parseInteger(root.dataset.wuiLogoShuffleMaxDelay, 1600),
         );
         const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-        const state: LogoShuffleState = {
+        let state: LogoShuffleState;
+        const replayListener = () => replayIntro(root, state);
+
+        state = {
+            animations: new Set(),
             autoplay:
                 root.dataset.wuiLogoShuffleAutoplay !== "false" &&
                 items.length > visibleSlotCount,
+            destroyed: false,
             indexes: Array.from(
                 { length: visibleSlotCount },
                 (_, index) => index,
             ),
+            introPlayed: false,
+            isVisible: !("IntersectionObserver" in window),
             items,
             lastSlotIndex: undefined,
             maxDelay,
             minDelay,
             reducedMotion: media.matches,
+            replayListener,
+            root,
             slotQueue: createSlotQueue(visibleSlotCount, undefined),
             slots: slots.slice(0, visibleSlotCount),
             timeout: undefined,
@@ -282,14 +377,37 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
         };
 
         stateByRoot.set(root, state);
+        activeLogoShuffleStates.add(state);
         root.dataset.wuiLogoShuffleReady = "true";
-        root.addEventListener("willui:logo-shuffle:replay", () =>
-            replayIntro(root, state),
-        );
+        root.addEventListener("willui:logo-shuffle:replay", replayListener);
 
-        if (!state.reducedMotion) replayIntro(root, state);
+        if ("IntersectionObserver" in window) {
+            const visibilityObserver = new IntersectionObserver(
+                (entries) => {
+                    const isVisible = entries[0]?.isIntersecting ?? false;
 
-        if (state.autoplay && !state.reducedMotion) schedule(root, state);
+                    if (state.isVisible === isVisible) return;
+
+                    state.isVisible = isVisible;
+
+                    if (!isVisible) {
+                        window.clearTimeout(state.timeout);
+                        state.timeout = undefined;
+                        return;
+                    }
+
+                    if (!state.introPlayed) replayIntro(root, state);
+                    schedule(root, state);
+                },
+                { rootMargin: "160px 0px", threshold: 0.01 },
+            );
+
+            state.visibilityObserver = visibilityObserver;
+            visibilityObserver.observe(root);
+        } else {
+            if (!state.reducedMotion) replayIntro(root, state);
+            schedule(root, state);
+        }
     }
 
     function initLogoShuffles() {
@@ -299,6 +417,7 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
     }
 
     const replayListenerKey = "__wuiLogoShuffleReplayListener";
+    const lifecycleListenerKey = "__wuiLogoShuffleLifecycleListener";
 
     if (!(replayListenerKey in window)) {
         Object.defineProperty(window, replayListenerKey, { value: true });
@@ -325,8 +444,14 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
         });
     }
 
+    if (!(lifecycleListenerKey in window)) {
+        Object.defineProperty(window, lifecycleListenerKey, { value: true });
+
+        document.addEventListener("astro:before-swap", resetLogoShuffles);
+        document.addEventListener("astro:page-load", initLogoShuffles);
+    }
+
     initLogoShuffles();
-    document.addEventListener("astro:page-load", initLogoShuffles);
 </script>
 
 <style>
