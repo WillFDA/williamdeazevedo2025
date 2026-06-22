@@ -396,7 +396,7 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
                         return;
                     }
 
-                    if (!state.introPlayed) replayIntro(root, state);
+                    state.introPlayed = true;
                     schedule(root, state);
                 },
                 { rootMargin: "160px 0px", threshold: 0.01 },
@@ -405,7 +405,7 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
             state.visibilityObserver = visibilityObserver;
             visibilityObserver.observe(root);
         } else {
-            if (!state.reducedMotion) replayIntro(root, state);
+            state.introPlayed = true;
             schedule(root, state);
         }
     }
@@ -547,6 +547,14 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
     }
 
     @media (max-width: 640px) {
+        .wui-logo-shuffle {
+            --wui-logo-shuffle-gap: 0.75rem;
+            --wui-logo-shuffle-item-size: 2.75rem;
+            --wui-logo-shuffle-logo-size: 1.625rem;
+
+            margin-block: 1rem;
+        }
+
         .wui-logo-shuffle__list {
             justify-content: center;
         }

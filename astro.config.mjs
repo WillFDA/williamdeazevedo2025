@@ -16,14 +16,6 @@ export default defineConfig({
   site: "https://williamdeazevedo.fr/",
   integrations: [mdx(), sitemap()],
 
-  // Prefetch internal links on hover/focus so navigation feels instant
-  // (improves perceived performance & Core Web Vitals). Astro skips this
-  // automatically when the user has Save-Data enabled.
-  prefetch: {
-    prefetchAll: true,
-    defaultStrategy: "hover",
-  },
-
   markdown: {
     shikiConfig: {
       theme: "github-dark-dimmed",

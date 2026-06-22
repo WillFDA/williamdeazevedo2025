@@ -141,10 +141,6 @@ const splitWords = text.trim()
     :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
         .wui-wave-text[data-wui-wave-trigger="parent"]
         [data-wui-wave-row="first"]
-        [data-wui-wave-char],
-    :global(:where(a, button, [data-wui-wave-parent]):focus-within)
-        .wui-wave-text[data-wui-wave-trigger="parent"]
-        [data-wui-wave-row="first"]
         [data-wui-wave-char] {
         transform: translateY(-115%);
     }
@@ -160,10 +156,6 @@ const splitWords = text.trim()
         [data-wui-wave-row="second"]
         [data-wui-wave-char],
     :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
-        .wui-wave-text[data-wui-wave-trigger="parent"]
-        [data-wui-wave-row="second"]
-        [data-wui-wave-char],
-    :global(:where(a, button, [data-wui-wave-parent]):focus-within)
         .wui-wave-text[data-wui-wave-trigger="parent"]
         [data-wui-wave-row="second"]
         [data-wui-wave-char] {
