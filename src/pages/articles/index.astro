@@ -32,7 +32,7 @@ const articles = await getVisibleArticles();
             ) : (
                 <>
                     <FadeReveal delay={0.3}>
-                        <h2 class="mb-10 text-sm font-light text-gray-400">
+                        <h2 class="mb-10 text-sm font-light text-gray-500">
                             Articles
                         </h2>
                     </FadeReveal>
@@ -47,7 +47,7 @@ const articles = await getVisibleArticles();
                                             </h3>
                                             <span class="dot-leaders min-w-8 flex-1" />
                                             <time
-                                                class="whitespace-nowrap text-sm tabular-nums text-gray-400"
+                                                class="whitespace-nowrap text-sm tabular-nums text-gray-500"
                                                 datetime={article.data.pubDate.toISOString()}
                                             >
                                                 {formatArticleDate(article.data.pubDate)}
@@ -59,7 +59,7 @@ const articles = await getVisibleArticles();
                                         {article.data.tags.length > 0 && (
                                             <div class="flex flex-wrap gap-2">
                                                 {article.data.tags.map((tag) => (
-                                                    <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-400">
+                                                    <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
                                                         {tag}
                                                     </span>
                                                 ))}
