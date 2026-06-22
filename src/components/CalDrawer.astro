@@ -52,6 +52,13 @@ const calLink = String(
     let isCalConfigured = false;
     let closeTimer;
 
+    function trackAnalyticsEvent(name, params = {}) {
+        window.gtag?.("event", name, {
+            page_path: window.location.pathname,
+            ...params,
+        });
+    }
+
     function loadCalEmbed() {
         if ("Cal" in window) return;
 
@@ -123,6 +130,15 @@ const calLink = String(
             theme: "dark",
         });
         window.Cal("preload", { calLink });
+        window.Cal("on", {
+            action: "bookingSuccessfulV2",
+            callback: (event) => {
+                trackAnalyticsEvent("generate_lead", {
+                    method: "cal.com",
+                    status: event.detail.data?.status,
+                });
+            },
+        });
         isCalConfigured = true;
     }
 
@@ -180,8 +196,12 @@ const calLink = String(
         const target = event.target;
         if (!(target instanceof Element)) return;
 
-        if (target.closest("[data-cal-open]")) {
+        const calOpenButton = target.closest("[data-cal-open]");
+        if (calOpenButton instanceof HTMLElement) {
             event.preventDefault();
+            trackAnalyticsEvent("cal_cta_click", {
+                location: calOpenButton.dataset.calLocation ?? "unknown",
+            });
             openCalDrawer();
             return;
         }

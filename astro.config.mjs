@@ -16,15 +16,14 @@ export default defineConfig({
   site: "https://williamdeazevedo.fr/",
   integrations: [mdx(), sitemap()],
 
-  // Prefetch internal links on intent (pointer-down / touch-start) rather than
-  // on hover. Hover prefetch fires a full-page fetch every time the cursor
-  // crosses a link, which competes with the homepage hover micro-interactions
-  // on the main thread and makes them feel laggy. "tap" keeps navigation
-  // near-instant (the request starts a few ms before the click) without the
-  // hover jank. Astro still skips prefetch when Save-Data is enabled.
+  // <ClientRouter /> turns prefetch ON by default (prefetchAll, hover strategy)
+  // — exactly the hover-time, full-page fetching that made the homepage hover
+  // interactions feel laggy. Keep link prefetch disabled (the "disable link
+  // prefetch" decision on 2026): the client router already makes navigation
+  // feel instant without prefetching every link on hover. No links opt back in
+  // via data-astro-prefetch, so this effectively disables prefetch.
   prefetch: {
-    prefetchAll: true,
-    defaultStrategy: "tap",
+    prefetchAll: false,
   },
 
   markdown: {
