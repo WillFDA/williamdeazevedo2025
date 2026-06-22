@@ -94,9 +94,9 @@ const personJsonLd = {
             src="https://www.googletagmanager.com/gtag/js?id=G-9G8R67JBFF"
         ></script>
         <script is:inline>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-                dataLayer.push(arguments);
+            window.dataLayer ||= [];
+            function gtag(...args) {
+                dataLayer.push(args);
             }
             gtag("js", new Date());
 
