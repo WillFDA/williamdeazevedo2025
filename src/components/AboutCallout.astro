@@ -32,40 +32,43 @@ const aboutPoints = [
             {
                 titleWords.map((word, index) => {
                     const cleanWord = word.replace("\u00A0", " ");
+                    const isWilliam = cleanWord === "William,";
                     const isHighlighted =
                         cleanWord === "design !" ||
                         cleanWord.replace(/[,.!]+$/, "") === "design";
 
                     return (
-                        <>
-                            <span
-                                class:list={[
-                                    "about-callout-title-word",
-                                    isHighlighted
-                                        ? "text-blue-400"
-                                        : "text-snow-50",
-                                ]}
-                                style={`--about-callout-word-index: ${index}`}
-                            >
-                                {cleanWord}
-                            </span>
-                            {cleanWord === "William," && (
-                                <span
-                                    class="about-callout-avatar about-callout-title-word"
-                                    style={`--about-callout-word-index: ${index + 0.5}`}
-                                    aria-hidden="true"
-                                >
-                                    <Image
-                                        class="about-callout-avatar__image"
-                                        src={williamPortrait}
-                                        alt=""
-                                        width={72}
-                                        height={72}
-                                        loading="eager"
-                                    />
-                                </span>
+                        <span
+                            class:list={[
+                                "about-callout-title-word",
+                                isWilliam &&
+                                    "about-callout-title-word--with-avatar",
+                                isHighlighted ? "text-blue-400" : "text-snow-50",
+                            ]}
+                            style={`--about-callout-word-index: ${index}`}
+                        >
+                            {isWilliam ? (
+                                <>
+                                    William
+                                    <span
+                                        class="about-callout-avatar"
+                                        aria-hidden="true"
+                                    >
+                                        <Image
+                                            class="about-callout-avatar__image"
+                                            src={williamPortrait}
+                                            alt=""
+                                            width={72}
+                                            height={72}
+                                            loading="eager"
+                                        />
+                                    </span>
+                                    ,
+                                </>
+                            ) : (
+                                cleanWord
                             )}
-                        </>
+                        </span>
                     );
                 })
             }
@@ -194,6 +197,11 @@ const aboutPoints = [
             both;
         animation-delay: calc(var(--about-callout-word-index, 0) * 65ms);
         display: inline-block;
+    }
+
+    .about-callout-title-word--with-avatar {
+        align-items: center;
+        display: inline-flex;
     }
 
     .about-callout-avatar {
