@@ -16,6 +16,8 @@ import WaveText from "../components/ui/WaveText.astro";
 import { homeProjects } from "../data/projects";
 import { temoignages } from "../data/temoignage";
 
+export const prerender = true;
+
 const heroTitleWords = [
     "Je",
     "crée",
@@ -119,9 +121,10 @@ const displayedTestimonials = temoignages
             </FadeReveal>
             <FadeReveal delay={0.44}>
                 <div class="flex flex-wrap gap-3 items-center justify-center sm:gap-8">
-                    <a
+                    <button
                         class="hero-button hero-button--primary font-regular px-5 text-md py-1.5 rounded-xl h-12 flex justify-center items-center sm:px-6"
-                        href="#projects"
+                        data-cal-open
+                        type="button"
                         ><WaveText
                             text="Parlons de votre projet"
                             trigger="parent"
@@ -133,7 +136,7 @@ const displayedTestimonials = temoignages
                         >
                             <ArrowRight class="size-full" aria-hidden="true" />
                         </WaveIcon>
-                    </a>
+                    </button>
                     <a
                         class="hero-button hero-button--secondary font-regular px-5 py-1.5 rounded-xl h-12 flex text-md justify-center items-center sm:px-6"
                         href="#projects"
@@ -339,9 +342,10 @@ const displayedTestimonials = temoignages
                     ))
                 }
             </ul>
-            <a
+            <button
                 class="hero-button about-cta mx-auto inline-flex h-12 items-center justify-center gap-3 rounded-xl px-6 text-md font-regular focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
-                href="mailto:william.deazevedopro@gmail.com"
+                data-cal-open
+                type="button"
             >
                 <svg
                     aria-hidden="true"
@@ -359,7 +363,7 @@ const displayedTestimonials = temoignages
                     />
                 </svg>
                 <span>Me contacter</span>
-            </a>
+            </button>
         </div>
     </section>
     <section id="projects" class="project-showcase md:mt-20" data-project-showcase>

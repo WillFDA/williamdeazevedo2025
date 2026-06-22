@@ -6,7 +6,10 @@ export type Article = CollectionEntry<"articles">;
  * An article is visible once it is not a draft and its scheduled release date
  * (`pubDate`) has been reached.
  */
-export function isArticleVisible(article: Article, now: Date = new Date()): boolean {
+export function isArticleVisible(
+  article: Article,
+  now: Date = new Date()
+): boolean {
   if (article.data.draft) {
     return false;
   }
