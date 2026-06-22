@@ -2,10 +2,17 @@
 @import "tw-animate-css";
 @import "@fontsource-variable/geist";
 
-@view-transition {
-  navigation: auto;
-}
+/* View transitions are driven by Astro's <ClientRouter /> (client-side, no
+   full reload). The cross-document `@view-transition { navigation: auto }`
+   trigger is intentionally NOT used: it forced a real navigation (the white
+   flash) and ran the page's entrance animations underneath the transition
+   snapshot, so they had already finished by the time the new page appeared.
+   The pseudo-element rules below still style ClientRouter's transition. */
 
+/* Swap the page contents instantly (no root cross-fade) so only the shared
+   nav indicator/labels morph. With a synchronous in-place swap the fresh page
+   is snapshotted in its pre-animation state, so entrance reveals play cleanly
+   on the live DOM afterwards instead of appearing already-completed. */
 ::view-transition-old(root) {
   animation: none;
   opacity: 0;
@@ -28,6 +35,14 @@
   animation-duration: 320ms;
   animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
   z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }
 
 @custom-variant dark (&:is(.dark *));

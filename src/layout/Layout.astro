@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import CalDrawer from "../components/CalDrawer.astro";
@@ -88,6 +89,11 @@ const personJsonLd = {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#ffffff" />
         <meta name="generator" content={Astro.generator} />
+        {/* Client-side routing + view transitions. Swaps the DOM in place so
+            navigation no longer triggers a full reload (the white flash) and
+            fires the astro:page-load / astro:before-swap lifecycle the
+            interactive components rely on to (re)initialise. */}
+        <ClientRouter />
         <script
             is:inline
             async
@@ -99,8 +105,22 @@ const personJsonLd = {
                 dataLayer.push(arguments);
             }
             gtag("js", new Date());
-
-            gtag("config", "G-9G8R67JBFF");
+            // Client-side routing swaps the DOM without a reload, so GA's
+            // automatic page_view (which only fires on a real document load)
+            // would miss every in-app navigation. Disable it here and send one
+            // page_view per page from astro:page-load instead (fires on the
+            // first load *and* after every view transition).
+            gtag("config", "G-9G8R67JBFF", { send_page_view: false });
+            if (!window.__gaPageviewBound) {
+                window.__gaPageviewBound = true;
+                document.addEventListener("astro:page-load", function () {
+                    gtag("event", "page_view", {
+                        page_path: location.pathname + location.search,
+                        page_location: location.href,
+                        page_title: document.title,
+                    });
+                });
+            }
         </script>
         <meta name="description" content={description} />
         <link rel="canonical" href={canonicalUrl.href} />
