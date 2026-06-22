@@ -1,0 +1,22 @@
+# Cloudflare honours this file for static assets (copied to dist/_headers).
+# Fixes Lighthouse "Use efficient cache lifetimes": the project videos in
+# /public were served with no Cache-Control, so they were re-downloaded on
+# every visit (~2.1 MB+ each).
+
+# Astro fingerprints these filenames on every build, so they're safe to cache
+# forever.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Unhashed media. Cached for a year — if you replace a file in place, rename it
+# (or append ?v=2 at the call site) so returning visitors pick up the new one.
+/lefellic/*
+  Cache-Control: public, max-age=31536000, immutable
+/motivai/*
+  Cache-Control: public, max-age=31536000, immutable
+/persistance/*
+  Cache-Control: public, max-age=31536000, immutable
+/pictures/*
+  Cache-Control: public, max-age=31536000, immutable
+/icons/*
+  Cache-Control: public, max-age=31536000, immutable
