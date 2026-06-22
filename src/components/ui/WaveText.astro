@@ -112,7 +112,6 @@ const splitWords = text.trim()
 
     [data-wui-wave-char] {
         display: inline-block;
-        will-change: transform;
     }
 
     [data-wui-wave-row="first"] [data-wui-wave-char] {
@@ -126,6 +125,21 @@ const splitWords = text.trim()
     [data-wui-wave-char] {
         transition: transform 520ms cubic-bezier(0.34, 1.56, 0.64, 1);
         transition-delay: var(--wui-wave-delay, 0ms);
+    }
+
+    /* Only hint the compositor while the interaction is actually happening.
+       A permanent will-change on every character keeps a GPU layer alive for
+       each one (there are dozens on the homepage), which adds memory pressure
+       and makes the hover micro-interactions stutter. */
+    .wui-wave-text:hover [data-wui-wave-char],
+    .wui-wave-text:focus-visible [data-wui-wave-char],
+    :global(:where(a, button, [data-wui-wave-parent]):hover)
+        .wui-wave-text[data-wui-wave-trigger="parent"]
+        [data-wui-wave-char],
+    :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
+        .wui-wave-text[data-wui-wave-trigger="parent"]
+        [data-wui-wave-char] {
+        will-change: transform;
     }
 
     .wui-wave-text:hover

@@ -129,6 +129,18 @@ const offsets = {
     height: 100%;
     justify-content: center;
     width: 100%;
+  }
+
+  /* Promote to a compositor layer only during the interaction (see WaveText)
+     rather than keeping a permanent GPU layer alive for every icon. */
+  .wui-wave-icon:hover .wui-wave-icon__layer,
+  .wui-wave-icon:focus-visible .wui-wave-icon__layer,
+  :global(:where(a, button, [data-wui-wave-parent]):hover)
+    .wui-wave-icon[data-wui-wave-icon-trigger="parent"]
+    .wui-wave-icon__layer,
+  :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
+    .wui-wave-icon[data-wui-wave-icon-trigger="parent"]
+    .wui-wave-icon__layer {
     will-change: transform;
   }
 
