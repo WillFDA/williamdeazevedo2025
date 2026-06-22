@@ -1,8 +1,6 @@
 ---
 import Layout from "../layout/Layout.astro";
 import FadeReveal from "../components/animations/FadeReveal.astro";
-import FadeRevealOnScroll from "../components/animations/FadeRevealOnScroll.astro";
-import Marquee from "../components/Marquee.astro";
 import Carousel from "../components/Carousel.astro";
 import HeroDotMatrix from "../components/HeroDotMatrix.astro";
 import AboutCallout from "../components/AboutCallout.astro";
@@ -35,8 +33,6 @@ const heroTitleWords = [
 ];
 
 const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
-// ponytail: temporary flag; flip to true to bring the logo marquee back.
-const showLogoMarquee = false;
 
 const testimonialImages = import.meta.glob<{ default: ImageMetadata }>(
     "../assets/temoignages/*.{jpg,jpeg,png,webp}",
@@ -174,13 +170,6 @@ const displayedTestimonials = temoignages
             <HeroDotMatrix />
         </div>
     </section>
-    {
-        showLogoMarquee && (
-            <FadeRevealOnScroll delay={0.12}>
-                <Marquee />
-            </FadeRevealOnScroll>
-        )
-    }
     <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !" />
     <section id="projects" class="project-showcase md:mt-20" data-project-showcase>
         <div class="project-copy mx-auto max-w-5xl px-2 pb-10 sm:px-4">
