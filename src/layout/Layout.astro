@@ -19,6 +19,41 @@ const siteName = "William De Azevedo";
 const siteUrl = Astro.site ?? Astro.url;
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
 const imageUrl = new URL(image, siteUrl);
+
+const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "William De Azevedo",
+    url: siteUrl.href,
+    image: imageUrl.href,
+    jobTitle: "Développeur front-end freelance",
+    description:
+        "Développeur front-end freelance orienté design et produit, je crée des sites rapides, accessibles et pensés pour convertir.",
+    sameAs: [
+        "https://www.linkedin.com/in/william-de-azevedo/",
+        "https://github.com/WillFDA",
+        "https://www.malt.fr/profile/williamferreiradeazevedo",
+    ],
+    knowsAbout: [
+        "Astro",
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "SEO technique",
+        "Accessibilité web",
+        "UI design",
+    ],
+    address: {
+        "@type": "PostalAddress",
+        addressRegion: "Île-de-France",
+        addressCountry: "FR",
+    },
+    worksFor: {
+        "@type": "Organization",
+        name: "William De Azevedo — Développeur freelance",
+    },
+};
 ---
 
 <html lang="fr">
@@ -55,6 +90,11 @@ const imageUrl = new URL(image, siteUrl);
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={imageUrl.href} />
+        <script
+            type="application/ld+json"
+            is:inline
+            set:html={JSON.stringify(personJsonLd)}
+        />
         <title>{title}</title>
     </head>
     <body class="min-h-screen min-w-0 flex flex-col">

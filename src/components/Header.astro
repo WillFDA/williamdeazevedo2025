@@ -9,11 +9,14 @@ const { pathName } = Astro.props;
 const navItems = [
     { href: "/", id: "home", label: "Accueil" },
     { href: "/about", id: "about", label: "À propos" },
+    { href: "/articles", id: "articles", label: "Articles" },
 ];
 const currentPath = pathName.replace(/\/$/, "") || "/";
 const items = navItems.map((item) => ({
     ...item,
-    active: currentPath === item.href,
+    active:
+        currentPath === item.href ||
+        (item.href !== "/" && currentPath.startsWith(`${item.href}/`)),
 }));
 ---
 

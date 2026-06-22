@@ -933,7 +933,6 @@ const displayedTestimonials = temoignages
         transform: scale(1);
         transition: transform 520ms
             var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
-        will-change: transform;
         z-index: -1;
     }
 
@@ -965,7 +964,6 @@ const displayedTestimonials = temoignages
     @media (prefers-reduced-motion: reduce) {
         .hero-button::before {
             transition: none;
-            will-change: auto;
         }
     }
 </style>
