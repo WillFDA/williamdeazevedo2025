@@ -396,7 +396,7 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
                         return;
                     }
 
-                    if (!state.introPlayed) replayIntro(root, state);
+                    state.introPlayed = true;
                     schedule(root, state);
                 },
                 { rootMargin: "160px 0px", threshold: 0.01 },
@@ -405,7 +405,7 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
             state.visibilityObserver = visibilityObserver;
             visibilityObserver.observe(root);
         } else {
-            if (!state.reducedMotion) replayIntro(root, state);
+            state.introPlayed = true;
             schedule(root, state);
         }
     }
