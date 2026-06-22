@@ -31,3 +31,16 @@ export function initFadeInAnimations(root: Document) {
     .querySelectorAll<HTMLElement>("[data-reveal-on-scroll]:not(.is-visible)")
     .forEach((element) => observer.observe(element));
 }
+
+// An IntersectionObserver holds strong references to every element it observes.
+// Below-the-fold reveals that never intersected are still observed when the page
+// is swapped out, so without this the observer would retain detached nodes from
+// every visited page. Disconnect on astro:before-swap; initFadeInAnimations
+// recreates a fresh observer on the next astro:page-load.
+export function resetFadeInAnimations(root: Document) {
+  const observer = observerByDocument.get(root);
+  if (!observer) return;
+
+  observer.disconnect();
+  observerByDocument.delete(root);
+}
