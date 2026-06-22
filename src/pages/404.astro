@@ -1,0 +1,42 @@
+---
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import Layout from "@/layout/Layout.astro";
+---
+
+<Layout
+    title="Page introuvable - William De Azevedo"
+    description="Cette page n'existe pas ou a été déplacée."
+>
+    <section class="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center gap-6 px-4 py-24 text-center">
+        <FadeReveal delay={0.1}>
+            <p class="text-sm font-light text-blue-500">Erreur 404</p>
+        </FadeReveal>
+        <FadeReveal delay={0.2}>
+            <h1 class="text-4xl font-medium tracking-[-4%] text-gray-900 sm:text-5xl">
+                Cette page n'existe pas
+            </h1>
+        </FadeReveal>
+        <FadeReveal delay={0.3}>
+            <p class="max-w-md font-light leading-relaxed text-gray-600">
+                Le lien est peut-être cassé ou la page a été déplacée. Pas de
+                panique, on retrouve le chemin.
+            </p>
+        </FadeReveal>
+        <FadeReveal delay={0.4}>
+            <div class="flex flex-wrap items-center justify-center gap-3">
+                <a
+                    class="inline-flex h-12 items-center justify-center rounded-xl bg-coffee-300 px-6 text-md font-light text-snow-50 transition-transform hover:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
+                    href="/"
+                >
+                    Retour à l'accueil
+                </a>
+                <a
+                    class="inline-flex h-12 items-center justify-center rounded-xl bg-snow-600 px-6 text-md font-light text-coffee-300 transition-transform hover:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
+                    href="/articles"
+                >
+                    Lire les articles
+                </a>
+            </div>
+        </FadeReveal>
+    </section>
+</Layout>

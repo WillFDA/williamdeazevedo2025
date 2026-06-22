@@ -1,0 +1,97 @@
+---
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import Layout from "@/layout/Layout.astro";
+import { formatArticleDate, getVisibleArticles } from "@/lib/articles";
+
+const articles = await getVisibleArticles();
+---
+
+<Layout
+    title="Articles - William De Azevedo"
+    description="Articles sur le développement front-end, Astro, React, Next.js, TypeScript et mes retours d'expérience en tant que développeur freelance."
+>
+    <div class="mx-auto w-full max-w-2xl px-2 pb-20 sm:px-4">
+        <section class="mb-16 text-center">
+            <FadeReveal delay={0.1}>
+                <h1 class="mb-4 text-3xl font-medium leading-tight tracking-[-4%] text-gray-900 md:text-5xl">
+                    «&nbsp;Enseigner, c'est apprendre deux fois&nbsp;»
+                </h1>
+            </FadeReveal>
+            <FadeReveal delay={0.2}>
+                <p class="text-sm font-light text-gray-500">— Joseph Joubert</p>
+            </FadeReveal>
+        </section>
+
+        {
+            articles.length === 0 ? (
+                <FadeReveal delay={0.3}>
+                    <p class="text-center text-sm font-light text-gray-500">
+                        Il n'y a rien pour l'instant, reviens bientôt !
+                    </p>
+                </FadeReveal>
+            ) : (
+                <>
+                    <FadeReveal delay={0.3}>
+                        <h2 class="mb-10 text-sm font-light text-gray-400">
+                            Articles
+                        </h2>
+                    </FadeReveal>
+                    <ul class="flex flex-col gap-8">
+                        {articles.map((article, index) => (
+                            <li>
+                                <FadeReveal delay={0.35 + index * 0.08}>
+                                    <a class="group block" href={`/articles/${article.id}`}>
+                                        <div class="mb-1 flex items-baseline gap-2">
+                                            <h3 class="font-medium text-gray-900 transition-colors group-hover:text-gray-600">
+                                                {article.data.title}
+                                            </h3>
+                                            <span class="dot-leaders min-w-8 flex-1" />
+                                            <time
+                                                class="whitespace-nowrap text-sm tabular-nums text-gray-400"
+                                                datetime={article.data.pubDate.toISOString()}
+                                            >
+                                                {formatArticleDate(article.data.pubDate)}
+                                            </time>
+                                        </div>
+                                        <p class="mb-2 line-clamp-2 text-sm font-light text-gray-500">
+                                            {article.data.description}
+                                        </p>
+                                        {article.data.tags.length > 0 && (
+                                            <div class="flex flex-wrap gap-2">
+                                                {article.data.tags.map((tag) => (
+                                                    <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-400">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </a>
+                                </FadeReveal>
+                            </li>
+                        ))}
+                    </ul>
+                </>
+            )
+        }
+    </div>
+</Layout>
+
+<style>
+    .dot-leaders {
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap;
+    }
+
+    .dot-leaders::before {
+        color: var(--color-gray-200);
+        content: " · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ";
+        letter-spacing: 4px;
+    }
+
+    @media (max-width: 640px) {
+        .dot-leaders::before {
+            letter-spacing: 2px;
+        }
+    }
+</style>

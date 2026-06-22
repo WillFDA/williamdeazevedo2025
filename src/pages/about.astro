@@ -1,7 +1,16 @@
 ---
+import { Image } from "astro:assets";
 import Layout from "../layout/Layout.astro";
 import FadeReveal from "../components/animations/FadeReveal.astro";
 import Marquee from "../components/Marquee.astro";
+import learnJsCert from "@/assets/certifications/learn-js-jade.png";
+import ocDevCert from "@/assets/certifications/oc-dev-jav-react-2025.png";
+import ocIntegCert from "@/assets/certifications/oc-integ-web-2023.png";
+import bourgetPicture from "@/assets/pictures/bourget-opti.jpg";
+import desktopPicture from "@/assets/pictures/desktop-opti.jpg";
+import gokuPicture from "@/assets/pictures/goku-opti.jpg";
+import maderePicture from "@/assets/pictures/madere-opti.jpg";
+import majorquePicture from "@/assets/pictures/majorque-opti.jpg";
 
 const aboutHeroTitleWords = [
     "Du",
@@ -46,21 +55,21 @@ const skillRows = [
 
 const certifications = [
     {
-        image: "/learn-js-jade.png",
+        image: learnJsCert,
         issuer: "Jade Joubran",
         name: "Learn JavaScript",
         url: "https://learnjavascript.online",
         year: "2024",
     },
     {
-        image: "/oc-integ-web-2023.png",
+        image: ocIntegCert,
         issuer: "OpenClassrooms",
         name: "Développeur intégrateur web",
         url: "https://openclassrooms.com",
         year: "2023",
     },
     {
-        image: "/oc-dev-jav-react-2025.png",
+        image: ocDevCert,
         issuer: "OpenClassrooms",
         name: "Développeur concepteur logiciel",
         url: "https://openclassrooms.com",
@@ -72,27 +81,27 @@ const pictures = [
     {
         alt: "Photo prise au Bourget",
         className: "rotate-2",
-        src: "/pictures/bourget-opti.jpg",
+        src: bourgetPicture,
     },
     {
         alt: "Photo de voyage à Majorque",
         className: "-rotate-2",
-        src: "/pictures/majorque-opti.jpg",
+        src: majorquePicture,
     },
     {
         alt: "Photo de voyage à Madère",
         className: "rotate-2",
-        src: "/pictures/madere-opti.jpg",
+        src: maderePicture,
     },
     {
         alt: "Photo de Goku",
         className: "-rotate-2 hidden md:block",
-        src: "/pictures/goku-opti.jpg",
+        src: gokuPicture,
     },
     {
         alt: "Photo du setup de travail",
         className: "rotate-2 hidden md:block",
-        src: "/pictures/desktop-opti.jpg",
+        src: desktopPicture,
     },
 ];
 ---
@@ -191,11 +200,12 @@ const pictures = [
                                 {certification.year}
                             </span>
                             <span class="certification-preview" aria-hidden="true">
-                                <img
+                                <Image
                                     alt=""
                                     class="h-full w-full object-contain"
-                                    decoding="async"
                                     loading="lazy"
+                                    widths={[288, 576]}
+                                    sizes="288px"
                                     src={certification.image}
                                 />
                                 <span>{certification.issuer}</span>
@@ -216,14 +226,13 @@ const pictures = [
                                 picture.className,
                             ]}
                         >
-                            <img
+                            <Image
                                 alt={picture.alt}
                                 class="h-full w-full object-cover"
-                                decoding="async"
-                                height="196"
                                 loading={index < 3 ? "eager" : "lazy"}
+                                widths={[176, 352]}
+                                sizes="176px"
                                 src={picture.src}
-                                width="176"
                             />
                         </div>
                     ))

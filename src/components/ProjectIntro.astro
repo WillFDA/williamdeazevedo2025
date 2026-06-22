@@ -1,5 +1,5 @@
 ---
-import Link from "./icons/Link.tsx";
+import Link from "./icons/Link.astro";
 import WaveIcon from "./ui/WaveIcon.astro";
 import WaveText from "./ui/WaveText.astro";
 
@@ -24,7 +24,7 @@ const isDetailsExternal = detailsHref?.startsWith("http");
     >
         <h2>{title}</h2>
         <span class="project-intro__icon" data-project-intro-icon>
-            <Link className="size-5" />
+            <Link class="size-5" />
         </span>
     </a>
     <p class="project-intro__description">
@@ -130,7 +130,6 @@ const isDetailsExternal = detailsHref?.startsWith("http");
             opacity 260ms ease,
             transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1),
             filter 260ms ease;
-        will-change: opacity, transform, filter;
     }
 
     .project-intro:hover .project-intro__icon,
@@ -200,7 +199,6 @@ const isDetailsExternal = detailsHref?.startsWith("http");
         transform: scale(1);
         transition: transform 520ms
             var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
-        will-change: transform;
         z-index: -1;
     }
 
@@ -234,12 +232,10 @@ const isDetailsExternal = detailsHref?.startsWith("http");
             opacity: 1 !important;
             transform: none !important;
             transition: none;
-            will-change: auto;
         }
 
         .project-intro__button::before {
             transition: none;
-            will-change: auto;
         }
     }
 </style>
