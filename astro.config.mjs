@@ -1,4 +1,5 @@
 import mdx from "@astrojs/mdx";
+import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 // @ts-check
@@ -14,7 +15,7 @@ export default defineConfig({
     },
   ],
   site: "https://williamdeazevedo.fr/",
-  integrations: [mdx(), sitemap()],
+  integrations: [react(), mdx(), sitemap()],
 
   // <ClientRouter /> turns prefetch ON by default (prefetchAll, hover strategy)
   // — exactly the hover-time, full-page fetching that made the homepage hover

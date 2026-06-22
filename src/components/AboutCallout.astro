@@ -219,31 +219,35 @@ const aboutPoints = [
     }
 
     .about-callout-cta {
-        background: linear-gradient(180deg, #f3f4f6 0%, #ffffff 100%);
+        background: transparent;
         border: 0;
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.9),
-            0 18px 38px -24px rgba(0, 0, 0, 0.5);
         color: var(--color-coffee-300);
+        isolation: isolate;
         position: relative;
         text-decoration: none;
-        transition:
-            box-shadow 280ms cubic-bezier(0.2, 0, 0, 1),
-            transform 520ms
-                var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
     }
 
     .about-callout-cta::before {
+        background: linear-gradient(180deg, #f3f4f6 0%, #ffffff 100%);
         border: 0.5px solid var(--color-snow-600);
         border-radius: inherit;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.9),
+            0 18px 38px -24px rgba(0, 0, 0, 0.5);
         content: "";
         inset: 0;
         pointer-events: none;
         position: absolute;
+        transform: scale(1);
+        transition:
+            box-shadow 280ms cubic-bezier(0.2, 0, 0, 1),
+            transform 520ms
+                var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        z-index: -1;
     }
 
-    .about-callout-cta:hover,
-    .about-callout-cta:focus-visible {
+    .about-callout-cta:hover::before,
+    .about-callout-cta:focus-visible::before {
         box-shadow:
             inset 0 1px 0 rgba(255, 255, 255, 0.95),
             0 20px 44px -22px rgba(37, 99, 235, 0.35);
@@ -306,7 +310,7 @@ const aboutPoints = [
             transform: none;
         }
 
-        .about-callout-cta {
+        .about-callout-cta::before {
             transition: none;
         }
     }
