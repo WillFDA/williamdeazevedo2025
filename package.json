@@ -14,13 +14,13 @@
     "format:check": "oxfmt --check"
   },
   "dependencies": {
-    "@astrojs/mdx": "^6.0.3",
-    "@astrojs/react": "5.0.7",
+    "@astrojs/mdx": "^7.0.0",
+    "@astrojs/react": "^6.0.0",
     "@astrojs/sitemap": "^3.7.3",
     "@fontsource-variable/geist": "^5.2.9",
     "@radix-ui/react-select": "^2.3.1",
     "@tailwindcss/vite": "^4.3.1",
-    "astro": "^6.4.8",
+    "astro": "^7.0.0",
     "embla-carousel": "^8.6.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
@@ -31,6 +31,9 @@
     "oxfmt": "^0.55.0",
     "oxlint": "^1.70.0",
     "ultracite": "^7.8.3"
+  },
+  "overrides": {
+    "vite": "^8.0.13"
   },
   "engines": {
     "node": ">=22.12.0"
