@@ -53,7 +53,7 @@ if (offenders.length > 0 && !usesClientRouter) {
       "  listeners below would silently never run and their components would\n" +
       "  break after navigation.\n\n" +
       "  Either re-add <ClientRouter /> (src/layout/Layout.astro) or migrate\n" +
-      "  these scripts to direct initialisation / native page events.\n",
+      "  these scripts to direct initialisation / native page events.\n"
   );
   for (const { file, events } of offenders) {
     console.error(`  - ${file.replace(SRC_DIR, "src")}: ${events.join(", ")}`);
@@ -65,5 +65,5 @@ if (offenders.length > 0 && !usesClientRouter) {
 console.log(
   usesClientRouter
     ? "✓ ClientRouter present — view-transition lifecycle events are safe."
-    : "✓ No view-transition lifecycle events in use.",
+    : "✓ No view-transition lifecycle events in use."
 );
