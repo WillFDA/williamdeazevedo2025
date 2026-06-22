@@ -134,6 +134,7 @@ const displayedTestimonials = temoignages
                                 ]}
                                 data-testimonial-item
                                 aria-hidden={index === 0 ? undefined : "true"}
+                                inert={index === 0 ? undefined : true}
                             >
                                 <div class="testimonial-avatar">
                                     {temoignage.image ? (
@@ -352,6 +353,10 @@ const displayedTestimonials = temoignages
 
                         item.classList.toggle("is-active", isActive);
                         item.setAttribute("aria-hidden", String(!isActive));
+                        // inert removes the hidden testimonial (and its link)
+                        // from the a11y tree AND tab order, so aria-hidden no
+                        // longer wraps a focusable descendant.
+                        item.toggleAttribute("inert", !isActive);
                     });
                 };
 
