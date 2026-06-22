@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Layout from "../layout/Layout.astro";
+import AboutCallout from "../components/AboutCallout.astro";
 import FadeReveal from "../components/animations/FadeReveal.astro";
 import Marquee from "../components/Marquee.astro";
 import bourgetPicture from "@/assets/pictures/bourget-opti.jpg";
@@ -113,6 +114,8 @@ const pictures = [
                 </p>
             </div>
         </section>
+
+        <AboutCallout title="Je relie mon œil design au code pour créer des interfaces utiles." />
 
         <section class="relative left-1/2 w-[100dvw] -translate-x-1/2">
             <div class="photo-strip flex items-center justify-start gap-3 overflow-x-auto px-2 sm:px-4 md:justify-center md:gap-5 md:overflow-visible md:px-0">

@@ -5,12 +5,11 @@ import FadeRevealOnScroll from "../components/animations/FadeRevealOnScroll.astr
 import Marquee from "../components/Marquee.astro";
 import Carousel from "../components/Carousel.astro";
 import HeroDotMatrix from "../components/HeroDotMatrix.astro";
-import AboutLogoMatrix from "../components/AboutLogoMatrix.astro";
+import AboutCallout from "../components/AboutCallout.astro";
 import ProjectIntro from "../components/ProjectIntro.astro";
 import Differenciates from "@/sections/Differenciates.astro";
 import ArrowRight from "../components/icons/ArrowRight.svg";
 import { Image } from "astro:assets";
-import williamPortrait from "../assets/williamdeazevedo.webp";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
 import { homeProjects } from "../data/projects";
@@ -34,34 +33,6 @@ const heroTitleWords = [
 ];
 
 const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
-const aboutTitleWords = [
-    "Hello",
-    "moi",
-    "c'est",
-    "William,",
-    "un",
-    "développeur",
-    "à",
-    "la",
-    "frontière",
-    "du",
-    "design !",
-];
-const highlightedAboutWords = new Set(["design !"]);
-const aboutPoints = [
-    {
-        icon: "code",
-        text: "+3 ans d'expérience dans le développement",
-    },
-    {
-        icon: "users",
-        text: "+10 clients satisfaits",
-    },
-    {
-        icon: "product",
-        text: "Expérience produit sur des SaaS B2B et IA",
-    },
-];
 // ponytail: temporary flag; flip to true to bring the logo marquee back.
 const showLogoMarquee = false;
 
@@ -205,163 +176,7 @@ const displayedTestimonials = temoignages
             </FadeRevealOnScroll>
         )
     }
-    <section class="about-section relative isolate mx-2 overflow-hidden rounded-2xl bg-coffee-300 py-20 sm:mx-4 sm:py-24 md:rounded-3xl md:py-28">
-        <AboutLogoMatrix />
-        <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-14 px-6 sm:px-8 md:gap-16">
-            <h2
-                class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-[0.18em] text-center text-4xl font-medium leading-tighter tracking-[-4%] text-snow-50 md:text-6xl"
-                data-animated-title
-            >
-                {
-                    aboutTitleWords.map((word, index) => (
-                        <>
-                            <span
-                                class:list={[
-                                    highlightedAboutWords.has(word)
-                                        ? "text-blue-400"
-                                        : "text-snow-50",
-                                ]}
-                                style={`--animated-word-index: ${index}`}
-                                data-animated-title-word
-                            >
-                                {word}
-                            </span>
-                            {word === "William," && (
-                                <span
-                                    class="about-title-avatar"
-                                    style={`--animated-word-index: ${index + 0.5}`}
-                                    data-animated-title-word
-                                    aria-hidden="true"
-                                >
-                                    <Image
-                                        class="about-title-avatar__image"
-                                        src={williamPortrait}
-                                        alt=""
-                                        width={72}
-                                        height={72}
-                                        loading="eager"
-                                    />
-                                </span>
-                            )}
-                        </>
-                    ))
-                }
-            </h2>
-            <ul class="mx-auto flex w-full max-w-md flex-col items-start gap-6 text-sm font-light text-snow-100 md:max-w-none md:flex-row md:justify-center md:gap-12 md:text-base">
-                {
-                    aboutPoints.map((point) => (
-                        <li class="flex items-center gap-3">
-                            <span class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-snow-50 text-blue-500">
-                            {point.icon === "code" && (
-                                <svg
-                                    aria-hidden="true"
-                                    class="size-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="m9 18-6-6 6-6"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.8"
-                                    />
-                                    <path
-                                        d="m15 6 6 6-6 6"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.8"
-                                    />
-                                </svg>
-                            )}
-                            {point.icon === "users" && (
-                                <svg
-                                    aria-hidden="true"
-                                    class="size-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M16 19c0-2.2-1.8-4-4-4s-4 1.8-4 4"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-width="1.8"
-                                    />
-                                    <path
-                                        d="M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"
-                                    />
-                                    <path
-                                        d="M19 18c-.2-1.7-1.2-3-2.6-3.7"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-width="1.8"
-                                    />
-                                </svg>
-                            )}
-                            {point.icon === "product" && (
-                                <svg
-                                    aria-hidden="true"
-                                    class="size-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M4 7.5 12 3l8 4.5-8 4.5-8-4.5Z"
-                                        stroke="currentColor"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.8"
-                                    />
-                                    <path
-                                        d="M4 12.5 12 17l8-4.5"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.8"
-                                    />
-                                    <path
-                                        d="M4 17.5 12 22l8-4.5"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.8"
-                                    />
-                                </svg>
-                            )}
-                            </span>
-                            <span>{point.text}</span>
-                        </li>
-                    ))
-                }
-            </ul>
-            <a
-                class="hero-button about-cta mx-auto inline-flex h-12 items-center justify-center gap-3 rounded-xl px-6 text-md font-regular focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
-                href="mailto:william.deazevedopro@gmail.com"
-            >
-                <svg
-                    aria-hidden="true"
-                    class="size-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M7.4 4.8 9 8.5c.3.7.1 1.5-.5 2l-1.2 1c.9 1.9 2.4 3.4 4.3 4.3l1-1.2c.5-.6 1.3-.8 2-.5l3.7 1.6c.8.3 1.2 1.2 1 2l-.5 2.1c-.2.8-.9 1.3-1.7 1.3C9.3 21 3 14.7 3 6.9c0-.8.5-1.5 1.3-1.7l2.1-.5c.8-.2 1.7.3 2 1Z"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.8"
-                    />
-                </svg>
-                <span>Me contacter</span>
-            </a>
-        </div>
-    </section>
+    <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !" />
     <section id="projects" class="project-showcase md:mt-20" data-project-showcase>
         <div class="project-copy mx-auto max-w-5xl px-2 pb-10 sm:px-4">
             {
@@ -764,28 +579,6 @@ const displayedTestimonials = temoignages
         max-width: 18rem;
     }
 
-    .about-title-avatar {
-        align-self: center;
-        aspect-ratio: 1;
-        background: #e8e5e8;
-        border: 0.06em solid #fff;
-        border-radius: 9999px;
-        box-shadow:
-            0 18px 38px -18px rgba(0, 0, 0, 0.72),
-            0 4px 14px rgba(0, 0, 0, 0.24);
-        display: inline-flex;
-        height: 1.08em;
-        margin-inline: -0.05em;
-        overflow: hidden;
-    }
-
-    .about-title-avatar__image {
-        display: block;
-        height: 100%;
-        object-fit: contain;
-        width: 100%;
-    }
-
     [data-animated-title]:not([data-animated-title-ready="true"])
         [data-animated-title-word] {
         filter: blur(10px);
@@ -955,11 +748,6 @@ const displayedTestimonials = temoignages
 
     .hero-button--secondary {
         --hero-button-bg: #e8e5e8;
-    }
-
-    .hero-button.about-cta {
-        --hero-button-bg: var(--color-snow-50);
-        --hero-button-color: var(--color-coffee-300);
     }
 
     @media (prefers-reduced-motion: reduce) {
