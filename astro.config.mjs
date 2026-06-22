@@ -16,12 +16,15 @@ export default defineConfig({
   site: "https://williamdeazevedo.fr/",
   integrations: [mdx(), sitemap()],
 
-  // Prefetch internal links on hover/focus so navigation feels instant
-  // (improves perceived performance & Core Web Vitals). Astro skips this
-  // automatically when the user has Save-Data enabled.
+  // Prefetch internal links on intent (pointer-down / touch-start) rather than
+  // on hover. Hover prefetch fires a full-page fetch every time the cursor
+  // crosses a link, which competes with the homepage hover micro-interactions
+  // on the main thread and makes them feel laggy. "tap" keeps navigation
+  // near-instant (the request starts a few ms before the click) without the
+  // hover jank. Astro still skips prefetch when Save-Data is enabled.
   prefetch: {
     prefetchAll: true,
-    defaultStrategy: "hover",
+    defaultStrategy: "tap",
   },
 
   markdown: {
