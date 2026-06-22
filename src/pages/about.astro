@@ -1,6 +1,24 @@
 ---
 import Layout from "../layout/Layout.astro";
 
+const aboutHeroTitleWords = [
+    "Du",
+    "graphisme",
+    "au",
+    "code,",
+    "je",
+    "donne",
+    "forme",
+    "à",
+    "des",
+    "sites",
+    "web",
+    "utiles",
+    "et",
+    "soignés.",
+];
+const highlightedAboutHeroWords = new Set(["sites", "web", "utiles", "soignés."]);
+
 const skillRows = [
     {
         label: "Front-end",
@@ -82,12 +100,22 @@ const pictures = [
     description="Développeur front-end avec une approche produit, design et full stack. Découvrez mon parcours, mes projets, mes compétences et mes formations."
 >
     <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-2 pb-20 sm:px-4">
-        <section class="flex flex-col gap-4">
-            <h1 class="text-4xl font-medium leading-[0.96] text-gray-900 md:text-[56px]">
-                Du graphisme au code, je donne forme à des sites web utiles et
-                soignés.
+        <section class="flex flex-col gap-6">
+            <h1 class="flex max-w-full flex-wrap justify-center gap-x-[0.18em] text-center text-5xl font-medium leading-tighter text-gray-900 sm:text-6xl md:text-7xl">
+                {
+                    aboutHeroTitleWords.map((word) => (
+                        <span
+                            class:list={[
+                                highlightedAboutHeroWords.has(word) &&
+                                    "text-blue-500",
+                            ]}
+                        >
+                            {word}
+                        </span>
+                    ))
+                }
             </h1>
-            <p class="max-w-xl text-sm font-light leading-6 text-gray-600">
+            <p class="mx-auto max-w-120 text-center text-md font-light leading-tight text-coffee-300">
                 J'aime partir d'une idée, clarifier l'expérience, puis la
                 transformer en interface rapide, accessible et simple à
                 maintenir.
