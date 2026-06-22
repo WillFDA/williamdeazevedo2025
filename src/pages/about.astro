@@ -61,9 +61,9 @@ const pictures = [
     title="À propos - William De Azevedo"
     description="Développeur front-end avec une approche produit, design et full stack. Découvrez mon parcours, mes projets, mes compétences et mes formations."
 >
-    <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-2 pb-20 sm:px-4">
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 pb-16 sm:gap-16 sm:px-4 sm:pb-20">
         <section class="flex flex-col gap-6">
-            <h1 class="flex max-w-full flex-wrap justify-center gap-x-[0.18em] text-center text-5xl font-medium leading-tighter tracking-[-4%] text-gray-900 sm:text-6xl md:text-7xl">
+            <h1 class="flex max-w-full flex-wrap justify-center gap-x-[0.18em] text-center text-4xl font-medium leading-tighter tracking-[-4%] text-gray-900 sm:text-6xl md:text-7xl">
                 {
                     aboutHeroTitleWords.map((word, index) => (
                         <span
@@ -89,7 +89,7 @@ const pictures = [
             <Marquee />
         </section>
 
-        <section class="flex flex-col gap-4">
+        <section class="mx-auto flex w-full max-w-2xl flex-col gap-4">
             <h2 class="text-sm font-light text-gray-400">Parcours</h2>
             <div class="flex flex-col gap-4 text-sm font-light leading-6 text-gray-600">
                 <p>
@@ -118,7 +118,7 @@ const pictures = [
         <AboutCallout title="Je relie mon œil design au code pour créer des interfaces utiles." />
 
         <section class="relative left-1/2 w-[100dvw] -translate-x-1/2">
-            <div class="photo-strip flex items-center justify-start gap-3 overflow-x-auto px-2 sm:px-4 md:justify-center md:gap-5 md:overflow-visible md:px-0">
+            <div class="photo-strip flex items-center justify-start gap-3 overflow-x-auto px-4 sm:px-4 md:justify-center md:gap-5 md:overflow-visible md:px-0">
                 {
                     pictures.map((picture, index) => (
                         <div

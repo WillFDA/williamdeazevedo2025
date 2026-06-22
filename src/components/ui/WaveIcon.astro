@@ -171,9 +171,6 @@ const offsets = {
     [data-wui-wave-icon-layer="first"],
   :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
     .wui-wave-icon[data-wui-wave-icon-trigger="parent"]:not([data-wui-wave-icon-ready="true"])
-    [data-wui-wave-icon-layer="first"],
-  :global(:where(a, button, [data-wui-wave-parent]):focus-within)
-    .wui-wave-icon[data-wui-wave-icon-trigger="parent"]:not([data-wui-wave-icon-ready="true"])
     [data-wui-wave-icon-layer="first"] {
     transform: translate3d(
       var(--wui-wave-icon-exit-x),
@@ -190,9 +187,6 @@ const offsets = {
     .wui-wave-icon[data-wui-wave-icon-trigger="parent"]:not([data-wui-wave-icon-ready="true"])
     [data-wui-wave-icon-layer="second"],
   :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
-    .wui-wave-icon[data-wui-wave-icon-trigger="parent"]:not([data-wui-wave-icon-ready="true"])
-    [data-wui-wave-icon-layer="second"],
-  :global(:where(a, button, [data-wui-wave-parent]):focus-within)
     .wui-wave-icon[data-wui-wave-icon-trigger="parent"]:not([data-wui-wave-icon-ready="true"])
     [data-wui-wave-icon-layer="second"] {
     transform: translate3d(0%, 0%, 0);

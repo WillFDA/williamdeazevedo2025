@@ -25,10 +25,10 @@ const aboutPoints = [
 ];
 ---
 
-<section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-2xl bg-coffee-300 py-20 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-3xl md:py-28">
+<section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-2xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-3xl md:py-28">
     <AboutLogoMatrix />
-    <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-14 px-6 sm:px-8 md:gap-16">
-        <h2 class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-[0.18em] text-center text-4xl font-medium leading-tighter tracking-[-4%] text-snow-50 md:text-6xl">
+    <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-10 px-4 sm:gap-14 sm:px-8 md:gap-16">
+        <h2 class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-[0.18em] text-center text-3xl font-medium leading-tighter tracking-[-4%] text-snow-50 sm:text-4xl md:text-6xl">
             {
                 titleWords.map((word, index) => {
                     const cleanWord = word.replace("\u00A0", " ");
@@ -70,10 +70,10 @@ const aboutPoints = [
                 })
             }
         </h2>
-        <ul class="mx-auto flex w-full max-w-md flex-col items-start gap-6 text-sm font-light text-snow-100 md:max-w-none md:flex-row md:justify-center md:gap-12 md:text-base">
+        <ul class="mx-auto flex w-full max-w-md flex-col items-start gap-5 text-sm font-light text-snow-100 sm:gap-6 md:max-w-none md:flex-row md:justify-center md:gap-12 md:text-base">
             {
                 aboutPoints.map((point) => (
-                    <li class="flex items-center gap-3">
+                    <li class="flex w-full items-center gap-3">
                         <span class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-snow-50 text-blue-500">
                             {point.icon === "code" && (
                                 <svg
@@ -157,7 +157,7 @@ const aboutPoints = [
                                 </svg>
                             )}
                         </span>
-                        <span>{point.text}</span>
+                        <span class="min-w-0">{point.text}</span>
                     </li>
                 ))
             }
