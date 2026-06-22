@@ -162,9 +162,10 @@ const aboutPoints = [
                 ))
             }
         </ul>
-        <a
+        <button
             class="about-callout-cta mx-auto inline-flex h-12 items-center justify-center gap-3 rounded-xl px-6 text-md font-regular focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
-            href="mailto:william.deazevedopro@gmail.com"
+            data-cal-open
+            type="button"
         >
             <svg
                 aria-hidden="true"
@@ -182,7 +183,7 @@ const aboutPoints = [
                 />
             </svg>
             <span>Me contacter</span>
-        </a>
+        </button>
     </div>
 </section>
 
@@ -218,6 +219,7 @@ const aboutPoints = [
 
     .about-callout-cta {
         background: linear-gradient(180deg, #f3f4f6 0%, #ffffff 100%);
+        border: 0;
         box-shadow:
             inset 0 1px 0 rgba(255, 255, 255, 0.9),
             0 18px 38px -24px rgba(0, 0, 0, 0.5);
