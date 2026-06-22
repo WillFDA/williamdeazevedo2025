@@ -1,4 +1,4 @@
-import react from "@astrojs/react";
+import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 // @ts-check
@@ -14,7 +14,14 @@ export default defineConfig({
     },
   ],
   site: "https://williamdeazevedo.fr/",
-  integrations: [react(), sitemap()],
+  integrations: [mdx(), sitemap()],
+
+  markdown: {
+    shikiConfig: {
+      theme: "github-dark-dimmed",
+      wrap: true,
+    },
+  },
 
   vite: {
     plugins: [tailwindcss()],
