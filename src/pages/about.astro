@@ -1,5 +1,6 @@
 ---
 import Layout from "../layout/Layout.astro";
+import FadeReveal from "../components/animations/FadeReveal.astro";
 import Marquee from "../components/Marquee.astro";
 
 const aboutHeroTitleWords = [
@@ -104,23 +105,27 @@ const pictures = [
         <section class="flex flex-col gap-6">
             <h1 class="flex max-w-full flex-wrap justify-center gap-x-[0.18em] text-center text-5xl font-medium leading-tighter text-gray-900 sm:text-6xl md:text-7xl">
                 {
-                    aboutHeroTitleWords.map((word) => (
+                    aboutHeroTitleWords.map((word, index) => (
                         <span
                             class:list={[
+                                "about-hero-title-word",
                                 highlightedAboutHeroWords.has(word) &&
                                     "text-blue-500",
                             ]}
+                            style={`--about-hero-word-index: ${index}`}
                         >
                             {word}
                         </span>
                     ))
                 }
             </h1>
-            <p class="mx-auto max-w-120 text-center text-md font-light leading-tight text-coffee-300">
-                J'aime partir d'une idée, clarifier l'expérience, puis la
-                transformer en interface rapide, accessible et simple à
-                maintenir.
-            </p>
+            <FadeReveal delay={0.32}>
+                <p class="mx-auto max-w-120 text-center text-md font-light leading-tight text-coffee-300">
+                    J'aime partir d'une idée, clarifier l'expérience, puis la
+                    transformer en interface rapide, accessible et simple à
+                    maintenir.
+                </p>
+            </FadeReveal>
             <Marquee />
         </section>
 
@@ -229,6 +234,27 @@ const pictures = [
 </Layout>
 
 <style>
+    .about-hero-title-word {
+        animation: about-hero-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
+            both;
+        animation-delay: calc(var(--about-hero-word-index, 0) * 65ms);
+        display: inline-block;
+    }
+
+    @keyframes about-hero-title-word {
+        from {
+            filter: blur(10px);
+            opacity: 0;
+            transform: translateY(-0.65em);
+        }
+
+        to {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
     .dot-leaders {
         overflow: hidden;
         text-overflow: clip;
@@ -287,6 +313,15 @@ const pictures = [
     @media (max-width: 640px) {
         .dot-leaders::before {
             letter-spacing: 2px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .about-hero-title-word {
+            animation: none;
+            filter: none;
+            opacity: 1;
+            transform: none;
         }
     }
 </style>
