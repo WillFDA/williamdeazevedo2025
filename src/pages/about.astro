@@ -30,29 +30,6 @@ const aboutHeroTitleWords = [
 ];
 const highlightedAboutHeroWords = new Set(["sites", "web", "utiles", "soignés."]);
 
-const skillRows = [
-    {
-        label: "Front-end",
-        value: "Astro, React, Next.js, TypeScript, Tailwind CSS",
-    },
-    {
-        label: "Back-end",
-        value: "Node.js, API REST, Drizzle ORM, Prisma, PostgreSQL, Better Auth",
-    },
-    {
-        label: "Produit",
-        value: "Figma, UI design, SEO technique, accessibilité",
-    },
-    {
-        label: "IA",
-        value: "Vercel AI SDK, OpenAI, Claude",
-    },
-    {
-        label: "Outils",
-        value: "Git, GitHub, Vercel, Cloudflare, Docker",
-    },
-];
-
 const certifications = [
     {
         image: learnJsCert,
@@ -161,25 +138,6 @@ const pictures = [
                     même objectif : livrer quelque chose de clair, rapide et
                     réellement utile.
                 </p>
-            </div>
-        </section>
-
-        <section class="flex flex-col gap-4">
-            <h2 class="text-sm font-light text-gray-400">Compétences</h2>
-            <div class="flex flex-col gap-2 text-sm font-light">
-                {
-                    skillRows.map((row) => (
-                        <div class="flex items-baseline gap-1">
-                            <span class="shrink-0 text-gray-900">
-                                {row.label}
-                            </span>
-                            <span class="dot-leaders min-w-4 flex-1" />
-                            <span class="min-w-0 text-right text-gray-600">
-                                {row.value}
-                            </span>
-                        </div>
-                    ))
-                }
             </div>
         </section>
 
