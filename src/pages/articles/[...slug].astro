@@ -1,0 +1,212 @@
+---
+import { Image } from "astro:assets";
+import { render } from "astro:content";
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import williamPortrait from "@/assets/williamdeazevedo.webp";
+import Layout from "@/layout/Layout.astro";
+import { type Article, formatArticleDate, getVisibleArticles } from "@/lib/articles";
+
+export async function getStaticPaths() {
+    const articles = await getVisibleArticles();
+    return articles.map((article) => ({
+        params: { slug: article.id },
+        props: { article },
+    }));
+}
+
+interface Props {
+    article: Article;
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+const { author, description, pubDate, title, updatedDate } = article.data;
+
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = new URL(`/articles/${article.id}`, siteUrl);
+const ogImage = new URL("/pictures/william-low.png", siteUrl);
+
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description,
+    datePublished: pubDate.toISOString(),
+    dateModified: (updatedDate ?? pubDate).toISOString(),
+    image: ogImage.href,
+    url: canonicalUrl.href,
+    mainEntityOfPage: canonicalUrl.href,
+    author: {
+        "@type": "Person",
+        name: author,
+        url: siteUrl.href,
+    },
+};
+---
+
+<Layout title={`${title} - William De Azevedo`} description={description}>
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(jsonLd)}
+    />
+
+    <article class="mx-auto w-full max-w-2xl px-2 pb-20 sm:px-4">
+        <FadeReveal delay={0.1}>
+            <header class="mb-10">
+                <a
+                    class="mb-6 inline-flex items-center gap-1.5 text-sm font-light text-gray-500 transition-colors hover:text-gray-900"
+                    href="/articles"
+                >
+                    <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="m15 18-6-6 6-6"></path>
+                    </svg>
+                    Tous les articles
+                </a>
+                <h1 class="mb-3 text-2xl font-medium tracking-tight text-gray-900 md:text-3xl">
+                    {title}
+                </h1>
+                <p class="mb-6 text-sm font-light text-gray-600">{description}</p>
+                <div class="flex items-center gap-3">
+                    <Image
+                        class="size-9 rounded-full"
+                        src={williamPortrait}
+                        alt={`Photo de ${author}`}
+                        width={36}
+                        height={36}
+                        loading="eager"
+                    />
+                    <div class="text-sm">
+                        <p class="font-medium text-gray-900">{author}</p>
+                        <time
+                            class="font-light text-gray-400"
+                            datetime={pubDate.toISOString()}
+                        >
+                            {formatArticleDate(pubDate)}
+                        </time>
+                    </div>
+                </div>
+            </header>
+        </FadeReveal>
+
+        <FadeReveal delay={0.25}>
+            <div class="article-prose">
+                <Content />
+            </div>
+        </FadeReveal>
+    </article>
+</Layout>
+
+<style is:global>
+    .article-prose {
+        color: var(--color-gray-600);
+        font-size: 0.9375rem;
+        font-weight: 300;
+        line-height: 1.7;
+    }
+
+    .article-prose > * + * {
+        margin-top: 1.1rem;
+    }
+
+    .article-prose h2 {
+        color: var(--color-gray-900);
+        font-size: 1.25rem;
+        font-weight: 600;
+        line-height: 1.3;
+        margin-top: 2.5rem;
+    }
+
+    .article-prose h3 {
+        color: var(--color-gray-900);
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin-top: 2rem;
+    }
+
+    .article-prose strong {
+        color: var(--color-gray-900);
+        font-weight: 500;
+    }
+
+    .article-prose a {
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-color: var(--color-gray-300);
+        text-underline-offset: 2px;
+        transition: color 200ms ease;
+    }
+
+    .article-prose a:hover {
+        color: var(--color-gray-900);
+    }
+
+    .article-prose ul,
+    .article-prose ol {
+        padding-left: 1.25rem;
+    }
+
+    .article-prose ul {
+        list-style: disc;
+    }
+
+    .article-prose ol {
+        list-style: decimal;
+    }
+
+    .article-prose li + li {
+        margin-top: 0.35rem;
+    }
+
+    .article-prose blockquote {
+        border-left: 2px solid var(--color-gray-200);
+        color: var(--color-gray-500);
+        font-style: italic;
+        margin-block: 1.75rem;
+        padding-left: 1rem;
+    }
+
+    .article-prose blockquote p {
+        margin: 0;
+    }
+
+    .article-prose :not(pre) > code {
+        background: var(--color-gray-100);
+        border-radius: 0.25rem;
+        color: var(--color-gray-900);
+        font-size: 0.85em;
+        padding: 0.15em 0.4em;
+    }
+
+    .article-prose pre {
+        border-radius: 0.5rem;
+        font-size: 0.8125rem;
+        line-height: 1.6;
+        margin-block: 1.75rem;
+        overflow-x: auto;
+        padding: 1rem 1.15rem;
+    }
+
+    .article-prose img {
+        border-radius: 0.5rem;
+        height: auto;
+        margin-block: 1.75rem;
+        width: 100%;
+    }
+
+    .article-prose hr {
+        border: 0;
+        border-top: 1px solid var(--color-gray-200);
+        margin-block: 2.5rem;
+    }
+</style>
