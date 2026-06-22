@@ -113,7 +113,7 @@ const personJsonLd = {
             gtag("config", "G-9G8R67JBFF", { send_page_view: false });
             if (!window.__gaPageviewBound) {
                 window.__gaPageviewBound = true;
-                document.addEventListener("astro:page-load", function () {
+                document.addEventListener("astro:page-load", () => {
                     gtag("event", "page_view", {
                         page_path: location.pathname + location.search,
                         page_location: location.href,
