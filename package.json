@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/check-client-router.mjs && astro build",
+    "check:router": "node scripts/check-client-router.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "oxlint",

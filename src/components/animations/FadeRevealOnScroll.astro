@@ -86,7 +86,28 @@ const {
 </style>
 
 <script>
-    import { initFadeInAnimations } from "../../scripts/animations/fadeIn";
+    import {
+        initFadeInAnimations,
+        resetFadeInAnimations,
+    } from "../../scripts/animations/fadeIn";
 
+    // Bundled module scripts run only once, so this direct call covers the
+    // first page load. Under <ClientRouter /> the DOM is swapped in place and
+    // this module is not re-executed, so we also (re)observe the freshly
+    // rendered reveal targets on every navigation via astro:page-load, and
+    // drop the previous page's observer on astro:before-swap.
     initFadeInAnimations(document);
+
+    const windowWithRevealFlag = window as unknown as {
+        __revealOnScrollBound?: boolean;
+    };
+    if (!windowWithRevealFlag.__revealOnScrollBound) {
+        windowWithRevealFlag.__revealOnScrollBound = true;
+        document.addEventListener("astro:page-load", () =>
+            initFadeInAnimations(document),
+        );
+        document.addEventListener("astro:before-swap", () =>
+            resetFadeInAnimations(document),
+        );
+    }
 </script>
