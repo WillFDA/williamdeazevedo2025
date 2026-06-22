@@ -1,0 +1,132 @@
+---
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import ArticleFilters from "@/components/articles/ArticleFilters";
+import HeroDotMatrix from "@/components/HeroDotMatrix.astro";
+import Layout from "@/layout/Layout.astro";
+import { formatArticleDate, getVisibleArticles } from "@/lib/articles";
+
+const articles = await getVisibleArticles();
+const tags = [
+    ...new Set(articles.flatMap((article) => article.data.tags)),
+].toSorted((a, b) => a.localeCompare(b, "fr"));
+const years = [
+    ...new Set(
+        articles.map((article) => String(article.data.pubDate.getFullYear())),
+    ),
+].toSorted((a, b) => Number(b) - Number(a));
+---
+
+<Layout
+    title="Articles - William De Azevedo"
+    description="Articles sur le développement front-end, Astro, React, Next.js, TypeScript et mes retours d'expérience en tant que développeur freelance."
+>
+    <div class="mx-auto w-full max-w-5xl px-2 pb-20 sm:px-4">
+        <section class="mx-auto mb-8 max-w-2xl text-center">
+            <FadeReveal delay={0.1}>
+                <h1 class="mb-4 text-3xl font-medium leading-tight text-gray-900 md:text-5xl">
+                    «&nbsp;Enseigner, c'est apprendre deux fois&nbsp;»
+                </h1>
+            </FadeReveal>
+            <FadeReveal delay={0.2}>
+                <p class="text-sm font-light text-gray-500">— Joseph Joubert</p>
+            </FadeReveal>
+        </section>
+        <HeroDotMatrix />
+
+        <div class="mt-16" data-articles-page>
+            {
+                articles.length === 0 ? (
+                    <FadeReveal delay={0.3}>
+                        <p class="text-center text-sm font-light text-gray-500">
+                            Il n'y a rien pour l'instant, reviens bientôt !
+                        </p>
+                    </FadeReveal>
+                ) : (
+                    <div>
+                        <FadeReveal delay={0.3}>
+                            <ArticleFilters client:load tags={tags} years={years} />
+                        </FadeReveal>
+                        <ul class="flex flex-col gap-7" data-article-list>
+                            {articles.map((article, index) => (
+                                <li
+                                    class="article-list-item"
+                                    style={`--article-index: ${index}`}
+                                    data-article
+                                    data-title={article.data.title}
+                                    data-description={article.data.description}
+                                    data-tags={article.data.tags.join(" ")}
+                                    data-year={article.data.pubDate.getFullYear()}
+                                >
+                                    <a class="group block py-1" href={`/articles/${article.id}`}>
+                                        <time
+                                            class="mb-2 block text-xs font-light tabular-nums text-gray-500"
+                                            datetime={article.data.pubDate.toISOString()}
+                                        >
+                                            {formatArticleDate(article.data.pubDate)}
+                                        </time>
+                                        <h3 class="text-base font-medium leading-snug text-gray-900 transition-colors group-hover:text-gray-600">
+                                            {article.data.title}
+                                        </h3>
+                                        <p class="mt-2 line-clamp-2 text-sm font-light leading-6 text-gray-600">
+                                            {article.data.description}
+                                        </p>
+                                        {article.data.tags.length > 0 && (
+                                            <div class="mt-4 flex flex-wrap gap-2">
+                                                {article.data.tags.map((tag) => (
+                                                    <span class="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 text-xs font-normal text-gray-700">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                        <p
+                            class="hidden pt-2 text-sm font-light text-gray-500"
+                            data-article-empty
+                        >
+                            Aucun article trouvé.
+                        </p>
+                    </div>
+                )
+            }
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .article-list-item {
+        animation: article-fade-in 520ms cubic-bezier(0.2, 0, 0, 1) both;
+        animation-delay: calc(var(--article-index, 0) * 70ms);
+    }
+
+    .article-list-item.is-filtered-in {
+        animation-duration: 380ms;
+        animation-delay: calc(var(--article-index, 0) * 45ms);
+    }
+
+    @keyframes article-fade-in {
+        from {
+            filter: blur(2px);
+            opacity: 0;
+            transform: translate3d(0, 0.75rem, 0);
+        }
+        to {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .article-list-item,
+        .article-list-item.is-filtered-in {
+            animation: none;
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+</style>

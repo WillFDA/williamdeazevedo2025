@@ -1,0 +1,316 @@
+---
+import { Image } from "astro:assets";
+import AboutLogoMatrix from "./AboutLogoMatrix.astro";
+import williamPortrait from "../assets/williamdeazevedo.webp";
+
+interface Props {
+    title: string;
+}
+
+const { title } = Astro.props;
+const titleWords = title.replace("design !", "design\u00A0!").split(" ");
+const aboutPoints = [
+    {
+        icon: "code",
+        text: "+3 ans d'expérience dans le développement",
+    },
+    {
+        icon: "users",
+        text: "+10 clients satisfaits",
+    },
+    {
+        icon: "product",
+        text: "Expérience produit sur des SaaS B2B et IA",
+    },
+];
+---
+
+<section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-2xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-3xl md:py-28">
+    <AboutLogoMatrix />
+    <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-10 px-4 sm:gap-14 sm:px-8 md:gap-16">
+        <h2 class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-[0.18em] text-center text-3xl font-medium leading-tighter tracking-[-4%] text-snow-50 sm:text-4xl md:text-6xl">
+            {
+                titleWords.map((word, index) => {
+                    const cleanWord = word.replace("\u00A0", " ");
+                    const isHighlighted =
+                        cleanWord === "design !" ||
+                        cleanWord.replace(/[,.!]+$/, "") === "design";
+
+                    return (
+                        <>
+                            <span
+                                class:list={[
+                                    "about-callout-title-word",
+                                    isHighlighted
+                                        ? "text-blue-400"
+                                        : "text-snow-50",
+                                ]}
+                                style={`--about-callout-word-index: ${index}`}
+                            >
+                                {cleanWord}
+                            </span>
+                            {cleanWord === "William," && (
+                                <span
+                                    class="about-callout-avatar about-callout-title-word"
+                                    style={`--about-callout-word-index: ${index + 0.5}`}
+                                    aria-hidden="true"
+                                >
+                                    <Image
+                                        class="about-callout-avatar__image"
+                                        src={williamPortrait}
+                                        alt=""
+                                        width={72}
+                                        height={72}
+                                        loading="eager"
+                                    />
+                                </span>
+                            )}
+                        </>
+                    );
+                })
+            }
+        </h2>
+        <ul class="mx-auto flex w-full max-w-md flex-col items-start gap-5 text-sm font-light text-snow-100 sm:gap-6 md:max-w-none md:flex-row md:justify-center md:gap-12 md:text-base">
+            {
+                aboutPoints.map((point) => (
+                    <li class="flex w-full items-center gap-3">
+                        <span class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-snow-50 text-blue-500">
+                            {point.icon === "code" && (
+                                <svg
+                                    aria-hidden="true"
+                                    class="size-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="m9 18-6-6 6-6"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="1.8"
+                                    />
+                                    <path
+                                        d="m15 6 6 6-6 6"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="1.8"
+                                    />
+                                </svg>
+                            )}
+                            {point.icon === "users" && (
+                                <svg
+                                    aria-hidden="true"
+                                    class="size-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M16 19c0-2.2-1.8-4-4-4s-4 1.8-4 4"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-width="1.8"
+                                    />
+                                    <path
+                                        d="M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                    />
+                                    <path
+                                        d="M19 18c-.2-1.7-1.2-3-2.6-3.7"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-width="1.8"
+                                    />
+                                </svg>
+                            )}
+                            {point.icon === "product" && (
+                                <svg
+                                    aria-hidden="true"
+                                    class="size-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M4 7.5 12 3l8 4.5-8 4.5-8-4.5Z"
+                                        stroke="currentColor"
+                                        stroke-linejoin="round"
+                                        stroke-width="1.8"
+                                    />
+                                    <path
+                                        d="M4 12.5 12 17l8-4.5"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="1.8"
+                                    />
+                                    <path
+                                        d="M4 17.5 12 22l8-4.5"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="1.8"
+                                    />
+                                </svg>
+                            )}
+                        </span>
+                        <span class="min-w-0">{point.text}</span>
+                    </li>
+                ))
+            }
+        </ul>
+        <button
+            class="about-callout-cta mx-auto inline-flex h-12 items-center justify-center gap-3 rounded-xl px-6 text-md font-regular focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
+            data-cal-open
+            type="button"
+        >
+            <svg
+                aria-hidden="true"
+                class="about-callout-cta__icon size-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M7.4 4.8 9 8.5c.3.7.1 1.5-.5 2l-1.2 1c.9 1.9 2.4 3.4 4.3 4.3l1-1.2c.5-.6 1.3-.8 2-.5l3.7 1.6c.8.3 1.2 1.2 1 2l-.5 2.1c-.2.8-.9 1.3-1.7 1.3C9.3 21 3 14.7 3 6.9c0-.8.5-1.5 1.3-1.7l2.1-.5c.8-.2 1.7.3 2 1Z"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.8"
+                />
+            </svg>
+            <span>Me contacter</span>
+        </button>
+    </div>
+</section>
+
+<style>
+    .about-callout-title-word {
+        animation: about-callout-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
+            both;
+        animation-delay: calc(var(--about-callout-word-index, 0) * 65ms);
+        display: inline-block;
+    }
+
+    .about-callout-avatar {
+        align-self: center;
+        aspect-ratio: 1;
+        background: #e8e5e8;
+        border: 0.06em solid #fff;
+        border-radius: 9999px;
+        box-shadow:
+            0 18px 38px -18px rgba(0, 0, 0, 0.72),
+            0 4px 14px rgba(0, 0, 0, 0.24);
+        display: inline-flex;
+        height: 1.08em;
+        margin-inline: -0.05em;
+        overflow: hidden;
+    }
+
+    .about-callout-avatar__image {
+        display: block;
+        height: 100%;
+        object-fit: contain;
+        width: 100%;
+    }
+
+    .about-callout-cta {
+        background: transparent;
+        border: 0;
+        color: var(--color-coffee-300);
+        isolation: isolate;
+        position: relative;
+        text-decoration: none;
+    }
+
+    .about-callout-cta::before {
+        background: linear-gradient(180deg, #f3f4f6 0%, #ffffff 100%);
+        border: 0.5px solid var(--color-snow-600);
+        border-radius: inherit;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.9),
+            0 18px 38px -24px rgba(0, 0, 0, 0.5);
+        content: "";
+        inset: 0;
+        pointer-events: none;
+        position: absolute;
+        transform: scale(1);
+        transition:
+            box-shadow 280ms cubic-bezier(0.2, 0, 0, 1),
+            transform 520ms
+                var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        z-index: -1;
+    }
+
+    .about-callout-cta:hover::before,
+    .about-callout-cta:focus-visible::before {
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.95),
+            0 20px 44px -22px rgba(37, 99, 235, 0.35);
+        transform: scale(0.95);
+    }
+
+    .about-callout-cta:hover .about-callout-cta__icon,
+    .about-callout-cta:focus-visible .about-callout-cta__icon {
+        animation: phone-ring 620ms cubic-bezier(0.2, 0, 0, 1);
+        transform-origin: 50% 80%;
+    }
+
+    @keyframes about-callout-title-word {
+        from {
+            filter: blur(10px);
+            opacity: 0;
+            transform: translateY(-0.65em);
+        }
+
+        to {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes phone-ring {
+        0%,
+        100% {
+            transform: rotate(0deg);
+        }
+
+        15% {
+            transform: rotate(-12deg);
+        }
+
+        30% {
+            transform: rotate(10deg);
+        }
+
+        45% {
+            transform: rotate(-7deg);
+        }
+
+        60% {
+            transform: rotate(5deg);
+        }
+
+        75% {
+            transform: rotate(-2deg);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .about-callout-title-word,
+        .about-callout-cta__icon {
+            animation: none !important;
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+
+        .about-callout-cta::before {
+            transition: none;
+        }
+    }
+</style>

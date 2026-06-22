@@ -1,0 +1,188 @@
+---
+type TagName = "span" | "a" | "button" | "div" | "p" | "strong" | "em";
+type Trigger = "self" | "parent";
+
+interface Props {
+    as?: TagName;
+    text: string;
+    stagger?: number;
+    trigger?: Trigger;
+    class?: string;
+}
+
+const {
+    as = "span",
+    text,
+    stagger = 8,
+    trigger = "self",
+    class: className,
+    ...attrs
+} = Astro.props;
+
+const Tag = as;
+let charIndex = 0;
+const splitWords = text.trim()
+    ? text.trim().split(/\s+/).map((word) => ({
+          word,
+          chars: Array.from(word).map((char) => ({
+              char,
+              index: charIndex++,
+          })),
+      }))
+    : [];
+---
+
+<Tag
+    {...attrs}
+    class:list={["wui-wave-text", className]}
+    data-wui-wave-text
+    data-wui-wave-stagger={stagger}
+    data-wui-wave-trigger={trigger}
+>
+    <span class="wui-wave-text__screen-reader">{text}</span>
+
+    <span class="wui-wave-text__stage" aria-hidden="true">
+        <span class="wui-wave-text__row" data-wui-wave-row="first">
+            {
+                splitWords.map(({ chars, word }) => (
+                    <span class="wui-wave-text__word" data-wui-wave-word={word}>
+                        {chars.map(({ char, index }) => (
+                            <span
+                                data-wui-wave-char
+                                data-wui-wave-index={index}
+                                style={`--wui-wave-delay: ${index * stagger}ms`}
+                            >
+                                {char}
+                            </span>
+                        ))}
+                    </span>
+                ))
+            }
+        </span>
+
+        <span class="wui-wave-text__row" data-wui-wave-row="second">
+            {
+                splitWords.map(({ chars, word }) => (
+                    <span class="wui-wave-text__word" data-wui-wave-word={word}>
+                        {chars.map(({ char, index }) => (
+                            <span
+                                data-wui-wave-char
+                                data-wui-wave-index={index}
+                                style={`--wui-wave-delay: ${index * stagger}ms`}
+                            >
+                                {char}
+                            </span>
+                        ))}
+                    </span>
+                ))
+            }
+        </span>
+    </span>
+</Tag>
+
+<style>
+    .wui-wave-text {
+        align-items: center;
+        color: inherit;
+        display: inline-flex;
+        line-height: 1;
+        position: relative;
+        text-decoration: inherit;
+        width: fit-content;
+    }
+
+    .wui-wave-text__stage {
+        display: grid;
+        line-height: inherit;
+        overflow: clip;
+    }
+
+    .wui-wave-text__row {
+        align-items: center;
+        display: flex;
+        gap: 0.25em;
+        grid-area: 1 / 1;
+        justify-content: center;
+    }
+
+    .wui-wave-text__word {
+        display: inline-flex;
+        white-space: nowrap;
+    }
+
+    [data-wui-wave-char] {
+        display: inline-block;
+        will-change: transform;
+    }
+
+    [data-wui-wave-row="first"] [data-wui-wave-char] {
+        transform: translateY(0%);
+    }
+
+    [data-wui-wave-row="second"] [data-wui-wave-char] {
+        transform: translateY(115%);
+    }
+
+    [data-wui-wave-char] {
+        transition: transform 520ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        transition-delay: var(--wui-wave-delay, 0ms);
+    }
+
+    .wui-wave-text:hover
+        [data-wui-wave-row="first"]
+        [data-wui-wave-char],
+    .wui-wave-text:focus-visible
+        [data-wui-wave-row="first"]
+        [data-wui-wave-char],
+    :global(:where(a, button, [data-wui-wave-parent]):hover)
+        .wui-wave-text[data-wui-wave-trigger="parent"]
+        [data-wui-wave-row="first"]
+        [data-wui-wave-char],
+    :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
+        .wui-wave-text[data-wui-wave-trigger="parent"]
+        [data-wui-wave-row="first"]
+        [data-wui-wave-char] {
+        transform: translateY(-115%);
+    }
+
+    .wui-wave-text:hover
+        [data-wui-wave-row="second"]
+        [data-wui-wave-char],
+    .wui-wave-text:focus-visible
+        [data-wui-wave-row="second"]
+        [data-wui-wave-char],
+    :global(:where(a, button, [data-wui-wave-parent]):hover)
+        .wui-wave-text[data-wui-wave-trigger="parent"]
+        [data-wui-wave-row="second"]
+        [data-wui-wave-char],
+    :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
+        .wui-wave-text[data-wui-wave-trigger="parent"]
+        [data-wui-wave-row="second"]
+        [data-wui-wave-char] {
+        transform: translateY(0%);
+    }
+
+    .wui-wave-text__screen-reader {
+        border: 0;
+        clip: rect(0, 0, 0, 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        [data-wui-wave-row="second"] {
+            display: none;
+        }
+
+        .wui-wave-text [data-wui-wave-char] {
+            transform: translateY(0%) !important;
+            transition: none;
+            will-change: auto;
+        }
+    }
+</style>

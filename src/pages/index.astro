@@ -1,0 +1,761 @@
+---
+import Layout from "../layout/Layout.astro";
+import FadeReveal from "../components/animations/FadeReveal.astro";
+import FadeRevealOnScroll from "../components/animations/FadeRevealOnScroll.astro";
+import Marquee from "../components/Marquee.astro";
+import Carousel from "../components/Carousel.astro";
+import HeroDotMatrix from "../components/HeroDotMatrix.astro";
+import AboutCallout from "../components/AboutCallout.astro";
+import ProjectIntro from "../components/ProjectIntro.astro";
+import Differenciates from "@/sections/Differenciates.astro";
+import ArrowRight from "../components/icons/ArrowRight.svg";
+import { Image } from "astro:assets";
+import WaveIcon from "../components/ui/WaveIcon.astro";
+import WaveText from "../components/ui/WaveText.astro";
+import { homeProjects } from "../data/projects";
+import { temoignages } from "../data/temoignage";
+
+export const prerender = true;
+
+const heroTitleWords = [
+    "Je",
+    "crée",
+    "des",
+    "sites",
+    "web",
+    "et",
+    "des",
+    "interfaces",
+    "rapides,",
+    "soignés",
+    "et",
+    "pensés",
+    "pour",
+    "convertir.",
+];
+
+const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
+// ponytail: temporary flag; flip to true to bring the logo marquee back.
+const showLogoMarquee = false;
+
+const testimonialImages = import.meta.glob<{ default: ImageMetadata }>(
+    "../assets/temoignages/*.{jpg,jpeg,png,webp}",
+    { eager: true },
+);
+const displayedTestimonials = temoignages
+    .filter((temoignage) => temoignage.published !== false)
+    .map((temoignage) => ({
+        ...temoignage,
+        image: temoignage.imageFile
+            ? testimonialImages[`../assets/temoignages/${temoignage.imageFile}`]
+                  ?.default
+            : undefined,
+    }));
+---
+
+<Layout>
+    <section class="mx-auto w-full max-w-5xl px-2 sm:px-4">
+        <div class="flex flex-col gap-6">
+            <p
+                class="mx-auto w-fit max-w-[calc(100vw-1rem)] rounded-xl bg-blue-500 px-4 py-1.5 text-center text-sm font-light leading-none text-snow-50 shadow-[0_10px_18px_-8px_rgba(37,99,235,0.85)] ring-1 ring-blue-400/70 md:text-base"
+                data-hero-eyebrow
+            >
+                Freelance front-end orienté design et produit
+            </p>
+            <h1
+                class="flex max-w-full flex-wrap justify-center gap-x-[0.18em] text-center text-5xl font-medium leading-tighter tracking-[-4%] text-gray-900 sm:text-6xl md:text-7xl"
+                data-animated-title
+            >
+                {
+                    heroTitleWords.map((word, index) => (
+                        <span
+                            class:list={[
+                                highlightedHeroWords.has(word) &&
+                                    "text-blue-500",
+                            ]}
+                            style={`--animated-word-index: ${index}`}
+                            data-animated-title-word
+                        >
+                            {word}
+                        </span>
+                    ))
+                }
+            </h1>
+            <FadeReveal delay={0.32}>
+                <p
+                    class="max-w-120 tracking-[-4%] leading-tight text-coffee-300 font-light text-center text-md mx-auto"
+                >
+                    J’aide les petites structures et les équipes produit à lancer
+                    des interfaces & sites performants, accessibles et
+                    SEO-friendly.
+                </p>
+            </FadeReveal>
+            <FadeReveal delay={0.44}>
+                <div class="flex flex-wrap gap-3 items-center justify-center sm:gap-8">
+                    <button
+                        class="hero-button hero-button--primary font-regular px-5 text-md py-1.5 rounded-xl h-12 flex justify-center items-center sm:px-6"
+                        data-cal-open
+                        type="button"
+                        ><WaveText
+                            text="Parlons de votre projet"
+                            trigger="parent"
+                        />
+                        <WaveIcon
+                            style="--wui-wave-icon-size: 1rem;"
+                            direction="right"
+                            trigger="parent"
+                        >
+                            <ArrowRight class="size-full" aria-hidden="true" />
+                        </WaveIcon>
+                    </button>
+                    <a
+                        class="hero-button hero-button--secondary font-regular px-5 py-1.5 rounded-xl h-12 flex text-md justify-center items-center sm:px-6"
+                        href="#projects"
+                        ><WaveText
+                            text="Voir mes réalisations"
+                            trigger="parent"
+                        /></a
+                    >
+                </div>
+            </FadeReveal>
+            <FadeReveal delay={0.56}>
+                <div
+                    class="testimonial-rotator mx-auto my-4 text-center text-xs"
+                    data-testimonial-rotator
+                    data-testimonial-interval="5500"
+                >
+                    {
+                        displayedTestimonials.map((temoignage, index) => (
+                            <figure
+                                class:list={[
+                                    "testimonial-rotator__item",
+                                    index === 0 && "is-active",
+                                ]}
+                                data-testimonial-item
+                                aria-hidden={index === 0 ? undefined : "true"}
+                            >
+                                <div class="testimonial-avatar">
+                                    {temoignage.image ? (
+                                        <Image
+                                            class="testimonial-avatar__image"
+                                            src={temoignage.image}
+                                            alt={temoignage.imageAlt ?? ""}
+                                            width={64}
+                                            height={64}
+                                            loading={
+                                                index === 0 ? "eager" : "lazy"
+                                            }
+                                        />
+                                    ) : (
+                                        <span>{temoignage.initials}</span>
+                                    )}
+                                </div>
+                                <figcaption>
+                                    <a
+                                        class="testimonial-rotator__link"
+                                        href={temoignage.href}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        aria-label={`Voir le site de ${temoignage.name}`}
+                                    >
+                                        {temoignage.name}
+                                    </a>
+                                </figcaption>
+                                <blockquote>
+                                    “{temoignage.excerpt ?? temoignage.text}”
+                                </blockquote>
+                            </figure>
+                        ))
+                    }
+                </div>
+            </FadeReveal>
+            <HeroDotMatrix />
+        </div>
+    </section>
+    {
+        showLogoMarquee && (
+            <FadeRevealOnScroll delay={0.12}>
+                <Marquee />
+            </FadeRevealOnScroll>
+        )
+    }
+    <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !" />
+    <section id="projects" class="project-showcase md:mt-20" data-project-showcase>
+        <div class="project-copy mx-auto max-w-5xl px-2 pb-10 sm:px-4">
+            {
+                homeProjects.map((project, index) => (
+                    <article
+                        class:list={[
+                            "project-copy__panel",
+                            index === 0 && "is-active",
+                        ]}
+                        data-project-panel
+                        data-project-index={index}
+                        aria-hidden={index === 0 ? undefined : "true"}
+                        inert={index === 0 ? undefined : true}
+                    >
+                        <ProjectIntro
+                            href={project.href}
+                            title={project.title}
+                        >
+                            {project.summary}
+                        </ProjectIntro>
+                    </article>
+                ))
+            }
+        </div>
+
+        <Carousel autoplay autoplayDelay={6500}>
+            {
+                homeProjects.map((project, index) => (
+                    <div class="embla__slide">
+                        {project.media.type === "video" ? (
+                            <video
+                                muted
+                                playsinline
+                                loop
+                                preload={index === 0 ? "metadata" : "none"}
+                                tabindex="-1"
+                                poster={project.media.poster}
+                                aria-hidden="true"
+                                class="h-full w-full object-cover rounded-md"
+                            >
+                                <source src={project.media.src} type="video/mp4" />
+                            </video>
+                        ) : (
+                            <div
+                                class="project-placeholder rounded-md"
+                                data-project-name={project.title}
+                            >
+                                <span>{project.media.label}</span>
+                            </div>
+                        )}
+                    </div>
+                ))
+            }
+        </Carousel>
+    </section>
+    <Differenciates />
+</Layout>
+
+<script>
+    type HomeInteractionState = {
+        destroy: () => void;
+    };
+
+    const windowWithHomeInteractions = window as Window & {
+        __wuiHomeInteractionLifecycleReady?: boolean;
+        __wuiHomeInteractionStates?: Set<HomeInteractionState>;
+    };
+    const activeHomeInteractionStates =
+        windowWithHomeInteractions.__wuiHomeInteractionStates ??
+        new Set<HomeInteractionState>();
+    windowWithHomeInteractions.__wuiHomeInteractionStates =
+        activeHomeInteractionStates;
+
+    function registerHomeInteractionCleanup(destroy: () => void) {
+        let state: HomeInteractionState;
+
+        state = {
+            destroy: () => {
+                if (!activeHomeInteractionStates.delete(state)) return;
+                destroy();
+            },
+        };
+
+        activeHomeInteractionStates.add(state);
+    }
+
+    function resetHomeInteractions() {
+        Array.from(activeHomeInteractionStates).forEach((state) =>
+            state.destroy(),
+        );
+    }
+
+    const revealTitle = (title: HTMLElement) => {
+        if (title.dataset.animatedTitleReady === "true") return;
+        title.dataset.animatedTitleReady = "true";
+    };
+
+    const initTitleAnimations = () => {
+        let observedCount = 0;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+
+                    const title = entry.target as HTMLElement;
+
+                    observer.unobserve(title);
+                    revealTitle(title);
+                });
+            },
+            { rootMargin: "0px 0px -10% 0px", threshold: 0.2 },
+        );
+
+        document
+            .querySelectorAll<HTMLElement>("[data-animated-title]")
+            .forEach((title) => {
+                if (title.dataset.animatedTitleReady) return;
+
+                title.dataset.animatedTitleReady = "pending";
+                observer.observe(title);
+                observedCount += 1;
+            });
+
+        if (observedCount > 0) {
+            registerHomeInteractionCleanup(() => observer.disconnect());
+        } else {
+            observer.disconnect();
+        }
+    };
+
+    const replayProjectPanelAnimation = (panel: HTMLElement) => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        delete panel.dataset.projectPanelAnimate;
+        void panel.offsetWidth;
+        panel.dataset.projectPanelAnimate = "true";
+    };
+
+    const initTestimonialRotators = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-testimonial-rotator]")
+            .forEach((root) => {
+                if (root.dataset.testimonialRotatorReady === "true") return;
+
+                const items = Array.from(
+                    root.querySelectorAll<HTMLElement>(
+                        "[data-testimonial-item]",
+                    ),
+                );
+
+                if (items.length < 2) return;
+
+                const interval = Math.max(
+                    1200,
+                    Number.parseInt(root.dataset.testimonialInterval ?? "", 10) ||
+                        5500,
+                );
+                let activeIndex = items.findIndex((item) =>
+                    item.classList.contains("is-active"),
+                );
+                let timeout: number | undefined;
+
+                if (activeIndex < 0) activeIndex = 0;
+
+                const setActiveItem = (nextIndex: number) => {
+                    activeIndex = nextIndex;
+                    items.forEach((item, index) => {
+                        const isActive = index === activeIndex;
+
+                        item.classList.toggle("is-active", isActive);
+                        item.setAttribute("aria-hidden", String(!isActive));
+                    });
+                };
+
+                const schedule = () => {
+                    window.clearTimeout(timeout);
+                    timeout = window.setTimeout(() => {
+                        if (!document.hidden) {
+                            setActiveItem((activeIndex + 1) % items.length);
+                        }
+
+                        schedule();
+                    }, interval);
+                };
+
+                root.dataset.testimonialRotatorReady = "true";
+                setActiveItem(activeIndex);
+                schedule();
+                registerHomeInteractionCleanup(() => {
+                    window.clearTimeout(timeout);
+                    delete root.dataset.testimonialRotatorReady;
+                });
+            });
+    };
+
+    const initProjectShowcases = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-project-showcase]")
+            .forEach((root) => {
+                if (root.dataset.projectShowcaseReady === "true") return;
+
+                const panels =
+                    root.querySelectorAll<HTMLElement>("[data-project-panel]");
+
+                const setActivePanel = (
+                    index: number,
+                    direction = "next",
+                    shouldAnimate = true,
+                ) => {
+                    root.dataset.projectDirection = direction;
+                    let activePanel: HTMLElement | undefined;
+
+                    panels.forEach((panel) => {
+                        const isActive =
+                            Number(panel.dataset.projectIndex) === index;
+
+                        delete panel.dataset.projectPanelAnimate;
+                        panel.classList.toggle("is-active", isActive);
+                        panel.setAttribute("aria-hidden", String(!isActive));
+                        panel.toggleAttribute("inert", !isActive);
+                        if (isActive) activePanel = panel;
+                    });
+
+                    if (shouldAnimate && activePanel) {
+                        replayProjectPanelAnimation(activePanel);
+                    }
+                };
+
+                root.dataset.projectShowcaseReady = "true";
+                setActivePanel(0, "next", false);
+                const handleCarouselSelect = (event: Event) => {
+                    const { direction, index } = (
+                        event as CustomEvent<{
+                            direction?: string;
+                            index: number;
+                        }>
+                    ).detail;
+
+                    setActivePanel(index, direction);
+                };
+
+                root.addEventListener("carousel:select", handleCarouselSelect);
+                registerHomeInteractionCleanup(() => {
+                    root.removeEventListener(
+                        "carousel:select",
+                        handleCarouselSelect,
+                    );
+                    panels.forEach((panel) => {
+                        delete panel.dataset.projectPanelAnimate;
+                    });
+                    delete root.dataset.projectShowcaseReady;
+                });
+            });
+    };
+
+    initTitleAnimations();
+    initTestimonialRotators();
+    initProjectShowcases();
+
+    if (windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady !== true) {
+        windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady = true;
+        document.addEventListener("astro:before-swap", resetHomeInteractions);
+        document.addEventListener("astro:page-load", initTitleAnimations);
+        document.addEventListener("astro:page-load", initTestimonialRotators);
+        document.addEventListener("astro:page-load", initProjectShowcases);
+    }
+</script>
+
+<style>
+    [data-hero-eyebrow] {
+        animation: hero-eyebrow-fade 780ms cubic-bezier(0.2, 0, 0, 1) both;
+    }
+
+    @keyframes hero-eyebrow-fade {
+        from {
+            filter: blur(8px);
+            opacity: 0;
+        }
+
+        to {
+            filter: none;
+            opacity: 1;
+        }
+    }
+
+    [data-animated-title-word] {
+        display: inline-block;
+    }
+
+    .testimonial-rotator {
+        display: grid;
+        min-height: 10rem;
+        place-items: center;
+        width: min(100%, 24rem);
+    }
+
+    .testimonial-rotator__item {
+        align-items: center;
+        display: flex;
+        filter: blur(6px);
+        flex-direction: column;
+        gap: 0.5rem;
+        grid-area: 1 / 1;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(0.35rem);
+        transition:
+            opacity 360ms cubic-bezier(0.2, 0, 0, 1),
+            filter 520ms cubic-bezier(0.2, 0, 0, 1),
+            transform 520ms cubic-bezier(0.2, 0, 0, 1);
+        width: 100%;
+    }
+
+    .testimonial-rotator__item.is-active {
+        filter: none;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+    }
+
+    .testimonial-rotator__item.is-active .testimonial-avatar,
+    .testimonial-rotator__item.is-active figcaption,
+    .testimonial-rotator__item.is-active blockquote {
+        animation: testimonial-content-in 920ms
+            cubic-bezier(0.22, 1.16, 0.36, 1) both;
+    }
+
+    .testimonial-rotator__item.is-active .testimonial-avatar {
+        animation-delay: 120ms;
+    }
+
+    .testimonial-rotator__item.is-active figcaption {
+        animation-delay: 360ms;
+    }
+
+    .testimonial-rotator__item.is-active blockquote {
+        animation-delay: 660ms;
+    }
+
+    @keyframes testimonial-content-in {
+        from {
+            filter: blur(8px);
+            opacity: 0;
+            transform: translateY(-0.65rem);
+        }
+
+        to {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    .testimonial-avatar {
+        align-items: center;
+        aspect-ratio: 1;
+        background: #e8e5e8;
+        border-radius: 9999px;
+        color: #141016;
+        display: inline-flex;
+        font-size: 0.8rem;
+        font-weight: 500;
+        height: 3.25rem;
+        justify-content: center;
+        overflow: hidden;
+        width: 3.25rem;
+    }
+
+    .testimonial-avatar__image {
+        display: block;
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .testimonial-rotator figcaption {
+        color: #141016;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.2;
+    }
+
+    .testimonial-rotator__link {
+        color: inherit;
+        text-decoration: none;
+        text-underline-offset: 0.2em;
+    }
+
+    .testimonial-rotator__link:hover,
+    .testimonial-rotator__link:focus-visible {
+        text-decoration: underline;
+    }
+
+    .testimonial-rotator blockquote {
+        color: #141016;
+        font-size: 0.875rem;
+        font-weight: 300;
+        line-height: 1.35;
+        margin: 0 auto;
+        max-width: 18rem;
+    }
+
+    [data-animated-title]:not([data-animated-title-ready="true"])
+        [data-animated-title-word] {
+        filter: blur(10px);
+        opacity: 0;
+        transform: translateY(-0.65em);
+    }
+
+    [data-animated-title][data-animated-title-ready="true"]
+        [data-animated-title-word] {
+        animation: animated-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
+            both;
+        animation-delay: calc(var(--animated-word-index, 0) * 65ms);
+    }
+
+    @keyframes animated-title-word {
+        from {
+            filter: blur(10px);
+            opacity: 0;
+            transform: translateY(-0.65em);
+        }
+
+        to {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @media (scripting: none), (prefers-reduced-motion: reduce) {
+        [data-hero-eyebrow] {
+            animation: none;
+        }
+
+        [data-animated-title] [data-animated-title-word] {
+            animation: none;
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+
+        .testimonial-rotator__item {
+            transition: none;
+        }
+
+        .testimonial-avatar,
+        .testimonial-rotator figcaption,
+        .testimonial-rotator blockquote {
+            animation: none;
+        }
+    }
+
+    .project-copy {
+        display: grid;
+    }
+
+    .project-copy__panel {
+        filter: blur(6px);
+        grid-area: 1 / 1;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+            opacity 320ms cubic-bezier(0.2, 0, 0, 1),
+            filter 420ms cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .project-copy__panel.is-active {
+        filter: none;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .project-showcase {
+        --project-panel-from-y: -1.15rem;
+    }
+
+    .project-showcase[data-project-direction="prev"] {
+        --project-panel-from-y: 1.15rem;
+    }
+
+    .project-copy__panel[data-project-panel-animate="true"]
+        :global(.project-intro__title),
+    .project-copy__panel[data-project-panel-animate="true"]
+        :global(.project-intro__description),
+    .project-copy__panel[data-project-panel-animate="true"]
+        :global(.project-intro__button) {
+        animation: project-panel-copy-reveal 760ms
+            cubic-bezier(0.34, 1.2, 0.64, 1) both;
+    }
+
+    .project-copy__panel[data-project-panel-animate="true"]
+        :global(.project-intro__description) {
+        animation-delay: 130ms;
+    }
+
+    .project-copy__panel[data-project-panel-animate="true"]
+        :global(.project-intro__button) {
+        animation-delay: 260ms;
+    }
+
+    @keyframes project-panel-copy-reveal {
+        from {
+            filter: blur(8px);
+            opacity: 0;
+            transform: translateY(var(--project-panel-from-y));
+        }
+
+        to {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    .project-placeholder {
+        align-items: center;
+        aspect-ratio: 16 / 9;
+        background: #e8e5e8;
+        color: rgb(63 63 70);
+        display: flex;
+        font-size: clamp(2rem, 6vw, 5rem);
+        font-weight: 500;
+        height: 100%;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .hero-button {
+        --hero-button-bg: #e8e5e8;
+        --hero-button-border: transparent;
+        --hero-button-color: var(--color-coffee-300);
+
+        color: var(--hero-button-color);
+        gap: 0.75rem;
+        isolation: isolate;
+        position: relative;
+        text-decoration: none;
+    }
+
+    .hero-button::before {
+        background: var(--hero-button-bg);
+        border: 1px solid var(--hero-button-border);
+        border-radius: inherit;
+        content: "";
+        inset: 0;
+        position: absolute;
+        transform: scale(1);
+        transition: transform 520ms
+            var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        z-index: -1;
+    }
+
+    .hero-button:hover::before,
+    .hero-button:focus-visible::before {
+        transform: scale(0.95);
+    }
+
+    .hero-button:focus-visible {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 3px;
+    }
+
+    .hero-button--primary {
+        --hero-button-bg: var(--color-coffee-300);
+        --hero-button-border: var(--color-coffee-300);
+        --hero-button-color: #eef5ff;
+    }
+
+    .hero-button--secondary {
+        --hero-button-bg: #e8e5e8;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hero-button::before {
+            transition: none;
+        }
+    }
+</style>

@@ -1,0 +1,96 @@
+---
+import WaveText from "./ui/WaveText.astro";
+
+interface Props {
+    pathName: string;
+}
+
+const { pathName } = Astro.props;
+const navItems = [
+    { href: "/", id: "home", label: "Accueil" },
+    { href: "/about", id: "about", label: "À propos" },
+    { href: "/articles", id: "articles", label: "Articles" },
+];
+const currentPath = pathName.replace(/\/$/, "") || "/";
+const items = navItems.map((item) => ({
+    ...item,
+    active:
+        currentPath === item.href ||
+        (item.href !== "/" && currentPath.startsWith(`${item.href}/`)),
+}));
+---
+
+<header class="w-full p-2 mb-12 sm:p-4">
+    <nav aria-label="Navigation principale" class="max-w-5xl mx-auto sm:p-4">
+        <ul
+            class="relative flex flex-wrap gap-1 justify-center items-center text-sm font-light sm:gap-4 sm:text-base"
+        >
+            {
+                items.map((item) => (
+                    <li>
+                        <a
+                            aria-current={item.active ? "page" : undefined}
+                            class="nav-link relative block px-3 py-2 sm:px-5 sm:py-3"
+                            data-wui-wave-parent
+                            href={item.href}
+                        >
+                            {item.active && (
+                                <span
+                                    aria-hidden="true"
+                                    class="nav-link__active-bg"
+                                    style="view-transition-name: nav-active-indicator"
+                                />
+                            )}
+                            <WaveText
+                                class="nav-link__label relative z-10"
+                                style={`view-transition-name: nav-label-${item.id}`}
+                                text={item.label}
+                                trigger="parent"
+                            />
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+    </nav>
+</header>
+
+<style>
+    .nav-link {
+        background: transparent;
+        border: 0;
+        color: inherit;
+        font: inherit;
+        isolation: isolate;
+        text-decoration: none;
+    }
+
+    .nav-link__active-bg {
+        background: #e8e5e8;
+        border-radius: 9999px;
+        inset: 0;
+        position: absolute;
+        transform: scale(1);
+        transition:
+            opacity 220ms cubic-bezier(0.2, 0, 0, 1),
+            transform 520ms
+                var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        z-index: 0;
+    }
+
+    .nav-link:hover .nav-link__active-bg,
+    .nav-link:focus-visible .nav-link__active-bg {
+        transform: scale(0.95);
+    }
+
+    .nav-link:focus-visible {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .nav-link__active-bg {
+            transition: none;
+        }
+    }
+</style>

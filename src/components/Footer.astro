@@ -1,0 +1,52 @@
+---
+const year = new Date().getFullYear();
+const links = [
+    { href: "/", label: "Accueil" },
+    { href: "/about", label: "À propos" },
+    { href: "/articles", label: "Articles" },
+    { href: "/mentions-legales", label: "Mentions légales" },
+];
+---
+
+<footer
+    class="mt-16 border-t border-snow-600/80 px-2 py-8 text-sm text-gray-600 sm:px-4"
+>
+    <div
+        class="mx-auto flex max-w-5xl flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
+    >
+        <div class="max-w-md">
+            <p class="text-base font-medium text-gray-900">
+                William De Azevedo
+            </p>
+            <p class="mt-2 font-light leading-relaxed">
+                Développeur front-end freelance pour sites rapides, accessibles
+                et soignés.
+            </p>
+        </div>
+        <div class="flex flex-col gap-3 sm:items-end">
+            <nav aria-label="Navigation pied de page">
+                <ul class="flex flex-wrap gap-x-4 gap-y-2 sm:justify-end">
+                    {
+                        links.map((link) => (
+                            <li>
+                                <a
+                                    class="transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                    href={link.href}
+                                >
+                                    {link.label}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </nav>
+            <a
+                class="w-fit transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                href="mailto:william.deazevedopro@gmail.com"
+            >
+                william.deazevedopro@gmail.com
+            </a>
+            <p class="text-xs text-gray-500">© {year} William De Azevedo</p>
+        </div>
+    </div>
+</footer>
