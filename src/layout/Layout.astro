@@ -88,6 +88,20 @@ const personJsonLd = {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#ffffff" />
         <meta name="generator" content={Astro.generator} />
+        <script
+            is:inline
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-9G8R67JBFF"
+        ></script>
+        <script is:inline>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+
+            gtag("config", "G-9G8R67JBFF");
+        </script>
         <meta name="description" content={description} />
         <link rel="canonical" href={canonicalUrl.href} />
         <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
