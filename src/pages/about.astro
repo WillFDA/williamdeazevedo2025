@@ -3,9 +3,6 @@ import { Image } from "astro:assets";
 import Layout from "../layout/Layout.astro";
 import FadeReveal from "../components/animations/FadeReveal.astro";
 import Marquee from "../components/Marquee.astro";
-import learnJsCert from "@/assets/certifications/learn-js-jade.png";
-import ocDevCert from "@/assets/certifications/oc-dev-jav-react-2025.png";
-import ocIntegCert from "@/assets/certifications/oc-integ-web-2023.png";
 import bourgetPicture from "@/assets/pictures/bourget-opti.jpg";
 import desktopPicture from "@/assets/pictures/desktop-opti.jpg";
 import gokuPicture from "@/assets/pictures/goku-opti.jpg";
@@ -29,30 +26,6 @@ const aboutHeroTitleWords = [
     "soignés.",
 ];
 const highlightedAboutHeroWords = new Set(["sites", "web", "utiles", "soignés."]);
-
-const certifications = [
-    {
-        image: learnJsCert,
-        issuer: "Jade Joubran",
-        name: "Learn JavaScript",
-        url: "https://learnjavascript.online",
-        year: "2024",
-    },
-    {
-        image: ocIntegCert,
-        issuer: "OpenClassrooms",
-        name: "Développeur intégrateur web",
-        url: "https://openclassrooms.com",
-        year: "2023",
-    },
-    {
-        image: ocDevCert,
-        issuer: "OpenClassrooms",
-        name: "Développeur concepteur logiciel",
-        url: "https://openclassrooms.com",
-        year: "2025",
-    },
-];
 
 const pictures = [
     {
@@ -141,39 +114,6 @@ const pictures = [
             </div>
         </section>
 
-        <section class="flex flex-col gap-4">
-            <h2 class="text-sm font-light text-gray-400">Formations</h2>
-            <div class="flex flex-col gap-2 text-sm font-light">
-                {
-                    certifications.map((certification) => (
-                        <a
-                            class="certification-row group relative flex items-baseline gap-1 text-gray-900 transition-colors hover:text-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
-                            href={certification.url}
-                            rel="noreferrer"
-                            target="_blank"
-                        >
-                            <span class="min-w-0">{certification.name}</span>
-                            <span class="dot-leaders min-w-4 flex-1" />
-                            <span class="text-right text-gray-600">
-                                {certification.year}
-                            </span>
-                            <span class="certification-preview" aria-hidden="true">
-                                <Image
-                                    alt=""
-                                    class="h-full w-full object-contain"
-                                    loading="lazy"
-                                    widths={[288, 576]}
-                                    sizes="288px"
-                                    src={certification.image}
-                                />
-                                <span>{certification.issuer}</span>
-                            </span>
-                        </a>
-                    ))
-                }
-            </div>
-        </section>
-
         <section class="relative left-1/2 w-[100dvw] -translate-x-1/2">
             <div class="photo-strip flex items-center justify-start gap-3 overflow-x-auto px-2 sm:px-4 md:justify-center md:gap-5 md:overflow-visible md:px-0">
                 {
@@ -222,65 +162,12 @@ const pictures = [
         }
     }
 
-    .dot-leaders {
-        overflow: hidden;
-        text-overflow: clip;
-        white-space: nowrap;
-    }
-
-    .dot-leaders::before {
-        color: var(--color-gray-200);
-        content: " · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ";
-        letter-spacing: 4px;
-    }
-
     .photo-strip {
         scrollbar-width: none;
     }
 
     .photo-strip::-webkit-scrollbar {
         display: none;
-    }
-
-    .certification-preview {
-        background: var(--color-snow-50);
-        border: 1px solid var(--color-gray-100);
-        border-radius: 0.5rem;
-        bottom: calc(100% + 0.75rem);
-        box-shadow: 0 18px 44px -24px rgb(17 24 39 / 0.35);
-        display: none;
-        height: 13.5rem;
-        left: 50%;
-        overflow: hidden;
-        position: absolute;
-        transform: translateX(-50%) translateY(0.5rem);
-        width: 18rem;
-        z-index: 20;
-    }
-
-    .certification-preview span {
-        background: var(--color-gray-50);
-        border-top: 1px solid var(--color-gray-100);
-        bottom: 0;
-        color: var(--color-gray-500);
-        font-size: 0.75rem;
-        left: 0;
-        padding: 0.5rem 0.75rem;
-        position: absolute;
-        width: 100%;
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-        .certification-row:hover .certification-preview,
-        .certification-row:focus-visible .certification-preview {
-            display: block;
-        }
-    }
-
-    @media (max-width: 640px) {
-        .dot-leaders::before {
-            letter-spacing: 2px;
-        }
     }
 
     @media (prefers-reduced-motion: reduce) {
