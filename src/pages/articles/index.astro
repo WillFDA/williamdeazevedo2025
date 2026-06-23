@@ -1,7 +1,6 @@
 ---
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import ArticleFilters from "@/components/articles/ArticleFilters";
-import HeroDotMatrix from "@/components/HeroDotMatrix.astro";
 import Layout from "@/layout/Layout.astro";
 import { formatArticleDate, getVisibleArticles } from "@/lib/articles";
 
@@ -31,7 +30,6 @@ const years = [
                 <p class="text-sm font-light text-gray-500">— Joseph Joubert</p>
             </FadeReveal>
         </section>
-        <HeroDotMatrix />
 
         <div class="mt-16" data-articles-page>
             {
