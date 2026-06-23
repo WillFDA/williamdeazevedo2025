@@ -52,11 +52,9 @@ const calLink = String(
     let isCalConfigured = false;
     let closeTimer;
 
-    function trackAnalyticsEvent(name, params = {}) {
-        window.gtag?.("event", name, {
-            page_path: window.location.pathname,
-            ...params,
-        });
+    function trackZaraz(eventName, eventProperties = {}) {
+        if (typeof window.zaraz?.track !== "function") return;
+        void window.zaraz.track(eventName, eventProperties);
     }
 
     function loadCalEmbed() {
@@ -129,16 +127,20 @@ const calLink = String(
             },
             theme: "dark",
         });
-        window.Cal("preload", { calLink });
         window.Cal("on", {
             action: "bookingSuccessfulV2",
             callback: (event) => {
-                trackAnalyticsEvent("generate_lead", {
-                    method: "cal.com",
-                    status: event.detail.data?.status,
+                const booking = event.detail?.data ?? {};
+
+                trackZaraz("cal_booking_success", {
+                    cal_link: calLink,
+                    event_type_id: String(booking.eventTypeId ?? ""),
+                    status: booking.status ?? "",
+                    title: booking.title ?? "",
                 });
             },
         });
+        window.Cal("preload", { calLink });
         isCalConfigured = true;
     }
 
@@ -160,6 +162,7 @@ const calLink = String(
     function openCalDrawer() {
         if (!(drawer instanceof HTMLDialogElement)) return;
         mountCalEmbed();
+        trackZaraz("cal_open", { cal_link: getCalLink() });
         window.clearTimeout(closeTimer);
         drawer.classList.remove("is-closing");
         if (!drawer.open) {
@@ -199,7 +202,7 @@ const calLink = String(
         const calOpenButton = target.closest("[data-cal-open]");
         if (calOpenButton instanceof HTMLElement) {
             event.preventDefault();
-            trackAnalyticsEvent("cal_cta_click", {
+            trackZaraz("cal_cta_click", {
                 location: calOpenButton.dataset.calLocation ?? "unknown",
             });
             openCalDrawer();
