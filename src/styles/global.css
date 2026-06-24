@@ -248,7 +248,14 @@ body {
     @apply bg-background text-foreground;
   }
   html {
+    scroll-behavior: smooth;
     @apply font-sans;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
 
