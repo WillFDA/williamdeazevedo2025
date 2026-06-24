@@ -83,7 +83,7 @@ function FilterSelect({
       </label>
       <Select.Root onValueChange={onValueChange} value={value}>
         <Select.Trigger className={filterTriggerClass} id={id}>
-          <span className="truncate">{selectedLabel}</span>
+          <span className="min-w-0 flex-1 truncate">{selectedLabel}</span>
           <Select.Icon className="text-gray-400">
             <ChevronIcon />
           </Select.Icon>
