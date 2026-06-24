@@ -72,10 +72,19 @@ const {
         will-change: auto;
     }
 
+    .fade-reveal-on-scroll.is-reveal-complete {
+        filter: none;
+        opacity: 1;
+        transform: none;
+        transition: none;
+        will-change: auto;
+    }
+
     @media (scripting: none), (prefers-reduced-motion: reduce) {
         .fade-reveal-on-scroll,
         .fade-reveal-on-scroll.is-reveal-ready,
-        .fade-reveal-on-scroll.is-reveal-ready.is-visible {
+        .fade-reveal-on-scroll.is-reveal-ready.is-visible,
+        .fade-reveal-on-scroll.is-reveal-complete {
             filter: none;
             opacity: 1;
             transform: none;

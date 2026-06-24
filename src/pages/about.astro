@@ -66,7 +66,7 @@ const pictures = [
 >
     <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 pb-16 sm:gap-16 sm:px-4 sm:pb-20">
         <section class="flex flex-col gap-6">
-            <h1 class="flex max-w-full flex-wrap justify-center gap-x-[0.18em] text-center text-4xl font-medium leading-tighter tracking-[-4%] text-gray-900 sm:text-6xl md:text-7xl">
+            <h1 class="flex max-w-full flex-wrap justify-center gap-x-[0.18em] text-center text-4xl font-medium leading-tighter tracking-normal text-gray-900 sm:text-6xl md:text-7xl">
                 {
                     aboutHeroTitleWords.map((word, index) => (
                         <span
@@ -150,7 +150,7 @@ const pictures = [
 <style>
     .about-hero-title-word {
         animation: about-hero-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
-            both;
+            backwards;
         animation-delay: calc(var(--about-hero-word-index, 0) * 65ms);
         display: inline-block;
     }

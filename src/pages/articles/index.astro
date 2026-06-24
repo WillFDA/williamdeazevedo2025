@@ -20,10 +20,10 @@ const years = [
     title="Articles - William De Azevedo"
     description="Articles sur le développement front-end, Astro, React, Next.js, TypeScript et mes retours d'expérience en tant que développeur freelance."
 >
-    <div class="mx-auto w-full max-w-5xl px-2 pb-20 sm:px-4">
-        <section class="mx-auto mb-8 max-w-2xl text-center">
+    <div class="mx-auto w-full max-w-[calc(100vw-1rem)] px-2 pb-20 sm:max-w-5xl sm:px-4">
+        <section class="mx-auto mb-8 w-full max-w-[22rem] text-center sm:max-w-2xl">
             <FadeReveal delay={0.1}>
-                <h1 class="mb-4 text-3xl font-medium leading-tight text-gray-900 md:text-5xl">
+                <h1 class="mb-4 text-2xl font-medium leading-tight text-gray-900 sm:text-3xl md:text-5xl">
                     «&nbsp;Enseigner, c'est apprendre deux fois&nbsp;»
                 </h1>
             </FadeReveal>
@@ -98,7 +98,7 @@ const years = [
 
 <style>
     .article-list-item {
-        animation: article-fade-in 520ms cubic-bezier(0.2, 0, 0, 1) both;
+        animation: article-fade-in 520ms cubic-bezier(0.2, 0, 0, 1) backwards;
         animation-delay: calc(var(--article-index, 0) * 70ms);
     }
 

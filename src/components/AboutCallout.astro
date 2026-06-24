@@ -28,7 +28,7 @@ const aboutPoints = [
 <section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-2xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-3xl md:py-28">
     <AboutLogoMatrix />
     <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-10 px-4 sm:gap-14 sm:px-8 md:gap-16">
-        <h2 class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-[0.18em] text-center text-3xl font-medium leading-tighter tracking-[-4%] text-snow-50 sm:text-4xl md:text-6xl">
+        <h2 class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-[0.18em] text-center text-3xl font-medium leading-tighter tracking-normal text-snow-50 sm:text-4xl md:text-6xl">
             {
                 titleWords.map((word, index) => {
                     const cleanWord = word.replace("\u00A0", " ");
@@ -194,7 +194,7 @@ const aboutPoints = [
 <style>
     .about-callout-title-word {
         animation: about-callout-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
-            both;
+            backwards;
         animation-delay: calc(var(--about-callout-word-index, 0) * 65ms);
         display: inline-block;
     }

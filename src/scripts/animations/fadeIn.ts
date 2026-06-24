@@ -1,10 +1,62 @@
 const observerByDocument = new WeakMap<Document, IntersectionObserver>();
 
+function secondsToMs(value: string) {
+  const trimmed = value.trim();
+  if (trimmed.endsWith("ms")) return Number.parseFloat(trimmed);
+  if (trimmed.endsWith("s")) return Number.parseFloat(trimmed) * 1000;
+  return Number.parseFloat(trimmed) || 0;
+}
+
+function getLongestTransitionMs(element: HTMLElement) {
+  const styles = window.getComputedStyle(element);
+  const durations = styles.transitionDuration.split(",").map(secondsToMs);
+  const delays = styles.transitionDelay.split(",").map(secondsToMs);
+  let longest = 0;
+
+  for (let index = 0; index < durations.length; index += 1) {
+    const duration = durations[index] ?? 0;
+    const delay = delays[index] ?? delays.at(-1) ?? 0;
+    longest = Math.max(longest, duration + delay);
+  }
+
+  return longest;
+}
+
+function completeReveal(element: HTMLElement) {
+  element.classList.add("is-reveal-complete");
+}
+
+function revealElement(element: HTMLElement) {
+  element.classList.add("is-visible");
+
+  const longestTransitionMs = getLongestTransitionMs(element);
+
+  if (longestTransitionMs <= 0) {
+    completeReveal(element);
+    return;
+  }
+
+  const timeout = window.setTimeout(
+    () => completeReveal(element),
+    longestTransitionMs + 80
+  );
+
+  element.addEventListener(
+    "transitionend",
+    (event) => {
+      if (event.target !== element) return;
+      window.clearTimeout(timeout);
+      completeReveal(element);
+    },
+    { once: true }
+  );
+}
+
 export function initFadeInAnimations(root: Document) {
   if (!("IntersectionObserver" in window)) {
     root
       .querySelectorAll<HTMLElement>("[data-reveal-on-scroll]")
-      .forEach((element) => element.classList.add("is-visible"));
+      .forEach(revealElement);
     return;
   }
 
@@ -17,7 +69,7 @@ export function initFadeInAnimations(root: Document) {
           if (!entry.isIntersecting) return;
 
           const element = entry.target as HTMLElement;
-          element.classList.add("is-visible");
+          revealElement(element);
           observer?.unobserve(element);
         });
       },

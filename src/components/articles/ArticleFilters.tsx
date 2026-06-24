@@ -73,6 +73,9 @@ function FilterSelect({
   options,
   value,
 }: FilterSelectProps) {
+  const selectedLabel =
+    options.find((option) => option.value === value)?.label ?? label;
+
   return (
     <div>
       <label className="sr-only" htmlFor={id}>
@@ -80,7 +83,7 @@ function FilterSelect({
       </label>
       <Select.Root onValueChange={onValueChange} value={value}>
         <Select.Trigger className={filterTriggerClass} id={id}>
-          <Select.Value />
+          <span className="truncate">{selectedLabel}</span>
           <Select.Icon className="text-gray-400">
             <ChevronIcon />
           </Select.Icon>
