@@ -1,4 +1,5 @@
 ---
+import Globe from "./icons/nucleo/globe-outline.svg";
 import Link from "./icons/Link.astro";
 import WaveIcon from "./ui/WaveIcon.astro";
 import WaveText from "./ui/WaveText.astro";
@@ -52,32 +53,7 @@ const isDetailsExternal = detailsHref?.startsWith("http");
                 direction="up"
                 trigger="parent"
             >
-                <svg
-                    aria-hidden="true"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <circle
-                        cx="12"
-                        cy="12"
-                        r="9"
-                        stroke="currentColor"
-                        stroke-width="1.7"
-                    />
-                    <path
-                        d="M3.5 12h17"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-width="1.7"
-                    />
-                    <path
-                        d="M12 3.5c2.1 2.2 3.1 5 3.1 8.5s-1 6.3-3.1 8.5c-2.1-2.2-3.1-5-3.1-8.5s1-6.3 3.1-8.5Z"
-                        stroke="currentColor"
-                        stroke-linejoin="round"
-                        stroke-width="1.7"
-                    />
-                </svg>
+                <Globe aria-hidden="true" />
             </WaveIcon>
         </a>
         {

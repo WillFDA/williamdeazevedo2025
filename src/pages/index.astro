@@ -6,7 +6,8 @@ import AboutCallout from "../components/AboutCallout.astro";
 import ExpertiseShowcase from "../components/ExpertiseShowcase.astro";
 import ProjectIntro from "../components/ProjectIntro.astro";
 import Differenciates from "@/sections/Differenciates.astro";
-import ArrowRight from "../components/icons/ArrowRight.svg";
+import ArrowRight from "../components/icons/nucleo/arrow-right-fill.svg";
+import Star from "../components/icons/nucleo/star-fill.svg";
 import { Image } from "astro:assets";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
@@ -80,6 +81,54 @@ const expertiseItems = [
             "Animations sobres",
         ],
     },
+    {
+        id: "audit-ux",
+        label: "Audit UX",
+        icon: "refresh",
+        title: "Clarifier les points de friction avant de construire",
+        description: [
+            "Je relis votre parcours, vos pages clés et vos messages pour repérer ce qui ralentit la compréhension ou la prise de contact.",
+            "Vous repartez avec des priorités concrètes, pas une liste abstraite de recommandations.",
+        ],
+        pills: [
+            "Parcours utilisateur",
+            "Clarté de l'offre",
+            "Hiérarchie visuelle",
+            "Actions prioritaires",
+        ],
+    },
+    {
+        id: "performance",
+        label: "Performance web",
+        icon: "code",
+        title: "Rendre votre site plus rapide et plus stable",
+        description: [
+            "J'optimise les pages qui comptent : poids des assets, structure front-end, rendu mobile et points bloquants côté expérience.",
+            "L'objectif est simple : un site plus fluide, plus lisible et plus agréable à parcourir.",
+        ],
+        pills: [
+            "Core Web Vitals",
+            "Images optimisées",
+            "Chargement rapide",
+            "Mobile first",
+        ],
+    },
+    {
+        id: "produit",
+        label: "Accompagnement produit",
+        icon: "site",
+        title: "Faire évoluer l'interface avec une logique produit",
+        description: [
+            "Je vous aide à prioriser les évolutions utiles, à transformer les retours terrain en écrans concrets et à garder une interface cohérente.",
+            "C'est un accompagnement pensé pour avancer vite sans perdre la qualité du design et du front-end.",
+        ],
+        pills: [
+            "Priorisation",
+            "Design produit",
+            "Itérations rapides",
+            "Base maintenable",
+        ],
+    },
 ] as const;
 
 const testimonialImages = import.meta.glob<{ default: ImageMetadata }>(
@@ -110,15 +159,7 @@ const displayedTestimonials = temoignages
             >
                 <span>Avis Google</span>
                 <span class="inline-flex items-center gap-1.5 rounded-xl bg-blue-500 px-2.5 py-1 font-medium text-snow-50">
-                    <svg
-                        aria-hidden="true"
-                        class="size-4 text-snow-50"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path d="M10 1.7 12.5 7l5.8.7-4.3 4 1.1 5.7L10 14.6l-5.1 2.8L6 11.7l-4.3-4L7.5 7 10 1.7Z" />
-                    </svg>
+                    <Star aria-hidden="true" class="size-4 text-snow-50" />
                     <span>5.0</span>
                 </span>
             </a>
@@ -232,13 +273,14 @@ const displayedTestimonials = temoignages
             </FadeReveal>
         </div>
     </section>
-    <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !">
+    <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !" />
+    <div class="mx-auto w-full max-w-7xl px-4 py-20 sm:px-8 md:py-24">
         <ExpertiseShowcase
             title="Des expertises maîtrisées pour faire avancer votre projet web"
             description="Du cadrage à l'exécution, chaque accompagnement sert un objectif simple : clarifier votre offre, soigner l'expérience et livrer une base solide."
             items={expertiseItems}
         />
-    </AboutCallout>
+    </div>
     <section id="projects" class="project-showcase md:mt-20" data-project-showcase>
         <div class="project-copy mx-auto max-w-5xl px-2 pb-10 sm:px-4">
             {
@@ -537,7 +579,7 @@ const displayedTestimonials = temoignages
     .hero-title-pill {
         background: var(--color-blue-500);
         border-radius: 999em;
-        box-shadow: 0 0.18em 0.42em -0.3em rgba(62, 96, 212, 0.56);
+        box-shadow: 0 0.18em 0.42em -0.24em rgba(62, 96, 212, 0.62);
         color: var(--color-snow-50);
         line-height: 1;
         margin-inline: 0.04em;

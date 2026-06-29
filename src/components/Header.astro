@@ -1,4 +1,5 @@
 ---
+import ChevronDown from "./icons/nucleo/chevron-down-fill.svg";
 import { services } from "../data/services";
 import WaveText from "./ui/WaveText.astro";
 
@@ -81,21 +82,10 @@ const serviceLinks = services.map((service) => ({
                                 trigger="parent"
                             />
                             {item.id === "services" && (
-                                <svg
+                                <ChevronDown
                                     aria-hidden="true"
                                     class="nav-link__chevron relative z-10 size-3"
-                                    fill="none"
-                                    viewBox="0 0 16 16"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="m4 6 4 4 4-4"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.6"
-                                    />
-                                </svg>
+                                />
                             )}
                         </a>
                         {item.id === "services" && (
