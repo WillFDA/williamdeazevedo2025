@@ -15,30 +15,26 @@ import { temoignages } from "../data/temoignage";
 
 export const prerender = true;
 
-const heroTitleWords = [
-    "Je",
-    "crée",
-    "des",
-    "sites",
-    "web",
-    "et",
-    "des",
-    "interfaces",
-    "rapides,",
-    "soignés",
-    "et",
-    "pensés",
-    "pour",
-    "convertir.",
+const heroTitleParts = [
+    { text: "Je" },
+    { text: "crée" },
+    { text: "des" },
+    { text: "sites" },
+    { text: "web" },
+    { text: "et" },
+    { text: "des" },
+    { text: "interfaces" },
+    { pill: true, text: "rapides, soignés" },
+    { text: "et" },
+    { text: "pensés" },
+    { text: "pour" },
+    { pill: true, text: "convertir." },
 ];
-
-const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
 
 const expertiseItems = [
     {
         id: "creation",
         label: "Création site vitrine",
-        href: "/services/creation-site-vitrine",
         icon: "site",
         title: "Construire une présence claire et crédible",
         description: [
@@ -51,17 +47,10 @@ const expertiseItems = [
             "SEO technique",
             "Mise en ligne",
         ],
-        visualItems: [
-            "Structure de l'offre",
-            "Parcours de conversion",
-            "Sections clés",
-            "Formulaire de contact",
-        ],
     },
     {
         id: "refonte",
         label: "Refonte web",
-        href: "/services/refonte-site-internet",
         icon: "refresh",
         title: "Repenser ce qui freine votre site actuel",
         description: [
@@ -74,17 +63,10 @@ const expertiseItems = [
             "Performance",
             "Redirections utiles",
         ],
-        visualItems: [
-            "Audit de l'existant",
-            "Nouvelle hiérarchie",
-            "Pages à conserver",
-            "Plan de migration",
-        ],
     },
     {
         id: "front-end",
         label: "Renfort front-end",
-        href: "/services/developpeur-web-freelance",
         icon: "code",
         title: "Intégrer et faire évoluer vos interfaces",
         description: [
@@ -96,12 +78,6 @@ const expertiseItems = [
             "Astro / React",
             "Accessibilité",
             "Animations sobres",
-        ],
-        visualItems: [
-            "Composants UI",
-            "États interactifs",
-            "Responsive précis",
-            "Qualité front-end",
         ],
     },
 ] as const;
@@ -151,16 +127,15 @@ const displayedTestimonials = temoignages
                 data-animated-title
             >
                 {
-                    heroTitleWords.map((word, index) => (
+                    heroTitleParts.map((part, index) => (
                         <span
                             class:list={[
-                                highlightedHeroWords.has(word) &&
-                                    "text-blue-500",
+                                part.pill && "hero-title-pill",
                             ]}
                             style={`--animated-word-index: ${index}`}
                             data-animated-title-word
                         >
-                            {word}
+                            {part.text}
                         </span>
                     ))
                 }
@@ -262,10 +237,6 @@ const displayedTestimonials = temoignages
             title="Des expertises maîtrisées pour faire avancer votre projet web"
             description="Du cadrage à l'exécution, chaque accompagnement sert un objectif simple : clarifier votre offre, soigner l'expérience et livrer une base solide."
             items={expertiseItems}
-            actions={[
-                { href: "/services", label: "Voir tous les services" },
-                { href: "/tarifs", label: "Comprendre les tarifs" },
-            ]}
         />
     </AboutCallout>
     <section id="projects" class="project-showcase md:mt-20" data-project-showcase>
@@ -561,6 +532,16 @@ const displayedTestimonials = temoignages
 
     [data-animated-title-word] {
         display: inline-block;
+    }
+
+    .hero-title-pill {
+        background: var(--color-blue-500);
+        border-radius: 999em;
+        box-shadow: 0 0.18em 0.42em -0.3em rgba(62, 96, 212, 0.56);
+        color: var(--color-snow-50);
+        line-height: 1;
+        margin-inline: 0.04em;
+        padding: 0 0.28em 0.07em;
     }
 
     .testimonial-rotator {

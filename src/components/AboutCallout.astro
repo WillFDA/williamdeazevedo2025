@@ -31,23 +31,27 @@ const aboutPoints = [
 ---
 
 <section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-3xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-4xl md:py-28">
-    <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-10 px-4 sm:gap-14 sm:px-8 md:gap-16">
+    <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-8 px-4 sm:gap-10 sm:px-8 md:gap-12">
         <h2 class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-[0.18em] text-center text-3xl font-medium leading-tighter tracking-normal text-snow-50 sm:text-4xl md:text-6xl">
             {
                 titleWords.map((word, index) => {
                     const cleanWord = word.replace("\u00A0", " ");
+                    const normalizedWord = cleanWord
+                        .replace(/[,.!]+$/, "")
+                        .trim();
                     const isWilliam = cleanWord === "William,";
-                    const isHighlighted =
-                        cleanWord === "design !" ||
-                        cleanWord.replace(/[,.!]+$/, "") === "design";
+                    const isPill =
+                        normalizedWord === "développeur" ||
+                        normalizedWord === "design";
 
                     return (
                         <span
                             class:list={[
                                 "about-callout-title-word",
+                                isPill && "about-callout-title-word--pill",
                                 isWilliam &&
                                     "about-callout-title-word--with-avatar",
-                                isHighlighted ? "text-blue-400" : "text-snow-50",
+                                "text-snow-50",
                             ]}
                             style={`--about-callout-word-index: ${index}`}
                         >
@@ -177,7 +181,7 @@ const aboutPoints = [
             }
         </ul>
         <button
-            class="about-callout-cta mx-auto inline-flex min-h-[3.25rem] w-fit max-w-full items-center justify-center gap-3 rounded-xl px-7 py-2.5 text-md font-regular focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
+            class="about-callout-cta mx-auto inline-flex min-h-[3.75rem] w-fit max-w-full items-center justify-center gap-3.5 rounded-[1.4rem] px-8 py-3 text-md font-regular focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
             data-cal-location="about"
             data-cal-open
             type="button"
@@ -214,6 +218,16 @@ const aboutPoints = [
     .about-callout-title-word--with-avatar {
         align-items: center;
         display: inline-flex;
+    }
+
+    .about-callout-title-word--pill {
+        background: var(--color-blue-500);
+        border-radius: 999em;
+        box-shadow: 0 0.18em 0.42em -0.3em rgba(62, 96, 212, 0.56);
+        color: var(--color-snow-50);
+        line-height: 1.08;
+        margin-inline: 0.04em;
+        padding: 0.02em 0.28em 0.08em;
     }
 
     .about-callout-avatar {
@@ -294,19 +308,19 @@ const aboutPoints = [
         border: 0;
         color: var(--color-snow-50);
         isolation: isolate;
+        overflow: hidden;
         position: relative;
         text-decoration: none;
     }
 
     .about-callout-cta::before {
         background: var(--color-blue-500);
-        border: 0.5px solid rgba(184, 200, 255, 0.38);
+        border: 1px solid color-mix(in srgb, var(--color-blue-500) 68%, #142352);
         border-radius: inherit;
         box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.3),
-            inset 0 -1px 0 rgba(31, 54, 130, 0.18),
-            0 20px 46px -28px rgba(141, 165, 247, 0.74),
-            0 8px 20px -16px rgba(62, 96, 212, 0.72);
+            0 4px 10px rgba(62, 96, 212, 0.26),
+            0 4px 10px rgba(0, 0, 0, 0.18),
+            inset 0 2px 0 rgba(255, 255, 255, 0.18);
         content: "";
         inset: 0;
         pointer-events: none;
@@ -322,11 +336,10 @@ const aboutPoints = [
     .about-callout-cta:hover::before,
     .about-callout-cta:focus-visible::before {
         box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.34),
-            inset 0 -1px 0 rgba(31, 54, 130, 0.16),
-            0 22px 52px -28px rgba(141, 165, 247, 0.84),
-            0 10px 24px -16px rgba(62, 96, 212, 0.76);
-        transform: scale(0.95);
+            0 5px 14px rgba(62, 96, 212, 0.32),
+            0 5px 12px rgba(0, 0, 0, 0.2),
+            inset 0 2px 0 rgba(255, 255, 255, 0.22);
+        transform: scale(0.97);
     }
 
     .about-callout-cta:hover .about-callout-cta__icon,
