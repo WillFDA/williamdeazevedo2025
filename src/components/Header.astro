@@ -8,8 +8,12 @@ interface Props {
 const { pathName } = Astro.props;
 const navItems = [
     { href: "/", id: "home", label: "Accueil" },
+    { href: "/services", id: "services", label: "Services" },
+    { href: "/realisations", id: "realisations", label: "Réalisations" },
+    { href: "/tarifs", id: "tarifs", label: "Tarifs" },
+    { href: "/methode", id: "methode", label: "Méthode" },
     { href: "/about", id: "about", label: "À propos" },
-    { href: "/articles", id: "articles", label: "Articles" },
+    { href: "/contact", id: "contact", label: "Contact" },
 ];
 const currentPath = pathName.replace(/\/$/, "") || "/";
 const items = navItems.map((item) => ({
@@ -85,7 +89,7 @@ const items = navItems.map((item) => ({
     }
 
     .nav-link__active-bg {
-        background: #e8e5e8;
+        background: var(--color-snow-600);
         border-radius: 9999px;
         inset: 0;
         position: absolute;

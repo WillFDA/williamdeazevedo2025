@@ -10,6 +10,7 @@ import { Image } from "astro:assets";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
 import { homeProjects } from "../data/projects";
+import { services } from "../data/services";
 import { temoignages } from "../data/temoignage";
 
 export const prerender = true;
@@ -51,12 +52,28 @@ const displayedTestimonials = temoignages
 <Layout>
     <section class="mx-auto w-full max-w-[calc(100vw-1rem)] px-2 sm:max-w-5xl sm:px-4">
         <div class="flex min-w-0 flex-col gap-6">
-            <p
-                class="mx-auto w-fit max-w-[calc(100vw-1rem)] overflow-hidden text-ellipsis whitespace-nowrap rounded-xl bg-blue-500 px-3 py-1.5 text-center text-xs font-light leading-tight text-snow-50 shadow-[0_10px_18px_-8px_rgba(37,99,235,0.85)] ring-1 ring-blue-400/70 sm:px-4 sm:text-sm md:text-base"
+            <a
+                aria-label="Avis Google : 5 étoiles sur 5"
+                class="mx-auto inline-flex max-w-[calc(100vw-1rem)] items-center gap-2 rounded-xl bg-snow-50 px-3.5 py-2 text-sm font-normal leading-tight text-gray-900 no-underline shadow-[0_10px_22px_-16px_rgba(34,42,55,0.45)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 sm:text-base"
                 data-hero-eyebrow
+                href="https://share.google/LlCN4Hr5IlatyVSl2"
+                rel="noreferrer"
+                target="_blank"
             >
-                Freelance front-end orienté design et produit
-            </p>
+                <span>Avis Google</span>
+                <span class="inline-flex items-center gap-1.5 rounded-xl bg-blue-500 px-2.5 py-1 font-medium text-snow-50">
+                    <svg
+                        aria-hidden="true"
+                        class="size-4 text-snow-50"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path d="M10 1.7 12.5 7l5.8.7-4.3 4 1.1 5.7L10 14.6l-5.1 2.8L6 11.7l-4.3-4L7.5 7 10 1.7Z" />
+                    </svg>
+                    <span>5.0</span>
+                </span>
+            </a>
             <h1
                 class="mx-auto flex w-full max-w-[22rem] flex-wrap justify-center gap-x-[0.18em] px-2 text-center text-4xl font-medium leading-tighter tracking-normal text-gray-900 sm:max-w-4xl sm:text-5xl md:max-w-5xl md:text-7xl"
                 data-animated-title
@@ -88,7 +105,7 @@ const displayedTestimonials = temoignages
             <FadeReveal delay={0.44}>
                 <div class="mx-auto flex w-full max-w-[22rem] flex-col items-center justify-center gap-3 sm:max-w-none sm:flex-row sm:gap-8">
                     <button
-                        class="hero-button hero-button--primary font-regular flex h-12 w-full max-w-full items-center justify-center rounded-xl px-5 py-1.5 text-md sm:w-auto sm:px-6"
+                        class="hero-button hero-button--primary font-regular flex min-h-14 w-full max-w-full items-center justify-center gap-5 rounded-xl px-8 py-3 text-md sm:w-auto sm:px-10"
                         data-cal-location="hero"
                         data-cal-open
                         type="button"
@@ -105,7 +122,7 @@ const displayedTestimonials = temoignages
                         </WaveIcon>
                     </button>
                     <a
-                        class="hero-button hero-button--secondary font-regular flex h-12 w-full max-w-full items-center justify-center rounded-xl px-5 py-1.5 text-md sm:w-auto sm:px-6"
+                        class="hero-button hero-button--secondary font-regular flex min-h-14 w-full max-w-full items-center justify-center rounded-xl px-8 py-3 text-md sm:w-auto sm:px-10"
                         href="#projects"
                         ><WaveText
                             text="Voir mes réalisations"
@@ -168,7 +185,56 @@ const displayedTestimonials = temoignages
             </FadeReveal>
         </div>
     </section>
-    <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !" />
+    <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !">
+        <section class="flex w-full flex-col gap-6 border-t border-[rgba(255,255,255,0.12)] pt-10 sm:pt-14">
+            <div class="mx-auto flex max-w-2xl flex-col items-center gap-3 text-center">
+                <p class="w-fit rounded-lg bg-blue-500 px-3 py-1.5 text-xs font-light text-snow-50">
+                    Services
+                </p>
+                <h2 class="text-2xl font-medium leading-tight text-snow-50 sm:text-3xl">
+                    Trois portes d'entrée selon votre situation
+                </h2>
+                <p class="text-sm font-light leading-6 text-snow-100">
+                    Création, refonte ou renfort front-end : le bon accompagnement
+                    dépend surtout du point de départ et de l'objectif commercial.
+                </p>
+            </div>
+            <div class="grid gap-4 md:grid-cols-3">
+                {
+                    services.map((service) => (
+                        <a
+                            class="group flex h-full flex-col gap-4 rounded-lg bg-[rgba(255,255,255,0.05)] p-5 ring-1 ring-[rgba(255,255,255,0.14)] transition-colors hover:bg-[rgba(255,255,255,0.08)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                            href={`/services/${service.slug}`}
+                        >
+                            <p class="text-xs font-light uppercase tracking-[0.12em] text-blue-400">
+                                {service.eyebrow}
+                            </p>
+                            <h3 class="text-lg font-medium leading-tight text-snow-50 transition-colors group-hover:text-blue-400">
+                                {service.title}
+                            </h3>
+                            <p class="text-sm font-light leading-6 text-snow-100">
+                                {service.intro}
+                            </p>
+                        </a>
+                    ))
+                }
+            </div>
+            <div class="flex flex-wrap justify-center gap-3">
+                <a
+                    class="text-sm font-normal text-snow-50 underline decoration-[rgba(255,255,255,0.35)] underline-offset-4 transition-colors hover:text-blue-400 focus-visible:text-blue-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                    href="/services"
+                >
+                    Voir tous les services
+                </a>
+                <a
+                    class="text-sm font-normal text-snow-50 underline decoration-[rgba(255,255,255,0.35)] underline-offset-4 transition-colors hover:text-blue-400 focus-visible:text-blue-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                    href="/tarifs"
+                >
+                    Comprendre les tarifs
+                </a>
+            </div>
+        </section>
+    </AboutCallout>
     <section id="projects" class="project-showcase md:mt-20" data-project-showcase>
         <div class="project-copy mx-auto max-w-5xl px-2 pb-10 sm:px-4">
             {
@@ -184,6 +250,7 @@ const displayedTestimonials = temoignages
                         inert={index === 0 ? undefined : true}
                     >
                         <ProjectIntro
+                            detailsHref={`/realisations/${project.id}`}
                             href={project.href}
                             title={project.title}
                         >
@@ -530,16 +597,16 @@ const displayedTestimonials = temoignages
     .testimonial-avatar {
         align-items: center;
         aspect-ratio: 1;
-        background: #e8e5e8;
+        background: var(--color-snow-600);
         border-radius: 9999px;
-        color: #141016;
+        color: var(--color-gray-900);
         display: inline-flex;
         font-size: 0.8rem;
         font-weight: 500;
-        height: 3.25rem;
+        height: 2.5rem;
         justify-content: center;
         overflow: hidden;
-        width: 3.25rem;
+        width: 2.5rem;
     }
 
     .testimonial-avatar__image {
@@ -550,7 +617,7 @@ const displayedTestimonials = temoignages
     }
 
     .testimonial-rotator figcaption {
-        color: #141016;
+        color: var(--color-gray-900);
         font-size: 0.875rem;
         font-weight: 500;
         line-height: 1.2;
@@ -562,12 +629,13 @@ const displayedTestimonials = temoignages
         text-underline-offset: 0.2em;
     }
 
+    .testimonial-rotator__link:hover,
     .testimonial-rotator__link:focus-visible {
         text-decoration: underline;
     }
 
     .testimonial-rotator blockquote {
-        color: #141016;
+        color: var(--color-gray-900);
         font-size: 0.875rem;
         font-weight: 300;
         line-height: 1.35;
@@ -691,8 +759,8 @@ const displayedTestimonials = temoignages
     .project-placeholder {
         align-items: center;
         aspect-ratio: 16 / 9;
-        background: #e8e5e8;
-        color: rgb(63 63 70);
+        background: var(--color-snow-600);
+        color: var(--color-gray-700);
         display: flex;
         font-size: clamp(2rem, 6vw, 5rem);
         font-weight: 500;
@@ -702,7 +770,7 @@ const displayedTestimonials = temoignages
     }
 
     .hero-button {
-        --hero-button-bg: #e8e5e8;
+        --hero-button-bg: var(--color-snow-600);
         --hero-button-border: transparent;
         --hero-button-color: var(--color-coffee-300);
 
@@ -739,11 +807,11 @@ const displayedTestimonials = temoignages
     .hero-button--primary {
         --hero-button-bg: var(--color-coffee-300);
         --hero-button-border: var(--color-coffee-300);
-        --hero-button-color: #eef5ff;
+        --hero-button-color: var(--color-snow-50);
     }
 
     .hero-button--secondary {
-        --hero-button-bg: #e8e5e8;
+        --hero-button-bg: var(--color-snow-600);
     }
 
     @media (prefers-reduced-motion: reduce) {

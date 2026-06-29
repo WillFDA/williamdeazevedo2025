@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets";
-import AboutLogoMatrix from "./AboutLogoMatrix.astro";
 import williamPortrait from "../assets/williamdeazevedo.webp";
 
 interface Props {
@@ -25,8 +24,7 @@ const aboutPoints = [
 ];
 ---
 
-<section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-2xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-3xl md:py-28">
-    <AboutLogoMatrix />
+<section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-3xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-4xl md:py-28">
     <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-10 px-4 sm:gap-14 sm:px-8 md:gap-16">
         <h2 class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-[0.18em] text-center text-3xl font-medium leading-tighter tracking-normal text-snow-50 sm:text-4xl md:text-6xl">
             {
@@ -166,7 +164,7 @@ const aboutPoints = [
             }
         </ul>
         <button
-            class="about-callout-cta mx-auto inline-flex h-12 items-center justify-center gap-3 rounded-xl px-6 text-md font-regular focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
+            class="about-callout-cta mx-auto inline-flex min-h-[3.25rem] w-fit max-w-full items-center justify-center gap-3 rounded-xl px-7 py-2.5 text-md font-regular focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
             data-cal-location="about"
             data-cal-open
             type="button"
@@ -188,6 +186,7 @@ const aboutPoints = [
             </svg>
             <span>Me contacter</span>
         </button>
+        <slot />
     </div>
 </section>
 
@@ -207,7 +206,7 @@ const aboutPoints = [
     .about-callout-avatar {
         align-self: center;
         aspect-ratio: 1;
-        background: #e8e5e8;
+        background: var(--color-snow-600);
         border: 0.06em solid #fff;
         border-radius: 9999px;
         box-shadow:
@@ -215,7 +214,7 @@ const aboutPoints = [
             0 4px 14px rgba(0, 0, 0, 0.24);
         display: inline-flex;
         height: 1.08em;
-        margin-inline: -0.05em;
+        margin-inline: 0.08em;
         overflow: hidden;
     }
 
@@ -236,7 +235,11 @@ const aboutPoints = [
     }
 
     .about-callout-cta::before {
-        background: linear-gradient(180deg, #f3f4f6 0%, #ffffff 100%);
+        background: linear-gradient(
+            180deg,
+            var(--color-snow-200) 0%,
+            var(--color-snow-50) 100%
+        );
         border: 0.5px solid var(--color-snow-600);
         border-radius: inherit;
         box-shadow:

@@ -31,7 +31,7 @@ export const homeProjects: Project[] = [
     title: "SARL LE FELLIC",
     href: "https://lefellic.fr/",
     summary:
-      "Site vitrine one-page pour une entreprise de maîtrise d'oeuvre à Rennes, pensé pour clarifier l'offre, rassurer une cible B2B et générer des demandes qualifiées via un formulaire sécurisé.",
+      "Site vitrine one-page pour une entreprise de maîtrise d'oeuvre à Rennes, pensé pour clarifier l'offre, rassurer une cible B2B et faciliter la prise de contact via un formulaire sécurisé.",
     stack: [
       "Astro 6",
       "TypeScript",

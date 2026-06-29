@@ -11,6 +11,7 @@ const calLink = String(
     aria-label="Planifier un créneau"
     class="cal-drawer"
     data-cal-drawer
+    id="cal-drawer"
     transition:persist
 >
     <div class="cal-drawer__header">
@@ -114,16 +115,16 @@ const calLink = String(
         window.Cal("ui", {
             cssVarsPerTheme: {
                 dark: {
-                    "cal-bg": "#141016",
-                    "cal-bg-muted": "#171219",
-                    "cal-bg-subtle": "#1f1822",
-                    "cal-border": "#2a2230",
-                    "cal-border-subtle": "#2a2230",
+                    "cal-bg": "#151c27",
+                    "cal-bg-muted": "#1b2230",
+                    "cal-bg-subtle": "#222a37",
+                    "cal-border": "#2f3642",
+                    "cal-border-subtle": "#2f3642",
                 },
             },
             styles: {
-                body: { background: "#141016" },
-                eventTypeListItem: { background: "#1f1822" },
+                body: { background: "#151c27" },
+                eventTypeListItem: { background: "#222a37" },
             },
             theme: "dark",
         });
@@ -247,7 +248,7 @@ const calLink = String(
     }
 
     .cal-drawer {
-        background: #141016;
+        background: var(--color-coffee-700);
         border: 0;
         border-radius: 8px;
         color: var(--color-snow-50);
@@ -264,7 +265,7 @@ const calLink = String(
 
     .cal-drawer::backdrop {
         backdrop-filter: blur(5px);
-        background: rgb(232 229 232 / 0.48);
+        background: rgb(211 214 218 / 0.48);
     }
 
     .cal-drawer[open] {
@@ -381,22 +382,22 @@ const calLink = String(
     @keyframes cal-backdrop-in {
         from {
             backdrop-filter: blur(0);
-            background: rgb(232 229 232 / 0);
+            background: rgb(211 214 218 / 0);
         }
         to {
             backdrop-filter: blur(5px);
-            background: rgb(232 229 232 / 0.48);
+            background: rgb(211 214 218 / 0.48);
         }
     }
 
     @keyframes cal-backdrop-out {
         from {
             backdrop-filter: blur(5px);
-            background: rgb(232 229 232 / 0.48);
+            background: rgb(211 214 218 / 0.48);
         }
         to {
             backdrop-filter: blur(0);
-            background: rgb(232 229 232 / 0);
+            background: rgb(211 214 218 / 0);
         }
     }
 

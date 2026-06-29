@@ -57,6 +57,33 @@ const pictures = [
         src: desktopPicture,
     },
 ];
+
+const clientAngles = [
+    {
+        title: "Ce que le design apporte",
+        items: [
+            "hiérarchie visuelle plus lisible",
+            "interfaces plus faciles à comprendre",
+            "cohérence entre marque, contenu et action",
+        ],
+    },
+    {
+        title: "Ma manière de travailler",
+        items: [
+            "écoute et pédagogie",
+            "décisions expliquées simplement",
+            "solutions sobres plutôt que complexité gratuite",
+        ],
+    },
+    {
+        title: "Les projets où je suis utile",
+        items: [
+            "sites vitrines et refontes",
+            "interfaces produit et front-end",
+            "projets avec un enjeu de clarté et de conversion",
+        ],
+    },
+];
 ---
 
 <Layout
@@ -115,6 +142,25 @@ const pictures = [
                     réellement utile.
                 </p>
             </div>
+        </section>
+
+        <section class="grid gap-4 md:grid-cols-3">
+            {
+                clientAngles.map((angle) => (
+                    <article class="rounded-lg bg-snow-50 p-5 ring-1 ring-snow-600">
+                        <h2 class="mb-4 text-lg font-medium leading-tight text-gray-900">
+                            {angle.title}
+                        </h2>
+                        <ul class="flex flex-col gap-3">
+                            {angle.items.map((item) => (
+                                <li class="text-sm font-light leading-6 text-gray-600">
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </article>
+                ))
+            }
         </section>
 
         <AboutCallout title="Je relie mon œil design au code pour créer des interfaces utiles." />

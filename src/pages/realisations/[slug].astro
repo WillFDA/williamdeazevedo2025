@@ -1,0 +1,281 @@
+---
+import CalButton from "@/components/CalButton.astro";
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import {
+    type CaseStudy,
+    caseStudies,
+} from "@/data/caseStudies";
+import { homeProjects } from "@/data/projects";
+import Layout from "@/layout/Layout.astro";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+    return caseStudies.map((caseStudy) => ({
+        params: { slug: caseStudy.slug },
+        props: { caseStudy },
+    }));
+}
+
+interface Props {
+    caseStudy: CaseStudy;
+}
+
+const { caseStudy } = Astro.props;
+const project = homeProjects.find((item) => item.id === caseStudy.projectId);
+
+if (!project) {
+    throw new Error(`Projet introuvable pour ${caseStudy.slug}`);
+}
+
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = new URL(`/realisations/${caseStudy.slug}`, siteUrl);
+
+const creativeWorkJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: caseStudy.title,
+    headline: caseStudy.h1,
+    description: caseStudy.description,
+    inLanguage: "fr-FR",
+    url: canonicalUrl.href,
+    mainEntityOfPage: canonicalUrl.href,
+    workExample: project.href,
+    creator: {
+        "@type": "Person",
+        name: "William De Azevedo",
+        url: siteUrl.href,
+    },
+};
+
+const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+        {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: siteUrl.href,
+        },
+        {
+            "@type": "ListItem",
+            position: 2,
+            name: "Réalisations",
+            item: new URL("/realisations", siteUrl).href,
+        },
+        {
+            "@type": "ListItem",
+            position: 3,
+            name: project.title,
+            item: canonicalUrl.href,
+        },
+    ],
+};
+---
+
+<Layout title={`${caseStudy.seoTitle} - William De Azevedo`} description={caseStudy.description}>
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(creativeWorkJsonLd)}
+    />
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(breadcrumbJsonLd)}
+    />
+
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 pb-20">
+        <FadeReveal delay={0.1}>
+            <section class="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
+                <a
+                    class="text-sm font-light text-gray-500 transition-colors hover:text-gray-900 focus-visible:text-gray-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                    href="/realisations"
+                >
+                    Toutes les réalisations
+                </a>
+                <p class="w-fit rounded-lg bg-blue-500 px-3 py-1.5 text-xs font-light text-snow-50">
+                    {caseStudy.serviceLabel}
+                </p>
+                <h1 class="text-3xl font-medium leading-tight text-gray-900 sm:text-5xl md:text-6xl">
+                    {caseStudy.h1}
+                </h1>
+                <p class="max-w-2xl text-base font-light leading-7 text-gray-600">
+                    {caseStudy.description}
+                </p>
+                <div class="flex flex-col items-center gap-3 sm:flex-row">
+                    <a
+                        class="flex min-h-14 items-center justify-center rounded-xl bg-coffee-300 px-8 py-3 text-sm font-normal text-snow-50 transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                        href={caseStudy.serviceHref}
+                    >
+                        {caseStudy.serviceLabel}
+                    </a>
+                    <a
+                        class="flex min-h-14 items-center justify-center rounded-xl px-8 py-3 text-sm font-normal text-gray-900 ring-1 ring-gray-200 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                        href={project.href}
+                        rel="noreferrer"
+                        target="_blank"
+                    >
+                        Voir le site
+                    </a>
+                </div>
+            </section>
+        </FadeReveal>
+
+        {
+            project.media.type === "video" && (
+                <video
+                    muted
+                    playsinline
+                    loop
+                    controls
+                    preload="metadata"
+                    poster={project.media.poster}
+                    aria-label={`Démonstration vidéo du projet ${project.title}`}
+                    class="aspect-video w-full rounded-lg object-cover ring-1 ring-snow-600"
+                >
+                    <source src={project.media.src} type="video/mp4" />
+                </video>
+            )
+        }
+
+        <section class="grid gap-4 md:grid-cols-3">
+            <article class="rounded-lg bg-snow-50 p-5 ring-1 ring-snow-600 md:col-span-2">
+                <h2 class="mb-3 text-2xl font-medium leading-tight text-gray-900">
+                    Le projet
+                </h2>
+                <p class="text-sm font-light leading-6 text-gray-600">
+                    {project.caseStudy.overview}
+                </p>
+            </article>
+            <article class="rounded-lg bg-gray-100 p-5 ring-1 ring-gray-200">
+                <h2 class="mb-3 text-lg font-medium leading-tight text-gray-900">
+                    Mon rôle
+                </h2>
+                <p class="text-sm font-light leading-6 text-gray-600">
+                    {caseStudy.role}
+                </p>
+            </article>
+        </section>
+
+        <section class="grid gap-8 md:grid-cols-2">
+            <article class="flex flex-col gap-4">
+                <h2 class="text-2xl font-medium leading-tight text-gray-900">
+                    Situation initiale
+                </h2>
+                <ul class="flex flex-col gap-3">
+                    {
+                        caseStudy.situation.map((item) => (
+                            <li class="rounded-lg bg-snow-50 px-4 py-3 text-sm font-light leading-6 text-gray-600 ring-1 ring-snow-600">
+                                {item}
+                            </li>
+                        ))
+                    }
+                </ul>
+            </article>
+            <article class="flex flex-col gap-4">
+                <h2 class="text-2xl font-medium leading-tight text-gray-900">
+                    Objectifs
+                </h2>
+                <ul class="flex flex-col gap-3">
+                    {
+                        caseStudy.goals.map((item) => (
+                            <li class="rounded-lg bg-snow-50 px-4 py-3 text-sm font-light leading-6 text-gray-600 ring-1 ring-snow-600">
+                                {item}
+                            </li>
+                        ))
+                    }
+                </ul>
+            </article>
+        </section>
+
+        <section class="flex flex-col gap-6">
+            <div class="flex flex-col gap-3 md:max-w-2xl">
+                <h2 class="text-2xl font-medium leading-tight text-gray-900">
+                    Réponse apportée
+                </h2>
+                <p class="text-sm font-light leading-6 text-gray-600">
+                    Une étude de cas utile doit montrer les décisions, pas seulement
+                    une capture ou une stack.
+                </p>
+            </div>
+            <div class="grid gap-4 md:grid-cols-3">
+                {
+                    caseStudy.choices.map((choice) => (
+                        <article class="rounded-lg bg-gray-100 p-5 ring-1 ring-gray-200">
+                            <h3 class="mb-2 text-lg font-medium leading-tight text-gray-900">
+                                {choice.title}
+                            </h3>
+                            <p class="text-sm font-light leading-6 text-gray-600">
+                                {choice.text}
+                            </p>
+                        </article>
+                    ))
+                }
+            </div>
+        </section>
+
+        <section class="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-start">
+            <div class="flex flex-col gap-4">
+                <h2 class="text-2xl font-medium leading-tight text-gray-900">
+                    Résultat observable
+                </h2>
+                <p class="text-sm font-light leading-6 text-gray-600">
+                    Je reste volontairement sobre sur les résultats : pas de chiffre
+                    inventé, seulement ce qui est vérifiable sur le projet.
+                </p>
+            </div>
+            <ul class="grid gap-3">
+                {
+                    caseStudy.results.map((item) => (
+                        <li class="rounded-lg bg-snow-50 px-4 py-3 text-sm font-light leading-6 text-gray-600 ring-1 ring-snow-600">
+                            {item}
+                        </li>
+                    ))
+                }
+            </ul>
+        </section>
+
+        <section class="grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
+            <article class="rounded-lg bg-coffee-300 p-6 text-snow-50 sm:p-8">
+                <h2 class="mb-3 text-2xl font-medium leading-tight">
+                    Ce que ce projet démontre
+                </h2>
+                <p class="text-sm font-light leading-6 text-snow-100">
+                    {caseStudy.takeaway}
+                </p>
+            </article>
+            <article class="rounded-lg bg-gray-100 p-6 ring-1 ring-gray-200">
+                <h2 class="mb-4 text-lg font-medium leading-tight text-gray-900">
+                    Stack utilisée
+                </h2>
+                <ul class="flex flex-wrap gap-2">
+                    {
+                        project.stack.map((item) => (
+                            <li class="rounded-full bg-snow-50 px-3 py-1 text-xs font-light text-gray-700 ring-1 ring-snow-600">
+                                {item}
+                            </li>
+                        ))
+                    }
+                </ul>
+            </article>
+        </section>
+
+        <section class="rounded-lg bg-snow-50 p-6 text-center ring-1 ring-snow-600 sm:p-8">
+            <div class="mx-auto flex max-w-2xl flex-col items-center gap-4">
+                <h2 class="text-2xl font-medium leading-tight text-gray-900">
+                    Vous avez un besoin similaire ?
+                </h2>
+                <p class="text-sm font-light leading-6 text-gray-600">
+                    Un échange de 15 minutes permet de comprendre votre situation et
+                    de vérifier si mon accompagnement est adapté.
+                </p>
+                <CalButton
+                    class="rounded-xl font-regular text-md"
+                    location={`realisation-${caseStudy.slug}-final`}
+                />
+            </div>
+        </section>
+    </div>
+</Layout>

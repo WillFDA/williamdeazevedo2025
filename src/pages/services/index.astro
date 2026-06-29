@@ -1,0 +1,142 @@
+---
+import CalButton from "@/components/CalButton.astro";
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import { homeProjects } from "@/data/projects";
+import { services } from "@/data/services";
+import Layout from "@/layout/Layout.astro";
+
+export const prerender = true;
+---
+
+<Layout
+    title="Services web freelance - William De Azevedo"
+    description="Création de site vitrine, refonte de site internet et développement front-end freelance pour construire des interfaces claires, rapides et maintenables."
+>
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 pb-20">
+        <FadeReveal delay={0.1}>
+            <section class="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
+                <p class="w-fit rounded-lg bg-blue-500 px-3 py-1.5 text-xs font-light text-snow-50">
+                    Services
+                </p>
+                <h1 class="text-3xl font-medium leading-tight text-gray-900 sm:text-5xl md:text-6xl">
+                    Création, refonte et développement de sites web rapides et soignés
+                </h1>
+                <p class="max-w-2xl text-base font-light leading-7 text-gray-600">
+                    J'accompagne les indépendants, petites entreprises et équipes
+                    produit dans la conception d'interfaces claires, performantes
+                    et faciles à maintenir.
+                </p>
+                <CalButton class="rounded-xl font-regular text-md" location="services-hero" />
+            </section>
+        </FadeReveal>
+
+        <section class="grid gap-4 md:grid-cols-3" aria-label="Situations fréquentes">
+            {
+                services.map((service, index) => (
+                    <FadeReveal delay={0.14 + index * 0.08}>
+                        <article class="flex h-full flex-col gap-5 rounded-lg bg-snow-50 p-5 ring-1 ring-snow-600">
+                            <div class="flex flex-col gap-3">
+                                <p class="text-xs font-light uppercase tracking-[0.12em] text-blue-500">
+                                    {service.eyebrow}
+                                </p>
+                                <h2 class="text-xl font-medium leading-tight text-gray-900">
+                                    {service.title}
+                                </h2>
+                                <p class="text-sm font-light leading-6 text-gray-600">
+                                    {service.intro}
+                                </p>
+                            </div>
+                            <a
+                                class="mt-auto text-sm font-normal text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                href={`/services/${service.slug}`}
+                            >
+                                Découvrir {service.navLabel.toLowerCase()}
+                            </a>
+                        </article>
+                    </FadeReveal>
+                ))
+            }
+        </section>
+
+        <section class="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-start">
+            <div class="flex flex-col gap-3">
+                <h2 class="text-2xl font-medium leading-tight text-gray-900">
+                    Ce que chaque accompagnement garde en commun
+                </h2>
+                <p class="text-sm font-light leading-6 text-gray-600">
+                    Le format change selon votre situation, mais le socle reste le
+                    même : clarifier, structurer, concevoir, développer et vérifier
+                    avant la mise en ligne.
+                </p>
+            </div>
+            <ul class="grid gap-3 sm:grid-cols-2">
+                {
+                    [
+                        "Cadrage des objectifs",
+                        "Structure des pages",
+                        "Design responsive",
+                        "Développement front-end",
+                        "Accessibilité et performance",
+                        "SEO technique initial",
+                        "Mise en ligne",
+                        "Suivi des conversions",
+                    ].map((item) => (
+                        <li class="rounded-lg bg-gray-100 px-4 py-3 text-sm font-light text-gray-800 ring-1 ring-gray-200">
+                            {item}
+                        </li>
+                    ))
+                }
+            </ul>
+        </section>
+
+        <section class="flex flex-col gap-6">
+            <div class="flex flex-col gap-3 md:max-w-2xl">
+                <h2 class="text-2xl font-medium leading-tight text-gray-900">
+                    Des preuves avant les promesses
+                </h2>
+                <p class="text-sm font-light leading-6 text-gray-600">
+                    Les projets ci-dessous montrent différentes manières de relier
+                    contenu, design, technique et conversion.
+                </p>
+            </div>
+            <div class="grid gap-4 md:grid-cols-3">
+                {
+                    homeProjects.map((project) => (
+                        <article class="flex h-full flex-col gap-4 rounded-lg bg-snow-50 p-5 ring-1 ring-snow-600">
+                            <h3 class="text-lg font-medium leading-tight text-gray-900">
+                                {project.title}
+                            </h3>
+                            <p class="text-sm font-light leading-6 text-gray-600">
+                                {project.summary}
+                            </p>
+                            <a
+                                class="mt-auto text-sm font-normal text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                href={`/realisations/${project.id}`}
+                            >
+                                Voir l'étude de cas
+                            </a>
+                        </article>
+                    ))
+                }
+            </div>
+        </section>
+
+        <section class="rounded-lg bg-coffee-300 p-6 text-snow-50 sm:p-8">
+            <div class="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
+                <h2 class="text-2xl font-medium leading-tight">
+                    Vous ne savez pas encore quel format choisir ?
+                </h2>
+                <p class="text-sm font-light leading-6 text-snow-100">
+                    Un échange de 15 minutes suffit souvent à distinguer une
+                    création, une refonte, une landing page ou une simple
+                    amélioration ciblée.
+                </p>
+                <CalButton
+                    class="rounded-xl font-regular text-md"
+                    location="services-final"
+                    variant="light"
+                />
+            </div>
+        </section>
+    </div>
+</Layout>
