@@ -1,4 +1,5 @@
 ---
+import { services } from "../data/services";
 import WaveText from "./ui/WaveText.astro";
 
 interface Props {
@@ -10,6 +11,7 @@ const navItems = [
     { href: "/", id: "home", label: "Accueil" },
     { href: "/services", id: "services", label: "Services" },
     { href: "/realisations", id: "realisations", label: "Réalisations" },
+    { href: "/articles", id: "articles", label: "Articles" },
     { href: "/tarifs", id: "tarifs", label: "Tarifs" },
     { href: "/methode", id: "methode", label: "Méthode" },
     { href: "/about", id: "about", label: "À propos" },
@@ -22,15 +24,20 @@ const items = navItems.map((item) => ({
         currentPath === item.href ||
         (item.href !== "/" && currentPath.startsWith(`${item.href}/`)),
 }));
+const serviceLinks = services.map((service) => ({
+    href: `/services/${service.slug}`,
+    label: service.navLabel,
+    title: service.title,
+}));
 ---
 
 <header class="w-full p-2 mb-12 sm:p-4">
     <nav
         aria-label="Navigation principale"
-        class="mx-auto flex max-w-5xl flex-col items-center gap-4 sm:flex-row sm:justify-between sm:p-4"
+        class="relative mx-auto flex max-w-5xl flex-col items-center gap-4 sm:min-h-10 sm:p-4"
     >
         <a
-            class="text-gray-900 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+            class="text-gray-900 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 sm:absolute sm:left-4 sm:top-1/2 sm:-translate-y-1/2"
             href="/"
             aria-label="William De Azevedo - Accueil"
         >
@@ -46,14 +53,17 @@ const items = navItems.map((item) => ({
             </svg>
         </a>
         <ul
-            class="relative flex flex-wrap gap-1 justify-center items-center text-sm font-light sm:gap-4 sm:text-base"
+            class="relative flex flex-wrap gap-1 justify-center items-center text-[10px] font-light sm:gap-3 sm:text-xs"
         >
             {
                 items.map((item) => (
-                    <li>
+                    <li class:list={[item.id === "services" && "nav-dropdown"]}>
                         <a
                             aria-current={item.active ? "page" : undefined}
-                            class="nav-link relative block px-3 py-2 sm:px-5 sm:py-3"
+                            class:list={[
+                                "nav-link relative flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5",
+                                item.id === "services" && "nav-link--dropdown",
+                            ]}
                             data-wui-wave-parent
                             href={item.href}
                         >
@@ -70,7 +80,63 @@ const items = navItems.map((item) => ({
                                 text={item.label}
                                 trigger="parent"
                             />
+                            {item.id === "services" && (
+                                <svg
+                                    aria-hidden="true"
+                                    class="nav-link__chevron relative z-10 size-3"
+                                    fill="none"
+                                    viewBox="0 0 16 16"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="m4 6 4 4 4-4"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="1.6"
+                                    />
+                                </svg>
+                            )}
                         </a>
+                        {item.id === "services" && (
+                            <div class="nav-dropdown__panel">
+                                <div class="nav-dropdown__content">
+                                    <a
+                                        aria-label="Voir tous les services"
+                                        class="nav-dropdown__media"
+                                        href="/services"
+                                    />
+                                    <div class="nav-dropdown__list">
+                                        <a
+                                            class="nav-dropdown__overview"
+                                            href="/services"
+                                        >
+                                            <span
+                                                class="nav-dropdown__icon"
+                                                aria-hidden="true"
+                                            />
+                                            <span class="nav-dropdown__label">
+                                                Tous les services
+                                            </span>
+                                        </a>
+                                        {serviceLinks.map((service) => (
+                                            <a
+                                                class="nav-dropdown__link"
+                                                href={service.href}
+                                            >
+                                                <span
+                                                    class="nav-dropdown__icon"
+                                                    aria-hidden="true"
+                                                />
+                                                <span class="nav-dropdown__label">
+                                                    {service.label}
+                                                </span>
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </li>
                 ))
             }
@@ -89,7 +155,7 @@ const items = navItems.map((item) => ({
     }
 
     .nav-link__active-bg {
-        background: var(--color-snow-600);
+        background: var(--color-snow-300);
         border-radius: 9999px;
         inset: 0;
         position: absolute;
@@ -111,8 +177,141 @@ const items = navItems.map((item) => ({
         outline-offset: 3px;
     }
 
+    .nav-link__chevron {
+        transition: transform 220ms cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .nav-dropdown {
+        position: relative;
+    }
+
+    .nav-dropdown:hover .nav-link__chevron,
+    .nav-dropdown:focus-within .nav-link__chevron {
+        transform: rotate(180deg);
+    }
+
+    .nav-dropdown__panel {
+        left: 50%;
+        min-width: min(36rem, calc(100vw - 2rem));
+        opacity: 0;
+        padding-top: 0.45rem;
+        pointer-events: none;
+        position: absolute;
+        top: 100%;
+        transform: translateX(-50%) translateY(-0.25rem) scale(0.98);
+        transform-origin: top center;
+        transition:
+            opacity 180ms cubic-bezier(0.2, 0, 0, 1),
+            transform 220ms cubic-bezier(0.2, 0, 0, 1);
+        z-index: 20;
+    }
+
+    .nav-dropdown__content {
+        background: var(--color-snow-50);
+        border-radius: 1rem;
+        box-shadow: 0 18px 44px -28px rgba(34, 42, 55, 0.45);
+        display: grid;
+        gap: 0.5rem;
+        grid-template-columns: minmax(9rem, 0.8fr) minmax(13rem, 1fr);
+        padding: 0.5rem;
+    }
+
+    .nav-dropdown:hover .nav-dropdown__panel,
+    .nav-dropdown:focus-within .nav-dropdown__panel {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    .nav-dropdown__overview,
+    .nav-dropdown__link {
+        border-radius: 0.75rem;
+        color: var(--color-gray-900);
+        text-decoration: none;
+        transition:
+            background-color 180ms cubic-bezier(0.2, 0, 0, 1),
+            transform 180ms cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .nav-dropdown__media {
+        background: var(--color-snow-600);
+        border-radius: 0.85rem;
+        min-height: 12rem;
+        transition: background-color 180ms cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .nav-dropdown__media:hover,
+    .nav-dropdown__media:focus-visible {
+        background: var(--color-snow-200);
+        outline: none;
+    }
+
+    .nav-dropdown__list {
+        display: grid;
+        gap: 0.25rem;
+    }
+
+    .nav-dropdown__overview,
+    .nav-dropdown__link {
+        align-items: center;
+        display: grid;
+        gap: 0.6rem;
+        grid-template-columns: 1.4rem 1fr;
+        padding: 0.7rem 0.85rem;
+    }
+
+    .nav-dropdown__overview {
+        font-weight: 400;
+    }
+
+    .nav-dropdown__overview:hover,
+    .nav-dropdown__overview:focus-visible,
+    .nav-dropdown__link:hover,
+    .nav-dropdown__link:focus-visible {
+        background: var(--color-snow-200);
+        outline: none;
+    }
+
+    .nav-dropdown__icon {
+        background: var(--color-snow-300);
+        border-radius: 0.45rem;
+        display: block;
+        height: 1.4rem;
+        position: relative;
+        width: 1.4rem;
+    }
+
+    .nav-dropdown__icon::after {
+        background: var(--color-blue-500);
+        border-radius: 9999px;
+        content: "";
+        height: 0.38rem;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 0.38rem;
+    }
+
+    .nav-dropdown__label {
+        font-size: 0.7rem;
+        font-weight: 500;
+    }
+
+    @media (max-width: 640px) {
+        .nav-dropdown__content {
+            grid-template-columns: 1fr;
+        }
+
+        .nav-dropdown__media {
+            min-height: 8rem;
+        }
+    }
+
     @media (prefers-reduced-motion: reduce) {
-        .nav-link__active-bg {
+        .nav-link__active-bg,
+        .nav-link__chevron,
+        .nav-dropdown__panel {
             transition: none;
         }
     }

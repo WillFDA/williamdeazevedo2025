@@ -3,6 +3,7 @@ import Layout from "../layout/Layout.astro";
 import FadeReveal from "../components/animations/FadeReveal.astro";
 import Carousel from "../components/Carousel.astro";
 import AboutCallout from "../components/AboutCallout.astro";
+import ExpertiseShowcase from "../components/ExpertiseShowcase.astro";
 import ProjectIntro from "../components/ProjectIntro.astro";
 import Differenciates from "@/sections/Differenciates.astro";
 import ArrowRight from "../components/icons/ArrowRight.svg";
@@ -10,7 +11,6 @@ import { Image } from "astro:assets";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
 import { homeProjects } from "../data/projects";
-import { services } from "../data/services";
 import { temoignages } from "../data/temoignage";
 
 export const prerender = true;
@@ -33,6 +33,78 @@ const heroTitleWords = [
 ];
 
 const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
+
+const expertiseItems = [
+    {
+        id: "creation",
+        label: "Création site vitrine",
+        href: "/services/creation-site-vitrine",
+        icon: "site",
+        title: "Construire une présence claire et crédible",
+        description: [
+            "Je pars de votre offre, de vos contenus et de vos objectifs pour créer un site lisible, rapide et cohérent avec votre activité.",
+            "L'objectif : aider vos visiteurs à comprendre ce que vous proposez, puis les guider vers la bonne action sans friction.",
+        ],
+        pills: [
+            "Architecture des pages",
+            "Design responsive",
+            "SEO technique",
+            "Mise en ligne",
+        ],
+        visualItems: [
+            "Structure de l'offre",
+            "Parcours de conversion",
+            "Sections clés",
+            "Formulaire de contact",
+        ],
+    },
+    {
+        id: "refonte",
+        label: "Refonte web",
+        href: "/services/refonte-site-internet",
+        icon: "refresh",
+        title: "Repenser ce qui freine votre site actuel",
+        description: [
+            "Je vous aide à identifier ce qui manque de clarté, ce qui ralentit l'expérience et ce qui empêche vos visiteurs de passer à l'étape suivante.",
+            "On conserve ce qui fonctionne, on simplifie ce qui brouille le message et on reconstruit une base plus propre.",
+        ],
+        pills: [
+            "Audit rapide",
+            "UX mobile",
+            "Performance",
+            "Redirections utiles",
+        ],
+        visualItems: [
+            "Audit de l'existant",
+            "Nouvelle hiérarchie",
+            "Pages à conserver",
+            "Plan de migration",
+        ],
+    },
+    {
+        id: "front-end",
+        label: "Renfort front-end",
+        href: "/services/developpeur-web-freelance",
+        icon: "code",
+        title: "Intégrer et faire évoluer vos interfaces",
+        description: [
+            "J'interviens comme renfort autonome pour transformer des maquettes en interfaces propres, maintenables et agréables à utiliser.",
+            "Je peux aussi améliorer une interface existante avec un regard front-end, design, accessibilité et performance.",
+        ],
+        pills: [
+            "Intégration Figma",
+            "Astro / React",
+            "Accessibilité",
+            "Animations sobres",
+        ],
+        visualItems: [
+            "Composants UI",
+            "États interactifs",
+            "Responsive précis",
+            "Qualité front-end",
+        ],
+    },
+] as const;
 
 const testimonialImages = import.meta.glob<{ default: ImageMetadata }>(
     "../assets/temoignages/*.{jpg,jpeg,png,webp}",
@@ -186,54 +258,15 @@ const displayedTestimonials = temoignages
         </div>
     </section>
     <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !">
-        <section class="flex w-full flex-col gap-6 border-t border-[rgba(255,255,255,0.12)] pt-10 sm:pt-14">
-            <div class="mx-auto flex max-w-2xl flex-col items-center gap-3 text-center">
-                <p class="w-fit rounded-lg bg-blue-500 px-3 py-1.5 text-xs font-light text-snow-50">
-                    Services
-                </p>
-                <h2 class="text-2xl font-medium leading-tight text-snow-50 sm:text-3xl">
-                    Trois portes d'entrée selon votre situation
-                </h2>
-                <p class="text-sm font-light leading-6 text-snow-100">
-                    Création, refonte ou renfort front-end : le bon accompagnement
-                    dépend surtout du point de départ et de l'objectif commercial.
-                </p>
-            </div>
-            <div class="grid gap-4 md:grid-cols-3">
-                {
-                    services.map((service) => (
-                        <a
-                            class="group flex h-full flex-col gap-4 rounded-lg bg-[rgba(255,255,255,0.05)] p-5 ring-1 ring-[rgba(255,255,255,0.14)] transition-colors hover:bg-[rgba(255,255,255,0.08)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                            href={`/services/${service.slug}`}
-                        >
-                            <p class="text-xs font-light uppercase tracking-[0.12em] text-blue-400">
-                                {service.eyebrow}
-                            </p>
-                            <h3 class="text-lg font-medium leading-tight text-snow-50 transition-colors group-hover:text-blue-400">
-                                {service.title}
-                            </h3>
-                            <p class="text-sm font-light leading-6 text-snow-100">
-                                {service.intro}
-                            </p>
-                        </a>
-                    ))
-                }
-            </div>
-            <div class="flex flex-wrap justify-center gap-3">
-                <a
-                    class="text-sm font-normal text-snow-50 underline decoration-[rgba(255,255,255,0.35)] underline-offset-4 transition-colors hover:text-blue-400 focus-visible:text-blue-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                    href="/services"
-                >
-                    Voir tous les services
-                </a>
-                <a
-                    class="text-sm font-normal text-snow-50 underline decoration-[rgba(255,255,255,0.35)] underline-offset-4 transition-colors hover:text-blue-400 focus-visible:text-blue-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                    href="/tarifs"
-                >
-                    Comprendre les tarifs
-                </a>
-            </div>
-        </section>
+        <ExpertiseShowcase
+            title="Des expertises maîtrisées pour faire avancer votre projet web"
+            description="Du cadrage à l'exécution, chaque accompagnement sert un objectif simple : clarifier votre offre, soigner l'expérience et livrer une base solide."
+            items={expertiseItems}
+            actions={[
+                { href: "/services", label: "Voir tous les services" },
+                { href: "/tarifs", label: "Comprendre les tarifs" },
+            ]}
+        />
     </AboutCallout>
     <section id="projects" class="project-showcase md:mt-20" data-project-showcase>
         <div class="project-copy mx-auto max-w-5xl px-2 pb-10 sm:px-4">
@@ -811,7 +844,7 @@ const displayedTestimonials = temoignages
     }
 
     .hero-button--secondary {
-        --hero-button-bg: var(--color-snow-600);
+        --hero-button-bg: var(--color-gray-100);
     }
 
     @media (prefers-reduced-motion: reduce) {
