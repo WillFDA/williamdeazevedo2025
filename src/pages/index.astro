@@ -142,6 +142,86 @@ const expertiseItems = [
     },
 ] as const;
 
+const pricingCards = [
+    {
+        title: "Landing page",
+        subtitle: "Pour lancer une offre, tester une idée ou convertir une campagne.",
+        price: "À partir de 1 800 € HT",
+        budget: "Budget courant : 1 800 à 3 500 € HT",
+        delay: "Livrée en 10 à 15 jours ouvrés",
+        description:
+            "Une page unique pensée pour présenter une offre claire, rassurer rapidement et guider le visiteur vers une action : prise de rendez-vous, formulaire, inscription ou demande de devis.",
+        cta: "Parlons de votre landing page",
+        footnote: "Idéal si vous avez une offre précise et un objectif clair.",
+        variant: "light",
+        features: [
+            "1 page sur mesure",
+            "Cadrage rapide de l'offre",
+            "Structure orientée conversion",
+            "Design responsive",
+            "Développement front-end propre",
+            "CTA, formulaire ou prise de rendez-vous",
+            "SEO technique de base",
+            "Suivi des conversions",
+            "Mise en ligne",
+        ],
+    },
+    {
+        title: "Site vitrine",
+        badge: "Le plus demandé",
+        subtitle:
+            "Pour présenter votre activité, rassurer vos prospects et générer des demandes qualifiées.",
+        price: "À partir de 3 500 € HT",
+        budget: "Budget courant : 3 500 à 6 500 € HT",
+        delay: "Livré en 3 à 5 semaines",
+        description:
+            "Un site professionnel pour clarifier votre offre, structurer vos pages, présenter vos services et faciliter la prise de contact.",
+        cta: "Parlons de votre site vitrine",
+        footnote:
+            "Recommandé pour les indépendants, artisans, studios, PME et porteurs de projet.",
+        variant: "blue",
+        features: [
+            "4 à 6 pages clés",
+            "Cadrage de l'activité et des objectifs",
+            "Arborescence et parcours de conversion",
+            "Design d'interface sur mesure",
+            "Développement responsive",
+            "Formulaire de contact sécurisé",
+            "Optimisation performance",
+            "SEO technique de base",
+            "Sitemap, métadonnées et balisage propre",
+            "Mise en ligne",
+            "Accompagnement à la prise en main",
+        ],
+    },
+    {
+        title: "Refonte ou site premium",
+        subtitle: "Pour moderniser un site existant ou créer une expérience plus ambitieuse.",
+        price: "À partir de 5 500 € HT",
+        budget: "Budget courant : 5 500 à 10 000 €+ HT",
+        delay: "Livré en 5 à 8 semaines",
+        description:
+            "Une prestation plus complète pour repenser la structure, améliorer l'image, retravailler les contenus, renforcer la performance et créer une expérience plus mémorable.",
+        cta: "Cadrer ma refonte",
+        footnote:
+            "Adapté aux projets avec plus de contenu, une image à repositionner ou une expérience visuelle plus forte.",
+        variant: "dark",
+        features: [
+            "Audit de l'existant si refonte",
+            "Recommandations structure, UX et SEO",
+            "5 à 10 pages selon le projet",
+            "Direction visuelle plus poussée",
+            "Design responsive détaillé",
+            "Animations sobres ou premium selon périmètre",
+            "Optimisation performance et accessibilité",
+            "Redirections si migration",
+            "Suivi des conversions",
+            "Mise en ligne",
+            "Accompagnement après lancement",
+        ],
+    },
+] as const;
+
 const testimonialImages = import.meta.glob<{ default: ImageMetadata }>(
     "../assets/temoignages/*.{jpg,jpeg,png,webp}",
     { eager: true },
@@ -348,6 +428,72 @@ const displayedTestimonials = temoignages
             </button>
         </div>
     </div>
+    <section
+        id="tarifs"
+        class="pricing-preview mx-auto w-full max-w-7xl px-4 py-20 sm:px-8 md:py-24"
+        aria-labelledby="pricing-title"
+    >
+        <div class="mx-auto flex max-w-4xl flex-col items-center gap-4 text-center">
+            <h2 id="pricing-title" class="section-heading">
+                Un site clair à lancer. Simple à faire évoluer.
+            </h2>
+            <p class="section-subheading">
+                Chaque projet dépend du nombre de pages, du contenu, du niveau
+                de design, des animations et des fonctionnalités attendues.
+                Voici des budgets de départ pour vous aider à vous situer avant
+                un premier échange.
+            </p>
+            <p class="pricing-preview__assurance">
+                Premier échange gratuit · Devis clair · Paiement en plusieurs étapes · Site rapide, responsive et SEO-friendly
+            </p>
+        </div>
+
+        <div class="pricing-preview__cards">
+            {
+                pricingCards.map((card) => (
+                    <article class:list={["pricing-card", `pricing-card--${card.variant}`]}>
+                        <div class="pricing-card__intro">
+                            <div class="pricing-card__title-row">
+                                <h3>{card.title}</h3>
+                                {"badge" in card && <span>{card.badge}</span>}
+                            </div>
+                            <p>{card.subtitle}</p>
+                        </div>
+                        <div class="pricing-card__price">
+                            <strong>{card.price}</strong>
+                            <span>{card.budget}</span>
+                            <span>{card.delay}</span>
+                        </div>
+                        <p class="pricing-card__description">{card.description}</p>
+                        <button
+                            class="pricing-card__cta"
+                            data-cal-location={`pricing-${card.title.toLowerCase().replaceAll(" ", "-")}`}
+                            data-cal-open
+                            type="button"
+                        >
+                            <WaveText text={card.cta} trigger="parent" />
+                            <WaveIcon direction="right" trigger="parent">
+                                <ArrowRight aria-hidden="true" class="size-full" />
+                            </WaveIcon>
+                        </button>
+                        <ul>
+                            {card.features.map((feature) => (
+                                <li>{feature}</li>
+                            ))}
+                        </ul>
+                        <p class="pricing-card__footnote">{card.footnote}</p>
+                    </article>
+                ))
+            }
+        </div>
+
+        <a
+            class="pricing-preview__link"
+            href="/tarifs"
+        >
+            Voir ce qui fait varier un devis
+        </a>
+    </section>
     <section
         id="projects"
         class="project-showcase md:mt-8"
@@ -793,6 +939,240 @@ const displayedTestimonials = temoignages
         }
     }
 
+    .pricing-preview__assurance {
+        color: var(--color-gray-900);
+        font-size: 0.95rem;
+        font-weight: 500;
+        line-height: 1.5;
+        margin: 0.65rem 0 0;
+    }
+
+    .pricing-preview__cards {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin: 3rem auto 0;
+        max-width: 76rem;
+    }
+
+    .pricing-card {
+        border: 1px solid rgba(34, 42, 55, 0.1);
+        border-radius: 1rem;
+        color: var(--color-gray-900);
+        display: flex;
+        flex-direction: column;
+        min-height: 46rem;
+        overflow: hidden;
+        padding: clamp(1.4rem, 2.5vw, 2.25rem);
+    }
+
+    .pricing-card--light {
+        background: var(--color-snow-50);
+        box-shadow: 0 24px 60px -46px rgba(34, 42, 55, 0.42);
+    }
+
+    .pricing-card--blue {
+        background: var(--color-blue-500);
+        border-color: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 28px 70px -48px rgba(66, 102, 219, 0.85);
+        color: var(--color-snow-50);
+    }
+
+    .pricing-card--dark {
+        background: var(--color-coffee-300);
+        border-color: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 28px 70px -50px rgba(34, 42, 55, 0.8);
+        color: var(--color-snow-50);
+    }
+
+    .pricing-card__intro {
+        border-bottom: 1px solid rgba(34, 42, 55, 0.1);
+        min-height: 9.5rem;
+        padding-bottom: 1.3rem;
+    }
+
+    .pricing-card--blue .pricing-card__intro,
+    .pricing-card--dark .pricing-card__intro {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.85rem;
+        padding: 1.2rem;
+    }
+
+    .pricing-card__title-row {
+        align-items: flex-start;
+        display: flex;
+        gap: 0.75rem;
+        justify-content: space-between;
+    }
+
+    .pricing-card__title-row span {
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 999rem;
+        color: inherit;
+        flex: 0 0 auto;
+        font-size: 0.72rem;
+        font-weight: 500;
+        line-height: 1;
+        padding: 0.45rem 0.6rem;
+    }
+
+    .pricing-card h3 {
+        color: inherit;
+        font-size: clamp(1.35rem, 2.1vw, 1.9rem);
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 1;
+        margin: 0;
+    }
+
+    .pricing-card p {
+        color: var(--color-gray-600);
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.45;
+        margin: 0.7rem 0 0;
+    }
+
+    .pricing-card--blue p,
+    .pricing-card--dark p {
+        color: rgba(248, 250, 252, 0.82);
+    }
+
+    .pricing-card__price {
+        border-bottom: 1px solid rgba(34, 42, 55, 0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+        padding: 1.7rem 0 1.35rem;
+    }
+
+    .pricing-card--blue .pricing-card__price,
+    .pricing-card--dark .pricing-card__price {
+        border-bottom-color: rgba(255, 255, 255, 0.11);
+    }
+
+    .pricing-card__price strong {
+        color: inherit;
+        font-size: clamp(1.65rem, 2vw, 2.1rem);
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 1;
+        text-wrap: balance;
+    }
+
+    .pricing-card__price span {
+        color: var(--color-gray-600);
+        font-size: 0.95rem;
+        font-weight: 400;
+    }
+
+    .pricing-card--blue .pricing-card__price span,
+    .pricing-card--dark .pricing-card__price span {
+        color: rgba(248, 250, 252, 0.76);
+    }
+
+    .pricing-card__description {
+        min-height: 6.1rem;
+    }
+
+    .pricing-card__cta {
+        align-items: center;
+        background: var(--color-coffee-300);
+        border: 0;
+        border-radius: 0.75rem;
+        color: var(--color-snow-50);
+        cursor: pointer;
+        display: inline-flex;
+        font-size: 0.95rem;
+        font-weight: 500;
+        gap: 0.75rem;
+        justify-content: center;
+        min-height: 3.5rem;
+        margin-top: 1.65rem;
+        padding: 0 1.25rem;
+        transition: transform 360ms cubic-bezier(0.2, 0, 0, 1);
+        width: 100%;
+    }
+
+    .pricing-card--blue .pricing-card__cta,
+    .pricing-card--dark .pricing-card__cta {
+        background: var(--color-snow-50);
+        color: var(--color-coffee-300);
+    }
+
+    .pricing-card__cta:hover,
+    .pricing-card__cta:focus-visible {
+        transform: scale(0.98);
+    }
+
+    .pricing-card__cta:focus-visible {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 3px;
+    }
+
+    .pricing-card ul {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        list-style: none;
+        margin: 2rem 0 0;
+        padding: 0;
+    }
+
+    .pricing-card li {
+        align-items: baseline;
+        color: var(--color-gray-600);
+        display: flex;
+        font-size: 0.92rem;
+        font-weight: 400;
+        gap: 0.7rem;
+        line-height: 1.35;
+    }
+
+    .pricing-card--blue li,
+    .pricing-card--dark li {
+        color: rgba(248, 250, 252, 0.82);
+    }
+
+    .pricing-card li::before {
+        border-bottom: 1.8px solid currentColor;
+        border-right: 1.8px solid currentColor;
+        content: "";
+        flex: 0 0 auto;
+        height: 0.72rem;
+        margin-top: 0.08em;
+        transform: rotate(45deg);
+        width: 0.38rem;
+    }
+
+    .pricing-card__footnote {
+        font-size: 0.86rem;
+        margin-top: auto;
+    }
+
+    .pricing-preview__link {
+        color: var(--color-gray-900);
+        display: table;
+        font-size: 1rem;
+        font-weight: 400;
+        margin: 2.35rem auto 0;
+        text-decoration: underline;
+        text-decoration-color: rgba(34, 42, 55, 0.28);
+        text-underline-offset: 0.25em;
+        transition: color 220ms cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .pricing-preview__link:hover,
+    .pricing-preview__link:focus-visible {
+        color: var(--color-blue-500);
+    }
+
+    .pricing-preview__link:focus-visible {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 4px;
+    }
+
     @media (scripting: none), (prefers-reduced-motion: reduce) {
         [data-hero-eyebrow] {
             animation: none;
@@ -812,6 +1192,22 @@ const displayedTestimonials = temoignages
         .testimonial-rotator__person,
         .testimonial-rotator blockquote {
             animation: none;
+        }
+
+    }
+
+    @media (max-width: 1023px) {
+        .pricing-preview__cards {
+            grid-template-columns: 1fr;
+            max-width: 32rem;
+        }
+
+        .pricing-card {
+            min-height: auto;
+        }
+
+        .pricing-card__intro {
+            min-height: auto;
         }
     }
 

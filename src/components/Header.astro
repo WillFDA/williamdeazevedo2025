@@ -1,5 +1,9 @@
 ---
 import ChevronUp from "./icons/nucleo/chevron-up-fill.svg";
+import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
+import ViewAll from "./icons/nucleo/view-all-fill.svg";
+import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
+import WindowPointer from "./icons/nucleo/window-pointer-fill.svg";
 import { services } from "../data/services";
 import WaveText from "./ui/WaveText.astro";
 
@@ -32,7 +36,7 @@ const serviceLinks = services.map((service) => ({
 }));
 ---
 
-<header class="w-full p-2 mb-12 sm:p-4">
+<header class="site-header sticky top-0 z-50 w-full">
     <nav
         aria-label="Navigation principale"
         class="relative mx-auto flex max-w-5xl flex-col items-center gap-4 sm:min-h-10 sm:p-4"
@@ -106,7 +110,9 @@ const serviceLinks = services.map((service) => ({
                                             <span
                                                 class="nav-dropdown__icon"
                                                 aria-hidden="true"
-                                            />
+                                            >
+                                                <ViewAll class="size-4" />
+                                            </span>
                                             <span class="nav-dropdown__label">
                                                 Tous les services
                                             </span>
@@ -119,7 +125,17 @@ const serviceLinks = services.map((service) => ({
                                                 <span
                                                     class="nav-dropdown__icon"
                                                     aria-hidden="true"
-                                                />
+                                                >
+                                                    {service.href.includes("creation-site-vitrine") && (
+                                                        <WindowPointer class="size-4" />
+                                                    )}
+                                                    {service.href.includes("refonte-site-internet") && (
+                                                        <WindowPaintbrush class="size-4" />
+                                                    )}
+                                                    {service.href.includes("developpeur-web-freelance") && (
+                                                        <CodeEditor class="size-4" />
+                                                    )}
+                                                </span>
                                                 <span class="nav-dropdown__label">
                                                     {service.label}
                                                 </span>
@@ -137,6 +153,46 @@ const serviceLinks = services.map((service) => ({
 </header>
 
 <style>
+    .site-header {
+        isolation: isolate;
+    }
+
+    .site-header::before {
+        -webkit-backdrop-filter: blur(26px);
+        backdrop-filter: blur(26px);
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            #000 0%,
+            #000 48%,
+            transparent 100%
+        );
+        mask-image: linear-gradient(
+            to bottom,
+            #000 0%,
+            #000 48%,
+            transparent 100%
+        );
+        background: linear-gradient(
+            to bottom,
+            rgba(248, 250, 252, 0.94) 0%,
+            rgba(248, 250, 252, 0.86) 48%,
+            rgba(248, 250, 252, 0.28) 76%,
+            rgba(248, 250, 252, 0) 100%
+        );
+        box-shadow: 0 18px 42px rgba(248, 250, 252, 0.48);
+        content: "";
+        inset: 0 0 -3rem;
+        pointer-events: none;
+        position: absolute;
+        transform: translateZ(0);
+        z-index: 0;
+    }
+
+    .site-header > nav {
+        position: relative;
+        z-index: 1;
+    }
+
     .nav-link {
         background: transparent;
         border: 0;
@@ -249,9 +305,29 @@ const serviceLinks = services.map((service) => ({
     .nav-dropdown__link {
         align-items: center;
         display: grid;
-        gap: 0.6rem;
-        grid-template-columns: 1.4rem 1fr;
+        gap: 0.75rem;
+        grid-template-columns: 2rem 1fr;
         padding: 0.7rem 0.85rem;
+    }
+
+    .nav-dropdown__list > :nth-child(1) {
+        --dropdown-icon-bg: #557ee8;
+        --dropdown-icon-shadow: rgba(85, 126, 232, 0.64);
+    }
+
+    .nav-dropdown__list > :nth-child(2) {
+        --dropdown-icon-bg: #4169e1;
+        --dropdown-icon-shadow: rgba(65, 105, 225, 0.65);
+    }
+
+    .nav-dropdown__list > :nth-child(3) {
+        --dropdown-icon-bg: #3aa4d8;
+        --dropdown-icon-shadow: rgba(58, 164, 216, 0.62);
+    }
+
+    .nav-dropdown__list > :nth-child(4) {
+        --dropdown-icon-bg: #6957df;
+        --dropdown-icon-shadow: rgba(105, 87, 223, 0.64);
     }
 
     .nav-dropdown__overview {
@@ -267,24 +343,18 @@ const serviceLinks = services.map((service) => ({
     }
 
     .nav-dropdown__icon {
-        background: var(--color-snow-300);
-        border-radius: 0.45rem;
-        display: block;
-        height: 1.4rem;
-        position: relative;
-        width: 1.4rem;
-    }
-
-    .nav-dropdown__icon::after {
-        background: var(--color-blue-500);
-        border-radius: 9999px;
-        content: "";
-        height: 0.38rem;
-        left: 50%;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 0.38rem;
+        align-items: center;
+        background: var(--dropdown-icon-bg, var(--color-blue-500));
+        border-radius: 0.875em;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.28),
+            0 12px 24px -16px
+                var(--dropdown-icon-shadow, rgba(62, 96, 212, 0.7));
+        color: var(--color-snow-50);
+        display: inline-flex;
+        height: 2rem;
+        justify-content: center;
+        width: 2rem;
     }
 
     .nav-dropdown__label {
