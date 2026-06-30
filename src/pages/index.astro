@@ -7,7 +7,7 @@ import ExpertiseShowcase from "../components/ExpertiseShowcase.astro";
 import ProjectIntro from "../components/ProjectIntro.astro";
 import Differenciates from "@/sections/Differenciates.astro";
 import ArrowRight from "../components/icons/nucleo/arrow-right-fill.svg";
-import Msgs from "../components/icons/nucleo/msgs-fill.svg";
+import SearchContent from "../components/icons/nucleo/search-content-2-fill.svg";
 import Star from "../components/icons/nucleo/star-fill.svg";
 import XMark from "../components/icons/nucleo/xmark-fill.svg";
 import { Image } from "astro:assets";
@@ -36,10 +36,10 @@ const heroTitleParts = [
 ];
 
 const problemItems = [
-    "Votre site existe, mais il paraît daté, peu accessible ou pas au niveau de votre travail ?",
+    "Votre site est daté, peu accessible ou pas au niveau de votre travail ?",
     "Vous n'avez pas encore de site et vous ne savez pas par où commencer ?",
-    "Vous voulez construire un SaaS ou un produit avec un développeur capable de relier design, front-end et logique métier ?",
-    "Vous en avez assez des prestataires flous, des conseils contradictoires et des livraisons bancales ?",
+    "Votre produit a besoin d'un développeur capable de relier design, front-end et logique métier ?",
+    "Vous en avez assez des prestataires flous et des livraisons bancales ?",
 ] as const;
 
 const expertiseItems = [
@@ -337,14 +337,20 @@ const displayedTestimonials = temoignages
                 data-cal-open
                 type="button"
             >
-                <Msgs aria-hidden="true" class="expertise-cta__icon size-5" />
                 <span>Trouver ce qui bloque</span>
+                <WaveIcon
+                    class="expertise-cta__icon"
+                    direction="up"
+                    trigger="parent"
+                >
+                    <SearchContent aria-hidden="true" />
+                </WaveIcon>
             </button>
         </div>
     </div>
     <section
         id="projects"
-        class="project-showcase md:mt-20"
+        class="project-showcase md:mt-8"
         data-project-showcase
         aria-labelledby="projects-title"
     >
@@ -953,6 +959,8 @@ const displayedTestimonials = temoignages
     }
 
     .expertise-cta__icon {
+        --wui-wave-icon-size: 1.25rem;
+
         color: var(--color-blue-100);
     }
 
