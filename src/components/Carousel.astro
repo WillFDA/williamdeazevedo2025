@@ -7,16 +7,27 @@ import MediaPlay from "./icons/nucleo/media-play-fill.svg";
 interface Props {
     autoplay?: boolean;
     autoplayDelay?: number;
+    compactControls?: boolean;
+    controlsPlacement?: "bottom" | "top";
 }
 
-const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
+const {
+    autoplay = false,
+    autoplayDelay = 4500,
+    compactControls = false,
+    controlsPlacement = "bottom",
+} = Astro.props;
 ---
 
 <div
-    class="embla relative group"
+    class:list={[
+        "embla relative group",
+        compactControls && "embla--compact-controls",
+    ]}
     data-carousel
     data-carousel-autoplay={autoplay ? "true" : undefined}
     data-carousel-autoplay-delay={autoplay ? autoplayDelay : undefined}
+    data-carousel-controls-placement={controlsPlacement}
 >
     <div class="embla__viewport">
         <div class="embla__container">
@@ -168,6 +179,8 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
     .embla {
         --slide-spacing: 0.5rem;
         --slide-size: calc(100vw - 1rem);
+        display: flex;
+        flex-direction: column;
         overflow: hidden;
     }
 
@@ -204,9 +217,27 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
         width: 100%;
     }
 
+    .embla[data-carousel-controls-placement="top"] .embla__controls {
+        margin: 0 auto 0.875rem;
+        order: -1;
+    }
+
+    .embla--compact-controls .embla__controls {
+        background: var(--color-gray-100);
+        border-radius: 999px;
+        box-shadow:
+            0 18px 36px -30px rgba(31, 38, 52, 0.34),
+            inset 0 1px 0 rgba(255, 255, 255, 0.62);
+        display: flex;
+        gap: 0.35rem;
+        justify-content: flex-start;
+        padding: 0.3rem;
+        width: fit-content;
+    }
+
     .embla__control-button {
         align-items: center;
-        background: var(--color-snow-600);
+        background: var(--color-gray-100);
         border-radius: 999px;
         color: var(--color-gray-900);
         display: inline-flex;
@@ -214,6 +245,20 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
         justify-content: center;
         transition: transform 180ms ease;
         width: 3rem;
+    }
+
+    .embla--compact-controls .embla__control-button {
+        background: var(--color-snow-50);
+        box-shadow:
+            0 16px 34px -24px rgba(31, 38, 52, 0.46),
+            0 4px 12px -8px rgba(31, 38, 52, 0.26);
+        height: 2.35rem;
+        width: 2.35rem;
+    }
+
+    .embla--compact-controls .embla__control-button svg {
+        height: 1rem;
+        width: 1rem;
     }
 
     .embla__control-button:active {
@@ -240,7 +285,7 @@ const { autoplay = false, autoplayDelay = 4500 } = Astro.props;
 
     .embla__timeline {
         align-items: center;
-        background: var(--color-snow-600);
+        background: var(--color-gray-100);
         border-radius: 999px;
         display: flex;
         height: 2.25rem;

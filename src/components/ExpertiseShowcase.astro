@@ -31,6 +31,11 @@ const firstId = items[0]?.id ?? "";
       class="expertise-showcase__tabs"
       role="tablist"
     >
+      <span
+        aria-hidden="true"
+        class="expertise-showcase__tab-indicator"
+        data-expertise-indicator
+      ></span>
       {
         items.map((item) => (
           <button
@@ -177,13 +182,25 @@ const firstId = items[0]?.id ?? "";
       root.querySelectorAll("[data-expertise-tab]"),
     ).filter((tab) => tab instanceof HTMLButtonElement);
     const panels = Array.from(root.querySelectorAll("[data-expertise-panel]"));
+    const indicator = root.querySelector("[data-expertise-indicator]");
+
+    const moveIndicator = (tab) => {
+      if (!(indicator instanceof HTMLElement) || !(tab instanceof HTMLElement))
+        return;
+
+      indicator.style.setProperty("--indicator-y", `${tab.offsetTop}px`);
+      indicator.style.setProperty("--indicator-h", `${tab.offsetHeight}px`);
+    };
 
     const activate = (id) => {
+      let activeTab;
+
       tabs.forEach((tab) => {
         const isActive = tab.dataset.expertiseTab === id;
         tab.classList.toggle("is-active", isActive);
         tab.setAttribute("aria-selected", String(isActive));
         tab.tabIndex = isActive ? 0 : -1;
+        if (isActive) activeTab = tab;
       });
 
       panels.forEach((panel) => {
@@ -192,9 +209,13 @@ const firstId = items[0]?.id ?? "";
         panel.hidden = !isActive;
         panel.classList.toggle("is-active", isActive);
       });
+
+      moveIndicator(activeTab);
     };
 
     tabs.forEach((tab, index) => {
+      tab.addEventListener("pointerenter", () => moveIndicator(tab));
+
       tab.addEventListener("click", () => {
         const id = tab.dataset.expertiseTab;
         if (id) activate(id);
@@ -214,6 +235,13 @@ const firstId = items[0]?.id ?? "";
       });
     });
 
+    root
+      .querySelector(".expertise-showcase__tabs")
+      ?.addEventListener("pointerleave", () => {
+        const activeTab = tabs.find((tab) => tab.classList.contains("is-active"));
+        moveIndicator(activeTab);
+      });
+    moveIndicator(tabs.find((tab) => tab.classList.contains("is-active")));
     root.dataset.expertiseReady = "true";
   }
 
@@ -273,6 +301,28 @@ const firstId = items[0]?.id ?? "";
     display: grid;
     gap: 0.85rem;
     padding: 1rem;
+    position: relative;
+  }
+
+  .expertise-showcase__tab-indicator {
+    background: var(--color-snow-50);
+    border-radius: 1em;
+    box-shadow: 0 18px 36px -30px rgba(34, 42, 55, 0.32);
+    height: var(--indicator-h, 3rem);
+    left: 1rem;
+    opacity: 0;
+    position: absolute;
+    right: 1rem;
+    top: 0;
+    transform: translateY(var(--indicator-y, 1rem));
+    transition:
+      transform 420ms cubic-bezier(0.2, 0, 0, 1),
+      height 420ms cubic-bezier(0.2, 0, 0, 1),
+      opacity 180ms cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .expertise-showcase[data-expertise-ready] .expertise-showcase__tab-indicator {
+    opacity: 1;
   }
 
   .expertise-showcase__tab {
@@ -289,21 +339,27 @@ const firstId = items[0]?.id ?? "";
     min-height: 3rem;
     opacity: 0.5;
     padding: 0.5em 1.5em 0.5em 0.5em;
+    position: relative;
     text-align: left;
     transition:
-      background 220ms cubic-bezier(0.2, 0, 0, 1),
       color 220ms cubic-bezier(0.2, 0, 0, 1),
+      opacity 220ms cubic-bezier(0.2, 0, 0, 1),
       transform 220ms cubic-bezier(0.2, 0, 0, 1);
     width: 100%;
+    z-index: 1;
   }
 
   .expertise-showcase__tab:hover,
   .expertise-showcase__tab:focus-visible,
   .expertise-showcase__tab.is-active {
-    background: var(--color-snow-50);
-    box-shadow: 0 18px 36px -30px rgba(34, 42, 55, 0.32);
     color: var(--color-gray-900);
     opacity: 1;
+  }
+
+  .expertise-showcase:not([data-expertise-ready])
+    .expertise-showcase__tab.is-active {
+    background: var(--color-snow-50);
+    box-shadow: 0 18px 36px -30px rgba(34, 42, 55, 0.32);
   }
 
   .expertise-showcase__tab:focus-visible {
@@ -499,7 +555,8 @@ const firstId = items[0]?.id ?? "";
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .expertise-showcase__tab {
+    .expertise-showcase__tab,
+    .expertise-showcase__tab-indicator {
       transition: none;
     }
   }

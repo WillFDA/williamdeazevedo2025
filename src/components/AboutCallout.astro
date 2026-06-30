@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import Msgs from "./icons/nucleo/msgs-fill.svg";
 import UserHeart from "./icons/nucleo/user-heart-fill.svg";
+import ViewAll from "./icons/nucleo/view-all-fill.svg";
 import WindowLayout from "./icons/nucleo/window-layout-fill.svg";
 import williamPortrait from "../assets/williamdeazevedo.webp";
 
@@ -14,7 +15,7 @@ const titleWords = title.replace("design !", "design\u00A0!").split(" ");
 const aboutPoints = [
     {
         description:
-            "Design graphique, 3D, motion design puis développement web : un parcours complet au service d'interfaces claires.",
+            "Design graphique, motion design puis développement web : un parcours complet au service d'interfaces claires.",
         icon: "window-layout",
         title: "+10 ans d'expérience",
     },
@@ -35,55 +36,62 @@ const aboutPoints = [
 
 <section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-3xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-4xl md:py-28">
     <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-8 px-4 sm:gap-10 sm:px-8 md:gap-12">
-        <h2 class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-[0.18em] text-center text-3xl font-medium leading-tighter tracking-normal text-snow-50 sm:text-4xl md:text-6xl">
-            {
-                titleWords.map((word, index) => {
-                    const cleanWord = word.replace("\u00A0", " ");
-                    const normalizedWord = cleanWord
-                        .replace(/[,.!]+$/, "")
-                        .trim();
-                    const isWilliam = cleanWord === "William,";
-                    const isPill =
-                        normalizedWord === "développeur" ||
-                        normalizedWord === "design";
+        <div class="mx-auto flex max-w-4xl flex-col items-center gap-6 text-center md:gap-7">
+            <h2 class="flex flex-wrap justify-center gap-x-[0.18em] text-3xl font-medium leading-tighter tracking-normal text-snow-50 sm:text-4xl md:text-6xl">
+                {
+                    titleWords.map((word, index) => {
+                        const cleanWord = word.replace("\u00A0", " ");
+                        const normalizedWord = cleanWord
+                            .replace(/[,.!]+$/, "")
+                            .trim();
+                        const isWilliam = cleanWord === "William,";
+                        const isPill =
+                            normalizedWord === "développeur" ||
+                            normalizedWord === "design";
 
-                    return (
-                        <span
-                            class:list={[
-                                "about-callout-title-word",
-                                isPill && "about-callout-title-word--pill",
-                                isWilliam &&
-                                    "about-callout-title-word--with-avatar",
-                                "text-snow-50",
-                            ]}
-                            style={`--about-callout-word-index: ${index}`}
-                        >
-                            {isWilliam ? (
-                                <>
-                                    William
-                                    <span
-                                        class="about-callout-avatar"
-                                        aria-hidden="true"
-                                    >
-                                        <Image
-                                            class="about-callout-avatar__image"
-                                            src={williamPortrait}
-                                            alt=""
-                                            width={72}
-                                            height={72}
-                                            loading="eager"
-                                        />
-                                    </span>
-                                    ,
-                                </>
-                            ) : (
-                                cleanWord
-                            )}
-                        </span>
-                    );
-                })
-            }
-        </h2>
+                        return (
+                            <span
+                                class:list={[
+                                    "about-callout-title-word",
+                                    isPill && "about-callout-title-word--pill",
+                                    isWilliam &&
+                                        "about-callout-title-word--with-avatar",
+                                    "text-snow-50",
+                                ]}
+                                style={`--about-callout-word-index: ${index}`}
+                            >
+                                {isWilliam ? (
+                                    <>
+                                        William
+                                        <span
+                                            class="about-callout-avatar"
+                                            aria-hidden="true"
+                                        >
+                                            <Image
+                                                class="about-callout-avatar__image"
+                                                src={williamPortrait}
+                                                alt=""
+                                                width={72}
+                                                height={72}
+                                                loading="eager"
+                                            />
+                                        </span>
+                                        ,
+                                    </>
+                                ) : (
+                                    cleanWord
+                                )}
+                            </span>
+                        );
+                    })
+                }
+            </h2>
+            <p class="max-w-2xl text-sm font-light leading-6 text-coffee-50 sm:text-base sm:leading-7">
+                J'aide à transformer un site daté, une première présence ou une
+                idée produit en interface claire, accessible et crédible, avec un
+                accompagnement qui relie design, front-end et logique métier.
+            </p>
+        </div>
         <ul class="mx-auto grid w-full max-w-5xl gap-4 sm:grid-cols-3">
             {
                 aboutPoints.map((point) => (
@@ -103,34 +111,10 @@ const aboutPoints = [
                                     />
                                 )}
                                 {point.icon === "product" && (
-                                    <svg
+                                    <ViewAll
                                         aria-hidden="true"
                                         class="size-5"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M4 7.5 12 3l8 4.5-8 4.5-8-4.5Z"
-                                            stroke="currentColor"
-                                            stroke-linejoin="round"
-                                            stroke-width="1.8"
-                                        />
-                                        <path
-                                            d="M4 12.5 12 17l8-4.5"
-                                            stroke="currentColor"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="1.8"
-                                        />
-                                        <path
-                                            d="M4 17.5 12 22l8-4.5"
-                                            stroke="currentColor"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="1.8"
-                                        />
-                                    </svg>
+                                    />
                                 )}
                             </span>
                             <h3 class="about-callout-proof-card__title">
@@ -176,7 +160,9 @@ const aboutPoints = [
     .about-callout-title-word--pill {
         background: var(--color-blue-500);
         border-radius: 999em;
-        box-shadow: 0 0.18em 0.42em -0.24em rgba(62, 96, 212, 0.62);
+        box-shadow:
+            0 0.2em 0.58em -0.28em rgba(62, 96, 212, 0.62),
+            0 0.08em 0.18em -0.1em rgba(34, 42, 55, 0.28);
         color: var(--color-snow-50);
         line-height: 1;
         margin-inline: 0.04em;
