@@ -7,6 +7,7 @@ import ExpertiseShowcase from "../components/ExpertiseShowcase.astro";
 import ProjectIntro from "../components/ProjectIntro.astro";
 import Differenciates from "@/sections/Differenciates.astro";
 import ArrowRight from "../components/icons/nucleo/arrow-right-fill.svg";
+import Msgs from "../components/icons/nucleo/msgs-fill.svg";
 import Star from "../components/icons/nucleo/star-fill.svg";
 import XMark from "../components/icons/nucleo/xmark-fill.svg";
 import { Image } from "astro:assets";
@@ -85,15 +86,16 @@ const expertiseItems = [
         ],
         pills: [
             "Intégration Figma",
-            "Astro / React",
+            "React / Next.js",
             "Accessibilité",
-            "Animations sobres",
+            "Développement IA",
+            "DevOps mise en ligne",
         ],
     },
     {
         id: "audit-ux",
         label: "Audit UX",
-        icon: "refresh",
+        icon: "ux",
         title: "Clarifier les points de friction avant de construire",
         description: [
             "Je relis votre parcours, vos pages clés et vos messages pour voir où un visiteur hésite, décroche ou ne comprend pas la suite.",
@@ -109,7 +111,7 @@ const expertiseItems = [
     {
         id: "performance",
         label: "Performance web",
-        icon: "code",
+        icon: "performance",
         title: "Rendre votre site plus rapide et plus stable",
         description: [
             "J'optimise les pages qui comptent : poids des assets, structure front-end, rendu mobile et points bloquants côté expérience.",
@@ -173,7 +175,7 @@ const displayedTestimonials = temoignages
                 </span>
             </a>
             <h1
-                class="mx-auto flex w-full max-w-[22rem] flex-wrap justify-center gap-x-[0.18em] px-2 text-center text-4xl font-medium leading-tighter tracking-normal text-gray-900 sm:max-w-4xl sm:text-5xl md:max-w-5xl md:text-7xl"
+                class="page-heading flex w-full max-w-[22rem] flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
                 data-animated-title
             >
                 {
@@ -192,7 +194,7 @@ const displayedTestimonials = temoignages
             </h1>
             <FadeReveal delay={0.32}>
                 <p
-                    class="mx-auto max-w-[22rem] text-center text-lg font-light leading-tight tracking-normal text-gray-600 sm:max-w-120"
+                    class="page-subheading max-w-[22rem] sm:max-w-120"
                 >
                     J’aide les petites structures et les équipes produit à lancer
                     des interfaces & sites performants, soignés et SEO-friendly.
@@ -291,13 +293,13 @@ const displayedTestimonials = temoignages
             <FadeReveal delay={0.1}>
                 <h2
                     id="problems-title"
-                    class="text-[clamp(2.35rem,4.4vw,4.6rem)] font-medium leading-[0.94] text-gray-900"
+                    class="section-heading"
                 >
                     Vous vous reconnaissez ?
                 </h2>
             </FadeReveal>
             <FadeReveal delay={0.18}>
-                <p class="max-w-2xl text-[0.95rem] font-light leading-[1.55] text-coffee-300">
+                <p class="section-subheading">
                     Une bonne offre peut rester invisible si votre site ne donne pas
                     assez vite envie de comprendre, de faire confiance et de passer
                     à l'action.
@@ -328,8 +330,29 @@ const displayedTestimonials = temoignages
             description="Chaque accompagnement part d'un frein concret : manque de clarté, expérience lente, design qui ne rassure plus ou interface difficile à faire évoluer."
             items={expertiseItems}
         />
+        <div class="mt-10 flex justify-center">
+            <button
+                class="expertise-cta inline-flex min-h-14 items-center justify-center gap-4 rounded-xl px-8 py-3 text-md font-regular focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
+                data-cal-location="expertise"
+                data-cal-open
+                type="button"
+            >
+                <Msgs aria-hidden="true" class="expertise-cta__icon size-5" />
+                <span>Trouver ce qui bloque</span>
+            </button>
+        </div>
     </div>
-    <section id="projects" class="project-showcase md:mt-20" data-project-showcase>
+    <section
+        id="projects"
+        class="project-showcase md:mt-20"
+        data-project-showcase
+        aria-labelledby="projects-title"
+    >
+        <div class="mx-auto mb-12 flex max-w-4xl flex-col items-center gap-4 px-4 text-center sm:px-8">
+            <h2 id="projects-title" class="section-heading">
+                Des projets pensés pour inspirer confiance
+            </h2>
+        </div>
         <div class="project-copy mx-auto max-w-5xl px-2 pb-5 sm:px-4">
             {
                 homeProjects.map((project, index) => (
@@ -900,8 +923,42 @@ const displayedTestimonials = temoignages
         --hero-button-bg: var(--color-gray-100);
     }
 
+    .expertise-cta {
+        background: transparent;
+        border: 0;
+        color: var(--color-snow-50);
+        isolation: isolate;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .expertise-cta::before {
+        background: var(--color-blue-500);
+        border: 1px solid
+            color-mix(in srgb, var(--color-blue-500) 70%, var(--color-blue-600));
+        border-radius: inherit;
+        box-shadow: inset 0 2px rgba(184, 200, 255, 0.18);
+        content: "";
+        inset: 0;
+        position: absolute;
+        transform: scale(1);
+        transition: transform 520ms
+            var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        z-index: -1;
+    }
+
+    .expertise-cta:hover::before,
+    .expertise-cta:focus-visible::before {
+        transform: scale(0.95);
+    }
+
+    .expertise-cta__icon {
+        color: var(--color-blue-100);
+    }
+
     @media (prefers-reduced-motion: reduce) {
-        .hero-button::before {
+        .hero-button::before,
+        .expertise-cta::before {
             transition: none;
         }
     }

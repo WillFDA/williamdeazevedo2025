@@ -101,7 +101,7 @@ const breadcrumbJsonLd = {
 
     <article class="mx-auto w-full max-w-2xl px-2 pb-20 sm:px-4">
         <FadeReveal delay={0.1}>
-            <header class="mb-12">
+            <header class="mb-12 text-center">
                 <a
                     class="mb-6 inline-flex items-center gap-1.5 text-sm font-light text-gray-500 transition-colors hover:text-gray-900"
                     href="/articles"
@@ -109,12 +109,12 @@ const breadcrumbJsonLd = {
                     <ChevronLeft aria-hidden="true" class="size-4" />
                     Tous les articles
                 </a>
-                <h1 class="mb-4 text-3xl font-medium leading-tight text-gray-900 md:text-4xl">
+                <h1 class="page-heading mb-4">
                     {title}
                 </h1>
-                <p class="text-sm font-light leading-6 text-gray-600">{description}</p>
+                <p class="page-subheading">{description}</p>
                 {tags.length > 0 && (
-                    <div class="mt-5 flex flex-wrap gap-2">
+                    <div class="mt-5 flex flex-wrap justify-center gap-2">
                         {tags.map((tag) => (
                             <span class="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 text-xs font-normal text-gray-700">
                                 {tag}
@@ -122,7 +122,7 @@ const breadcrumbJsonLd = {
                         ))}
                     </div>
                 )}
-                <div class="mt-6 flex items-center gap-3">
+                <div class="mt-6 flex items-center justify-center gap-3">
                     <Image
                         class="size-9 rounded-full"
                         src={williamPortrait}

@@ -264,6 +264,59 @@ body {
   }
 }
 
+@layer components {
+  .page-heading {
+    color: var(--color-gray-900);
+    font-size: clamp(2.25rem, 8vw, 4.5rem);
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 0.92;
+    margin-inline: auto;
+    max-width: 64rem;
+    text-align: center;
+  }
+
+  .page-subheading {
+    color: var(--color-gray-600);
+    font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+    font-weight: 300;
+    letter-spacing: 0;
+    line-height: 1.35;
+    margin-inline: auto;
+    max-width: 42rem;
+    text-align: center;
+  }
+
+  .section-heading {
+    color: var(--color-gray-900);
+    font-size: clamp(2.35rem, 4.4vw, 4.6rem);
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 0.94;
+    margin: 0;
+    text-align: center;
+  }
+
+  .section-subheading {
+    color: var(--color-gray-600);
+    font-size: clamp(1rem, 1.2vw, 1.15rem);
+    font-weight: 300;
+    letter-spacing: 0;
+    line-height: 1.45;
+    margin: 0 auto;
+    max-width: 42rem;
+    text-align: center;
+  }
+
+  .section-heading--inverse {
+    color: var(--color-snow-50);
+  }
+
+  .section-subheading--inverse {
+    color: var(--color-coffee-50);
+  }
+}
+
 * {
   scrollbar-width: none;
   box-sizing: border-box;

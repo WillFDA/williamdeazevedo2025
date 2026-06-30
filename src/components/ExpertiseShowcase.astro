@@ -1,9 +1,13 @@
 ---
-import ChevronExpandX from "./icons/nucleo/chevron-expand-x-fill.svg";
+import BoltSpeed from "./icons/nucleo/bolt-speed-fill.svg";
+import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
+import TouchClick from "./icons/nucleo/touch-click-fill.svg";
+import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
+import WindowPointer from "./icons/nucleo/window-pointer-fill.svg";
 
 export type ExpertiseShowcaseItem = {
   description: string[];
-  icon: "site" | "refresh" | "code";
+  icon: "site" | "refresh" | "code" | "ux" | "performance";
   id: string;
   label: string;
   pills: string[];
@@ -22,8 +26,8 @@ const firstId = items[0]?.id ?? "";
 
 <section class="expertise-showcase" data-expertise-showcase>
   <div class="expertise-showcase__intro">
-    <h2>{title}</h2>
-    <p>{description}</p>
+    <h2 class="section-heading">{title}</h2>
+    <p class="section-subheading">{description}</p>
   </div>
   <div class="expertise-showcase__body">
     <div
@@ -53,35 +57,19 @@ const firstId = items[0]?.id ?? "";
           >
             <span class="expertise-showcase__tab-icon" aria-hidden="true">
               {item.icon === "site" && (
-                <svg fill="none" viewBox="0 0 24 24">
-                  <path
-                    d="M4.5 7.5h15M8 15h8M7 4.5h10a2.5 2.5 0 0 1 2.5 2.5v10A2.5 2.5 0 0 1 17 19.5H7A2.5 2.5 0 0 1 4.5 17V7A2.5 2.5 0 0 1 7 4.5Z"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-width="1.7"
-                  />
-                </svg>
+                <WindowPointer class="size-5" />
               )}
               {item.icon === "refresh" && (
-                <svg fill="none" viewBox="0 0 24 24">
-                  <path
-                    d="M6.5 9.5A6 6 0 0 1 17 7l1.5 1.5M17.5 14.5A6 6 0 0 1 7 17l-1.5-1.5"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.7"
-                  />
-                  <path
-                    d="M18.5 5.5v3h-3M5.5 18.5v-3h3"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.7"
-                  />
-                </svg>
+                <WindowPaintbrush class="size-5" />
               )}
               {item.icon === "code" && (
-                <ChevronExpandX class="size-5" />
+                <CodeEditor class="size-5" />
+              )}
+              {item.icon === "ux" && (
+                <TouchClick class="size-5" />
+              )}
+              {item.icon === "performance" && (
+                <BoltSpeed class="size-5" />
               )}
             </span>
             <span>{item.label}</span>
@@ -111,48 +99,26 @@ const firstId = items[0]?.id ?? "";
                   <span />
                 </div>
                 <div class="expertise-showcase__visual-list">
-                  {item.pills.map((pill, pillIndex) => (
-                    <div
-                      class:list={[
-                        "expertise-showcase__visual-item",
-                        pillIndex > 2 && "is-muted",
-                      ]}
-                    >
+                  {[...item.pills, ...item.pills].map((pill) => (
+                    <div class="expertise-showcase__visual-item">
                       <span class="expertise-showcase__visual-icon">
                         {item.icon === "site" && (
-                          <svg fill="none" viewBox="0 0 24 24">
-                            <path
-                              d="M5 7.5h14M8 15h8M7 4.5h10a2.5 2.5 0 0 1 2.5 2.5v10A2.5 2.5 0 0 1 17 19.5H7A2.5 2.5 0 0 1 4.5 17V7A2.5 2.5 0 0 1 7 4.5Z"
-                              stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-width="1.8"
-                            />
-                          </svg>
+                          <WindowPointer class="size-5" />
                         )}
                         {item.icon === "refresh" && (
-                          <svg fill="none" viewBox="0 0 24 24">
-                            <path
-                              d="M6.5 9.5A6 6 0 0 1 17 7l1.5 1.5M17.5 14.5A6 6 0 0 1 7 17l-1.5-1.5"
-                              stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="1.8"
-                            />
-                            <path
-                              d="M18.5 5.5v3h-3M5.5 18.5v-3h3"
-                              stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="1.8"
-                            />
-                          </svg>
+                          <WindowPaintbrush class="size-5" />
                         )}
                         {item.icon === "code" && (
-                          <ChevronExpandX class="size-5" />
+                          <CodeEditor class="size-5" />
+                        )}
+                        {item.icon === "ux" && (
+                          <TouchClick class="size-5" />
+                        )}
+                        {item.icon === "performance" && (
+                          <BoltSpeed class="size-5" />
                         )}
                       </span>
                       <span>{pill}</span>
-                      <span class="expertise-showcase__visual-dot" />
                     </div>
                   ))}
                 </div>
@@ -161,10 +127,22 @@ const firstId = items[0]?.id ?? "";
             <div class="expertise-showcase__content">
               <h3>{item.title}</h3>
               <div class="expertise-showcase__copy">
-                {item.description.map((paragraph) => <p>{paragraph}</p>)}
+                {
+                  item.description.map((paragraph, paragraphIndex) => (
+                    <p style={`--reveal-delay: ${90 + paragraphIndex * 80}ms`}>
+                      {paragraph}
+                    </p>
+                  ))
+                }
               </div>
               <div class="expertise-showcase__pills" aria-label="Points clés">
-                {item.pills.map((pill) => <span>{pill}</span>)}
+                {
+                  item.pills.map((pill, pillIndex) => (
+                    <span style={`--reveal-delay: ${250 + pillIndex * 55}ms`}>
+                      {pill}
+                    </span>
+                  ))
+                }
               </div>
             </div>
           </article>
@@ -183,6 +161,98 @@ const firstId = items[0]?.id ?? "";
     ).filter((tab) => tab instanceof HTMLButtonElement);
     const panels = Array.from(root.querySelectorAll("[data-expertise-panel]"));
     const indicator = root.querySelector("[data-expertise-indicator]");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const visualStackClasses = [
+      "is-stack-0",
+      "is-stack-1",
+      "is-stack-2",
+      "is-stack-3",
+      "is-exiting",
+    ];
+    const visualStackTimers = new WeakMap();
+
+    const getVisualItems = (panel) =>
+      Array.from(panel.querySelectorAll(".expertise-showcase__visual-item"))
+        .filter((item) => item instanceof HTMLElement);
+
+    const clearVisualStack = (items) => {
+      items.forEach((item) => item.classList.remove(...visualStackClasses));
+    };
+
+    const renderVisualStack = (
+      panel,
+      startIndex = 0,
+      { exitingIndex, visibleDepth = 4 } = {},
+    ) => {
+      const visualItems = getVisualItems(panel);
+      if (visualItems.length === 0) return;
+
+      clearVisualStack(visualItems);
+
+      const depth = Math.min(visibleDepth, visualItems.length);
+      for (let offset = 0; offset < depth; offset += 1) {
+        visualItems[(startIndex + offset) % visualItems.length]?.classList.add(
+          `is-stack-${offset}`,
+        );
+      }
+
+      if (Number.isInteger(exitingIndex)) {
+        visualItems[exitingIndex % visualItems.length]?.classList.add(
+          "is-exiting",
+        );
+      }
+    };
+
+    const stopVisualStack = (panel) => {
+      const timers = visualStackTimers.get(panel);
+      if (timers?.intervalId) window.clearInterval(timers.intervalId);
+      if (timers?.timeoutId) window.clearTimeout(timers.timeoutId);
+      visualStackTimers.delete(panel);
+      clearVisualStack(getVisualItems(panel));
+    };
+
+    const startVisualStack = (panel) => {
+      if (!(panel instanceof HTMLElement)) return;
+
+      stopVisualStack(panel);
+
+      const visualItems = getVisualItems(panel);
+      if (visualItems.length === 0) return;
+
+      let startIndex = 0;
+      renderVisualStack(panel, startIndex);
+
+      if (reducedMotion.matches || visualItems.length < 4) return;
+
+      const intervalId = window.setInterval(() => {
+        const timers = visualStackTimers.get(panel);
+        if (timers?.timeoutId) window.clearTimeout(timers.timeoutId);
+
+        const exitingIndex = startIndex;
+        startIndex = (startIndex + 1) % visualItems.length;
+
+        renderVisualStack(panel, startIndex, {
+          exitingIndex,
+          visibleDepth: 4,
+        });
+
+        const timeoutId = window.setTimeout(() => {
+          renderVisualStack(panel, startIndex);
+          const currentTimers = visualStackTimers.get(panel);
+          if (currentTimers) currentTimers.timeoutId = undefined;
+        }, 360);
+
+        if (timers) timers.timeoutId = timeoutId;
+      }, 1850);
+
+      visualStackTimers.set(panel, { intervalId, timeoutId: undefined });
+    };
+
+    const stopAllVisualStacks = () => {
+      panels.forEach((panel) => {
+        if (panel instanceof HTMLElement) stopVisualStack(panel);
+      });
+    };
 
     const moveIndicator = (tab) => {
       if (!(indicator instanceof HTMLElement) || !(tab instanceof HTMLElement))
@@ -194,6 +264,7 @@ const firstId = items[0]?.id ?? "";
 
     const activate = (id) => {
       let activeTab;
+      let activePanel;
 
       tabs.forEach((tab) => {
         const isActive = tab.dataset.expertiseTab === id;
@@ -208,14 +279,18 @@ const firstId = items[0]?.id ?? "";
         const isActive = panel.dataset.expertisePanel === id;
         panel.hidden = !isActive;
         panel.classList.toggle("is-active", isActive);
+        if (isActive) {
+          activePanel = panel;
+        } else {
+          stopVisualStack(panel);
+        }
       });
 
+      if (activePanel) startVisualStack(activePanel);
       moveIndicator(activeTab);
     };
 
     tabs.forEach((tab, index) => {
-      tab.addEventListener("pointerenter", () => moveIndicator(tab));
-
       tab.addEventListener("click", () => {
         const id = tab.dataset.expertiseTab;
         if (id) activate(id);
@@ -235,14 +310,13 @@ const firstId = items[0]?.id ?? "";
       });
     });
 
-    root
-      .querySelector(".expertise-showcase__tabs")
-      ?.addEventListener("pointerleave", () => {
-        const activeTab = tabs.find((tab) => tab.classList.contains("is-active"));
-        moveIndicator(activeTab);
-      });
-    moveIndicator(tabs.find((tab) => tab.classList.contains("is-active")));
+    const initialId = tabs.find((tab) => tab.classList.contains("is-active"))
+      ?.dataset.expertiseTab;
+    if (initialId) activate(initialId);
     root.dataset.expertiseReady = "true";
+    document.addEventListener("astro:before-swap", stopAllVisualStacks, {
+      once: true,
+    });
   }
 
   function initExpertiseShowcases() {
@@ -273,29 +347,14 @@ const firstId = items[0]?.id ?? "";
     text-align: center;
   }
 
-  .expertise-showcase__intro h2 {
-    color: var(--color-gray-900);
-    font-size: clamp(2.35rem, 4.4vw, 4.6rem);
-    font-weight: 500;
-    line-height: 0.94;
-    margin: 0;
-  }
-
-  .expertise-showcase__intro p {
-    color: var(--color-coffee-300);
-    font-size: 0.95rem;
-    font-weight: 300;
-    line-height: 1.55;
-    margin: 0;
-    max-width: 42rem;
-  }
-
   .expertise-showcase__body {
     display: grid;
     gap: 2.5rem;
   }
 
   .expertise-showcase__tabs {
+    align-self: start;
+    align-content: start;
     background: color-mix(in srgb, var(--color-gray-100) 72%, white);
     border-radius: 2em;
     display: grid;
@@ -349,8 +408,6 @@ const firstId = items[0]?.id ?? "";
     z-index: 1;
   }
 
-  .expertise-showcase__tab:hover,
-  .expertise-showcase__tab:focus-visible,
   .expertise-showcase__tab.is-active {
     color: var(--color-gray-900);
     opacity: 1;
@@ -375,6 +432,9 @@ const firstId = items[0]?.id ?? "";
     align-items: center;
     background: var(--color-blue-500);
     border-radius: 0.875em;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      0 12px 24px -16px rgba(62, 96, 212, 0.7);
     color: var(--color-snow-50);
     display: inline-flex;
     flex: 0 0 auto;
@@ -397,15 +457,21 @@ const firstId = items[0]?.id ?? "";
     gap: 2.5rem;
   }
 
+  .expertise-showcase__panel.is-active {
+    animation: expertise-panel-in 360ms cubic-bezier(0.2, 0, 0, 1) both;
+  }
+
   .expertise-showcase__panel[hidden] {
     display: none;
   }
 
   .expertise-showcase__visual {
     align-items: center;
+    align-self: start;
     background: color-mix(in srgb, var(--color-gray-100) 80%, white);
     border-radius: 2rem;
     display: flex;
+    height: 20rem;
     justify-content: center;
     min-height: 20rem;
     overflow: hidden;
@@ -414,6 +480,7 @@ const firstId = items[0]?.id ?? "";
 
   .expertise-showcase__browser {
     align-items: center;
+    background: rgba(255, 255, 255, 0.14);
     border: 2px solid var(--color-snow-50);
     border-radius: 1.75rem;
     display: flex;
@@ -424,12 +491,29 @@ const firstId = items[0]?.id ?? "";
     width: min(21rem, 100%);
   }
 
+  .expertise-showcase__browser::before {
+    background: rgba(255, 255, 255, 0.32);
+    border-bottom: 2px solid var(--color-snow-50);
+    border-radius: 1.65rem 1.65rem 0 0;
+    content: "";
+    height: 4.3rem;
+    inset: 0 0 auto;
+    position: absolute;
+  }
+
   .expertise-showcase__browser-dots {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.68);
+    border: 1px solid var(--color-snow-50);
+    border-radius: 9999px;
     display: flex;
     gap: 0.45rem;
     left: 2rem;
+    min-height: 1.65rem;
+    padding: 0 0.7rem;
     position: absolute;
-    top: 1.6rem;
+    top: 1.35rem;
+    z-index: 1;
   }
 
   .expertise-showcase__browser-dots span {
@@ -440,11 +524,15 @@ const firstId = items[0]?.id ?? "";
   }
 
   .expertise-showcase__visual-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
+    --visual-gap: 0.8rem;
+    --visual-item-size: 3rem;
+    --visual-step: calc(var(--visual-item-size) + var(--visual-gap));
+
+    height: calc(var(--visual-item-size) * 4 + var(--visual-gap) * 3);
     margin-top: 3.75rem;
+    position: relative;
     width: min(24rem, 112%);
+    z-index: 1;
   }
 
   .expertise-showcase__visual-item {
@@ -458,12 +546,63 @@ const firstId = items[0]?.id ?? "";
     font-size: 0.86rem;
     font-weight: 500;
     gap: 0.65rem;
-    min-height: 3rem;
+    height: var(--visual-item-size);
+    inset: 0 0 auto;
+    filter: blur(4px);
+    opacity: 0;
     padding: 0.65rem 0.9rem;
+    position: absolute;
+    transform: translateY(calc(var(--visual-step) * 3)) scale(0.88);
+    transform-origin: center top;
+    transition:
+      opacity 420ms cubic-bezier(0.2, 0, 0, 1),
+      transform 520ms cubic-bezier(0.2, 0, 0, 1),
+      filter 420ms cubic-bezier(0.2, 0, 0, 1);
+    white-space: nowrap;
+    will-change: opacity, transform, filter;
   }
 
-  .expertise-showcase__visual-item.is-muted {
-    opacity: 0.42;
+  .expertise-showcase:not([data-expertise-ready])
+    .expertise-showcase__visual-item:nth-child(1),
+  .expertise-showcase__visual-item.is-stack-0 {
+    filter: none;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    z-index: 3;
+  }
+
+  .expertise-showcase:not([data-expertise-ready])
+    .expertise-showcase__visual-item:nth-child(2),
+  .expertise-showcase__visual-item.is-stack-1 {
+    filter: none;
+    opacity: 0.64;
+    transform: translateY(var(--visual-step)) scale(0.95);
+    z-index: 2;
+  }
+
+  .expertise-showcase:not([data-expertise-ready])
+    .expertise-showcase__visual-item:nth-child(3),
+  .expertise-showcase__visual-item.is-stack-2 {
+    filter: none;
+    opacity: 0.4;
+    transform: translateY(calc(var(--visual-step) * 2)) scale(0.9);
+    z-index: 1;
+  }
+
+  .expertise-showcase:not([data-expertise-ready])
+    .expertise-showcase__visual-item:nth-child(4),
+  .expertise-showcase__visual-item.is-stack-3 {
+    filter: none;
+    opacity: 0.22;
+    transform: translateY(calc(var(--visual-step) * 3)) scale(0.86);
+    z-index: 0;
+  }
+
+  .expertise-showcase__visual-item.is-exiting {
+    filter: blur(3px);
+    opacity: 0;
+    transform: translateY(calc(var(--visual-step) * -0.85)) scale(0.98);
+    z-index: 4;
   }
 
   .expertise-showcase__visual-icon {
@@ -476,14 +615,6 @@ const firstId = items[0]?.id ?? "";
   .expertise-showcase__visual-icon svg {
     height: 100%;
     width: 100%;
-  }
-
-  .expertise-showcase__visual-dot {
-    background: var(--color-blue-500);
-    border-radius: 9999px;
-    height: 0.35rem;
-    margin-left: auto;
-    width: 0.35rem;
   }
 
   .expertise-showcase__content {
@@ -503,6 +634,39 @@ const firstId = items[0]?.id ?? "";
     text-wrap: balance;
   }
 
+  .expertise-showcase__panel.is-active .expertise-showcase__content h3,
+  .expertise-showcase__panel.is-active .expertise-showcase__copy p,
+  .expertise-showcase__panel.is-active .expertise-showcase__pills span {
+    animation: expertise-content-in 560ms cubic-bezier(0.2, 0, 0, 1) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  @keyframes expertise-content-in {
+    from {
+      filter: blur(10px);
+      opacity: 0;
+      transform: translateY(0.55rem);
+    }
+
+    to {
+      filter: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes expertise-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.45rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   .expertise-showcase__copy {
     display: flex;
     flex-direction: column;
@@ -518,16 +682,16 @@ const firstId = items[0]?.id ?? "";
   }
 
   .expertise-showcase__pills {
-    border-top: 1px solid var(--color-gray-200);
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    padding-top: 1.25rem;
+    padding-top: 0.25rem;
   }
 
   .expertise-showcase__pills span {
     align-items: center;
-    border: 1px solid color-mix(in srgb, currentColor 6%, transparent);
+    background: color-mix(in srgb, var(--color-gray-100) 76%, white);
+    border: 1px solid color-mix(in srgb, var(--color-gray-200) 80%, white);
     border-radius: 9999px;
     color: var(--color-coffee-300);
     display: inline-flex;
@@ -544,12 +708,27 @@ const firstId = items[0]?.id ?? "";
     }
 
     .expertise-showcase__body {
+      --expertise-frame-height: 27rem;
+
       grid-template-columns: minmax(14rem, 0.72fr) minmax(0, 2.35fr);
       align-items: stretch;
     }
 
+    .expertise-showcase__tabs {
+      align-content: space-between;
+      height: var(--expertise-frame-height);
+    }
+
     .expertise-showcase__panel {
       grid-template-columns: minmax(18rem, 1.08fr) minmax(19rem, 1fr);
+      min-height: 24rem;
+    }
+
+    .expertise-showcase__visual {
+      height: var(--expertise-frame-height);
+    }
+
+    .expertise-showcase__browser {
       min-height: 24rem;
     }
   }
@@ -558,6 +737,39 @@ const firstId = items[0]?.id ?? "";
     .expertise-showcase__tab,
     .expertise-showcase__tab-indicator {
       transition: none;
+    }
+
+    .expertise-showcase__panel.is-active .expertise-showcase__content h3,
+    .expertise-showcase__panel.is-active .expertise-showcase__copy p,
+    .expertise-showcase__panel.is-active .expertise-showcase__pills span,
+    .expertise-showcase__panel.is-active,
+    .expertise-showcase__panel.is-active .expertise-showcase__visual-list,
+    .expertise-showcase__panel.is-active .expertise-showcase__visual-item {
+      animation: none;
+    }
+
+    .expertise-showcase__visual-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--visual-gap);
+      height: auto;
+    }
+
+    .expertise-showcase__visual-item,
+    .expertise-showcase__visual-item.is-stack-0,
+    .expertise-showcase__visual-item.is-stack-1,
+    .expertise-showcase__visual-item.is-stack-2,
+    .expertise-showcase__visual-item.is-stack-3,
+    .expertise-showcase__visual-item.is-exiting {
+      filter: none;
+      opacity: 1;
+      position: static;
+      transition: none;
+      transform: none;
+    }
+
+    .expertise-showcase__visual-item:nth-child(n + 5) {
+      display: none;
     }
   }
 </style>

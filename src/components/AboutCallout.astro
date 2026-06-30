@@ -37,7 +37,7 @@ const aboutPoints = [
 <section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-3xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-4xl md:py-28">
     <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-8 px-4 sm:gap-10 sm:px-8 md:gap-12">
         <div class="mx-auto flex max-w-4xl flex-col items-center gap-6 text-center md:gap-7">
-            <h2 class="flex flex-wrap justify-center gap-x-[0.18em] text-3xl font-medium leading-tighter tracking-normal text-snow-50 sm:text-4xl md:text-6xl">
+            <h2 class="section-heading section-heading--inverse flex flex-wrap justify-center gap-x-[0.18em]">
                 {
                     titleWords.map((word, index) => {
                         const cleanWord = word.replace("\u00A0", " ");
@@ -86,7 +86,7 @@ const aboutPoints = [
                     })
                 }
             </h2>
-            <p class="max-w-2xl text-sm font-light leading-6 text-coffee-50 sm:text-base sm:leading-7">
+            <p class="section-subheading section-subheading--inverse">
                 J'aide à transformer un site daté, une première présence ou une
                 idée produit en interface claire, accessible et crédible, avec un
                 accompagnement qui relie design, front-end et logique métier.
