@@ -14,21 +14,20 @@ export const prerender = true;
 
 const aboutHeroTitleWords = [
     "Du",
-    "graphisme",
+    "design",
     "au",
     "code,",
     "je",
-    "donne",
-    "forme",
-    "à",
-    "des",
+    "rends",
+    "vos",
     "sites",
-    "web",
-    "utiles",
+    "plus",
+    "clairs,",
+    "rapides",
     "et",
-    "soignés.",
+    "crédibles.",
 ];
-const highlightedAboutHeroWords = new Set(["sites", "web", "utiles", "soignés."]);
+const highlightedAboutHeroWords = new Set(["clairs,", "rapides", "crédibles."]);
 
 const pictures = [
     {
@@ -64,7 +63,7 @@ const clientAngles = [
         items: [
             "hiérarchie visuelle plus lisible",
             "interfaces plus faciles à comprendre",
-            "cohérence entre marque, contenu et action",
+            "cohérence entre marque, message et action",
         ],
     },
     {
@@ -88,7 +87,7 @@ const clientAngles = [
 
 <Layout
     title="À propos - William De Azevedo"
-    description="Développeur front-end avec une approche produit, design et full stack. Découvrez mon parcours, mes projets, mes compétences et mes formations."
+    description="Développeur front-end avec une approche design et produit pour créer des sites clairs, rapides, accessibles et crédibles."
 >
     <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 pb-16 sm:gap-16 sm:px-4 sm:pb-20">
         <section class="flex flex-col gap-6">
@@ -110,9 +109,9 @@ const clientAngles = [
             </h1>
             <FadeReveal delay={0.32}>
                 <p class="mx-auto max-w-120 text-center text-md font-light leading-tight text-coffee-300">
-                    J'aime partir d'une idée, clarifier l'expérience, puis la
-                    transformer en interface rapide, accessible et simple à
-                    maintenir.
+                    Mon rôle : repérer ce qui brouille la compréhension, rendre
+                    l'interface plus lisible, puis développer une base rapide,
+                    accessible et simple à maintenir.
                 </p>
             </FadeReveal>
             <Marquee />
@@ -138,8 +137,8 @@ const clientAngles = [
                 <p>
                     Aujourd'hui, je travaille sur des sites vitrines, des
                     interfaces produit et des applications complètes, avec le
-                    même objectif : livrer quelque chose de clair, rapide et
-                    réellement utile.
+                    même objectif : enlever les frictions qui font douter et
+                    livrer quelque chose de clair, rapide et réellement utile.
                 </p>
             </div>
         </section>

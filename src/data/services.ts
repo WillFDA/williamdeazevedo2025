@@ -37,17 +37,17 @@ export const services: Service[] = [
     title: "Création de site vitrine",
     seoTitle: "Création de site vitrine freelance - William De Azevedo",
     description:
-      "Création de sites vitrines rapides, accessibles et pensés pour convertir. Accompagnement design, contenu, SEO technique et développement front-end.",
+      "Création de sites vitrines rapides, accessibles et pensés pour rassurer avant le premier contact. Accompagnement design, contenu, SEO technique et développement front-end.",
     eyebrow: "Site vitrine freelance",
-    h1: "Création de sites vitrines clairs, rapides et pensés pour générer des demandes",
+    h1: "Création de sites vitrines qui rassurent avant le premier contact",
     intro:
-      "Je vous accompagne du cadrage à la mise en ligne pour construire un site professionnel, cohérent avec votre activité et simple à faire évoluer.",
+      "Je vous accompagne du cadrage à la mise en ligne pour construire un site clair, rapide, crédible et simple à faire évoluer.",
     serviceType: "Création de site vitrine",
     problem: {
-      title: "Un site vitrine doit faire plus que présenter votre activité",
+      title: "Un site vitrine doit éviter de créer du doute",
       items: [
-        "expliquer rapidement qui vous êtes et ce que vous proposez",
-        "rassurer avec des preuves, des contenus clairs et une interface soignée",
+        "expliquer rapidement qui vous êtes, ce que vous proposez et pour qui",
+        "rassurer avec des preuves, des contenus clairs et une interface actuelle",
         "guider le visiteur vers la bonne action sans le perdre",
         "charger vite, surtout sur mobile",
         "poser une base SEO technique propre dès la conception",
@@ -134,12 +134,12 @@ export const services: Service[] = [
     description:
       "Refonte de site internet pour clarifier votre offre, moderniser votre interface et améliorer performance, SEO technique et conversion.",
     eyebrow: "Refonte web",
-    h1: "Refonte de site internet pour clarifier votre offre et améliorer son efficacité",
+    h1: "Refonte de site internet pour enlever ce qui fait hésiter vos visiteurs",
     intro:
       "Je vous aide à comprendre ce qui freine votre site actuel, puis à reconstruire une expérience plus claire, plus rapide et plus crédible.",
     serviceType: "Refonte de site internet",
     problem: {
-      title: "Votre site est peut-être devenu un frein",
+      title: "Votre site est peut-être devenu un frein invisible",
       items: [
         "le design ne correspond plus à votre activité",
         "l'offre est difficile à comprendre",
@@ -226,12 +226,13 @@ export const services: Service[] = [
     description:
       "Développeur web freelance front-end pour sites vitrines, interfaces produit et intégrations rapides, accessibles et maintenables.",
     eyebrow: "Renfort front-end",
-    h1: "Développeur front-end freelance pour intégrer et faire évoluer vos interfaces web",
+    h1: "Développeur front-end freelance pour rendre vos interfaces plus claires",
     intro:
-      "J'interviens comme renfort autonome pour transformer des maquettes, améliorer une interface existante ou construire un front-end propre avec une attention forte au design.",
+      "J'interviens comme renfort autonome pour transformer des maquettes, améliorer une interface existante ou construire un front-end propre avec une attention forte au design, à l'accessibilité et à la performance.",
     serviceType: "Développement front-end freelance",
     problem: {
-      title: "Un renfort front-end doit comprendre plus que le code",
+      title:
+        "Un renfort front-end doit comprendre ce que l'interface doit résoudre",
       items: [
         "intégrer une maquette sans casser l'expérience responsive",
         "penser les états d'interaction, de chargement et d'erreur",

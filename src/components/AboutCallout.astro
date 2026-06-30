@@ -1,6 +1,8 @@
 ---
 import { Image } from "astro:assets";
-import Phone from "./icons/nucleo/phone-fill.svg";
+import Msgs from "./icons/nucleo/msgs-fill.svg";
+import UserHeart from "./icons/nucleo/user-heart-fill.svg";
+import WindowLayout from "./icons/nucleo/window-layout-fill.svg";
 import williamPortrait from "../assets/williamdeazevedo.webp";
 
 interface Props {
@@ -12,19 +14,19 @@ const titleWords = title.replace("design !", "design\u00A0!").split(" ");
 const aboutPoints = [
     {
         description:
-            "Développement front-end, intégration soignée et interfaces prêtes à évoluer.",
-        icon: "code",
-        title: "+3 ans d'expérience",
+            "Design graphique, 3D, motion design puis développement web : un parcours complet au service d'interfaces claires.",
+        icon: "window-layout",
+        title: "+10 ans d'expérience",
     },
     {
         description:
-            "Des collaborations claires, avec des retours rapides et des livraisons fiables.",
+            "Des collaborations cadrées, avec des décisions lisibles et des livraisons fiables.",
         icon: "users",
         title: "+10 clients satisfaits",
     },
     {
         description:
-            "Une approche B2B et IA qui relie design, usage et contraintes techniques.",
+            "Une approche B2B et produit qui relie clarté, usage et contraintes techniques.",
         icon: "product",
         title: "Culture produit SaaS",
     },
@@ -88,56 +90,17 @@ const aboutPoints = [
                     <li class="about-callout-proof-card">
                         <div class="about-callout-proof-card__header">
                             <span class="about-callout-proof-card__icon">
-                                {point.icon === "code" && (
-                                    <svg
+                                {point.icon === "window-layout" && (
+                                    <WindowLayout
                                         aria-hidden="true"
                                         class="size-5"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="m9 18-6-6 6-6"
-                                            stroke="currentColor"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="1.8"
-                                        />
-                                        <path
-                                            d="m15 6 6 6-6 6"
-                                            stroke="currentColor"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="1.8"
-                                        />
-                                    </svg>
+                                    />
                                 )}
                                 {point.icon === "users" && (
-                                    <svg
+                                    <UserHeart
                                         aria-hidden="true"
                                         class="size-5"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M16 19c0-2.2-1.8-4-4-4s-4 1.8-4 4"
-                                            stroke="currentColor"
-                                            stroke-linecap="round"
-                                            stroke-width="1.8"
-                                        />
-                                        <path
-                                            d="M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
-                                            stroke="currentColor"
-                                            stroke-width="1.8"
-                                        />
-                                        <path
-                                            d="M19 18c-.2-1.7-1.2-3-2.6-3.7"
-                                            stroke="currentColor"
-                                            stroke-linecap="round"
-                                            stroke-width="1.8"
-                                        />
-                                    </svg>
+                                    />
                                 )}
                                 {point.icon === "product" && (
                                     <svg
@@ -187,7 +150,7 @@ const aboutPoints = [
             data-cal-open
             type="button"
         >
-            <Phone
+            <Msgs
                 aria-hidden="true"
                 class="about-callout-cta__icon size-5"
             />

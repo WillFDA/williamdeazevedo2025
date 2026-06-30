@@ -8,6 +8,7 @@ import ProjectIntro from "../components/ProjectIntro.astro";
 import Differenciates from "@/sections/Differenciates.astro";
 import ArrowRight from "../components/icons/nucleo/arrow-right-fill.svg";
 import Star from "../components/icons/nucleo/star-fill.svg";
+import XMark from "../components/icons/nucleo/xmark-fill.svg";
 import { Image } from "astro:assets";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
@@ -25,12 +26,21 @@ const heroTitleParts = [
     { text: "et" },
     { text: "des" },
     { text: "interfaces" },
-    { pill: true, text: "rapides, soignés" },
+    { pill: true, text: "rapides," },
+    { pill: true, text: "accessibles" },
     { text: "et" },
     { text: "pensés" },
     { text: "pour" },
-    { pill: true, text: "convertir." },
+    { text: "inspirer" },
+    { pill: true, text: "confiance." },
 ];
+
+const problemItems = [
+    "Votre site existe, mais il paraît daté, peu accessible ou pas au niveau de votre travail ?",
+    "Vous n'avez pas encore de site et vous ne savez pas par où commencer ?",
+    "Vous voulez construire un SaaS ou un produit avec un développeur capable de relier design, front-end et logique métier ?",
+    "Vous en avez assez des prestataires flous, des conseils contradictoires et des livraisons bancales ?",
+] as const;
 
 const expertiseItems = [
     {
@@ -39,8 +49,8 @@ const expertiseItems = [
         icon: "site",
         title: "Construire une présence claire et crédible",
         description: [
-            "Je pars de votre offre, de vos contenus et de vos objectifs pour créer un site lisible, rapide et cohérent avec votre activité.",
-            "L'objectif : aider vos visiteurs à comprendre ce que vous proposez, puis les guider vers la bonne action sans friction.",
+            "Je pars de votre offre, de vos contenus et des objections de vos prospects pour créer un site qui se comprend vite.",
+            "L'objectif : transformer une première impression fragile en parcours rassurant, rapide et orienté contact.",
         ],
         pills: [
             "Architecture des pages",
@@ -55,8 +65,8 @@ const expertiseItems = [
         icon: "refresh",
         title: "Repenser ce qui freine votre site actuel",
         description: [
-            "Je vous aide à identifier ce qui manque de clarté, ce qui ralentit l'expérience et ce qui empêche vos visiteurs de passer à l'étape suivante.",
-            "On conserve ce qui fonctionne, on simplifie ce qui brouille le message et on reconstruit une base plus propre.",
+            "Je vous aide à repérer ce qui crée du doute : message confus, hiérarchie faible, mobile pénible, lenteur ou design daté.",
+            "On garde ce qui fonctionne, on retire ce qui brouille le parcours et on reconstruit une base plus lisible.",
         ],
         pills: [
             "Audit rapide",
@@ -71,8 +81,8 @@ const expertiseItems = [
         icon: "code",
         title: "Intégrer et faire évoluer vos interfaces",
         description: [
-            "J'interviens comme renfort autonome pour transformer des maquettes en interfaces propres, maintenables et agréables à utiliser.",
-            "Je peux aussi améliorer une interface existante avec un regard front-end, design, accessibilité et performance.",
+            "J'interviens comme renfort autonome pour transformer des maquettes ou écrans existants en interfaces propres et maintenables.",
+            "Le regard reste autant front-end que produit : responsive, accessibilité, performance, états d'interface et détails visuels.",
         ],
         pills: [
             "Intégration Figma",
@@ -87,8 +97,8 @@ const expertiseItems = [
         icon: "refresh",
         title: "Clarifier les points de friction avant de construire",
         description: [
-            "Je relis votre parcours, vos pages clés et vos messages pour repérer ce qui ralentit la compréhension ou la prise de contact.",
-            "Vous repartez avec des priorités concrètes, pas une liste abstraite de recommandations.",
+            "Je relis votre parcours, vos pages clés et vos messages pour voir où un visiteur hésite, décroche ou ne comprend pas la suite.",
+            "Vous repartez avec des priorités concrètes : quoi clarifier, quoi supprimer, quoi améliorer en premier.",
         ],
         pills: [
             "Parcours utilisateur",
@@ -104,7 +114,7 @@ const expertiseItems = [
         title: "Rendre votre site plus rapide et plus stable",
         description: [
             "J'optimise les pages qui comptent : poids des assets, structure front-end, rendu mobile et points bloquants côté expérience.",
-            "L'objectif est simple : un site plus fluide, plus lisible et plus agréable à parcourir.",
+            "Un site plus rapide est aussi un site plus rassurant : il donne moins de raisons de partir avant d'avoir compris l'offre.",
         ],
         pills: [
             "Core Web Vitals",
@@ -120,7 +130,7 @@ const expertiseItems = [
         title: "Faire évoluer l'interface avec une logique produit",
         description: [
             "Je vous aide à prioriser les évolutions utiles, à transformer les retours terrain en écrans concrets et à garder une interface cohérente.",
-            "C'est un accompagnement pensé pour avancer vite sans perdre la qualité du design et du front-end.",
+            "C'est un accompagnement pensé pour avancer vite sans accumuler des rustines qui rendent le produit moins clair.",
         ],
         pills: [
             "Priorisation",
@@ -186,8 +196,7 @@ const displayedTestimonials = temoignages
                     class="mx-auto max-w-[22rem] text-center text-md font-light leading-tight tracking-normal text-coffee-300 sm:max-w-120"
                 >
                     J’aide les petites structures et les équipes produit à lancer
-                    des interfaces & sites performants, accessibles et
-                    SEO-friendly.
+                    des interfaces & sites performants, soignés et SEO-friendly.
                 </p>
             </FadeReveal>
             <FadeReveal delay={0.44}>
@@ -211,9 +220,9 @@ const displayedTestimonials = temoignages
                     </button>
                     <a
                         class="hero-button hero-button--secondary font-regular flex min-h-14 w-full max-w-full items-center justify-center rounded-xl px-8 py-3 text-md sm:w-auto sm:px-10"
-                        href="#projects"
+                        href="/methode"
                         ><WaveText
-                            text="Voir mes réalisations"
+                            text="Voir comment je travaille"
                             trigger="parent"
                         /></a
                     >
@@ -273,11 +282,49 @@ const displayedTestimonials = temoignages
             </FadeReveal>
         </div>
     </section>
+    <section
+        class="mx-auto w-full max-w-5xl px-4 pt-10 pb-16 sm:px-8 md:pt-14 md:pb-20"
+        aria-labelledby="problems-title"
+    >
+        <div class="mx-auto flex max-w-4xl flex-col items-center gap-4 text-center">
+            <FadeReveal delay={0.1}>
+                <h2
+                    id="problems-title"
+                    class="text-[clamp(2.35rem,4.4vw,4.6rem)] font-medium leading-[0.94] text-gray-900"
+                >
+                    Vous vous reconnaissez ?
+                </h2>
+            </FadeReveal>
+            <FadeReveal delay={0.18}>
+                <p class="max-w-2xl text-[0.95rem] font-light leading-[1.55] text-coffee-300">
+                    Une bonne offre peut rester invisible si votre site ne donne pas
+                    assez vite envie de comprendre, de faire confiance et de passer
+                    à l'action.
+                </p>
+            </FadeReveal>
+        </div>
+        <ul class="mx-auto mt-10 flex max-w-2xl flex-col gap-5">
+            {
+                problemItems.map((problem, index) => (
+                    <FadeReveal delay={0.16 + index * 0.08}>
+                        <li class="flex items-center gap-3">
+                            <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-snow-50 text-[#ef3434] ring-1 ring-snow-600">
+                                <XMark class="size-4" />
+                            </span>
+                            <p class="text-base font-normal leading-snug text-gray-900 sm:text-lg">
+                                {problem}
+                            </p>
+                        </li>
+                    </FadeReveal>
+                ))
+            }
+        </ul>
+    </section>
     <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !" />
     <div class="mx-auto w-full max-w-7xl px-4 py-20 sm:px-8 md:py-24">
         <ExpertiseShowcase
-            title="Des expertises maîtrisées pour faire avancer votre projet web"
-            description="Du cadrage à l'exécution, chaque accompagnement sert un objectif simple : clarifier votre offre, soigner l'expérience et livrer une base solide."
+            title="Ce que je corrige pour rendre un site plus convaincant"
+            description="Chaque accompagnement part d'un frein concret : manque de clarté, expérience lente, design qui ne rassure plus ou interface difficile à faire évoluer."
             items={expertiseItems}
         />
     </div>
