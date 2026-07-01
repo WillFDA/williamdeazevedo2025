@@ -330,10 +330,12 @@ body {
 
 html {
   overflow-x: clip;
+  overscroll-behavior-y: none;
 }
 
 body {
   overflow-x: clip;
+  overscroll-behavior-y: none;
 }
 
 button {

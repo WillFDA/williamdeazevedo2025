@@ -60,9 +60,14 @@ const {
         z-index: -1;
     }
 
-    .cal-button:hover::before,
     .cal-button:focus-visible::before {
         transform: scale(0.95);
+    }
+
+    @media (hover: hover) {
+        .cal-button:hover::before {
+            transform: scale(0.95);
+        }
     }
 
     .cal-button:focus-visible {

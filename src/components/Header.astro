@@ -45,10 +45,39 @@ const serviceLinks = services.map((service) => ({
     </div>
     <nav
         aria-label="Navigation principale"
-        class="relative mx-auto flex max-w-5xl flex-col items-center gap-4 sm:min-h-10 sm:p-4"
+        class="relative mx-auto flex max-w-5xl flex-col items-center gap-0 px-3 py-2 sm:min-h-10 sm:p-4"
     >
+        <div class="flex w-full items-center justify-between sm:hidden">
+            <a
+                class="text-gray-900 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                href="/"
+                aria-label="William De Azevedo - Accueil"
+            >
+                <svg
+                    class="h-5 w-auto"
+                    viewBox="0 0 53 30"
+                    fill="currentColor"
+                    aria-hidden="true"
+                >
+                    <path d="M53 0L44.985 13.8765L37.0616 0H53Z"></path>
+                    <path d="M35.6656 30L40.8419 21.0452L28.8221 0H18.5282L23.1758 8.12843L23.1724 8.13363L28.302 17.1144L28.3037 17.1109L35.6656 30Z"></path>
+                    <path d="M17.1391 30L22.3137 21.0452L10.2938 0H0L4.64761 8.12843L4.64415 8.13363L9.7738 17.1144L9.77553 17.1109L17.1391 30Z"></path>
+                </svg>
+            </a>
+            <button
+                class="mobile-menu-button"
+                type="button"
+                aria-controls="mobile-menu"
+                aria-expanded="false"
+                aria-label="Ouvrir le menu"
+                data-mobile-menu-button
+            >
+                <span></span>
+                <span></span>
+            </button>
+        </div>
         <a
-            class="text-gray-900 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 sm:absolute sm:left-4 sm:top-1/2 sm:-translate-y-1/2"
+            class="hidden text-gray-900 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 sm:absolute sm:left-4 sm:top-1/2 sm:block sm:-translate-y-1/2"
             href="/"
             aria-label="William De Azevedo - Accueil"
         >
@@ -64,7 +93,7 @@ const serviceLinks = services.map((service) => ({
             </svg>
         </a>
         <ul
-            class="relative flex flex-wrap gap-1 justify-center items-center text-[10px] font-light sm:gap-3 sm:text-xs"
+            class="relative hidden flex-wrap gap-1 justify-center items-center text-[10px] font-light sm:flex sm:gap-3 sm:text-xs"
         >
             {
                 items.map((item) => (
@@ -155,6 +184,78 @@ const serviceLinks = services.map((service) => ({
                 ))
             }
         </ul>
+        <div id="mobile-menu" class="mobile-menu" data-mobile-menu hidden>
+            <div class="mobile-menu__panel">
+                {
+                    items.map((item) =>
+                        item.id === "services" ? (
+                            <details class="mobile-services">
+                                <summary
+                                    class:list={[
+                                        "mobile-menu__link mobile-services__summary",
+                                        item.active && "mobile-menu__link--active",
+                                    ]}
+                                >
+                                    <span>Services</span>
+                                    <ChevronUp
+                                        aria-hidden="true"
+                                        class="mobile-services__chevron size-3"
+                                    />
+                                </summary>
+                                <div class="mobile-services__panel">
+                                    <a
+                                        aria-current={item.active ? "page" : undefined}
+                                        class="mobile-service-link"
+                                        href="/services"
+                                    >
+                                        <span
+                                            class="nav-dropdown__icon"
+                                            aria-hidden="true"
+                                        >
+                                            <ViewAll class="size-4" />
+                                        </span>
+                                        <span>Tous les services</span>
+                                    </a>
+                                    {serviceLinks.map((service) => (
+                                        <a
+                                            class="mobile-service-link"
+                                            href={service.href}
+                                        >
+                                            <span
+                                                class="nav-dropdown__icon"
+                                                aria-hidden="true"
+                                            >
+                                                {service.href.includes("creation-site-vitrine") && (
+                                                    <WindowPointer class="size-4" />
+                                                )}
+                                                {service.href.includes("refonte-site-internet") && (
+                                                    <WindowPaintbrush class="size-4" />
+                                                )}
+                                                {service.href.includes("developpeur-web-freelance") && (
+                                                    <CodeEditor class="size-4" />
+                                                )}
+                                            </span>
+                                            <span>{service.label}</span>
+                                        </a>
+                                    ))}
+                                </div>
+                            </details>
+                        ) : (
+                            <a
+                                aria-current={item.active ? "page" : undefined}
+                                class:list={[
+                                    "mobile-menu__link",
+                                    item.active && "mobile-menu__link--active",
+                                ]}
+                                href={item.href}
+                            >
+                                {item.label}
+                            </a>
+                        ),
+                    )
+                }
+            </div>
+        </div>
     </nav>
 </header>
 
@@ -162,6 +263,26 @@ const serviceLinks = services.map((service) => ({
     .site-header {
         isolation: isolate;
         position: sticky;
+    }
+
+    .site-header::after {
+        -webkit-backdrop-filter: blur(0);
+        backdrop-filter: blur(0);
+        content: "";
+        inset: 0;
+        opacity: 0;
+        pointer-events: none;
+        position: fixed;
+        transition:
+            opacity 240ms cubic-bezier(0.2, 0, 0, 1),
+            backdrop-filter 240ms cubic-bezier(0.2, 0, 0, 1);
+        z-index: 0;
+    }
+
+    .site-header[data-mobile-menu-open]::after {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        opacity: 1;
     }
 
     .header-bg {
@@ -272,6 +393,183 @@ const serviceLinks = services.map((service) => ({
         z-index: 1;
     }
 
+    .mobile-menu-button {
+        align-items: center;
+        background: var(--color-snow-50);
+        border: 0;
+        border-radius: 1rem;
+        box-shadow:
+            0 16px 34px -24px rgba(34, 42, 55, 0.52),
+            inset 0 0 0 1px rgba(34, 42, 55, 0.06);
+        color: var(--color-gray-900);
+        cursor: pointer;
+        display: inline-flex;
+        flex-direction: column;
+        gap: 0.28rem;
+        height: 2.75rem;
+        justify-content: center;
+        width: 2.75rem;
+    }
+
+    .mobile-menu-button span {
+        background: currentColor;
+        border-radius: 9999px;
+        height: 0.125rem;
+        transition:
+            transform 200ms cubic-bezier(0.2, 0, 0, 1),
+            opacity 200ms cubic-bezier(0.2, 0, 0, 1);
+        width: 1rem;
+    }
+
+    .site-header[data-mobile-menu-open] .mobile-menu-button span:first-child {
+        transform: translateY(0.2rem) rotate(45deg);
+    }
+
+    .site-header[data-mobile-menu-open] .mobile-menu-button span:last-child {
+        transform: translateY(-0.2rem) rotate(-45deg);
+    }
+
+    .mobile-menu {
+        height: 0;
+        left: 0.75rem;
+        opacity: 0;
+        overflow: hidden;
+        padding-top: 0.75rem;
+        position: absolute;
+        right: 0.75rem;
+        top: 100%;
+        transition:
+            height 360ms cubic-bezier(0.2, 0, 0, 1),
+            opacity 220ms cubic-bezier(0.2, 0, 0, 1);
+        z-index: 30;
+    }
+
+    .mobile-menu[hidden] {
+        display: none;
+    }
+
+    .mobile-menu__panel {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 1.25rem;
+        box-shadow: 0 22px 48px -34px rgba(34, 42, 55, 0.54);
+        display: grid;
+        gap: 0.25rem;
+        padding: 0.4rem;
+    }
+
+    .mobile-menu__panel > *,
+    .mobile-services__panel > * {
+        opacity: 0;
+        transform: translateY(-0.45rem);
+        transition:
+            opacity 260ms cubic-bezier(0.2, 0, 0, 1),
+            transform 320ms cubic-bezier(0.2, 0, 0, 1);
+        transition-delay: var(--mobile-menu-item-delay, 0ms);
+    }
+
+    .site-header[data-mobile-menu-open] .mobile-menu__panel > *,
+    .site-header[data-mobile-menu-open] .mobile-services__panel > * {
+        opacity: 1;
+        transform: none;
+    }
+
+    .mobile-menu__panel > :nth-child(1) {
+        --mobile-menu-item-delay: 60ms;
+    }
+
+    .mobile-menu__panel > :nth-child(2) {
+        --mobile-menu-item-delay: 95ms;
+    }
+
+    .mobile-menu__panel > :nth-child(3) {
+        --mobile-menu-item-delay: 130ms;
+    }
+
+    .mobile-menu__panel > :nth-child(4) {
+        --mobile-menu-item-delay: 165ms;
+    }
+
+    .mobile-menu__panel > :nth-child(5) {
+        --mobile-menu-item-delay: 200ms;
+    }
+
+    .mobile-menu__panel > :nth-child(6) {
+        --mobile-menu-item-delay: 235ms;
+    }
+
+    .mobile-menu__panel > :nth-child(7) {
+        --mobile-menu-item-delay: 270ms;
+    }
+
+    .mobile-menu__panel > :nth-child(8) {
+        --mobile-menu-item-delay: 305ms;
+    }
+
+    .mobile-services__panel > :nth-child(1) {
+        --mobile-menu-item-delay: 130ms;
+    }
+
+    .mobile-services__panel > :nth-child(2) {
+        --mobile-menu-item-delay: 165ms;
+    }
+
+    .mobile-services__panel > :nth-child(3) {
+        --mobile-menu-item-delay: 200ms;
+    }
+
+    .mobile-services__panel > :nth-child(4) {
+        --mobile-menu-item-delay: 235ms;
+    }
+
+    .mobile-menu__link,
+    .mobile-service-link {
+        align-items: center;
+        border-radius: 0.9rem;
+        color: var(--color-gray-900);
+        display: flex;
+        min-height: 3rem;
+        padding: 0 0.9rem;
+        text-decoration: none;
+    }
+
+    .mobile-menu__link {
+        justify-content: space-between;
+    }
+
+    .mobile-menu__link--active {
+        background: var(--color-snow-300);
+    }
+
+    .mobile-services__summary {
+        cursor: pointer;
+        list-style: none;
+    }
+
+    .mobile-services__summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .mobile-services__chevron {
+        transform: rotate(180deg);
+        transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .mobile-services[open] .mobile-services__chevron {
+        transform: rotate(0deg);
+    }
+
+    .mobile-services__panel {
+        display: grid;
+        gap: 0.2rem;
+        padding: 0.3rem 0 0.35rem 0.35rem;
+    }
+
+    .mobile-service-link {
+        color: var(--color-gray-600);
+        gap: 0.75rem;
+        min-height: 2.85rem;
+    }
+
     .nav-link {
         background: transparent;
         border: 0;
@@ -294,9 +592,14 @@ const serviceLinks = services.map((service) => ({
         z-index: 0;
     }
 
-    .nav-link:hover .nav-link__active-bg,
     .nav-link:focus-visible .nav-link__active-bg {
         transform: scale(0.95);
+    }
+
+    @media (hover: hover) {
+        .nav-link:hover .nav-link__active-bg {
+            transform: scale(0.95);
+        }
     }
 
     .nav-link:focus-visible {
@@ -314,9 +617,14 @@ const serviceLinks = services.map((service) => ({
         position: relative;
     }
 
-    .nav-dropdown:hover .nav-link__chevron,
     .nav-dropdown:focus-within .nav-link__chevron {
         transform: rotate(0deg);
+    }
+
+    @media (hover: hover) {
+        .nav-dropdown:hover .nav-link__chevron {
+            transform: rotate(0deg);
+        }
     }
 
     .nav-dropdown__panel {
@@ -345,11 +653,18 @@ const serviceLinks = services.map((service) => ({
         padding: 0.5rem;
     }
 
-    .nav-dropdown:hover .nav-dropdown__panel,
     .nav-dropdown:focus-within .nav-dropdown__panel {
         opacity: 1;
         pointer-events: auto;
         transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    @media (hover: hover) {
+        .nav-dropdown:hover .nav-dropdown__panel {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
     }
 
     .nav-dropdown__overview,
@@ -369,10 +684,16 @@ const serviceLinks = services.map((service) => ({
         transition: background-color 180ms cubic-bezier(0.2, 0, 0, 1);
     }
 
-    .nav-dropdown__media:hover,
     .nav-dropdown__media:focus-visible {
         background: var(--color-snow-200);
         outline: none;
+    }
+
+    @media (hover: hover) {
+        .nav-dropdown__media:hover {
+            background: var(--color-snow-200);
+            outline: none;
+        }
     }
 
     .nav-dropdown__list {
@@ -413,12 +734,18 @@ const serviceLinks = services.map((service) => ({
         font-weight: 400;
     }
 
-    .nav-dropdown__overview:hover,
     .nav-dropdown__overview:focus-visible,
-    .nav-dropdown__link:hover,
     .nav-dropdown__link:focus-visible {
         background: var(--color-snow-200);
         outline: none;
+    }
+
+    @media (hover: hover) {
+        .nav-dropdown__overview:hover,
+        .nav-dropdown__link:hover {
+            background: var(--color-snow-200);
+            outline: none;
+        }
     }
 
     .nav-dropdown__icon {
@@ -455,7 +782,13 @@ const serviceLinks = services.map((service) => ({
         .nav-link__active-bg,
         .nav-link__chevron,
         .nav-dropdown__panel,
-        .header-bg {
+        .mobile-menu-button span,
+        .mobile-menu,
+        .mobile-menu__panel > *,
+        .mobile-services__panel > *,
+        .mobile-services__chevron,
+        .header-bg,
+        .site-header::after {
             transition: none;
         }
     }
@@ -464,6 +797,7 @@ const serviceLinks = services.map((service) => ({
 <script>
     const windowWithHeaderBg = window as Window & {
         __wuiHeaderBgReady?: boolean;
+        __wuiMobileNavReady?: boolean;
     };
 
     const syncHeaderBg = () => {
@@ -476,6 +810,118 @@ const serviceLinks = services.map((service) => ({
         window.addEventListener("scroll", syncHeaderBg, { passive: true });
         document.addEventListener("astro:page-load", syncHeaderBg);
         windowWithHeaderBg.__wuiHeaderBgReady = true;
+    }
+
+    const setMobileMenuOpen = (header: HTMLElement, open: boolean) => {
+        const button = header.querySelector<HTMLButtonElement>("[data-mobile-menu-button]");
+        const menu = header.querySelector<HTMLElement>("[data-mobile-menu]");
+
+        if (!(button && menu)) {
+            return;
+        }
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        button.setAttribute("aria-expanded", String(open));
+        button.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
+
+        if (reduceMotion) {
+            menu.hidden = !open;
+            menu.style.height = open ? "auto" : "0px";
+            menu.style.opacity = open ? "1" : "0";
+            header.toggleAttribute("data-mobile-menu-open", open);
+            return;
+        }
+
+        menu.getAnimations().forEach((animation) => animation.cancel());
+
+        if (open) {
+            menu.hidden = false;
+            menu.querySelectorAll<HTMLDetailsElement>(".mobile-services").forEach(
+                (details) => {
+                    details.open = false;
+                },
+            );
+            menu.style.height = "0px";
+            menu.style.opacity = "0";
+            void menu.offsetHeight;
+            header.toggleAttribute("data-mobile-menu-open", true);
+            menu.style.height = `${menu.scrollHeight}px`;
+            menu.style.opacity = "1";
+
+            const settleAfterOpen = (event: TransitionEvent) => {
+                if (event.propertyName === "height") {
+                    menu.style.height = "auto";
+                    menu.removeEventListener("transitionend", settleAfterOpen);
+                }
+            };
+
+            menu.addEventListener("transitionend", settleAfterOpen);
+            return;
+        }
+
+        menu.style.height = `${menu.scrollHeight}px`;
+        menu.style.opacity = "1";
+        void menu.offsetHeight;
+        header.toggleAttribute("data-mobile-menu-open", false);
+        menu.style.height = "0px";
+        menu.style.opacity = "0";
+
+        const hideAfterClose = (event: TransitionEvent) => {
+            if (event.propertyName !== "height") {
+                return;
+            }
+
+            menu.hidden = true;
+            menu.removeEventListener("transitionend", hideAfterClose);
+        };
+
+        menu.addEventListener("transitionend", hideAfterClose);
+    };
+
+    if (!windowWithHeaderBg.__wuiMobileNavReady) {
+        document.addEventListener("click", (event) => {
+            const target = event.target as Element | null;
+
+            if (!target) {
+                return;
+            }
+
+            const button = target.closest<HTMLElement>("[data-mobile-menu-button]");
+
+            if (button) {
+                const header = button.closest<HTMLElement>("[data-site-header]");
+                const open = button.getAttribute("aria-expanded") !== "true";
+
+                if (header) {
+                    setMobileMenuOpen(header, open);
+                }
+
+                return;
+            }
+
+            const mobileLink = target.closest<HTMLAnchorElement>("[data-mobile-menu] a");
+
+            if (mobileLink) {
+                const header = mobileLink.closest<HTMLElement>("[data-site-header]");
+
+                if (header) {
+                    setMobileMenuOpen(header, false);
+                }
+            }
+        });
+
+        window.addEventListener("resize", () => {
+            if (!window.matchMedia("(min-width: 640px)").matches) {
+                return;
+            }
+
+            document.querySelectorAll<HTMLElement>("[data-site-header]").forEach((header) => {
+                setMobileMenuOpen(header, false);
+            });
+        });
+
+        windowWithHeaderBg.__wuiMobileNavReady = true;
     }
 
     syncHeaderBg();

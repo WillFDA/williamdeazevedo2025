@@ -45,9 +45,11 @@ const isExternal = link.startsWith("http");
             background-color 200ms ease;
     }
 
-    .article-card:hover {
-        background: var(--color-gray-50);
-        border-color: var(--color-gray-300);
+    @media (hover: hover) {
+        .article-card:hover {
+            background: var(--color-gray-50);
+            border-color: var(--color-gray-300);
+        }
     }
 
     .article-card__media {

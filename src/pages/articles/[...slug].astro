@@ -193,8 +193,10 @@ const breadcrumbJsonLd = {
         transition: color 200ms ease;
     }
 
-    .article-prose a:hover {
-        color: var(--color-gray-900);
+    @media (hover: hover) {
+        .article-prose a:hover {
+            color: var(--color-gray-900);
+        }
     }
 
     .article-prose ul,

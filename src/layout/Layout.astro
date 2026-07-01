@@ -44,6 +44,7 @@ const personJsonLd = {
         "Développeur front-end freelance orienté design et produit, je rends les sites plus clairs, rapides, accessibles et crédibles.",
     sameAs: [
         "https://www.linkedin.com/in/william-de-azevedo/",
+        "https://x.com/Williamdazevedo",
         "https://github.com/WillFDA",
         "https://www.malt.fr/profile/williamferreiradeazevedo",
     ],
@@ -163,6 +164,47 @@ const personJsonLd = {
         </main>
         <Footer />
         <CalDrawer />
+        <script>
+            import {
+                initFadeInAnimations,
+                resetFadeInAnimations,
+            } from "../scripts/animations/fadeIn";
+
+            const windowWithSectionReveal = window as Window & {
+                __wuiSectionRevealReady?: boolean;
+            };
+
+            const prepareSectionReveals = (root: Document) => {
+                root.querySelectorAll<HTMLElement>("#main-content section").forEach(
+                    (section, index) => {
+                        if (section.dataset.revealOnScroll === "") {
+                            return;
+                        }
+
+                        section.dataset.revealOnScroll = "";
+                        section.classList.add("section-fade-reveal", "is-reveal-ready");
+                        section.style.setProperty(
+                            "--fade-delay",
+                            `${Math.min(index * 0.06, 0.18)}s`,
+                        );
+                    },
+                );
+
+                initFadeInAnimations(root);
+            };
+
+            prepareSectionReveals(document);
+
+            if (!windowWithSectionReveal.__wuiSectionRevealReady) {
+                document.addEventListener("astro:page-load", () =>
+                    prepareSectionReveals(document),
+                );
+                document.addEventListener("astro:before-swap", () =>
+                    resetFadeInAnimations(document),
+                );
+                windowWithSectionReveal.__wuiSectionRevealReady = true;
+            }
+        </script>
     </body>
 </html>
 
@@ -197,6 +239,46 @@ const personJsonLd = {
     @media (prefers-reduced-motion: reduce) {
         .skip-link {
             transition: none;
+        }
+    }
+
+    :global(.section-fade-reveal) {
+        transition:
+            opacity 1050ms cubic-bezier(0.16, 1, 0.3, 1),
+            transform 1050ms cubic-bezier(0.16, 1, 0.3, 1),
+            filter 1050ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition-delay: var(--fade-delay, 0s);
+    }
+
+    :global(.section-fade-reveal.is-reveal-ready) {
+        filter: blur(2px);
+        opacity: 0;
+        transform: translate3d(0, 1.2rem, 0);
+        will-change: opacity, transform, filter;
+    }
+
+    :global(.section-fade-reveal.is-reveal-ready.is-visible),
+    :global(.section-fade-reveal.is-reveal-complete) {
+        filter: none;
+        opacity: 1;
+        transform: none;
+        will-change: auto;
+    }
+
+    :global(.section-fade-reveal.is-reveal-complete) {
+        transition: none;
+    }
+
+    @media (scripting: none), (prefers-reduced-motion: reduce) {
+        :global(.section-fade-reveal),
+        :global(.section-fade-reveal.is-reveal-ready),
+        :global(.section-fade-reveal.is-reveal-ready.is-visible),
+        :global(.section-fade-reveal.is-reveal-complete) {
+            filter: none;
+            opacity: 1;
+            transform: none;
+            transition: none;
+            will-change: auto;
         }
     }
 </style>

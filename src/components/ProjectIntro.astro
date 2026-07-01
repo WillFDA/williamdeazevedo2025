@@ -108,9 +108,7 @@ const isDetailsExternal = detailsHref?.startsWith("http");
             filter 260ms ease;
     }
 
-    .project-intro:hover .project-intro__icon,
     .project-intro:focus-within .project-intro__icon,
-    :global(.project-showcase:hover) .project-intro__icon,
     :global(.project-showcase:focus-within) .project-intro__icon {
         filter: blur(0);
         opacity: 1;
@@ -178,9 +176,21 @@ const isDetailsExternal = detailsHref?.startsWith("http");
         z-index: -1;
     }
 
-    .project-intro__button:hover::before,
     .project-intro__button:focus-visible::before {
         transform: scale(0.95);
+    }
+
+    @media (hover: hover) {
+        .project-intro:hover .project-intro__icon,
+        :global(.project-showcase:hover) .project-intro__icon {
+            filter: blur(0);
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .project-intro__button:hover::before {
+            transform: scale(0.95);
+        }
     }
 
     .project-intro__button:focus-visible {

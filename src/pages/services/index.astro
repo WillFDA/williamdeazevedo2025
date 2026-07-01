@@ -1,11 +1,42 @@
 ---
 import CalButton from "@/components/CalButton.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
-import { homeProjects } from "@/data/projects";
+import CodeEditor from "@/components/icons/nucleo/code-editor-fill.svg";
+import WindowPaintbrush from "@/components/icons/nucleo/window-paintbrush-fill.svg";
+import WindowPointer from "@/components/icons/nucleo/window-pointer-fill.svg";
+import ProjectShowcase from "@/components/ProjectShowcase.astro";
 import { services } from "@/data/services";
 import Layout from "@/layout/Layout.astro";
 
 export const prerender = true;
+
+const servicesHeroTitleParts = [
+    { text: "Votre" },
+    { pill: true, text: "site existe." },
+    { text: "Est-ce" },
+    { text: "qu'il" },
+    { text: "inspire" },
+    { pill: true, text: "confiance" },
+    { text: "assez" },
+    { text: "vite ?" },
+];
+
+const serviceCardIcons = {
+    "creation-site-vitrine": { icon: "window", tint: "#4169e1" },
+    "developpeur-web-freelance": { icon: "code", tint: "#a090ee" },
+    "refonte-site-internet": { icon: "paintbrush", tint: "#8ed2ec" },
+} as const;
+
+const commonBaseItems = [
+    "Cadrage des objectifs",
+    "Structure des pages",
+    "Design responsive",
+    "Développement front-end",
+    "Accessibilité et performance",
+    "SEO technique initial",
+    "Mise en ligne",
+    "Suivi des conversions",
+] as const;
 ---
 
 <Layout
@@ -13,29 +44,56 @@ export const prerender = true;
     description="Création de site vitrine, refonte et développement front-end pour corriger les sites flous, lents ou datés et construire des interfaces claires, rapides et crédibles."
 >
     <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 pb-20">
-        <FadeReveal delay={0.1}>
-            <section class="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
-                <h1 class="page-heading">
-                    Votre site existe. Est-ce qu'il inspire confiance assez vite ?
-                </h1>
+        <section class="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
+            <h1
+                class="page-heading flex w-full max-w-[22rem] flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
+                data-services-animated-title
+            >
+                {
+                    servicesHeroTitleParts.map((part, index) => (
+                        <span
+                            class:list={[part.pill && "services-title-pill"]}
+                            style={`--animated-word-index: ${index}`}
+                            data-services-animated-title-word
+                        >
+                            {part.text}
+                        </span>
+                    ))
+                }
+            </h1>
+            <FadeReveal delay={0.32}>
                 <p class="page-subheading">
                     J'aide les indépendants, petites structures et équipes produit
                     à corriger ce qui fait hésiter : offre floue, design daté,
                     lenteur, mobile inconfortable ou parcours de contact fragile.
                 </p>
+            </FadeReveal>
+            <FadeReveal delay={0.44}>
                 <CalButton class="rounded-xl font-regular text-md" location="services-hero" />
-            </section>
-        </FadeReveal>
+            </FadeReveal>
+        </section>
 
         <section class="grid gap-4 md:grid-cols-3" aria-label="Situations fréquentes">
             {
-                services.map((service, index) => (
+                services.map((service, index) => {
+                    const icon =
+                        serviceCardIcons[
+                            service.slug as keyof typeof serviceCardIcons
+                        ];
+
+                    return (
                     <FadeReveal delay={0.14 + index * 0.08}>
-                        <article class="flex h-full flex-col gap-5 rounded-lg bg-snow-50 p-5 ring-1 ring-snow-600">
+                        <article class="flex h-full flex-col gap-5 rounded-lg bg-[color-mix(in_srgb,var(--color-gray-100)_72%,white)] p-5">
                             <div class="flex flex-col gap-3">
-                                <p class="text-xs font-light uppercase tracking-[0.12em] text-blue-500">
-                                    {service.eyebrow}
-                                </p>
+                                <span
+                                    class="flex size-11 items-center justify-center rounded-xl text-snow-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.32),0_14px_28px_-20px_rgba(34,42,55,0.42)]"
+                                    style={`background-color: ${icon.tint}`}
+                                    aria-hidden="true"
+                                >
+                                    {icon.icon === "window" && <WindowPointer class="size-5" />}
+                                    {icon.icon === "paintbrush" && <WindowPaintbrush class="size-5" />}
+                                    {icon.icon === "code" && <CodeEditor class="size-5" />}
+                                </span>
                                 <h2 class="text-xl font-medium leading-tight text-gray-900">
                                     {service.title}
                                 </h2>
@@ -44,92 +102,73 @@ export const prerender = true;
                                 </p>
                             </div>
                             <a
-                                class="mt-auto text-sm font-normal text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                class="group relative mt-auto w-fit text-sm font-normal text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
                                 href={`/services/${service.slug}`}
                             >
                                 Découvrir {service.navLabel.toLowerCase()}
+                                <span
+                                    class="absolute left-0 bottom-0 h-px w-full origin-left scale-x-0 bg-gray-900 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                                    aria-hidden="true"></span>
                             </a>
                         </article>
                     </FadeReveal>
-                ))
+                    );
+                })
             }
         </section>
 
-        <section class="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-start">
-            <div class="flex flex-col gap-3">
-                <h2 class="text-2xl font-medium leading-tight text-gray-900">
+        <section class="flex flex-col items-center text-center">
+            <div class="mx-auto flex max-w-4xl flex-col items-center gap-4">
+                <h2 class="section-heading">
                     Le socle commun : enlever les freins visibles
                 </h2>
-                <p class="text-sm font-light leading-6 text-gray-600">
+                <p class="section-subheading">
                     Le format change selon votre situation, mais le socle reste le
                     même : clarifier le message, structurer le parcours, soigner
                     l'interface, puis vérifier vitesse, accessibilité et contact.
                 </p>
             </div>
-            <ul class="grid gap-3 sm:grid-cols-2">
+            <ul class="mt-10 grid w-full max-w-5xl gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
                 {
-                    [
-                        "Cadrage des objectifs",
-                        "Structure des pages",
-                        "Design responsive",
-                        "Développement front-end",
-                        "Accessibilité et performance",
-                        "SEO technique initial",
-                        "Mise en ligne",
-                        "Suivi des conversions",
-                    ].map((item) => (
-                        <li class="rounded-lg bg-gray-100 px-4 py-3 text-sm font-light text-gray-800 ring-1 ring-gray-200">
-                            {item}
+                    commonBaseItems.map((item) => (
+                        <li class="flex items-center gap-3 text-left">
+                            <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-snow-50 text-[#20b86f] shadow-[0_14px_32px_-24px_rgba(34,42,55,0.55)] ring-[0.5px] ring-gray-200/70">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 18 18"
+                                    aria-hidden="true"
+                                    class="size-4"
+                                >
+                                    <g fill="currentColor">
+                                        <path d="M6.75009 15H6.74808C6.52058 14.9995 6.30668 14.896 6.16408 14.7188L2.16408 9.7188C1.90528 9.3951 1.95798 8.92339 2.28128 8.66459C2.60548 8.40679 3.07618 8.4576 3.33598 8.7813L6.75398 13.0538L14.6671 3.27839C14.9278 2.95559 15.4015 2.9073 15.7218 3.1671C16.0441 3.4278 16.0939 3.9 15.8331 4.2218L7.33308 14.7218C7.19048 14.8981 6.97669 15 6.75009 15Z">
+                                        </path>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span class="text-base font-normal leading-snug text-gray-900">
+                                {item}
+                            </span>
                         </li>
                     ))
                 }
             </ul>
         </section>
 
-        <section class="flex flex-col gap-6">
-            <div class="flex flex-col gap-3 md:max-w-2xl">
-                <h2 class="text-2xl font-medium leading-tight text-gray-900">
-                    Des preuves avant les promesses
-                </h2>
-                <p class="text-sm font-light leading-6 text-gray-600">
-                    Les projets ci-dessous montrent différentes manières de lever
-                    un doute précis chez vos visiteurs avec le bon mélange de
-                    contenu, design et technique.
-                </p>
-            </div>
-            <div class="grid gap-4 md:grid-cols-3">
-                {
-                    homeProjects.map((project) => (
-                        <article class="flex h-full flex-col gap-4 rounded-lg bg-snow-50 p-5 ring-1 ring-snow-600">
-                            <h3 class="text-lg font-medium leading-tight text-gray-900">
-                                {project.title}
-                            </h3>
-                            <p class="text-sm font-light leading-6 text-gray-600">
-                                {project.summary}
-                            </p>
-                            <a
-                                class="mt-auto text-sm font-normal text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                                href={`/realisations/${project.id}`}
-                            >
-                                Voir l'étude de cas
-                            </a>
-                        </article>
-                    ))
-                }
-            </div>
-        </section>
+        <ProjectShowcase id="services-projects" />
 
-        <section class="rounded-lg bg-coffee-300 p-6 text-snow-50 sm:p-8">
-            <div class="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
-                <h2 class="text-2xl font-medium leading-tight">
+        <section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-3xl bg-coffee-300 py-14 text-snow-50 sm:w-[calc(100dvw-2rem)] sm:py-20 md:rounded-4xl md:py-24">
+            <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 px-4 text-center sm:px-8 md:gap-7">
+                <h2 class="section-heading section-heading--inverse max-w-4xl">
                     Vous ne savez pas encore quel frein traiter en premier ?
                 </h2>
-                <p class="text-sm font-light leading-6 text-snow-100">
+                <p class="section-subheading section-subheading--inverse max-w-3xl">
                     Un échange de 15 minutes suffit souvent à distinguer une
                     création, une refonte ou une simple amélioration ciblée.
                 </p>
                 <CalButton
-                    class="rounded-xl font-regular text-md"
+                    class="mt-2 rounded-xl font-regular text-md"
                     location="services-final"
                     variant="light"
                 />
@@ -137,3 +176,95 @@ export const prerender = true;
         </section>
     </div>
 </Layout>
+
+<script>
+    const revealServicesTitle = (title: HTMLElement) => {
+        if (title.dataset.animatedTitleReady === "true") return;
+        title.dataset.animatedTitleReady = "true";
+    };
+
+    const initServicesTitle = () => {
+        const title = document.querySelector<HTMLElement>(
+            "[data-services-animated-title]",
+        );
+
+        if (!title || title.dataset.animatedTitleReady) return;
+
+        if (
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+            !("IntersectionObserver" in window)
+        ) {
+            revealServicesTitle(title);
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry?.isIntersecting) return;
+                revealServicesTitle(title);
+                observer.disconnect();
+            },
+            { rootMargin: "0px 0px -10% 0px", threshold: 0.2 },
+        );
+
+        observer.observe(title);
+    };
+
+    initServicesTitle();
+    document.addEventListener("astro:page-load", initServicesTitle);
+</script>
+
+<style>
+    [data-services-animated-title-word] {
+        display: inline-block;
+    }
+
+    .services-title-pill {
+        background: var(--color-blue-500);
+        border-radius: 999em;
+        box-shadow:
+            0 0.2em 0.58em -0.28em rgba(62, 96, 212, 0.62),
+            0 0.08em 0.18em -0.1em rgba(34, 42, 55, 0.28);
+        color: var(--color-snow-50);
+        line-height: 1;
+        margin-inline: 0.04em;
+        padding: 0 0.28em 0.07em;
+    }
+
+    [data-services-animated-title]:not([data-animated-title-ready="true"])
+        [data-services-animated-title-word] {
+        filter: blur(10px);
+        opacity: 0;
+        transform: translateY(-0.65em);
+    }
+
+    [data-services-animated-title][data-animated-title-ready="true"]
+        [data-services-animated-title-word] {
+        animation: services-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
+            backwards;
+        animation-delay: calc(var(--animated-word-index, 0) * 65ms);
+    }
+
+    @keyframes services-title-word {
+        from {
+            filter: blur(10px);
+            opacity: 0;
+            transform: translateY(-0.65em);
+        }
+
+        to {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @media (scripting: none), (prefers-reduced-motion: reduce) {
+        [data-services-animated-title] [data-services-animated-title-word] {
+            animation: none;
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+</style>
