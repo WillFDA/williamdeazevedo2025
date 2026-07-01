@@ -1,8 +1,8 @@
 ---
+import AnimationRepeat from "./icons/nucleo/animation-repeat-fill.svg";
+import BadgeDollar from "./icons/nucleo/badge-dollar-fill.svg";
 import Msgs from "./icons/nucleo/msgs-fill.svg";
-import BoltSpeed from "./icons/nucleo/bolt-speed-fill.svg";
 import ViewAll from "./icons/nucleo/view-all-fill.svg";
-import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
 import WaveText from "./ui/WaveText.astro";
 
 const formatEuro = (value: number) =>
@@ -142,11 +142,11 @@ const pricingCards = [
                                             aria-hidden="true"
                                         >
                                             {option.icon === "paint" && (
-                                                <WindowPaintbrush />
+                                                <AnimationRepeat />
                                             )}
                                             {option.icon === "message" && <Msgs />}
                                             {option.icon === "cms" && <ViewAll />}
-                                            {option.icon === "ads" && <BoltSpeed />}
+                                            {option.icon === "ads" && <BadgeDollar />}
                                         </span>
                                         <span class="text-md font-normal tracking-tight">
                                             {option.label}
