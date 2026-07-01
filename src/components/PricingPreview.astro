@@ -1,16 +1,18 @@
 ---
-import ArrowRight from "./icons/nucleo/arrow-right-fill.svg";
 import Msgs from "./icons/nucleo/msgs-fill.svg";
+import BoltSpeed from "./icons/nucleo/bolt-speed-fill.svg";
+import ViewAll from "./icons/nucleo/view-all-fill.svg";
 import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
-import WaveIcon from "./ui/WaveIcon.astro";
 import WaveText from "./ui/WaveText.astro";
 
 const formatEuro = (value: number) =>
     new Intl.NumberFormat("fr-FR").format(value);
 
 const sitePricingOptions = [
-    { icon: "paint", label: "Animations sobres", price: 650 },
-    { icon: "message", label: "Formulaire contact personnalisé", price: 450 },
+    { icon: "paint", label: "Animations", price: 500 },
+    { icon: "message", label: "Formulaire contact personnalisé", price: 500 },
+    { icon: "cms", label: "CMS / contenus modifiables", price: 1000 },
+    { icon: "ads", label: "Google Ads", quote: true },
 ] as const;
 
 const pricingCards = [
@@ -18,7 +20,7 @@ const pricingCards = [
         title: "Site web",
         subtitle:
             "Pour lancer, clarifier ou moderniser une présence web qui inspire confiance.",
-        priceValue: 3500,
+        priceValue: 2000,
         delay: "Livré en 10 jours à 5 semaines selon périmètre",
         cta: "Parlons de votre site web",
         variant: "blue",
@@ -98,7 +100,10 @@ const pricingCards = [
                     <div class="flex flex-col mx-9 my-10">
                         {"priceValue" in card ? (
                             <strong class="flex flex-col gap-1 font-semibold leading-none tracking-tight text-inherit">
-                                <span class="text-sm font-light leading-none tracking-[-0.04em] text-snow-50/70">
+                                <span
+                                    class="text-sm font-light leading-none tracking-[-0.04em] text-snow-50/70"
+                                    data-pricing-prefix
+                                >
                                     À partir de
                                 </span>
                                 <span class="inline-flex items-baseline whitespace-nowrap text-5xl font-semibold tracking-tight text-snow-50 [font-variant-numeric:tabular-nums]">
@@ -109,7 +114,7 @@ const pricingCards = [
                                     >
                                         {formatEuro(card.priceValue)}
                                     </span>
-                                    € HT
+                                    <span data-pricing-suffix>€ HT</span>
                                 </span>
                             </strong>
                         ) : (
@@ -136,11 +141,12 @@ const pricingCards = [
                                             class="inline-flex size-6 flex-none items-center justify-center text-snow-50/80 [&>svg]:size-full"
                                             aria-hidden="true"
                                         >
-                                            {option.icon === "paint" ? (
+                                            {option.icon === "paint" && (
                                                 <WindowPaintbrush />
-                                            ) : (
-                                                <Msgs />
                                             )}
+                                            {option.icon === "message" && <Msgs />}
+                                            {option.icon === "cms" && <ViewAll />}
+                                            {option.icon === "ads" && <BoltSpeed />}
                                         </span>
                                         <span class="text-md font-normal tracking-tight">
                                             {option.label}
@@ -150,7 +156,8 @@ const pricingCards = [
                                         class="relative z-[1] h-[1.35rem] w-[2.35rem] flex-none cursor-pointer appearance-none rounded-full bg-white/20 transition-colors after:absolute after:left-[0.2rem] after:top-[0.2rem] after:size-[0.95rem] after:rounded-full after:bg-snow-50 after:shadow-[0_0.2rem_0.5rem_rgba(34,42,55,0.18)] after:transition-transform after:content-[''] checked:bg-snow-50 checked:after:translate-x-4 checked:after:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-snow-50"
                                         type="checkbox"
                                         data-pricing-option
-                                        data-price={option.price}
+                                        data-price={"price" in option ? option.price : undefined}
+                                        data-quote={"quote" in option ? "true" : undefined}
                                     />
                                 </label>
                             ))}
@@ -159,7 +166,7 @@ const pricingCards = [
 
                     <ul class=" flex list-none flex-col mx-10 gap-2 my-10">
                         {card.features.map((feature) => (
-                            <li class="flex items-baseline gap-4 text-sm font-normal tracking-tight text-snow-50/80">
+                            <li class="flex items-baseline gap-4 text-sm font-normal tracking-tight text-snow-50">
                                 <span
                                     class="mt-[0.08em] h-[0.72rem] w-[0.38rem] flex-none rotate-45 border-r-[1.8px] border-b-[1.8px] border-current"
                                     aria-hidden="true"
@@ -176,15 +183,12 @@ const pricingCards = [
                     )}
 
                     <button
-                        class="mb-9 mx-8 h-13 mt-auto inline-flex cursor-pointer items-center justify-center gap-3 rounded-xl border-0 bg-snow-50 px-5 font-medium text-coffee-300 shadow-[0_20px_46px_-22px_rgba(14,23,37,0.72)] transition-shadow hover:shadow-[0_26px_54px_-22px_rgba(14,23,37,0.86)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
+                        class="mb-9 mx-8 h-13 mt-auto inline-flex cursor-pointer items-center justify-center rounded-[1.15rem] border-0 bg-snow-50 px-5 font-medium text-coffee-300 shadow-[0_24px_46px_-22px_rgba(14,23,37,0.58),inset_0_-2px_5px_rgba(34,42,55,0.08),inset_0_0_0_1px_rgba(34,42,55,0.06)] transition-shadow hover:shadow-[0_30px_58px_-22px_rgba(14,23,37,0.72),inset_0_-2px_7px_rgba(34,42,55,0.1),inset_0_0_0_1px_rgba(34,42,55,0.08)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
                         data-cal-location={`pricing-${card.title.toLowerCase().replaceAll(" ", "-")}`}
                         data-cal-open
                         type="button"
                     >
                         <WaveText text={card.cta} trigger="parent" />
-                        <WaveIcon direction="right" trigger="parent">
-                            <ArrowRight aria-hidden="true" class="size-full" />
-                        </WaveIcon>
                     </button>
                 </article>
             ))
@@ -192,10 +196,13 @@ const pricingCards = [
     </div>
 
     <a
-        class="mx-auto mt-[2.35rem] table text-base font-normal text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+        class="group relative mx-auto mt-14 table text-base font-normal text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
         href="/tarifs"
     >
         Voir ce qui fait varier un devis
+        <span
+            class="absolute left-0 bottom-0 h-px w-full origin-left scale-x-0 bg-gray-900 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+            aria-hidden="true"></span>
     </a>
 </section>
 
@@ -228,6 +235,12 @@ const pricingCards = [
                         "[data-pricing-option]",
                     ),
                 );
+                const prefixTarget = root.querySelector<HTMLElement>(
+                    "[data-pricing-prefix]",
+                );
+                const suffixTarget = root.querySelector<HTMLElement>(
+                    "[data-pricing-suffix]",
+                );
 
                 if (!priceTarget) return;
 
@@ -255,9 +268,24 @@ const pricingCards = [
                     );
 
                 const updatePrice = () => {
+                    const hasQuoteOption = options.some(
+                        (option) =>
+                            option.checked && option.dataset.quote === "true",
+                    );
+
+                    if (hasQuoteOption) {
+                        animation?.cancel();
+                        prefixTarget?.setAttribute("hidden", "");
+                        suffixTarget?.setAttribute("hidden", "");
+                        priceTarget.textContent = "Sur devis";
+                        return;
+                    }
+
                     const nextValue = getPrice();
 
                     animation?.cancel();
+                    prefixTarget?.removeAttribute("hidden");
+                    suffixTarget?.removeAttribute("hidden");
 
                     if (
                         window.matchMedia("(prefers-reduced-motion: reduce)")
