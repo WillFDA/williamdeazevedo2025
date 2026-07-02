@@ -63,6 +63,13 @@ const afterCosts = [
     "évolutions de contenu",
     "nouvelles pages ou fonctionnalités",
 ];
+
+const aiBudgetPoints = [
+    "audit de votre situation et de vos freins réels",
+    "choix de structure, de messages et de parcours",
+    "direction design avant génération ou exécution",
+    "contrôle humain sur le code, le responsive et la mise en ligne",
+];
 ---
 
 <Layout
@@ -116,6 +123,36 @@ const afterCosts = [
                     priceFactors.map((factor) => (
                         <li class="rounded-xl bg-gray-100 px-4 py-3 text-base font-normal leading-relaxed text-gray-700 ring-1 ring-gray-200">
                             {factor}
+                        </li>
+                    ))
+                }
+            </ul>
+        </section>
+
+        <section class="grid gap-6 rounded-4xl bg-gray-100 p-6 ring-1 ring-gray-200 md:grid-cols-[0.9fr_1.1fr] md:gap-12 md:p-8">
+            <div class="flex flex-col gap-4">
+                <h2 class="section-heading text-left">
+                    Vous ne payez pas une génération de pages
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-gray-600">
+                    Un site généré sans réflexion peut sembler moins cher, mais il
+                    laisse souvent les vrais problèmes intacts : offre floue, design
+                    générique, parcours hésitant, technique fragile. Le devis couvre
+                    le cadrage, les choix et la vérification, pas seulement la
+                    production d'écrans.
+                </p>
+                <a
+                    class="w-fit text-base font-normal text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                    href="/methode"
+                >
+                    Comprendre la méthode avant le devis
+                </a>
+            </div>
+            <ul class="grid gap-3">
+                {
+                    aiBudgetPoints.map((point) => (
+                        <li class="rounded-xl bg-snow-50 px-4 py-3 text-base font-normal leading-relaxed text-gray-700 ring-1 ring-snow-600">
+                            {point}
                         </li>
                     ))
                 }

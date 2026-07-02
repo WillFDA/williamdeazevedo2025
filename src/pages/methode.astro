@@ -51,6 +51,20 @@ const delivered = [
     "les éléments SEO techniques prévus au périmètre",
     "un point de transmission ou de prise en main",
 ];
+
+const aiPitfalls = [
+    "sections jolies mais génériques",
+    "messages qui ne disent pas assez clairement pourquoi vous choisir",
+    "parcours pensé pour remplir une page plutôt que pour lever un doute",
+    "design difficile à adapter à votre activité, vos contenus et vos vrais clients",
+];
+
+const aiUses = [
+    "explorer plus vite des angles de contenu",
+    "challenger la structure d'une page ou d'un parcours",
+    "auditer des points de clarté, d'accessibilité, de performance ou de SEO",
+    "accélérer certaines recherches sans déléguer les décisions importantes",
+];
 ---
 
 <Layout
@@ -91,6 +105,51 @@ const delivered = [
                 ))
             }
         </ol>
+
+        <section class="grid gap-6 rounded-4xl bg-gray-100 p-6 ring-1 ring-gray-200 md:grid-cols-[0.9fr_1.1fr] md:gap-12 md:p-8">
+            <div class="flex flex-col gap-4">
+                <h2 class="section-heading text-left">
+                    L'IA aide, mais elle ne remplace pas le regard
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-gray-600">
+                    Faire un site uniquement avec une IA donne souvent une interface
+                    propre en apparence, mais trop générique : elle assemble des
+                    sections sans comprendre votre offre, vos prospects, vos preuves
+                    et les objections qui bloquent vraiment le contact.
+                </p>
+                <CalButton
+                    class="w-fit rounded-xl text-base font-normal"
+                    label="Cadrer mon projet avec vous"
+                    location="methode-ai"
+                />
+            </div>
+            <div class="grid gap-4 md:grid-cols-2">
+                <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
+                    <h3 class="mb-4 text-lg font-normal leading-tight text-gray-900">
+                        Quand l'IA décide seule
+                    </h3>
+                    <ul class="flex flex-col gap-3">
+                        {aiPitfalls.map((item) => (
+                            <li class="text-base font-normal leading-relaxed text-gray-600">
+                                {item}
+                            </li>
+                        ))}
+                    </ul>
+                </article>
+                <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
+                    <h3 class="mb-4 text-lg font-normal leading-tight text-gray-900">
+                        Comment je l'utilise
+                    </h3>
+                    <ul class="flex flex-col gap-3">
+                        {aiUses.map((item) => (
+                            <li class="text-base font-normal leading-relaxed text-gray-600">
+                                {item}
+                            </li>
+                        ))}
+                    </ul>
+                </article>
+            </div>
+        </section>
 
         <section class="grid gap-4 md:grid-cols-2">
             <article class="rounded-xl bg-gray-100 p-6 ring-1 ring-gray-200">

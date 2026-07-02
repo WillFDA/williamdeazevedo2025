@@ -3,13 +3,14 @@ import Layout from "../layout/Layout.astro";
 import FadeReveal from "../components/animations/FadeReveal.astro";
 import AboutCallout from "../components/AboutCallout.astro";
 import ExpertiseShowcase from "../components/ExpertiseShowcase.astro";
+import FaqSection from "../components/FaqSection.astro";
 import PricingPreview from "../components/PricingPreview.astro";
+import ProblemComparison from "../components/ProblemComparison.astro";
 import ProjectShowcase from "../components/ProjectShowcase.astro";
 import Differenciates from "@/sections/Differenciates.astro";
 import ArrowRight from "../components/icons/nucleo/arrow-right-fill.svg";
 import SearchContent from "../components/icons/nucleo/search-content-2-fill.svg";
 import Star from "../components/icons/nucleo/star-fill.svg";
-import XMark from "../components/icons/nucleo/xmark-fill.svg";
 import { Image } from "astro:assets";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
@@ -33,13 +34,6 @@ const heroTitleParts = [
     { text: "inspirer" },
     { text: "confiance." },
 ];
-
-const problemItems = [
-    "Votre site est daté, peu accessible ou pas au niveau de votre travail ?",
-    "Vous n'avez pas encore de site et vous ne savez pas par où commencer ?",
-    "Votre produit a besoin d'un développeur capable de relier design, front-end et logique métier ?",
-    "Vous en avez assez des prestataires flous et des livraisons bancales ?",
-] as const;
 
 const expertiseItems = [
     {
@@ -282,45 +276,7 @@ const displayedTestimonials = temoignages
             </div>
         </FadeReveal>
     </section>
-    <section
-        class="problems-section mx-auto w-full max-w-5xl px-4 py-12 sm:px-8 md:py-16"
-        aria-labelledby="problems-title"
-    >
-        <div class="mx-auto flex max-w-4xl flex-col items-center gap-4 text-center">
-            <h2
-                id="problems-title"
-                class="problems-reveal section-heading"
-                style="--problem-reveal-delay: 80ms"
-            >
-                Vous vous reconnaissez ?
-            </h2>
-            <p
-                class="problems-reveal section-subheading"
-                style="--problem-reveal-delay: 220ms"
-            >
-                Une bonne offre peut rester invisible si votre site ne donne pas
-                assez vite envie de comprendre, de faire confiance et de passer
-                à l'action.
-            </p>
-        </div>
-        <ul class="mx-auto mt-12 flex max-w-2xl flex-col gap-5">
-            {
-                problemItems.map((problem, index) => (
-                    <li
-                        class="problems-reveal flex items-center gap-3"
-                        style={`--problem-reveal-delay: ${380 + index * 120}ms`}
-                    >
-                        <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-snow-50 text-red-500 shadow-[0_14px_32px_-24px_rgba(34,42,55,0.55)] ring-1 ring-gray-200/70">
-                            <XMark class="size-4 drop-shadow-[-1px_-1px_2px_rgba(239,68,68,0.24)]" />
-                        </span>
-                        <p class="text-base font-normal leading-snug text-gray-900 sm:text-lg">
-                            {problem}
-                        </p>
-                    </li>
-                ))
-            }
-        </ul>
-    </section>
+    <ProblemComparison />
     <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !" />
     <div class="mx-auto w-full max-w-7xl px-4 py-12 sm:px-8 md:py-16">
         <ExpertiseShowcase
@@ -347,6 +303,7 @@ const displayedTestimonials = temoignages
         </div>
     </div>
     <PricingPreview />
+    <FaqSection />
     <ProjectShowcase />
     <Differenciates />
 </Layout>
@@ -570,39 +527,6 @@ const displayedTestimonials = temoignages
         }
 
         to {
-            filter: none;
-            opacity: 1;
-            transform: none;
-        }
-    }
-
-    .problems-section.section-fade-reveal.is-reveal-ready
-        .problems-reveal {
-        filter: blur(8px);
-        opacity: 0;
-        transform: translate3d(0, 1.25rem, 0);
-    }
-
-    .problems-section.section-fade-reveal.is-visible .problems-reveal,
-    .problems-section.section-fade-reveal.is-reveal-complete
-        .problems-reveal {
-        animation: problems-reveal-in 1050ms cubic-bezier(0.16, 1, 0.3, 1)
-            both;
-        animation-delay: var(--problem-reveal-delay, 0ms);
-    }
-
-    @keyframes problems-reveal-in {
-        to {
-            filter: none;
-            opacity: 1;
-            transform: none;
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .problems-section.section-fade-reveal.is-reveal-ready
-            .problems-reveal {
-            animation: none;
             filter: none;
             opacity: 1;
             transform: none;

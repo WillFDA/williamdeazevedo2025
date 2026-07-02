@@ -1,0 +1,433 @@
+---
+import BoltSpeed from "./icons/nucleo/bolt-speed-fill.svg";
+import Check2 from "./icons/nucleo/check-2-outline.svg";
+import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
+import Gauge from "./icons/nucleo/gauge-3-fill.svg";
+import Sparkle from "./icons/nucleo/sparkle-3-fill.svg";
+import Target from "./icons/nucleo/target-fill.svg";
+import TouchClick from "./icons/nucleo/touch-click-fill.svg";
+import ViewAll from "./icons/nucleo/view-all-fill.svg";
+import XMark from "./icons/nucleo/xmark-fill.svg";
+
+const messyItems = [
+    {
+        label: "Performance",
+        note: "Page lente, images lourdes",
+        score: "46",
+        tone: "red",
+        icon: "performance",
+        className: "messy-card--performance",
+    },
+    {
+        label: "Accessibilité",
+        note: "Contrastes et mobile oubliés",
+        score: "69",
+        tone: "orange",
+        icon: "accessibility",
+        className: "messy-card--accessibility",
+    },
+    {
+        label: "Trop de texte",
+        note: "La page explique, mais ne guide pas",
+        tone: "gray",
+        icon: "content",
+        className: "messy-card--text",
+    },
+    {
+        label: "Génération IA basique",
+        note: "Un template propre, mais interchangeable",
+        tone: "gray",
+        icon: "ai",
+        className: "messy-card--ai",
+    },
+] as const;
+
+const clearItems = [
+    "Offre clarifiée",
+    "Parcours priorisé",
+    "Texte plus utile",
+    "Mobile soigné",
+    "Performance suivie",
+    "Mise en ligne propre",
+] as const;
+
+const workingPoints = [
+    {
+        icon: "target",
+        text: "Je commence par comprendre votre offre, vos clients et les doutes qui empêchent de passer à l'action.",
+    },
+    {
+        icon: "sparkle",
+        text: "J'utilise l'IA pour accélérer la recherche, le tri et certaines idées, pas pour décider du design à votre place.",
+    },
+    {
+        icon: "gauge",
+        text: "Le résultat doit être clair, rapide, accessible et crédible, pas seulement joli dans une capture.",
+    },
+] as const;
+---
+
+<section
+    class="mx-auto w-full max-w-7xl px-4 py-12 sm:px-8 md:py-16"
+    aria-labelledby="problem-comparison-title"
+>
+    <div class="mx-auto flex max-w-4xl flex-col items-center gap-4 text-center">
+        <h2 id="problem-comparison-title" class="section-heading">
+            Un site peut être généré vite. La confiance, elle, se construit.
+        </h2>
+        <p class="section-subheading">
+            Demander un site à l'IA ou à quelqu'un qui applique un template peut
+            produire quelque chose de présentable. Le vrai risque, c'est de
+            publier une page qui ne clarifie rien.
+        </p>
+    </div>
+
+    <div class="mt-12 grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
+        <div class="grid gap-4 sm:grid-cols-2" aria-hidden="true">
+            <div class="comparison-visual comparison-visual--messy">
+                <span class="comparison-label">
+                    <XMark class="comparison-label__x" />
+                    Sans cadrage
+                </span>
+                <div class="comparison-stage comparison-stage--messy">
+                    {
+                        messyItems.map((item) => (
+                            <article
+                                class:list={[
+                                    "messy-card",
+                                    `messy-card--${item.tone}`,
+                                    item.className,
+                                ]}
+                            >
+                                <span class="messy-card__icon">
+                                    {item.icon === "performance" && (
+                                        <BoltSpeed class="size-5" />
+                                    )}
+                                    {item.icon === "accessibility" && (
+                                        <TouchClick class="size-5" />
+                                    )}
+                                    {item.icon === "content" && (
+                                        <ViewAll class="size-5" />
+                                    )}
+                                    {item.icon === "ai" && (
+                                        <CodeEditor class="size-5" />
+                                    )}
+                                </span>
+                                <span class="messy-card__body">
+                                    <strong>{item.label}</strong>
+                                    <span>{item.note}</span>
+                                </span>
+                                {"score" in item && (
+                                    <span class="messy-card__score">
+                                        {item.score}
+                                    </span>
+                                )}
+                            </article>
+                        ))
+                    }
+                </div>
+            </div>
+
+            <div class="comparison-visual comparison-visual--clear">
+                <span class="comparison-label comparison-label--clear">
+                    <Check2 class="comparison-label__check" />
+                    Avec moi
+                </span>
+                <div class="comparison-stage comparison-stage--clear">
+                    {
+                        clearItems.map((item) => (
+                            <span class="clear-pill">
+                                <span class="clear-pill__icon">
+                                    <Check2 class="clear-pill__check" />
+                                </span>
+                                <span>{item}</span>
+                            </span>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-6">
+            <h3 class="m-0 text-balance text-3xl font-medium leading-none tracking-tight text-gray-900 sm:text-4xl">
+                Ce n'est pas seulement une question d'outil.
+            </h3>
+            <p class="m-0 text-lg font-light leading-normal text-gray-600">
+                Un bon site ne sort pas d'un prompt. Il vient d'une lecture
+                claire de votre offre, d'un tri dans ce qui compte vraiment et
+                de choix visuels assumés.
+            </p>
+            <ul class="flex flex-col gap-5">
+                {
+                    workingPoints.map((point) => (
+                        <li class="flex items-start gap-4 text-base font-normal leading-normal text-gray-900">
+                            <span class="working-point-icon">
+                                {point.icon === "target" && (
+                                    <Target class="size-5" />
+                                )}
+                                {point.icon === "sparkle" && (
+                                    <Sparkle class="size-5" />
+                                )}
+                                {point.icon === "gauge" && (
+                                    <Gauge class="size-5" />
+                                )}
+                            </span>
+                            <span>{point.text}</span>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </div>
+</section>
+
+<style>
+    .comparison-visual {
+        background: color-mix(in srgb, var(--color-gray-100) 74%, white);
+        border-radius: 2rem;
+        min-height: 27rem;
+        overflow: hidden;
+        padding: 1rem;
+        position: relative;
+    }
+
+    .comparison-label {
+        align-items: center;
+        background: var(--color-snow-50);
+        border-radius: 999em;
+        box-shadow: 0 16px 36px -28px rgba(34, 42, 55, 0.48);
+        color: var(--color-gray-900);
+        display: inline-flex;
+        gap: 0.45rem;
+        font-size: 0.88rem;
+        font-weight: 500;
+        line-height: 1;
+        padding: 0.65rem 0.85rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    .comparison-label--clear {
+        background: var(--color-snow-50);
+        color: var(--color-gray-900);
+    }
+
+    .comparison-label__x {
+        color: rgb(239 68 68);
+        filter: drop-shadow(0 0.24rem 0.28rem rgba(239, 68, 68, 0.26));
+        flex: none;
+        height: 1rem;
+        width: 1rem;
+    }
+
+    .comparison-label__check {
+        color: rgb(34 197 94);
+        filter: drop-shadow(0 0.24rem 0.3rem rgba(34, 197, 94, 0.3));
+        flex: none;
+        height: 1rem;
+        width: 1rem;
+    }
+
+    .comparison-stage {
+        inset: 0;
+        position: absolute;
+    }
+
+    .comparison-stage--messy {
+        background: transparent;
+    }
+
+    .comparison-stage--clear {
+        align-content: start;
+        display: grid;
+        gap: 1.15rem;
+        grid-template-columns: 1fr;
+        padding: 5rem 1rem 1rem;
+    }
+
+    .messy-card {
+        align-items: center;
+        background: var(--color-snow-50);
+        border-radius: 1.15rem;
+        box-shadow: 0 18px 38px -30px rgba(34, 42, 55, 0.52);
+        color: var(--color-gray-900);
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: auto 1fr auto;
+        max-width: 20rem;
+        padding: 0.85rem;
+        position: absolute;
+        width: 86%;
+    }
+
+    .messy-card__icon {
+        align-items: center;
+        border-radius: 0.75rem;
+        display: inline-flex;
+        height: 2.25rem;
+        justify-content: center;
+        width: 2.25rem;
+    }
+
+    .messy-card__body {
+        display: grid;
+        gap: 0.2rem;
+        min-width: 0;
+    }
+
+    .messy-card__body strong {
+        font-size: 0.92rem;
+        font-weight: 500;
+        line-height: 1.1;
+    }
+
+    .messy-card__body span {
+        color: var(--color-gray-600);
+        font-size: 0.74rem;
+        font-weight: 300;
+        line-height: 1.2;
+    }
+
+    .messy-card__score {
+        align-items: center;
+        aspect-ratio: 1;
+        border-radius: 999em;
+        display: inline-flex;
+        font-size: 0.9rem;
+        font-weight: 500;
+        justify-content: center;
+        width: 2.55rem;
+    }
+
+    .messy-card--red .messy-card__icon,
+    .messy-card--red .messy-card__score {
+        background: rgba(239, 68, 68, 0.12);
+        color: rgb(239 68 68);
+    }
+
+    .messy-card--red .messy-card__score {
+        background:
+            radial-gradient(circle, #fff 48%, transparent 50%),
+            conic-gradient(rgb(239 68 68) 46%, rgba(239, 68, 68, 0.16) 0);
+    }
+
+    .messy-card--orange .messy-card__icon,
+    .messy-card--orange .messy-card__score {
+        background: rgba(249, 115, 22, 0.12);
+        color: rgb(249 115 22);
+    }
+
+    .messy-card--orange .messy-card__score {
+        background:
+            radial-gradient(circle, #fff 48%, transparent 50%),
+            conic-gradient(rgb(249 115 22) 69%, rgba(249, 115, 22, 0.16) 0);
+    }
+
+    .messy-card--gray .messy-card__icon {
+        background: rgba(148, 163, 184, 0.14);
+        color: rgb(100 116 139);
+    }
+
+    .messy-card--performance {
+        left: 5%;
+        top: 18%;
+        transform: rotate(-5deg);
+    }
+
+    .messy-card--accessibility {
+        right: 3%;
+        top: 36%;
+        transform: rotate(4deg);
+    }
+
+    .messy-card--text {
+        left: 8%;
+        top: 55%;
+        transform: rotate(-2deg);
+    }
+
+    .messy-card--ai {
+        right: 7%;
+        top: 76%;
+        transform: rotate(5deg);
+    }
+
+    .clear-pill {
+        align-items: center;
+        background: var(--color-snow-50);
+        border-radius: 1rem;
+        box-shadow: 0 14px 32px -28px rgba(34, 42, 55, 0.42);
+        color: var(--color-gray-900);
+        display: flex;
+        gap: 0.7rem;
+        min-height: 3.25rem;
+        padding: 0.8rem 0.9rem;
+    }
+
+    .clear-pill__icon {
+        align-items: center;
+        background: var(--color-snow-50);
+        border-radius: 0.7rem;
+        box-shadow: 0 14px 28px -20px rgba(34, 197, 94, 0.5);
+        color: rgb(34 197 94);
+        display: inline-flex;
+        flex: none;
+        height: 1.8rem;
+        justify-content: center;
+        width: 1.8rem;
+    }
+
+    .clear-pill__check {
+        filter: drop-shadow(0 0.18rem 0.18rem rgba(34, 197, 94, 0.2));
+        height: 1.05rem;
+        width: 1.05rem;
+    }
+
+    .working-point-icon {
+        align-items: center;
+        background: var(--working-icon-bg, var(--color-blue-500));
+        border-radius: 0.875em;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.28),
+            0 12px 24px -16px
+                var(--working-icon-shadow, rgba(62, 96, 212, 0.7));
+        color: var(--color-snow-50);
+        display: inline-flex;
+        flex: none;
+        height: 2rem;
+        justify-content: center;
+        margin-top: -0.1rem;
+        width: 2rem;
+    }
+
+    .working-points-panel li:nth-child(1) .working-point-icon {
+        --working-icon-bg: #4169e1;
+        --working-icon-shadow: rgba(65, 105, 225, 0.65);
+    }
+
+    .working-points-panel li:nth-child(2) .working-point-icon {
+        --working-icon-bg: #6957df;
+        --working-icon-shadow: rgba(105, 87, 223, 0.64);
+    }
+
+    .working-points-panel li:nth-child(3) .working-point-icon {
+        --working-icon-bg: #557ee8;
+        --working-icon-shadow: rgba(85, 126, 232, 0.64);
+    }
+
+    .working-point-icon svg {
+        height: 1.05rem;
+        width: 1.05rem;
+    }
+
+    @media (max-width: 639px) {
+        .comparison-visual {
+            min-height: 23rem;
+            border-radius: 1.5rem;
+        }
+
+        .messy-card {
+            width: 88%;
+        }
+    }
+</style>
