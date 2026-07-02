@@ -16,7 +16,10 @@ const isExternal = href.startsWith("http");
 const isDetailsExternal = detailsHref?.startsWith("http");
 ---
 
-<div class="project-intro flex flex-col gap-4" data-project-intro>
+<div
+    class="project-intro flex flex-col items-center gap-4 text-center sm:items-start sm:text-left"
+    data-project-intro
+>
     <a
         class="project-intro__title flex w-fit items-center gap-4 no-underline"
         href={href}
@@ -38,7 +41,10 @@ const isDetailsExternal = detailsHref?.startsWith("http");
     </p>
     {
         stack.length > 0 && (
-            <ul class="flex flex-wrap gap-2" aria-label="Stack technique">
+            <ul
+                class="flex flex-wrap justify-center gap-2 sm:justify-start"
+                aria-label="Stack technique"
+            >
                 {stack.map((item) => (
                     <li class="rounded-full bg-snow-600 px-3 py-2 text-xs font-light leading-none text-gray-700">
                         {item}
@@ -47,9 +53,9 @@ const isDetailsExternal = detailsHref?.startsWith("http");
             </ul>
         )
     }
-    <div class="mt-1 flex flex-wrap gap-3">
+    <div class="mt-1 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
         <a
-            class="project-intro__button project-intro__button--site relative isolate flex min-h-14 items-center justify-center gap-3 rounded-xl px-8 py-3 text-base font-normal text-coffee-300 no-underline"
+            class="project-intro__button project-intro__button--site relative isolate flex min-h-14 w-full items-center justify-center gap-3 rounded-xl px-8 py-3 text-base font-normal text-coffee-300 no-underline sm:w-auto"
             href={href}
             rel={isExternal ? "noreferrer" : undefined}
             target={isExternal ? "_blank" : undefined}
@@ -62,7 +68,7 @@ const isDetailsExternal = detailsHref?.startsWith("http");
         {
             detailsHref && (
                 <a
-                    class="project-intro__button project-intro__button--details relative isolate flex min-h-14 items-center justify-center gap-3 rounded-xl px-8 py-3 text-base font-normal text-coffee-300 no-underline"
+                    class="project-intro__button project-intro__button--details relative isolate flex min-h-14 w-full items-center justify-center gap-3 rounded-xl px-8 py-3 text-base font-normal text-coffee-300 no-underline sm:w-auto"
                     data-wui-wave-parent
                     href={detailsHref}
                     rel={isDetailsExternal ? "noreferrer" : undefined}

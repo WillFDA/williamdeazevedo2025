@@ -7,15 +7,19 @@ import MediaPlay from "./icons/nucleo/media-play-fill.svg";
 interface Props {
     autoplay?: boolean;
     autoplayDelay?: number;
+    class?: string;
     compactControls?: boolean;
     controlsPlacement?: "bottom" | "top";
+    showAutoplayInterface?: boolean;
 }
 
 const {
     autoplay = false,
     autoplayDelay = 4500,
+    class: className,
     compactControls = false,
     controlsPlacement = "bottom",
+    showAutoplayInterface = true,
 } = Astro.props;
 ---
 
@@ -23,6 +27,7 @@ const {
     class:list={[
         "embla group relative flex flex-col overflow-hidden",
         compactControls && "embla--compact-controls",
+        className,
     ]}
     data-carousel
     data-carousel-autoplay={autoplay ? "true" : undefined}
@@ -43,7 +48,7 @@ const {
             <ChevronLeft aria-hidden="true" class="size-5" />
         </button>
         {
-            autoplay && (
+            autoplay && showAutoplayInterface && (
                 <div class="embla__autoplay flex items-center justify-center gap-2">
                     <button
                         type="button"

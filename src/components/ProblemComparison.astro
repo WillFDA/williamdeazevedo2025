@@ -68,7 +68,7 @@ const workingPoints = [
 ---
 
 <section
-    class="mx-auto w-full max-w-7xl px-4 py-12 sm:px-8 md:py-16"
+    class="mx-auto w-full max-w-7xl px-4 pt-12 pb-5 sm:px-8 md:py-16"
     aria-labelledby="problem-comparison-title"
 >
     <div class="mx-auto flex max-w-4xl flex-col items-center gap-4 text-center">
@@ -157,10 +157,10 @@ const workingPoints = [
                 claire de votre offre, d'un tri dans ce qui compte vraiment et
                 de choix visuels assumés.
             </p>
-            <ul class="flex flex-col gap-5">
+            <ul class="working-points-panel flex flex-col gap-4 lg:gap-5">
                 {
                     workingPoints.map((point) => (
-                        <li class="flex items-start gap-4 text-base font-normal leading-normal text-gray-900">
+                        <li class="flex flex-col items-start gap-4 rounded-2xl bg-gray-100 p-5 text-base font-normal leading-normal text-gray-900 sm:p-6 lg:flex-row lg:bg-transparent lg:p-0">
                             <span class="working-point-icon">
                                 {point.icon === "target" && (
                                     <Target class="size-5" />
@@ -396,7 +396,7 @@ const workingPoints = [
         flex: none;
         height: 2rem;
         justify-content: center;
-        margin-top: -0.1rem;
+        margin-top: 0;
         width: 2rem;
     }
 
@@ -418,6 +418,12 @@ const workingPoints = [
     .working-point-icon svg {
         height: 1.05rem;
         width: 1.05rem;
+    }
+
+    @media (min-width: 1024px) {
+        .working-point-icon {
+            margin-top: -0.1rem;
+        }
     }
 
     @media (max-width: 639px) {

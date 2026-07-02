@@ -1,6 +1,6 @@
 ---
 import ArrowRight from "./icons/nucleo/arrow-right-fill.svg";
-import ChevronUp from "./icons/nucleo/chevron-up-fill.svg";
+import Accordion from "./ui/Accordion.astro";
 import WaveIcon from "./ui/WaveIcon.astro";
 import WaveText from "./ui/WaveText.astro";
 
@@ -23,7 +23,7 @@ const faqItems = [
     {
         question: "Quelle différence avec un site généré par IA ?",
         answer:
-            "L'IA peut produire vite quelque chose de présentable, mais souvent générique. Je l'utilise pour accélérer la recherche, les pistes et certains contrôles, puis je tranche côté stratégie, design, contenu et intégration.",
+            "L'IA peut générer vite une page présentable, mais le résultat paraît souvent générique : sections déjà vues, textes interchangeables, choix visuels sans vraie intention. Les visiteurs repèrent de plus en plus facilement ces sites \"faits par IA\", et ça peut décrédibiliser votre offre au lieu de rassurer. Je l'utilise comme un outil de recherche et de contrôle, mais les décisions de stratégie, design, contenu et intégration restent humaines.",
     },
     {
         question: "Est-ce que je pourrai modifier le contenu après ?",
@@ -53,29 +53,18 @@ const faqItems = [
         </p>
     </div>
 
-    <div class="mx-auto mt-12 grid max-w-5xl gap-3 md:grid-cols-2">
-        {
-            faqItems.map((item) => (
-                <details class="faq-item group rounded-xl bg-snow-50 shadow-[0_18px_44px_-34px_rgba(34,42,55,0.42)] ring-1 ring-snow-600">
-                    <summary class="faq-summary grid cursor-pointer list-none grid-cols-[1fr_auto] items-center gap-4 rounded-xl px-5 py-4 text-left text-base font-normal leading-tight text-gray-900 outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500">
-                        <span>{item.question}</span>
-                        <span class="faq-icon inline-flex size-8 items-center justify-center rounded-lg bg-gray-100 text-gray-900">
-                            <ChevronUp class="size-3" aria-hidden="true" />
-                        </span>
-                    </summary>
-                    <div class="faq-answer px-5 pb-5 pr-14">
-                        <p class="m-0 text-base font-light leading-normal text-gray-600">
-                            {item.answer}
-                        </p>
-                    </div>
-                </details>
-            ))
-        }
-    </div>
+    <Accordion
+        class="mx-auto mt-12 max-w-5xl md:grid-cols-2"
+        items={faqItems}
+        itemClass="bg-gray-100 shadow-sm ring-1 ring-gray-200"
+        summaryClass="px-5 py-4 text-base font-normal leading-tight text-gray-900 sm:px-6"
+        contentClass="px-5 pb-5 pr-14 text-base font-light leading-normal text-gray-600 sm:px-6 sm:pr-16"
+        iconClass="text-gray-900"
+    />
 
     <div class="mt-10 flex justify-center">
         <button
-            class="faq-cta inline-flex min-h-14 items-center justify-center gap-5 rounded-xl bg-coffee-300 px-8 py-3 text-base font-normal text-snow-50 shadow-[0_24px_52px_-34px_rgba(34,42,55,0.78)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+            class="faq-cta inline-flex min-h-14 items-center justify-center gap-5 rounded-xl bg-coffee-300 px-8 py-3 text-base font-normal text-snow-50 shadow-lg transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
             data-cal-location="faq"
             data-cal-open
             type="button"
@@ -91,55 +80,3 @@ const faqItems = [
         </button>
     </div>
 </section>
-
-<style>
-    .faq-summary::-webkit-details-marker {
-        display: none;
-    }
-
-    .faq-icon {
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.28),
-            0 12px 24px -18px rgba(34, 42, 55, 0.34);
-        transition:
-            background-color 220ms ease,
-            color 220ms ease,
-            transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .faq-item[open] .faq-icon {
-        background: var(--color-blue-500);
-        color: var(--color-snow-50);
-        transform: rotate(180deg);
-    }
-
-    .faq-answer {
-        display: grid;
-        grid-template-rows: 1fr;
-    }
-
-    @media (hover: hover) {
-        .faq-item {
-            transition:
-                background-color 220ms ease,
-                box-shadow 220ms ease,
-                transform 220ms ease;
-        }
-
-        .faq-item:hover {
-            box-shadow: 0 24px 54px -38px rgba(34, 42, 55, 0.5);
-            transform: translateY(-1px);
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .faq-icon,
-        .faq-item {
-            transition: none;
-        }
-
-        .faq-item:hover {
-            transform: none;
-        }
-    }
-</style>
