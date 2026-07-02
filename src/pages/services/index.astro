@@ -43,7 +43,7 @@ const commonBaseItems = [
     title="Services web freelance - William De Azevedo"
     description="Création de site vitrine, refonte et développement front-end pour corriger les sites flous, lents ou datés et construire des interfaces claires, rapides et crédibles."
 >
-    <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 pb-20">
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-12 md:py-16">
         <section class="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
             <h1
                 class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
@@ -82,36 +82,36 @@ const commonBaseItems = [
                         ];
 
                     return (
-                    <FadeReveal delay={0.14 + index * 0.08}>
-                        <article class="flex h-full flex-col gap-5 rounded-lg bg-gray-100 p-5">
-                            <div class="flex flex-col gap-3">
-                                <span
-                                    class="flex size-11 items-center justify-center rounded-xl text-snow-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.32),0_14px_28px_-20px_rgba(34,42,55,0.42)]"
-                                    style={`background-color: ${icon.tint}`}
-                                    aria-hidden="true"
+                        <FadeReveal delay={0.14 + index * 0.08}>
+                            <article class="flex h-full flex-col gap-4 rounded-xl bg-gray-100 p-5">
+                                <div class="flex flex-col gap-3">
+                                    <span
+                                        class="flex size-11 items-center justify-center rounded-xl text-snow-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.32),0_14px_28px_-20px_rgba(34,42,55,0.42)]"
+                                        style={`background-color: ${icon.tint}`}
+                                        aria-hidden="true"
+                                    >
+                                        {icon.icon === "window" && <WindowPointer class="size-5" />}
+                                        {icon.icon === "paintbrush" && <WindowPaintbrush class="size-5" />}
+                                        {icon.icon === "code" && <CodeEditor class="size-5" />}
+                                    </span>
+                                    <h2 class="text-xl font-medium leading-tight text-gray-900">
+                                        {service.title}
+                                    </h2>
+                                    <p class="text-base font-normal leading-relaxed text-gray-600">
+                                        {service.intro}
+                                    </p>
+                                </div>
+                                <a
+                                    class="group relative mt-auto w-fit text-base font-normal text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                    href={`/services/${service.slug}`}
                                 >
-                                    {icon.icon === "window" && <WindowPointer class="size-5" />}
-                                    {icon.icon === "paintbrush" && <WindowPaintbrush class="size-5" />}
-                                    {icon.icon === "code" && <CodeEditor class="size-5" />}
-                                </span>
-                                <h2 class="text-xl font-medium leading-tight text-gray-900">
-                                    {service.title}
-                                </h2>
-                                <p class="text-sm font-light leading-6 text-gray-600">
-                                    {service.intro}
-                                </p>
-                            </div>
-                            <a
-                                class="group relative mt-auto w-fit text-sm font-normal text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                                href={`/services/${service.slug}`}
-                            >
-                                Découvrir {service.navLabel.toLowerCase()}
-                                <span
-                                    class="absolute left-0 bottom-0 h-px w-full origin-left scale-x-0 bg-gray-900 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
-                                    aria-hidden="true"></span>
-                            </a>
-                        </article>
-                    </FadeReveal>
+                                    Découvrir {service.navLabel.toLowerCase()}
+                                    <span
+                                        class="absolute left-0 bottom-0 h-px w-full origin-left scale-x-0 bg-gray-900 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                                        aria-hidden="true"></span>
+                                </a>
+                            </article>
+                        </FadeReveal>
                     );
                 })
             }
@@ -128,11 +128,11 @@ const commonBaseItems = [
                     l'interface, puis vérifier vitesse, accessibilité et contact.
                 </p>
             </div>
-            <ul class="mt-12 grid w-full max-w-5xl gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+            <ul class="mt-12 grid w-full max-w-5xl gap-4 md:gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {
                     commonBaseItems.map((item) => (
                         <li class="flex items-center gap-3 text-left">
-                            <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-snow-50 text-emerald-500 shadow-[0_14px_32px_-24px_rgba(34,42,55,0.55)] ring-1 ring-gray-200/70">
+                            <span class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-snow-50 text-emerald-500 shadow-[0_14px_32px_-24px_rgba(34,42,55,0.55)] ring-1 ring-gray-200/70">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="18"
@@ -156,10 +156,13 @@ const commonBaseItems = [
             </ul>
         </section>
 
-        <ProjectShowcase id="services-projects" />
+    </div>
 
-        <section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-3xl bg-coffee-300 py-14 text-snow-50 sm:w-[calc(100dvw-2rem)] sm:py-20 md:rounded-4xl md:py-24">
-            <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 px-4 text-center sm:px-8 md:gap-7">
+    <ProjectShowcase id="services-projects" class="mt-12 md:mt-16" />
+
+    <div class="mx-auto w-full max-w-5xl px-4 py-12 md:py-16">
+        <section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-4xl bg-coffee-300 py-12 text-snow-50 sm:w-[calc(100dvw-2rem)] md:py-16">
+            <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-4 px-4 text-center sm:px-8 md:gap-6">
                 <h2 class="section-heading section-heading--inverse max-w-4xl">
                     Vous ne savez pas encore quel frein traiter en premier ?
                 </h2>

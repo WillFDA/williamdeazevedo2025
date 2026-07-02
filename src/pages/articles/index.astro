@@ -19,8 +19,8 @@ const years = [
     title="Conseils site web et front-end - William De Azevedo"
     description="Conseils pour rendre un site plus clair, rapide, accessible et crédible : contenu, performance, SEO technique et retours d'expérience freelance."
 >
-    <div class="mx-auto w-full max-w-[calc(100vw-1rem)] px-2 pb-20 sm:max-w-5xl sm:px-4">
-        <section class="mx-auto mb-8 w-full max-w-[22rem] text-center sm:max-w-2xl">
+    <div class="mx-auto w-full max-w-5xl px-4 py-12 md:py-16">
+        <section class="mx-auto w-full max-w-sm text-center sm:max-w-2xl">
             <FadeReveal delay={0.1}>
                 <h1 class="page-heading mb-4">
                     Conseils pour rendre votre site plus clair et convaincant
@@ -38,7 +38,7 @@ const years = [
             {
                 articles.length === 0 ? (
                     <FadeReveal delay={0.3}>
-                        <p class="text-center text-sm font-light text-gray-500">
+                        <p class="text-center text-base font-normal text-gray-500">
                             Il n'y a rien pour l'instant, reviens bientôt !
                         </p>
                     </FadeReveal>
@@ -60,7 +60,7 @@ const years = [
                                 >
                                     <a class="group block py-1" href={`/articles/${article.id}`}>
                                         <time
-                                            class="mb-2 block text-xs font-light tabular-nums text-gray-500"
+                                            class="mb-2 block text-xs font-normal tabular-nums tracking-widest text-gray-500"
                                             datetime={article.data.pubDate.toISOString()}
                                         >
                                             {formatArticleDate(article.data.pubDate)}
@@ -68,7 +68,7 @@ const years = [
                                         <h3 class="text-base font-medium leading-snug text-gray-900 transition-colors group-hover:text-gray-600">
                                             {article.data.title}
                                         </h3>
-                                        <p class="mt-2 line-clamp-2 text-sm font-light leading-6 text-gray-600">
+                                        <p class="mt-2 line-clamp-2 text-base font-normal leading-7 text-gray-600">
                                             {article.data.description}
                                         </p>
                                         {article.data.tags.length > 0 && (
@@ -85,7 +85,7 @@ const years = [
                             ))}
                         </ul>
                         <p
-                            class="hidden pt-2 text-sm font-light text-gray-500"
+                            class="hidden pt-2 text-base font-normal text-gray-500"
                             data-article-empty
                         >
                             Aucun article trouvé.

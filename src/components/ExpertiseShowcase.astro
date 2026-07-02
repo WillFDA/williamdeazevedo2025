@@ -80,13 +80,13 @@ const firstId = items[0]?.id ?? "";
         ))
       }
     </div>
-    <div class="expertise-showcase__panels">
+    <div class="expertise-showcase__panels min-w-0">
       {
         items.map((item) => (
-          <article
+            <article
             aria-labelledby={`expertise-tab-${item.id}`}
             class:list={[
-              "expertise-showcase__panel",
+              "expertise-showcase__panel grid gap-10",
               item.id === firstId && "is-active",
             ]}
             data-expertise-panel={item.id}
@@ -127,21 +127,32 @@ const firstId = items[0]?.id ?? "";
                 </div>
               </div>
             </div>
-            <div class="expertise-showcase__content">
-              <h3 style="--reveal-delay: 320ms">{item.title}</h3>
-              <div class="expertise-showcase__copy">
+            <div class="expertise-showcase__content order-first flex min-w-0 flex-col gap-5 self-center lg:order-none">
+              <h3
+                class="m-0 text-balance text-[clamp(1.9rem,2.9vw,3rem)] leading-[1.02] font-medium text-gray-900"
+                style="--reveal-delay: 320ms"
+              >
+                {item.title}
+              </h3>
+              <div class="expertise-showcase__copy flex flex-col gap-4">
                 {
                   item.description.map((paragraph, paragraphIndex) => (
-                    <p style={`--reveal-delay: ${460 + paragraphIndex * 120}ms`}>
+                    <p
+                      class="m-0 text-[0.95rem] leading-[1.55] font-light text-coffee-300"
+                      style={`--reveal-delay: ${460 + paragraphIndex * 120}ms`}
+                    >
                       {paragraph}
                     </p>
                   ))
                 }
               </div>
-              <div class="expertise-showcase__pills" aria-label="Points clés">
+              <div class="expertise-showcase__pills flex flex-wrap gap-3 pt-1" aria-label="Points clés">
                 {
                   item.pills.map((pill, pillIndex) => (
-                    <span style={`--reveal-delay: ${720 + pillIndex * 70}ms`}>
+                    <span
+                      class="inline-flex min-h-9 items-center rounded-full border px-3.5 py-[0.45rem] text-[0.8rem] leading-[1.2] font-normal text-coffee-300"
+                      style={`--reveal-delay: ${720 + pillIndex * 70}ms`}
+                    >
                       {pill}
                     </span>
                   ))
@@ -554,15 +565,6 @@ const firstId = items[0]?.id ?? "";
     width: 1.05rem;
   }
 
-  .expertise-showcase__panels {
-    min-width: 0;
-  }
-
-  .expertise-showcase__panel {
-    display: grid;
-    gap: 2.5rem;
-  }
-
   .expertise-showcase__panel[hidden] {
     display: none;
   }
@@ -758,24 +760,6 @@ const firstId = items[0]?.id ?? "";
     width: 100%;
   }
 
-  .expertise-showcase__content {
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    min-width: 0;
-    order: -1;
-  }
-
-  .expertise-showcase__content h3 {
-    color: var(--color-gray-900);
-    font-size: clamp(1.9rem, 2.9vw, 3rem);
-    font-weight: 500;
-    line-height: 1.02;
-    margin: 0;
-    text-wrap: balance;
-  }
-
   .expertise-showcase[data-expertise-revealed]
     .expertise-showcase__panel.is-active
     .expertise-showcase__content
@@ -813,39 +797,9 @@ const firstId = items[0]?.id ?? "";
     }
   }
 
-  .expertise-showcase__copy {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .expertise-showcase__copy p {
-    color: var(--color-coffee-300);
-    font-size: 0.95rem;
-    font-weight: 300;
-    line-height: 1.55;
-    margin: 0;
-  }
-
-  .expertise-showcase__pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    padding-top: 0.25rem;
-  }
-
   .expertise-showcase__pills span {
-    align-items: center;
     background: color-mix(in srgb, var(--color-gray-100) 76%, white);
     border: 1px solid color-mix(in srgb, var(--color-gray-200) 80%, white);
-    border-radius: 9999px;
-    color: var(--color-coffee-300);
-    display: inline-flex;
-    font-size: 0.8rem;
-    font-weight: 400;
-    line-height: 1.2;
-    min-height: 2.25rem;
-    padding: 0.45rem 0.85rem;
   }
 
   @media (min-width: 1024px) {
@@ -876,9 +830,6 @@ const firstId = items[0]?.id ?? "";
       min-height: 24rem;
     }
 
-    .expertise-showcase__content {
-      order: 0;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {

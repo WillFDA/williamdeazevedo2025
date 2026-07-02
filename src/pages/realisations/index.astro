@@ -17,7 +17,7 @@ const projects = caseStudies.map((caseStudy) => ({
     title="Réalisations web - William De Azevedo"
     description="Études de cas de sites vitrines, refontes et interfaces produit conçus pour clarifier une offre, rassurer et faciliter le passage à l'action."
 >
-    <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 pb-20">
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 py-12 md:py-16">
         <FadeReveal delay={0.1}>
             <section class="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
                 <h1 class="page-heading">
@@ -31,11 +31,11 @@ const projects = caseStudies.map((caseStudy) => ({
             </section>
         </FadeReveal>
 
-        <section class="grid gap-5">
+        <section class="grid gap-6">
             {
                 projects.map(({ project, ...caseStudy }, index) => (
                     <FadeReveal delay={0.15 + index * 0.08}>
-                        <article class="grid gap-5 rounded-lg bg-snow-50 p-5 ring-1 ring-snow-600 md:grid-cols-[0.9fr_1.1fr] md:p-6">
+                        <article class="grid gap-6 rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600 md:grid-cols-[0.9fr_1.1fr] md:p-6">
                             {project?.media.type === "video" && (
                                 <video
                                     muted
@@ -44,24 +44,24 @@ const projects = caseStudies.map((caseStudy) => ({
                                     preload="metadata"
                                     poster={project.media.poster}
                                     aria-hidden="true"
-                                    class="aspect-video w-full rounded-lg object-cover"
+                                    class="aspect-video w-full rounded-xl object-cover"
                                 >
                                     <source src={project.media.src} type="video/mp4" />
                                 </video>
                             )}
                             <div class="flex flex-col gap-4">
                                 <div class="flex flex-col gap-2">
-                                    <p class="text-xs font-light uppercase tracking-widest text-blue-500">
+                                    <p class="text-xs font-normal uppercase tracking-widest text-blue-500">
                                         {caseStudy.serviceLabel}
                                     </p>
                                     <h2 class="text-2xl font-medium leading-tight text-gray-900">
                                         {project?.title ?? caseStudy.title}
                                     </h2>
-                                    <p class="text-sm font-light leading-6 text-gray-600">
+                                    <p class="text-base font-normal leading-7 text-gray-600">
                                         {caseStudy.description}
                                     </p>
                                 </div>
-                                <p class="text-sm font-light leading-6 text-gray-600">
+                                <p class="text-base font-normal leading-7 text-gray-600">
                                     {caseStudy.takeaway}
                                 </p>
                                 <div class="mt-auto flex flex-col gap-3 sm:flex-row">
@@ -85,12 +85,12 @@ const projects = caseStudies.map((caseStudy) => ({
             }
         </section>
 
-        <section class="rounded-lg bg-coffee-300 p-6 text-snow-50 sm:p-8">
+        <section class="rounded-xl bg-coffee-300 p-6 text-snow-50 sm:p-8">
             <div class="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
                 <h2 class="text-2xl font-medium leading-tight">
                     Vous avez un frein proche ?
                 </h2>
-                <p class="text-sm font-light leading-6 text-snow-100">
+                <p class="text-base font-normal leading-7 text-snow-100">
                     On peut partir d'un exemple existant pour identifier le bon
                     niveau de cadrage, de design et de développement.
                 </p>

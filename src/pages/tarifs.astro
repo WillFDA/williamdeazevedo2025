@@ -69,13 +69,13 @@ const afterCosts = [
     title="Budget d'un site web freelance - William De Azevedo"
     description="Comprendre ce qui fait varier le budget d'un site vitrine, d'une refonte ou d'une mission front-end freelance selon les freins à lever."
 >
-    <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 pb-20">
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-12 md:gap-16 md:py-16">
         <FadeReveal delay={0.1}>
-            <section class="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
+            <section class="mx-auto flex max-w-4xl flex-col items-center gap-5 text-center">
                 <h1 class="page-heading">
                     Le bon budget dépend surtout du problème à résoudre
                 </h1>
-                <p class="page-subheading">
+                <p class="page-subheading max-w-sm sm:max-w-lg">
                     Un site lent, flou ou daté n'a pas toujours besoin d'une
                     refonte complète. Le prix dépend du vrai périmètre : contenu,
                     design, autonomie attendue, technique et priorités à traiter.
@@ -87,11 +87,11 @@ const afterCosts = [
         <section class="grid gap-4 md:grid-cols-3">
             {
                 projectFormats.map((format) => (
-                    <article class="rounded-lg bg-snow-50 p-5 ring-1 ring-snow-600">
-                        <h2 class="mb-2 text-lg font-medium leading-tight text-gray-900">
+                    <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
+                        <h2 class="mb-2 text-lg font-normal leading-tight text-gray-900">
                             {format.title}
                         </h2>
-                        <p class="text-sm font-light leading-6 text-gray-600">
+                        <p class="text-base font-normal leading-relaxed text-gray-600">
                             {format.text}
                         </p>
                     </article>
@@ -99,12 +99,12 @@ const afterCosts = [
             }
         </section>
 
-        <section class="grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:items-start">
-            <div class="flex flex-col gap-3">
-                <h2 class="text-2xl font-medium leading-tight text-gray-900">
+        <section class="grid gap-6 md:grid-cols-[0.85fr_1.15fr] md:items-start md:gap-12">
+            <div class="flex flex-col gap-4">
+                <h2 class="text-2xl font-normal leading-tight text-gray-900">
                     Ce qui fait varier le devis
                 </h2>
-                <p class="text-sm font-light leading-6 text-gray-600">
+                <p class="text-base font-normal leading-relaxed text-gray-600">
                     Deux sites vitrines peuvent avoir le même nombre de pages et
                     demander un travail très différent. Le cadrage sert à éviter les
                     angles morts et à identifier les freins prioritaires avant de
@@ -114,7 +114,7 @@ const afterCosts = [
             <ul class="grid gap-3 sm:grid-cols-2">
                 {
                     priceFactors.map((factor) => (
-                        <li class="rounded-lg bg-gray-100 px-4 py-3 text-sm font-light leading-6 text-gray-700 ring-1 ring-gray-200">
+                        <li class="rounded-xl bg-gray-100 px-4 py-3 text-base font-normal leading-relaxed text-gray-700 ring-1 ring-gray-200">
                             {factor}
                         </li>
                     ))
@@ -123,28 +123,28 @@ const afterCosts = [
         </section>
 
         <section class="grid gap-4 md:grid-cols-2">
-            <article class="rounded-lg bg-snow-50 p-6 ring-1 ring-snow-600">
-                <h2 class="mb-4 text-2xl font-medium leading-tight text-gray-900">
+            <article class="rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
+                <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
                     Ce qui est généralement compris
                 </h2>
                 <ul class="flex flex-col gap-3">
                     {
                         included.map((item) => (
-                            <li class="text-sm font-light leading-6 text-gray-600">
+                            <li class="text-base font-normal leading-relaxed text-gray-600">
                                 {item}
                             </li>
                         ))
                     }
                 </ul>
             </article>
-            <article class="rounded-lg bg-snow-50 p-6 ring-1 ring-snow-600">
-                <h2 class="mb-4 text-2xl font-medium leading-tight text-gray-900">
+            <article class="rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
+                <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
                     Les coûts à prévoir après la livraison
                 </h2>
                 <ul class="flex flex-col gap-3">
                     {
                         afterCosts.map((item) => (
-                            <li class="text-sm font-light leading-6 text-gray-600">
+                            <li class="text-base font-normal leading-relaxed text-gray-600">
                                 {item}
                             </li>
                         ))
@@ -154,11 +154,11 @@ const afterCosts = [
         </section>
 
         <section class="flex flex-col gap-6">
-            <div class="flex flex-col gap-3 md:max-w-2xl">
-                <h2 class="text-2xl font-medium leading-tight text-gray-900">
+            <div class="flex max-w-lg flex-col gap-4">
+                <h2 class="section-heading text-left">
                     Exemples de complexité
                 </h2>
-                <p class="text-sm font-light leading-6 text-gray-600">
+                <p class="text-base font-normal leading-relaxed text-gray-600">
                     Les réalisations donnent un repère plus utile qu'un prix sorti
                     de son contexte.
                 </p>
@@ -166,11 +166,11 @@ const afterCosts = [
             <div class="grid gap-4 md:grid-cols-3">
                 {
                     homeProjects.map((project) => (
-                        <article class="rounded-lg bg-gray-100 p-5 ring-1 ring-gray-200">
-                            <h3 class="mb-2 text-lg font-medium leading-tight text-gray-900">
+                        <article class="rounded-xl bg-gray-100 p-5 ring-1 ring-gray-200">
+                            <h3 class="mb-2 text-lg font-normal leading-tight text-gray-900">
                                 {project.title}
                             </h3>
-                            <p class="text-sm font-light leading-6 text-gray-600">
+                            <p class="text-base font-normal leading-relaxed text-gray-600">
                                 {project.summary}
                             </p>
                             <a
@@ -185,12 +185,12 @@ const afterCosts = [
             </div>
         </section>
 
-        <section class="rounded-lg bg-coffee-300 p-6 text-snow-50 sm:p-8">
+        <section class="rounded-4xl bg-coffee-300 p-6 text-snow-50 sm:p-8">
             <div class="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
-                <h2 class="text-2xl font-medium leading-tight">
+                <h2 class="text-2xl font-normal leading-tight">
                     Le plus simple : cadrer le problème avant de parler budget
                 </h2>
-                <p class="text-sm font-light leading-6 text-snow-100">
+                <p class="text-base font-normal leading-relaxed text-snow-100">
                     En 15 minutes, on peut déjà vérifier les freins prioritaires,
                     le type de projet et la prochaine étape pertinente.
                 </p>

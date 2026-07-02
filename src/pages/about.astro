@@ -89,9 +89,9 @@ const clientAngles = [
     title="À propos - William De Azevedo"
     description="Développeur front-end avec une approche design et produit pour créer des sites clairs, rapides, accessibles et crédibles."
 >
-    <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 pb-16 sm:gap-16 sm:px-4 sm:pb-20">
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-12 md:gap-16 md:py-16">
         <section class="flex flex-col gap-6">
-            <h1 class="page-heading flex max-w-full flex-wrap justify-center gap-x-[0.18em]">
+            <h1 class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl">
                 {
                     aboutHeroTitleWords.map((word, index) => (
                         <span
@@ -108,7 +108,7 @@ const clientAngles = [
                 }
             </h1>
             <FadeReveal delay={0.32}>
-                <p class="page-subheading max-w-120">
+                <p class="page-subheading max-w-sm sm:max-w-lg">
                     Mon rôle : repérer ce qui brouille la compréhension, rendre
                     l'interface plus lisible, puis développer une base rapide,
                     accessible et simple à maintenir.
@@ -119,7 +119,7 @@ const clientAngles = [
 
         <section class="mx-auto flex w-full max-w-2xl flex-col gap-4 text-center">
             <h2 class="text-base font-medium text-coffee-300">Parcours</h2>
-            <div class="flex flex-col gap-4 text-sm font-light leading-6 text-coffee-300">
+            <div class="flex flex-col gap-4 text-base font-normal leading-relaxed text-coffee-300">
                 <p>
                     Mon parcours dans l'infographie et le motion design
                     m'a donné un <span class="font-normal text-coffee-300"
@@ -146,13 +146,13 @@ const clientAngles = [
         <section class="grid gap-4 md:grid-cols-3">
             {
                 clientAngles.map((angle) => (
-                    <article class="rounded-lg bg-snow-50 p-5 ring-1 ring-snow-600">
-                        <h2 class="mb-4 text-lg font-medium leading-tight text-gray-900">
+                    <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
+                        <h2 class="mb-4 text-lg font-normal leading-tight text-gray-900">
                             {angle.title}
                         </h2>
                         <ul class="flex flex-col gap-3">
                             {angle.items.map((item) => (
-                                <li class="text-sm font-light leading-6 text-gray-600">
+                                <li class="text-base font-normal leading-relaxed text-gray-600">
                                     {item}
                                 </li>
                             ))}
@@ -164,7 +164,7 @@ const clientAngles = [
 
         <AboutCallout title="Je relie mon œil design au code pour créer des interfaces utiles." />
 
-        <section class="relative left-1/2 w-[100dvw] -translate-x-1/2">
+        <section class="relative left-1/2 w-dvw -translate-x-1/2">
             <div class="photo-strip flex items-center justify-start gap-3 overflow-x-auto px-4 sm:px-4 lg:justify-center lg:gap-5 lg:overflow-visible lg:px-0">
                 {
                     pictures.map((picture, index) => (

@@ -57,13 +57,13 @@ const delivered = [
     title="Méthode de création d'un site web - William De Azevedo"
     description="Une méthode de création ou refonte web pour clarifier l'offre, lever les freins, concevoir l'interface, développer, tester et mettre en ligne."
 >
-    <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 pb-20">
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-12 md:gap-16 md:py-16">
         <FadeReveal delay={0.1}>
-            <section class="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
+            <section class="mx-auto flex max-w-4xl flex-col items-center gap-5 text-center">
                 <h1 class="page-heading">
                     Une méthode pour transformer le flou en parcours clair
                 </h1>
-                <p class="page-subheading">
+                <p class="page-subheading max-w-sm sm:max-w-lg">
                     Un bon site ne se résume pas à de beaux écrans. On part des
                     hésitations de vos visiteurs, puis on clarifie ce qui doit être
                     compris, montré et vérifié avant de développer.
@@ -74,17 +74,17 @@ const delivered = [
         <ol class="grid gap-3" aria-label="Étapes de la méthode">
             {
                 steps.map((step, index) => (
-                    <li class="grid gap-4 rounded-lg bg-snow-50 p-5 ring-1 ring-snow-600 md:grid-cols-[3rem_0.7fr_1.3fr] md:items-start">
+                    <li class="grid gap-4 rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600 md:grid-cols-[3rem_0.7fr_1.3fr] md:items-start">
                         <span
                             aria-hidden="true"
-                            class="flex size-10 items-center justify-center rounded-lg bg-blue-500 text-sm font-normal text-snow-50"
+                            class="flex size-10 items-center justify-center rounded-xl bg-blue-500 text-sm font-normal text-snow-50"
                         >
                             {index + 1}
                         </span>
-                        <h2 class="text-xl font-medium leading-tight text-gray-900">
+                        <h2 class="text-xl font-normal leading-tight text-gray-900">
                             {step.title}
                         </h2>
-                        <p class="text-sm font-light leading-6 text-gray-600">
+                        <p class="text-base font-normal leading-relaxed text-gray-600">
                             {step.text}
                         </p>
                     </li>
@@ -93,28 +93,28 @@ const delivered = [
         </ol>
 
         <section class="grid gap-4 md:grid-cols-2">
-            <article class="rounded-lg bg-gray-100 p-6 ring-1 ring-gray-200">
-                <h2 class="mb-4 text-2xl font-medium leading-tight text-gray-900">
+            <article class="rounded-xl bg-gray-100 p-6 ring-1 ring-gray-200">
+                <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
                     Ce dont j'ai besoin de votre côté
                 </h2>
                 <ul class="flex flex-col gap-3">
                     {
                         clientNeeds.map((item) => (
-                            <li class="text-sm font-light leading-6 text-gray-600">
+                            <li class="text-base font-normal leading-relaxed text-gray-600">
                                 {item}
                             </li>
                         ))
                     }
                 </ul>
             </article>
-            <article class="rounded-lg bg-gray-100 p-6 ring-1 ring-gray-200">
-                <h2 class="mb-4 text-2xl font-medium leading-tight text-gray-900">
+            <article class="rounded-xl bg-gray-100 p-6 ring-1 ring-gray-200">
+                <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
                     Ce que vous récupérez à la fin
                 </h2>
                 <ul class="flex flex-col gap-3">
                     {
                         delivered.map((item) => (
-                            <li class="text-sm font-light leading-6 text-gray-600">
+                            <li class="text-base font-normal leading-relaxed text-gray-600">
                                 {item}
                             </li>
                         ))
@@ -123,20 +123,20 @@ const delivered = [
             </article>
         </section>
 
-        <section class="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-start">
-            <div class="flex flex-col gap-3">
-                <h2 class="text-2xl font-medium leading-tight text-gray-900">
+        <section class="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:items-start md:gap-12">
+            <div class="flex flex-col gap-4">
+                <h2 class="text-2xl font-normal leading-tight text-gray-900">
                     Comment éviter les retours dispersés ?
                 </h2>
-                <p class="text-sm font-light leading-6 text-gray-600">
+                <p class="text-base font-normal leading-relaxed text-gray-600">
                     Les retours sont plus efficaces lorsqu'ils sont regroupés,
                     priorisés et rattachés à l'objectif de la page : clarté,
                     confiance, performance ou conversion. Cela évite les
                     ajustements isolés qui fragilisent le projet.
                 </p>
             </div>
-            <div class="rounded-lg bg-snow-50 p-6 ring-1 ring-snow-600">
-                <p class="text-sm font-light leading-6 text-gray-600">
+            <div class="rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
+                <p class="text-base font-normal leading-relaxed text-gray-600">
                     À chaque étape importante, je vous explique ce qui est attendu :
                     validation de la structure, validation du design, recette du
                     site puis mise en ligne. Une correction reste liée au périmètre
@@ -145,12 +145,12 @@ const delivered = [
             </div>
         </section>
 
-        <section class="rounded-lg bg-coffee-300 p-6 text-snow-50 sm:p-8">
+        <section class="rounded-4xl bg-coffee-300 p-6 text-snow-50 sm:p-8">
             <div class="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
-                <h2 class="text-2xl font-medium leading-tight">
+                <h2 class="text-2xl font-normal leading-tight">
                     Vous voulez savoir si ce cadre convient à votre projet ?
                 </h2>
-                <p class="text-sm font-light leading-6 text-snow-100">
+                <p class="text-base font-normal leading-relaxed text-snow-100">
                     On commence par un appel court, sans engagement, pour comprendre
                     ce qui bloque aujourd'hui et éviter de partir dans la mauvaise
                     direction.

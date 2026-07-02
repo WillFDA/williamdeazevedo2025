@@ -39,7 +39,7 @@ const splitWords = text.trim()
     data-wui-wave-stagger={stagger}
     data-wui-wave-trigger={trigger}
 >
-    <span class="wui-wave-text__screen-reader">{text}</span>
+    <span class="sr-only">{text}</span>
 
     <span class="wui-wave-text__stage" aria-hidden="true">
         <span class="wui-wave-text__row" data-wui-wave-row="first">
@@ -185,18 +185,6 @@ const splitWords = text.trim()
             [data-wui-wave-char] {
             transform: translateY(0%);
         }
-    }
-
-    .wui-wave-text__screen-reader {
-        border: 0;
-        clip: rect(0, 0, 0, 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        white-space: nowrap;
-        width: 1px;
     }
 
     @media (prefers-reduced-motion: reduce) {

@@ -21,7 +21,11 @@ const {
 <a
     aria-controls="cal-drawer"
     aria-haspopup="dialog"
-    class:list={["cal-button", `cal-button--${variant}`, className]}
+    class:list={[
+        "cal-button relative isolate inline-flex min-h-14 items-center justify-center gap-5 bg-transparent px-8 py-3 no-underline",
+        `cal-button--${variant}`,
+        className,
+    ]}
     data-cal-location={location}
     data-cal-open
     href="/contact"
@@ -34,17 +38,7 @@ const {
 
 <style>
     .cal-button {
-        align-items: center;
-        background: transparent;
         color: var(--cal-button-color);
-        display: inline-flex;
-        gap: 1.25rem;
-        isolation: isolate;
-        justify-content: center;
-        min-height: 3.5rem;
-        padding: 0.75rem 2rem;
-        position: relative;
-        text-decoration: none;
     }
 
     .cal-button::before {
