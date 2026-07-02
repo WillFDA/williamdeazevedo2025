@@ -24,12 +24,15 @@ const { description, items, title } = Astro.props;
 const firstId = items[0]?.id ?? "";
 ---
 
-<section class="expertise-showcase" data-expertise-showcase>
-  <div class="expertise-showcase__intro">
+<section
+  class="expertise-showcase flex w-full flex-col gap-14 lg:gap-16"
+  data-expertise-showcase
+>
+  <div class="expertise-showcase__intro mx-auto flex max-w-4xl flex-col items-center gap-4 text-center">
     <h2 class="section-heading">{title}</h2>
     <p class="section-subheading">{description}</p>
   </div>
-  <div class="expertise-showcase__body">
+  <div class="expertise-showcase__body grid gap-10">
     <div
       aria-label="Expertises"
       class="expertise-showcase__tabs"
@@ -367,23 +370,6 @@ const firstId = items[0]?.id ?? "";
 </script>
 
 <style>
-  .expertise-showcase {
-    display: flex;
-    flex-direction: column;
-    gap: 3.5rem;
-    width: 100%;
-  }
-
-  .expertise-showcase__intro {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-    margin-inline: auto;
-    max-width: 50rem;
-    text-align: center;
-  }
-
   .expertise-showcase[data-expertise-ready]:not([data-expertise-revealed])
     .expertise-showcase__intro
     > *,
@@ -433,11 +419,6 @@ const firstId = items[0]?.id ?? "";
       opacity: 1;
       transform: none;
     }
-  }
-
-  .expertise-showcase__body {
-    display: grid;
-    gap: 2.5rem;
   }
 
   .expertise-showcase__tabs {
@@ -868,10 +849,6 @@ const firstId = items[0]?.id ?? "";
   }
 
   @media (min-width: 1024px) {
-    .expertise-showcase {
-      gap: 4rem;
-    }
-
     .expertise-showcase__body {
       --expertise-frame-height: 27rem;
 

@@ -46,13 +46,13 @@ const commonBaseItems = [
     <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 pb-20">
         <section class="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
             <h1
-                class="page-heading flex w-full max-w-[22rem] flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
+                class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
                 data-services-animated-title
             >
                 {
                     servicesHeroTitleParts.map((part, index) => (
                         <span
-                            class:list={[part.pill && "services-title-pill"]}
+                            class:list={[part.pill && "title-pill"]}
                             style={`--animated-word-index: ${index}`}
                             data-services-animated-title-word
                         >
@@ -69,7 +69,7 @@ const commonBaseItems = [
                 </p>
             </FadeReveal>
             <FadeReveal delay={0.44}>
-                <CalButton class="rounded-xl font-regular text-md" location="services-hero" />
+                <CalButton class="rounded-xl text-base font-normal" location="services-hero" />
             </FadeReveal>
         </section>
 
@@ -83,7 +83,7 @@ const commonBaseItems = [
 
                     return (
                     <FadeReveal delay={0.14 + index * 0.08}>
-                        <article class="flex h-full flex-col gap-5 rounded-lg bg-[color-mix(in_srgb,var(--color-gray-100)_72%,white)] p-5">
+                        <article class="flex h-full flex-col gap-5 rounded-lg bg-gray-100 p-5">
                             <div class="flex flex-col gap-3">
                                 <span
                                     class="flex size-11 items-center justify-center rounded-xl text-snow-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.32),0_14px_28px_-20px_rgba(34,42,55,0.42)]"
@@ -128,11 +128,11 @@ const commonBaseItems = [
                     l'interface, puis vérifier vitesse, accessibilité et contact.
                 </p>
             </div>
-            <ul class="mt-10 grid w-full max-w-5xl gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+            <ul class="mt-12 grid w-full max-w-5xl gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
                 {
                     commonBaseItems.map((item) => (
                         <li class="flex items-center gap-3 text-left">
-                            <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-snow-50 text-[#20b86f] shadow-[0_14px_32px_-24px_rgba(34,42,55,0.55)] ring-[0.5px] ring-gray-200/70">
+                            <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-snow-50 text-emerald-500 shadow-[0_14px_32px_-24px_rgba(34,42,55,0.55)] ring-1 ring-gray-200/70">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="18"
@@ -168,7 +168,7 @@ const commonBaseItems = [
                     création, une refonte ou une simple amélioration ciblée.
                 </p>
                 <CalButton
-                    class="mt-2 rounded-xl font-regular text-md"
+                    class="mt-2 rounded-xl text-base font-normal"
                     location="services-final"
                     variant="light"
                 />
@@ -217,18 +217,6 @@ const commonBaseItems = [
 <style>
     [data-services-animated-title-word] {
         display: inline-block;
-    }
-
-    .services-title-pill {
-        background: var(--color-blue-500);
-        border-radius: 999em;
-        box-shadow:
-            0 0.2em 0.58em -0.28em rgba(62, 96, 212, 0.62),
-            0 0.08em 0.18em -0.1em rgba(34, 42, 55, 0.28);
-        color: var(--color-snow-50);
-        line-height: 1;
-        margin-inline: 0.04em;
-        padding: 0 0.28em 0.07em;
     }
 
     [data-services-animated-title]:not([data-animated-title-ready="true"])

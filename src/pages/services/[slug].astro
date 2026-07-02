@@ -100,7 +100,7 @@ const breadcrumbJsonLd = {
                 </p>
                 <div class="flex flex-col items-center gap-3 sm:flex-row">
                     <CalButton
-                        class="rounded-xl font-regular text-md"
+                        class="rounded-xl text-base font-normal"
                         location={`service-${service.slug}-hero`}
                     />
                     {
@@ -175,7 +175,7 @@ const breadcrumbJsonLd = {
                 <section class="rounded-lg bg-coffee-300 p-6 text-snow-50 sm:p-8">
                     <div class="grid gap-6 md:grid-cols-[1fr_1.2fr] md:items-center">
                         <div class="flex flex-col gap-3">
-                            <p class="text-xs font-light uppercase tracking-[0.12em] text-blue-300">
+                            <p class="text-xs font-light uppercase tracking-widest text-blue-300">
                                 Réalisation liée
                             </p>
                             <h2 class="text-2xl font-medium leading-tight">
@@ -193,7 +193,7 @@ const breadcrumbJsonLd = {
                                 Lire l'étude de cas
                             </a>
                             <CalButton
-                                class="rounded-xl font-regular text-md"
+                                class="rounded-xl text-base font-normal"
                                 location={`service-${service.slug}-proof`}
                                 variant="light"
                             />
@@ -314,7 +314,7 @@ const breadcrumbJsonLd = {
                         class="group rounded-lg bg-gray-100 p-5 ring-1 ring-gray-200 transition-colors hover:bg-snow-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
                         href={`/services/${relatedService.slug}`}
                     >
-                        <p class="mb-2 text-xs font-light uppercase tracking-[0.12em] text-gray-500">
+                        <p class="mb-2 text-xs font-light uppercase tracking-widest text-gray-500">
                             Service lié
                         </p>
                         <h2 class="text-lg font-medium leading-tight text-gray-900 transition-colors group-hover:text-blue-500">
@@ -338,7 +338,7 @@ const breadcrumbJsonLd = {
                     prochaine étape réaliste avant de parler solution.
                 </p>
                 <CalButton
-                    class="rounded-xl font-regular text-md"
+                    class="rounded-xl text-base font-normal"
                     location={`service-${service.slug}-final`}
                 />
             </div>

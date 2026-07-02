@@ -52,9 +52,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-* {
-  box-sizing: border-box;
-}
 body {
   font-family: var(--geist-font);
   color: var(--color-gray-900);
@@ -314,6 +311,20 @@ body {
 
   .section-subheading--inverse {
     color: var(--color-coffee-50);
+  }
+
+  /* Pill word highlight shared by the animated titles (home hero, services
+     hero, about callout). */
+  .title-pill {
+    background: var(--color-blue-500);
+    border-radius: 999em;
+    box-shadow:
+      0 0.2em 0.58em -0.28em rgba(62, 96, 212, 0.62),
+      0 0.08em 0.18em -0.1em rgba(34, 42, 55, 0.28);
+    color: var(--color-snow-50);
+    line-height: 1;
+    margin-inline: 0.04em;
+    padding: 0 0.28em 0.07em;
   }
 }
 

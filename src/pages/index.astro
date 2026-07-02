@@ -157,135 +157,133 @@ const displayedTestimonials = temoignages
 ---
 
 <Layout>
-    <section class="mx-auto w-full max-w-[calc(100vw-1rem)] px-2 sm:max-w-5xl sm:px-4">
-        <div class="flex min-w-0 flex-col gap-6">
-            <a
-                aria-label="Avis Google : 5 étoiles sur 5"
-                class="mx-auto inline-flex max-w-[calc(100vw-1rem)] items-center gap-2 rounded-xl bg-snow-50 px-3.5 py-2 text-sm font-normal leading-tight text-gray-900 no-underline shadow-[0_10px_22px_-16px_rgba(34,42,55,0.45)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 sm:text-base"
-                data-hero-eyebrow
-                href="https://share.google/LlCN4Hr5IlatyVSl2"
-                rel="noreferrer"
-                target="_blank"
+    <section class="mx-auto flex w-full min-w-0 max-w-5xl flex-col gap-6 px-2 sm:px-4">
+        <a
+            aria-label="Avis Google : 5 étoiles sur 5"
+            class="mx-auto inline-flex max-w-full items-center gap-2 rounded-xl bg-snow-50 px-3.5 py-2 text-sm font-normal leading-tight text-gray-900 no-underline shadow-[0_10px_22px_-16px_rgba(34,42,55,0.45)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 sm:text-base"
+            data-hero-eyebrow
+            href="https://share.google/LlCN4Hr5IlatyVSl2"
+            rel="noreferrer"
+            target="_blank"
+        >
+            <span>Avis Google</span>
+            <span class="inline-flex items-center gap-1.5 rounded-xl bg-blue-500 px-2.5 py-1 font-medium text-snow-50">
+                <Star aria-hidden="true" class="size-4 text-snow-50" />
+                <span>5.0</span>
+            </span>
+        </a>
+        <h1
+            class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
+            data-animated-title
+        >
+            {
+                heroTitleParts.map((part, index) => (
+                    <span
+                        class:list={[
+                            part.pill && "title-pill",
+                        ]}
+                        style={`--animated-word-index: ${index}`}
+                        data-animated-title-word
+                    >
+                        {part.text}
+                    </span>
+                ))
+            }
+        </h1>
+        <FadeReveal delay={0.32}>
+            <p
+                class="page-subheading max-w-sm sm:max-w-lg"
             >
-                <span>Avis Google</span>
-                <span class="inline-flex items-center gap-1.5 rounded-xl bg-blue-500 px-2.5 py-1 font-medium text-snow-50">
-                    <Star aria-hidden="true" class="size-4 text-snow-50" />
-                    <span>5.0</span>
-                </span>
-            </a>
-            <h1
-                class="page-heading flex w-full max-w-[22rem] flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
-                data-animated-title
+                J’aide les petites structures et les équipes produit à lancer
+                des interfaces & sites performants, soignés et SEO-friendly.
+            </p>
+        </FadeReveal>
+        <FadeReveal delay={0.44}>
+            <div class="mx-auto mt-5 flex w-full max-w-sm flex-col items-center justify-center gap-3 sm:mt-7 sm:max-w-none sm:flex-row sm:gap-8">
+                <button
+                    class="hero-button hero-button--primary flex min-h-14 w-full max-w-full items-center justify-center gap-5 rounded-xl px-8 py-3 text-base font-normal sm:w-auto sm:px-10"
+                    data-cal-location="hero"
+                    data-cal-open
+                    type="button"
+                    ><WaveText
+                        text="Parlons de votre projet"
+                        trigger="parent"
+                    />
+                    <WaveIcon
+                        style="--wui-wave-icon-size: 1rem;"
+                        direction="right"
+                        trigger="parent"
+                    >
+                        <ArrowRight class="size-full" aria-hidden="true" />
+                    </WaveIcon>
+                </button>
+                <a
+                    class="hero-button hero-button--secondary flex min-h-14 w-full max-w-full items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:w-auto sm:px-10"
+                    href="/methode"
+                    ><WaveText
+                        text="Voir comment je travaille"
+                        trigger="parent"
+                    /></a
+                >
+            </div>
+        </FadeReveal>
+        <FadeReveal delay={0.56}>
+            <div
+                class="testimonial-rotator mx-auto mb-4 mt-0 text-center text-xs"
+                data-testimonial-rotator
+                data-testimonial-interval="5500"
             >
                 {
-                    heroTitleParts.map((part, index) => (
-                        <span
+                    displayedTestimonials.map((temoignage, index) => (
+                        <figure
                             class:list={[
-                                part.pill && "hero-title-pill",
+                                "testimonial-rotator__item",
+                                index === 0 && "is-active",
                             ]}
-                            style={`--animated-word-index: ${index}`}
-                            data-animated-title-word
+                            data-testimonial-item
+                            aria-hidden={index === 0 ? undefined : "true"}
+                            inert={index === 0 ? undefined : true}
                         >
-                            {part.text}
-                        </span>
+                            <blockquote class="mx-auto max-w-md text-base font-normal leading-normal text-gray-900">
+                                “{temoignage.excerpt ?? temoignage.text}”
+                            </blockquote>
+                            <div class="testimonial-rotator__person flex items-center justify-center gap-3">
+                                <div class="inline-flex size-10 items-center justify-center overflow-hidden rounded-full bg-snow-600 text-xs font-medium text-gray-900">
+                                    {temoignage.image ? (
+                                        <Image
+                                            class="block size-full object-cover"
+                                            src={temoignage.image}
+                                            alt={temoignage.imageAlt ?? ""}
+                                            width={64}
+                                            height={64}
+                                            loading={
+                                                index === 0 ? "eager" : "lazy"
+                                            }
+                                        />
+                                    ) : (
+                                        <span>{temoignage.initials}</span>
+                                    )}
+                                </div>
+                                <figcaption class="text-left text-sm font-medium leading-tight text-gray-900">
+                                    <a
+                                        class="text-inherit no-underline underline-offset-2 hover:underline focus-visible:underline"
+                                        href={temoignage.href}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        aria-label={`Voir le site de ${temoignage.name}`}
+                                    >
+                                        {temoignage.name}
+                                    </a>
+                                </figcaption>
+                            </div>
+                        </figure>
                     ))
                 }
-            </h1>
-            <FadeReveal delay={0.32}>
-                <p
-                    class="page-subheading max-w-[22rem] sm:max-w-120"
-                >
-                    J’aide les petites structures et les équipes produit à lancer
-                    des interfaces & sites performants, soignés et SEO-friendly.
-                </p>
-            </FadeReveal>
-            <FadeReveal delay={0.44}>
-                <div class="mx-auto mt-5 flex w-full max-w-[22rem] flex-col items-center justify-center gap-3 sm:mt-7 sm:max-w-none sm:flex-row sm:gap-8">
-                    <button
-                        class="hero-button hero-button--primary font-regular flex min-h-14 w-full max-w-full items-center justify-center gap-5 rounded-xl px-8 py-3 text-md sm:w-auto sm:px-10"
-                        data-cal-location="hero"
-                        data-cal-open
-                        type="button"
-                        ><WaveText
-                            text="Parlons de votre projet"
-                            trigger="parent"
-                        />
-                        <WaveIcon
-                            style="--wui-wave-icon-size: 1rem;"
-                            direction="right"
-                            trigger="parent"
-                        >
-                            <ArrowRight class="size-full" aria-hidden="true" />
-                        </WaveIcon>
-                    </button>
-                    <a
-                        class="hero-button hero-button--secondary font-regular flex min-h-14 w-full max-w-full items-center justify-center rounded-xl px-8 py-3 text-md sm:w-auto sm:px-10"
-                        href="/methode"
-                        ><WaveText
-                            text="Voir comment je travaille"
-                            trigger="parent"
-                        /></a
-                    >
-                </div>
-            </FadeReveal>
-            <FadeReveal delay={0.56}>
-                <div
-                    class="testimonial-rotator mx-auto mb-4 mt-0 text-center text-xs"
-                    data-testimonial-rotator
-                    data-testimonial-interval="5500"
-                >
-                    {
-                        displayedTestimonials.map((temoignage, index) => (
-                            <figure
-                                class:list={[
-                                    "testimonial-rotator__item",
-                                    index === 0 && "is-active",
-                                ]}
-                                data-testimonial-item
-                                aria-hidden={index === 0 ? undefined : "true"}
-                                inert={index === 0 ? undefined : true}
-                            >
-                                <blockquote>
-                                    “{temoignage.excerpt ?? temoignage.text}”
-                                </blockquote>
-                                <div class="testimonial-rotator__person">
-                                    <div class="testimonial-avatar">
-                                        {temoignage.image ? (
-                                            <Image
-                                                class="testimonial-avatar__image"
-                                                src={temoignage.image}
-                                                alt={temoignage.imageAlt ?? ""}
-                                                width={64}
-                                                height={64}
-                                                loading={
-                                                    index === 0 ? "eager" : "lazy"
-                                                }
-                                            />
-                                        ) : (
-                                            <span>{temoignage.initials}</span>
-                                        )}
-                                    </div>
-                                    <figcaption>
-                                        <a
-                                            class="testimonial-rotator__link"
-                                            href={temoignage.href}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            aria-label={`Voir le site de ${temoignage.name}`}
-                                        >
-                                            {temoignage.name}
-                                        </a>
-                                    </figcaption>
-                                </div>
-                            </figure>
-                        ))
-                    }
-                </div>
-            </FadeReveal>
-        </div>
+            </div>
+        </FadeReveal>
     </section>
     <section
-        class="problems-section mx-auto w-full max-w-5xl px-4 pt-10 pb-16 sm:px-8 md:pt-14 md:pb-20"
+        class="problems-section mx-auto w-full max-w-5xl px-4 py-12 sm:px-8 md:py-16"
         aria-labelledby="problems-title"
     >
         <div class="mx-auto flex max-w-4xl flex-col items-center gap-4 text-center">
@@ -305,15 +303,15 @@ const displayedTestimonials = temoignages
                 à l'action.
             </p>
         </div>
-        <ul class="mx-auto mt-10 flex max-w-2xl flex-col gap-5">
+        <ul class="mx-auto mt-12 flex max-w-2xl flex-col gap-5">
             {
                 problemItems.map((problem, index) => (
                     <li
                         class="problems-reveal flex items-center gap-3"
                         style={`--problem-reveal-delay: ${380 + index * 120}ms`}
                     >
-                        <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-snow-50 text-[#ef3434] shadow-[0_14px_32px_-24px_rgba(34,42,55,0.55)] ring-[0.5px] ring-gray-200/70">
-                            <XMark class="size-4 drop-shadow-[-1px_-1px_2px_rgba(239,52,52,0.24)]" />
+                        <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-snow-50 text-red-500 shadow-[0_14px_32px_-24px_rgba(34,42,55,0.55)] ring-1 ring-gray-200/70">
+                            <XMark class="size-4 drop-shadow-[-1px_-1px_2px_rgba(239,68,68,0.24)]" />
                         </span>
                         <p class="text-base font-normal leading-snug text-gray-900 sm:text-lg">
                             {problem}
@@ -324,15 +322,15 @@ const displayedTestimonials = temoignages
         </ul>
     </section>
     <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !" />
-    <div class="mx-auto w-full max-w-7xl px-4 pt-20 pb-8 sm:px-8 md:pt-24 md:pb-10">
+    <div class="mx-auto w-full max-w-7xl px-4 py-12 sm:px-8 md:py-16">
         <ExpertiseShowcase
             title="Ce que je corrige pour rendre un site plus convaincant"
             description="Chaque accompagnement part d'un frein concret : manque de clarté, expérience lente, design qui ne rassure plus ou interface difficile à faire évoluer."
             items={expertiseItems}
         />
-        <div class="mt-10 flex justify-center">
+        <div class="mt-12 flex justify-center">
             <button
-                class="expertise-cta inline-flex min-h-14 items-center justify-center gap-4 rounded-xl px-8 py-3 text-md font-regular focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
+                class="expertise-cta inline-flex min-h-14 items-center justify-center gap-5 rounded-xl px-8 py-3 text-base font-normal focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
                 data-cal-location="expertise"
                 data-cal-open
                 type="button"
@@ -349,7 +347,7 @@ const displayedTestimonials = temoignages
         </div>
     </div>
     <PricingPreview />
-    <ProjectShowcase class="md:mt-8" />
+    <ProjectShowcase />
     <Differenciates />
 </Layout>
 
@@ -519,18 +517,6 @@ const displayedTestimonials = temoignages
         display: inline-block;
     }
 
-    .hero-title-pill {
-        background: var(--color-blue-500);
-        border-radius: 999em;
-        box-shadow:
-            0 0.2em 0.58em -0.28em rgba(62, 96, 212, 0.62),
-            0 0.08em 0.18em -0.1em rgba(34, 42, 55, 0.28);
-        color: var(--color-snow-50);
-        line-height: 1;
-        margin-inline: 0.04em;
-        padding: 0 0.28em 0.07em;
-    }
-
     .testimonial-rotator {
         display: grid;
         min-height: 8.5rem;
@@ -588,68 +574,6 @@ const displayedTestimonials = temoignages
             opacity: 1;
             transform: none;
         }
-    }
-
-    .testimonial-avatar {
-        align-items: center;
-        aspect-ratio: 1;
-        background: var(--color-snow-600);
-        border-radius: 9999px;
-        color: var(--color-gray-900);
-        display: inline-flex;
-        font-size: 0.8rem;
-        font-weight: 500;
-        height: 2.5rem;
-        justify-content: center;
-        overflow: hidden;
-        width: 2.5rem;
-    }
-
-    .testimonial-rotator__person {
-        align-items: center;
-        display: flex;
-        gap: 0.75rem;
-        justify-content: center;
-    }
-
-    .testimonial-avatar__image {
-        display: block;
-        height: 100%;
-        object-fit: cover;
-        width: 100%;
-    }
-
-    .testimonial-rotator figcaption {
-        color: var(--color-gray-900);
-        font-size: 0.875rem;
-        font-weight: 500;
-        line-height: 1.2;
-        text-align: left;
-    }
-
-    .testimonial-rotator__link {
-        color: inherit;
-        text-decoration: none;
-        text-underline-offset: 0.2em;
-    }
-
-    .testimonial-rotator__link:focus-visible {
-        text-decoration: underline;
-    }
-
-    @media (hover: hover) {
-        .testimonial-rotator__link:hover {
-            text-decoration: underline;
-        }
-    }
-
-    .testimonial-rotator blockquote {
-        color: var(--color-gray-900);
-        font-size: 0.95rem;
-        font-weight: 400;
-        line-height: 1.45;
-        margin: 0 auto;
-        max-width: 28rem;
     }
 
     .problems-section.section-fade-reveal.is-reveal-ready
@@ -741,7 +665,6 @@ const displayedTestimonials = temoignages
         --hero-button-color: var(--color-coffee-300);
 
         color: var(--hero-button-color);
-        gap: 0.75rem;
         isolation: isolate;
         position: relative;
         text-decoration: none;

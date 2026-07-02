@@ -16,50 +16,53 @@ const isExternal = href.startsWith("http");
 const isDetailsExternal = detailsHref?.startsWith("http");
 ---
 
-<div class="project-intro" data-project-intro>
+<div class="project-intro flex flex-col gap-4" data-project-intro>
     <a
-        class="project-intro__title"
+        class="project-intro__title flex w-fit items-center gap-4 no-underline"
         href={href}
         rel={isExternal ? "noreferrer" : undefined}
         target={isExternal ? "_blank" : undefined}
     >
-        <h2>{title}</h2>
-        <span class="project-intro__icon" data-project-intro-icon>
+        <h2 class="text-2xl font-medium leading-tight text-gray-900">
+            {title}
+        </h2>
+        <span
+            class="project-intro__icon inline-flex text-gray-500"
+            data-project-intro-icon
+        >
             <Link class="size-5" />
         </span>
     </a>
-    <p class="project-intro__description">
+    <p class="project-intro__description text-base font-light leading-normal text-gray-600">
         <slot />
     </p>
     {
         stack.length > 0 && (
-            <ul class="project-intro__stack" aria-label="Stack technique">
+            <ul class="flex flex-wrap gap-2" aria-label="Stack technique">
                 {stack.map((item) => (
-                    <li>{item}</li>
+                    <li class="rounded-full bg-snow-600 px-3 py-2 text-xs font-light leading-none text-gray-700">
+                        {item}
+                    </li>
                 ))}
             </ul>
         )
     }
-    <div class="project-intro__actions">
+    <div class="mt-1 flex flex-wrap gap-3">
         <a
-            class="project-intro__button project-intro__button--site font-regular flex min-h-14 items-center justify-center rounded-xl px-8 py-3 text-md"
+            class="project-intro__button project-intro__button--site flex min-h-14 items-center justify-center gap-3 rounded-xl px-8 py-3 text-base font-normal text-coffee-300"
             href={href}
             rel={isExternal ? "noreferrer" : undefined}
             target={isExternal ? "_blank" : undefined}
         >
             <span>Voir le site</span>
-            <WaveIcon
-                class="project-intro__site-icon"
-                direction="up"
-                trigger="parent"
-            >
+            <WaveIcon direction="up" trigger="parent">
                 <Globe aria-hidden="true" />
             </WaveIcon>
         </a>
         {
             detailsHref && (
                 <a
-                    class="project-intro__button project-intro__button--details font-regular flex min-h-14 items-center justify-center rounded-xl px-8 py-3 text-md"
+                    class="project-intro__button project-intro__button--details flex min-h-14 items-center justify-center gap-3 rounded-xl px-8 py-3 text-base font-normal text-coffee-300"
                     data-wui-wave-parent
                     href={detailsHref}
                     rel={isDetailsExternal ? "noreferrer" : undefined}
@@ -73,32 +76,7 @@ const isDetailsExternal = detailsHref?.startsWith("http");
 </div>
 
 <style>
-    .project-intro {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .project-intro__title {
-        align-items: center;
-        color: inherit;
-        display: flex;
-        gap: 1rem;
-        text-decoration: none;
-        width: fit-content;
-    }
-
-    .project-intro__title h2 {
-        color: var(--color-gray-700);
-        font-size: 1.875rem;
-        font-weight: 500;
-        line-height: 1;
-        margin: 0;
-    }
-
     .project-intro__icon {
-        color: var(--color-gray-500);
-        display: inline-flex;
         filter: blur(5px);
         opacity: 0;
         transform: translateX(-1.25rem);
@@ -115,49 +93,13 @@ const isDetailsExternal = detailsHref?.startsWith("http");
         transform: translateX(0);
     }
 
-    .project-intro__description {
-        color: var(--color-gray-500);
-        font-size: 1rem;
-        font-weight: 300;
-        line-height: 1.5;
-        margin: 0;
-    }
-
+    /* Emphasised words inside the slotted description. */
     .project-intro__description :global(span) {
-        color: var(--color-gray-700);
+        color: var(--color-gray-900);
         font-weight: 400;
     }
 
-    .project-intro__stack {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .project-intro__stack li {
-        background: var(--color-snow-600);
-        border-radius: 9999px;
-        color: var(--color-gray-700);
-        font-size: 0.75rem;
-        font-weight: 300;
-        line-height: 1;
-        padding: 0.45rem 0.7rem;
-    }
-
-    .project-intro__actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        margin-top: 0.25rem;
-    }
-
     .project-intro__button {
-        align-items: center;
-        color: var(--color-coffee-300);
-        gap: 0.75rem;
         isolation: isolate;
         position: relative;
         text-decoration: none;
@@ -205,11 +147,7 @@ const isDetailsExternal = detailsHref?.startsWith("http");
 
     .project-intro__button--details {
         --project-button-bg: transparent;
-        --project-button-border: rgba(113, 113, 122, 0.22);
-    }
-
-    .project-intro__site-icon {
-        flex: 0 0 auto;
+        --project-button-border: var(--color-gray-200);
     }
 
     @media (prefers-reduced-motion: reduce) {
