@@ -1,0 +1,242 @@
+---
+import CalButton from "@/components/CalButton.astro";
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import { homeProjects } from "@/data/projects";
+import Layout from "@/layout/Layout.astro";
+
+export const prerender = true;
+
+const projectFormats = [
+    {
+        title: "Landing page",
+        text: "Une page centrée sur une offre, une campagne ou une prise de rendez-vous.",
+    },
+    {
+        title: "Site vitrine one-page",
+        text: "Un parcours court pour présenter une activité simple et faciliter le contact.",
+    },
+    {
+        title: "Site vitrine multipage",
+        text: "Plusieurs pages pour détailler les services, les preuves, la méthode et les contenus utiles.",
+    },
+    {
+        title: "Site administrable",
+        text: "Un site avec CMS pour publier projets, articles, prestations ou témoignages après la mise en ligne.",
+    },
+    {
+        title: "Refonte",
+        text: "Un travail sur l'existant : structure, contenus, design, performance, migration et redirections.",
+    },
+    {
+        title: "Mission front-end",
+        text: "Une intervention ciblée pour intégrer, corriger ou faire évoluer une interface web.",
+    },
+];
+
+const priceFactors = [
+    "nombre de pages et complexité des parcours",
+    "qualité des contenus fournis au départ",
+    "besoin de cadrage, rédaction ou restructuration",
+    "design sur mesure, animations et états d'interface",
+    "CMS administrable ou fonctionnalités spécifiques",
+    "formulaires, intégrations externes et suivi de conversion",
+    "reprise d'un ancien site, migration et redirections",
+    "urgence, disponibilité des retours et validations",
+];
+
+const included = [
+    "cadrage du besoin et des objectifs",
+    "structure des pages et hiérarchie des contenus",
+    "design responsive",
+    "développement front-end",
+    "SEO technique initial",
+    "performance et accessibilité de base",
+    "formulaire ou action de contact",
+    "mise en ligne et vérifications",
+];
+
+const afterCosts = [
+    "nom de domaine",
+    "hébergement",
+    "outils tiers ou CMS",
+    "maintenance et corrections",
+    "évolutions de contenu",
+    "nouvelles pages ou fonctionnalités",
+];
+
+const aiBudgetPoints = [
+    "audit de votre situation et de vos freins réels",
+    "choix de structure, de messages et de parcours",
+    "direction design avant génération ou exécution",
+    "contrôle humain sur le code, le responsive et la mise en ligne",
+];
+---
+
+<Layout
+    title="Budget d'un site web freelance - William De Azevedo"
+    description="Comprendre ce qui fait varier le budget d'un site vitrine, d'une refonte ou d'une mission front-end freelance selon les freins à lever."
+>
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-12 md:gap-16 md:py-16">
+        <FadeReveal delay={0.1}>
+            <section class="mx-auto flex max-w-4xl flex-col items-center gap-5 text-center">
+                <h1 class="page-heading">
+                    Le bon budget dépend surtout du problème à résoudre
+                </h1>
+                <p class="page-subheading max-w-sm sm:max-w-lg">
+                    Un site lent, flou ou daté n'a pas toujours besoin d'une
+                    refonte complète. Le prix dépend du vrai périmètre : contenu,
+                    design, autonomie attendue, technique et priorités à traiter.
+                </p>
+                <CalButton class="rounded-xl text-base font-normal" location="tarifs-hero" />
+            </section>
+        </FadeReveal>
+
+        <section class="grid gap-4 md:grid-cols-3">
+            {
+                projectFormats.map((format) => (
+                    <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
+                        <h2 class="mb-2 text-lg font-normal leading-tight text-gray-900">
+                            {format.title}
+                        </h2>
+                        <p class="text-base font-normal leading-relaxed text-gray-600">
+                            {format.text}
+                        </p>
+                    </article>
+                ))
+            }
+        </section>
+
+        <section class="grid gap-6 md:grid-cols-[0.85fr_1.15fr] md:items-start md:gap-12">
+            <div class="flex flex-col gap-4">
+                <h2 class="text-2xl font-normal leading-tight text-gray-900">
+                    Ce qui fait varier le devis
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-gray-600">
+                    Deux sites vitrines peuvent avoir le même nombre de pages et
+                    demander un travail très différent. Le cadrage sert à éviter les
+                    angles morts et à identifier les freins prioritaires avant de
+                    chiffrer.
+                </p>
+            </div>
+            <ul class="grid gap-3 sm:grid-cols-2">
+                {
+                    priceFactors.map((factor) => (
+                        <li class="rounded-xl bg-gray-100 px-4 py-3 text-base font-normal leading-relaxed text-gray-700 ring-1 ring-gray-200">
+                            {factor}
+                        </li>
+                    ))
+                }
+            </ul>
+        </section>
+
+        <section class="grid gap-6 rounded-4xl bg-gray-100 p-6 ring-1 ring-gray-200 md:grid-cols-[0.9fr_1.1fr] md:gap-12 md:p-8">
+            <div class="flex flex-col gap-4">
+                <h2 class="section-heading text-left">
+                    Vous ne payez pas une génération de pages
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-gray-600">
+                    Un site généré sans réflexion peut sembler moins cher, mais il
+                    laisse souvent les vrais problèmes intacts : offre floue, design
+                    générique, parcours hésitant, technique fragile. Le devis couvre
+                    le cadrage, les choix et la vérification, pas seulement la
+                    production d'écrans.
+                </p>
+                <a
+                    class="w-fit text-base font-normal text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                    href="/methode"
+                >
+                    Comprendre la méthode avant le devis
+                </a>
+            </div>
+            <ul class="grid gap-3">
+                {
+                    aiBudgetPoints.map((point) => (
+                        <li class="rounded-xl bg-snow-50 px-4 py-3 text-base font-normal leading-relaxed text-gray-700 ring-1 ring-snow-600">
+                            {point}
+                        </li>
+                    ))
+                }
+            </ul>
+        </section>
+
+        <section class="grid gap-4 md:grid-cols-2">
+            <article class="rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
+                <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
+                    Ce qui est généralement compris
+                </h2>
+                <ul class="flex flex-col gap-3">
+                    {
+                        included.map((item) => (
+                            <li class="text-base font-normal leading-relaxed text-gray-600">
+                                {item}
+                            </li>
+                        ))
+                    }
+                </ul>
+            </article>
+            <article class="rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
+                <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
+                    Les coûts à prévoir après la livraison
+                </h2>
+                <ul class="flex flex-col gap-3">
+                    {
+                        afterCosts.map((item) => (
+                            <li class="text-base font-normal leading-relaxed text-gray-600">
+                                {item}
+                            </li>
+                        ))
+                    }
+                </ul>
+            </article>
+        </section>
+
+        <section class="flex flex-col gap-6">
+            <div class="flex max-w-lg flex-col gap-4">
+                <h2 class="section-heading text-left">
+                    Exemples de complexité
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-gray-600">
+                    Les réalisations donnent un repère plus utile qu'un prix sorti
+                    de son contexte.
+                </p>
+            </div>
+            <div class="grid gap-4 md:grid-cols-3">
+                {
+                    homeProjects.map((project) => (
+                        <article class="rounded-xl bg-gray-100 p-5 ring-1 ring-gray-200">
+                            <h3 class="mb-2 text-lg font-normal leading-tight text-gray-900">
+                                {project.title}
+                            </h3>
+                            <p class="text-base font-normal leading-relaxed text-gray-600">
+                                {project.summary}
+                            </p>
+                            <a
+                                class="mt-4 inline-flex text-sm font-normal text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                href={`/realisations/${project.id}`}
+                            >
+                                Voir le contexte
+                            </a>
+                        </article>
+                    ))
+                }
+            </div>
+        </section>
+
+        <section class="rounded-4xl bg-coffee-300 p-6 text-snow-50 sm:p-8">
+            <div class="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
+                <h2 class="text-2xl font-normal leading-tight">
+                    Le plus simple : cadrer le problème avant de parler budget
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-snow-100">
+                    En 15 minutes, on peut déjà vérifier les freins prioritaires,
+                    le type de projet et la prochaine étape pertinente.
+                </p>
+                <CalButton
+                    class="rounded-xl text-base font-normal"
+                    location="tarifs-final"
+                    variant="light"
+                />
+            </div>
+        </section>
+    </div>
+</Layout>

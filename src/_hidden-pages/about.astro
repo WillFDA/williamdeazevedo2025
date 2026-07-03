@@ -14,21 +14,20 @@ export const prerender = true;
 
 const aboutHeroTitleWords = [
     "Du",
-    "graphisme",
+    "design",
     "au",
     "code,",
     "je",
-    "donne",
-    "forme",
-    "à",
-    "des",
+    "rends",
+    "vos",
     "sites",
-    "web",
-    "utiles",
+    "plus",
+    "clairs,",
+    "rapides",
     "et",
-    "soignés.",
+    "crédibles.",
 ];
-const highlightedAboutHeroWords = new Set(["sites", "web", "utiles", "soignés."]);
+const highlightedAboutHeroWords = new Set(["clairs,", "rapides", "crédibles."]);
 
 const pictures = [
     {
@@ -48,24 +47,51 @@ const pictures = [
     },
     {
         alt: "Photo de Goku",
-        className: "-rotate-2 hidden md:block",
+        className: "-rotate-2 hidden lg:block",
         src: gokuPicture,
     },
     {
         alt: "Photo du setup de travail",
-        className: "rotate-2 hidden md:block",
+        className: "rotate-2 hidden lg:block",
         src: desktopPicture,
+    },
+];
+
+const clientAngles = [
+    {
+        title: "Ce que le design apporte",
+        items: [
+            "hiérarchie visuelle plus lisible",
+            "interfaces plus faciles à comprendre",
+            "cohérence entre marque, message et action",
+        ],
+    },
+    {
+        title: "Ma manière de travailler",
+        items: [
+            "écoute et pédagogie",
+            "décisions expliquées simplement",
+            "solutions sobres plutôt que complexité gratuite",
+        ],
+    },
+    {
+        title: "Les projets où je suis utile",
+        items: [
+            "sites vitrines et refontes",
+            "interfaces produit et front-end",
+            "projets avec un enjeu de clarté et de conversion",
+        ],
     },
 ];
 ---
 
 <Layout
     title="À propos - William De Azevedo"
-    description="Développeur front-end avec une approche produit, design et full stack. Découvrez mon parcours, mes projets, mes compétences et mes formations."
+    description="Développeur front-end avec une approche design et produit pour créer des sites clairs, rapides, accessibles et crédibles."
 >
-    <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 pb-16 sm:gap-16 sm:px-4 sm:pb-20">
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-12 md:gap-16 md:py-16">
         <section class="flex flex-col gap-6">
-            <h1 class="flex max-w-full flex-wrap justify-center gap-x-[0.18em] text-center text-4xl font-medium leading-tighter tracking-normal text-gray-900 sm:text-6xl md:text-7xl">
+            <h1 class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl">
                 {
                     aboutHeroTitleWords.map((word, index) => (
                         <span
@@ -82,10 +108,10 @@ const pictures = [
                 }
             </h1>
             <FadeReveal delay={0.32}>
-                <p class="mx-auto max-w-120 text-center text-md font-light leading-tight text-coffee-300">
-                    J'aime partir d'une idée, clarifier l'expérience, puis la
-                    transformer en interface rapide, accessible et simple à
-                    maintenir.
+                <p class="page-subheading max-w-sm sm:max-w-lg">
+                    Mon rôle : repérer ce qui brouille la compréhension, rendre
+                    l'interface plus lisible, puis développer une base rapide,
+                    accessible et simple à maintenir.
                 </p>
             </FadeReveal>
             <Marquee />
@@ -93,9 +119,9 @@ const pictures = [
 
         <section class="mx-auto flex w-full max-w-2xl flex-col gap-4 text-center">
             <h2 class="text-base font-medium text-coffee-300">Parcours</h2>
-            <div class="flex flex-col gap-4 text-sm font-light leading-6 text-coffee-300">
+            <div class="flex flex-col gap-4 text-base font-normal leading-relaxed text-coffee-300">
                 <p>
-                    Mon parcours dans l'infographie, la 3D et le motion design
+                    Mon parcours dans l'infographie et le motion design
                     m'a donné un <span class="font-normal text-coffee-300"
                         >œil aiguisé pour le design</span
                     > et une sensibilité forte pour les interfaces qui se comprennent
@@ -111,21 +137,40 @@ const pictures = [
                 <p>
                     Aujourd'hui, je travaille sur des sites vitrines, des
                     interfaces produit et des applications complètes, avec le
-                    même objectif : livrer quelque chose de clair, rapide et
-                    réellement utile.
+                    même objectif : enlever les frictions qui font douter et
+                    livrer quelque chose de clair, rapide et réellement utile.
                 </p>
             </div>
         </section>
 
+        <section class="grid gap-4 md:grid-cols-3">
+            {
+                clientAngles.map((angle) => (
+                    <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
+                        <h2 class="mb-4 text-lg font-normal leading-tight text-gray-900">
+                            {angle.title}
+                        </h2>
+                        <ul class="flex flex-col gap-3">
+                            {angle.items.map((item) => (
+                                <li class="text-base font-normal leading-relaxed text-gray-600">
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </article>
+                ))
+            }
+        </section>
+
         <AboutCallout title="Je relie mon œil design au code pour créer des interfaces utiles." />
 
-        <section class="relative left-1/2 w-[100dvw] -translate-x-1/2">
-            <div class="photo-strip flex items-center justify-start gap-3 overflow-x-auto px-4 sm:px-4 md:justify-center md:gap-5 md:overflow-visible md:px-0">
+        <section class="relative left-1/2 w-dvw -translate-x-1/2">
+            <div class="photo-strip flex items-center justify-start gap-3 overflow-x-auto px-4 sm:px-4 lg:justify-center lg:gap-5 lg:overflow-visible lg:px-0">
                 {
                     pictures.map((picture, index) => (
                         <div
                             class:list={[
-                                "aspect-[9/10] w-36 shrink-0 overflow-hidden rounded-lg bg-gray-100 transition-transform duration-300 hover:scale-[1.02] sm:w-40 md:w-44",
+                                "aspect-[9/10] w-36 shrink-0 overflow-hidden rounded-lg bg-gray-100 transition-transform duration-300 hover:scale-[1.02] sm:w-40 lg:w-44",
                                 picture.className,
                             ]}
                         >

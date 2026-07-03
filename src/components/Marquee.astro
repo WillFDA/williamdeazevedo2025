@@ -22,28 +22,34 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
 ---
 
 <section
-    class="wui-logo-shuffle wui-logo-shuffle--lg"
+    class="wui-logo-shuffle wui-logo-shuffle--lg mx-auto my-8 w-full max-w-5xl max-sm:my-4"
     data-wui-logo-shuffle
     data-wui-logo-shuffle-items={JSON.stringify(icons)}
     data-wui-logo-shuffle-slot-count={visibleSlotCount}
     data-wui-logo-shuffle-min-delay="800"
     data-wui-logo-shuffle-max-delay="1400"
 >
-    <ul class="wui-logo-shuffle__list">
+    <ul class="wui-logo-shuffle__list m-0 flex list-none items-center justify-between gap-[var(--wui-logo-shuffle-gap)] p-0 max-sm:justify-center">
         {
             visibleIcons.map((icon) => (
-                <li class="wui-logo-shuffle__slot" data-wui-logo-shuffle-slot>
-                    <span class="wui-logo-shuffle__item">
+                <li
+                    class="wui-logo-shuffle__slot grid min-w-[var(--wui-logo-shuffle-item-size)] flex-[0_1_var(--wui-logo-shuffle-item-size)] place-items-center"
+                    data-wui-logo-shuffle-slot
+                >
+                    <span class="inline-flex size-[var(--wui-logo-shuffle-item-size)] items-center justify-center overflow-hidden rounded-lg">
                         <img
-                            class="wui-logo-shuffle__image"
+                            class="wui-logo-shuffle__image size-[var(--wui-logo-shuffle-logo-size)] object-contain"
                             src={icon.src}
                             alt=""
                             loading="eager"
                         />
-                        <span class="wui-logo-shuffle__initials" hidden>
+                        <span
+                            class="wui-logo-shuffle__initials inline-flex size-full items-center justify-center rounded-[inherit] border text-xs leading-none font-bold tracking-normal text-[var(--wui-color-accent,#3e60d4)]"
+                            hidden
+                        >
                             {icon.name.slice(0, 2)}
                         </span>
-                        <span class="wui-logo-shuffle__label">
+                        <span class="wui-logo-shuffle__label sr-only">
                             {icon.name}
                         </span>
                     </span>
@@ -461,51 +467,12 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
         --wui-logo-shuffle-logo-size: 1.75rem;
 
         color: var(--wui-color-text, #15171a);
-        margin-block: 2rem;
-        margin-inline: auto;
-        max-width: 64rem;
-        width: 100%;
     }
 
     .wui-logo-shuffle--lg {
         --wui-logo-shuffle-gap: var(--wui-space-5, 1.5rem);
         --wui-logo-shuffle-item-size: 3.5rem;
         --wui-logo-shuffle-logo-size: 2rem;
-    }
-
-    .wui-logo-shuffle__list {
-        align-items: center;
-        display: flex;
-        gap: var(--wui-logo-shuffle-gap);
-        justify-content: space-between;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .wui-logo-shuffle__slot {
-        display: grid;
-        flex: 0 1 var(--wui-logo-shuffle-item-size);
-        min-width: var(--wui-logo-shuffle-item-size);
-        place-items: center;
-    }
-
-    .wui-logo-shuffle__item {
-        align-items: center;
-        aspect-ratio: 1;
-        border-radius: var(--wui-radius-md, 0.5rem);
-        display: inline-flex;
-        height: var(--wui-logo-shuffle-item-size);
-        justify-content: center;
-        overflow: hidden;
-        position: relative;
-        width: var(--wui-logo-shuffle-item-size);
-    }
-
-    .wui-logo-shuffle__image {
-        height: var(--wui-logo-shuffle-logo-size);
-        object-fit: contain;
-        width: var(--wui-logo-shuffle-logo-size);
     }
 
     .wui-logo-shuffle__image[hidden],
@@ -517,33 +484,11 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
         align-items: center;
         background: color-mix(
             in oklab,
-            var(--wui-color-accent, #2563eb),
+            var(--wui-color-accent, #3e60d4),
             transparent 90%
         );
         border: 1px solid
-            color-mix(in oklab, var(--wui-color-accent, #2563eb), transparent 72%);
-        border-radius: inherit;
-        color: var(--wui-color-accent, #2563eb);
-        display: inline-flex;
-        font-size: var(--wui-text-xs, 0.75rem);
-        font-weight: 700;
-        height: 100%;
-        justify-content: center;
-        letter-spacing: 0;
-        line-height: 1;
-        width: 100%;
-    }
-
-    .wui-logo-shuffle__label {
-        border: 0;
-        clip: rect(0, 0, 0, 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        white-space: nowrap;
-        width: 1px;
+            color-mix(in oklab, var(--wui-color-accent, #3e60d4), transparent 72%);
     }
 
     @media (max-width: 640px) {
@@ -551,12 +496,6 @@ const visibleIcons = icons.slice(0, visibleSlotCount);
             --wui-logo-shuffle-gap: 0.75rem;
             --wui-logo-shuffle-item-size: 2.75rem;
             --wui-logo-shuffle-logo-size: 1.625rem;
-
-            margin-block: 1rem;
-        }
-
-        .wui-logo-shuffle__list {
-            justify-content: center;
         }
 
         .wui-logo-shuffle__slot:nth-child(n + 6) {

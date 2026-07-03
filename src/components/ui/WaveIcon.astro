@@ -87,7 +87,7 @@ const offsets = {
   data-wui-wave-icon-trigger={trigger}
   style={buildStyle(offsets, style)}
 >
-  {label && <span class="wui-wave-icon__screen-reader">{label}</span>}
+  {label && <span class="sr-only">{label}</span>}
 
   <span class="wui-wave-icon__stage" aria-hidden="true">
     <span class="wui-wave-icon__layer" data-wui-wave-icon-layer="first">
@@ -133,11 +133,7 @@ const offsets = {
 
   /* Promote to a compositor layer only during the interaction (see WaveText)
      rather than keeping a permanent GPU layer alive for every icon. */
-  .wui-wave-icon:hover .wui-wave-icon__layer,
   .wui-wave-icon:focus-visible .wui-wave-icon__layer,
-  :global(:where(a, button, [data-wui-wave-parent]):hover)
-    .wui-wave-icon[data-wui-wave-icon-trigger="parent"]
-    .wui-wave-icon__layer,
   :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
     .wui-wave-icon[data-wui-wave-icon-trigger="parent"]
     .wui-wave-icon__layer {
@@ -174,12 +170,7 @@ const offsets = {
     transition: transform 520ms var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
   }
 
-  .wui-wave-icon:not([data-wui-wave-icon-ready="true"]):hover
-    [data-wui-wave-icon-layer="first"],
   .wui-wave-icon:not([data-wui-wave-icon-ready="true"]):focus-visible
-    [data-wui-wave-icon-layer="first"],
-  :global(:where(a, button, [data-wui-wave-parent]):hover)
-    .wui-wave-icon[data-wui-wave-icon-trigger="parent"]:not([data-wui-wave-icon-ready="true"])
     [data-wui-wave-icon-layer="first"],
   :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
     .wui-wave-icon[data-wui-wave-icon-trigger="parent"]:not([data-wui-wave-icon-ready="true"])
@@ -191,12 +182,7 @@ const offsets = {
     );
   }
 
-  .wui-wave-icon:not([data-wui-wave-icon-ready="true"]):hover
-    [data-wui-wave-icon-layer="second"],
   .wui-wave-icon:not([data-wui-wave-icon-ready="true"]):focus-visible
-    [data-wui-wave-icon-layer="second"],
-  :global(:where(a, button, [data-wui-wave-parent]):hover)
-    .wui-wave-icon[data-wui-wave-icon-trigger="parent"]:not([data-wui-wave-icon-ready="true"])
     [data-wui-wave-icon-layer="second"],
   :global(:where(a, button, [data-wui-wave-parent]):focus-visible)
     .wui-wave-icon[data-wui-wave-icon-trigger="parent"]:not([data-wui-wave-icon-ready="true"])
@@ -204,16 +190,33 @@ const offsets = {
     transform: translate3d(0%, 0%, 0);
   }
 
-  .wui-wave-icon__screen-reader {
-    border: 0;
-    clip: rect(0, 0, 0, 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
+  @media (hover: hover) {
+    .wui-wave-icon:hover .wui-wave-icon__layer,
+    :global(:where(a, button, [data-wui-wave-parent]):hover)
+      .wui-wave-icon[data-wui-wave-icon-trigger="parent"]
+      .wui-wave-icon__layer {
+      will-change: transform;
+    }
+
+    .wui-wave-icon:not([data-wui-wave-icon-ready="true"]):hover
+      [data-wui-wave-icon-layer="first"],
+    :global(:where(a, button, [data-wui-wave-parent]):hover)
+      .wui-wave-icon[data-wui-wave-icon-trigger="parent"]:not([data-wui-wave-icon-ready="true"])
+      [data-wui-wave-icon-layer="first"] {
+      transform: translate3d(
+        var(--wui-wave-icon-exit-x),
+        var(--wui-wave-icon-exit-y),
+        0
+      );
+    }
+
+    .wui-wave-icon:not([data-wui-wave-icon-ready="true"]):hover
+      [data-wui-wave-icon-layer="second"],
+    :global(:where(a, button, [data-wui-wave-parent]):hover)
+      .wui-wave-icon[data-wui-wave-icon-trigger="parent"]:not([data-wui-wave-icon-ready="true"])
+      [data-wui-wave-icon-layer="second"] {
+      transform: translate3d(0%, 0%, 0);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

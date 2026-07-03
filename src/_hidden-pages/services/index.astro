@@ -1,0 +1,304 @@
+---
+import CalButton from "@/components/CalButton.astro";
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import CodeEditor from "@/components/icons/nucleo/code-editor-fill.svg";
+import WindowPaintbrush from "@/components/icons/nucleo/window-paintbrush-fill.svg";
+import WindowPointer from "@/components/icons/nucleo/window-pointer-fill.svg";
+import ProjectShowcase from "@/components/ProjectShowcase.astro";
+import { services } from "@/data/services";
+import Layout from "@/layout/Layout.astro";
+
+export const prerender = true;
+
+const servicesHeroTitleParts = [
+    { text: "Votre" },
+    { pill: true, text: "site existe." },
+    { text: "Est-ce" },
+    { text: "qu'il" },
+    { text: "inspire" },
+    { pill: true, text: "confiance" },
+    { text: "assez" },
+    { text: "vite ?" },
+];
+
+const serviceCardIcons = {
+    "creation-site-vitrine": { icon: "window", tint: "#4169e1" },
+    "developpeur-web-freelance": { icon: "code", tint: "#a090ee" },
+    "refonte-site-internet": { icon: "paintbrush", tint: "#8ed2ec" },
+} as const;
+
+const commonBaseItems = [
+    "Cadrage des objectifs",
+    "Structure des pages",
+    "Design responsive",
+    "Développement front-end",
+    "Accessibilité et performance",
+    "SEO technique initial",
+    "Mise en ligne",
+    "Suivi des conversions",
+] as const;
+
+const aiGenericIssues = [
+    "un design propre mais interchangeable",
+    "des textes qui ressemblent à tout le monde",
+    "une hiérarchie pensée pour faire joli, pas pour aider à décider",
+    "des détails mobile, accessibilité, performance ou SEO vite oubliés",
+] as const;
+---
+
+<Layout
+    title="Services web freelance - William De Azevedo"
+    description="Création de site vitrine, refonte et développement front-end pour corriger les sites flous, lents ou datés et construire des interfaces claires, rapides et crédibles."
+>
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-12 md:gap-16 md:py-16">
+        <section class="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
+            <h1
+                class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
+                data-services-animated-title
+            >
+                {
+                    servicesHeroTitleParts.map((part, index) => (
+                        <span
+                            class:list={[part.pill && "title-pill"]}
+                            style={`--animated-word-index: ${index}`}
+                            data-services-animated-title-word
+                        >
+                            {part.text}
+                        </span>
+                    ))
+                }
+            </h1>
+            <FadeReveal delay={0.32}>
+                <p class="page-subheading">
+                    J'aide les indépendants, petites structures et équipes produit
+                    à corriger ce qui fait hésiter : offre floue, design daté,
+                    lenteur, mobile inconfortable ou parcours de contact fragile.
+                </p>
+            </FadeReveal>
+            <FadeReveal delay={0.44}>
+                <CalButton class="rounded-xl text-base font-normal" location="services-hero" />
+            </FadeReveal>
+        </section>
+
+        <section class="grid gap-4 md:grid-cols-3" aria-label="Situations fréquentes">
+            {
+                services.map((service, index) => {
+                    const icon =
+                        serviceCardIcons[
+                            service.slug as keyof typeof serviceCardIcons
+                        ];
+
+                    return (
+                        <FadeReveal delay={0.14 + index * 0.08}>
+                            <article class="flex h-full flex-col gap-4 rounded-xl bg-gray-100 p-5">
+                                <div class="flex flex-col gap-3">
+                                    <span
+                                        class="flex size-11 items-center justify-center rounded-xl text-snow-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.32),0_14px_28px_-20px_rgba(34,42,55,0.42)]"
+                                        style={`background-color: ${icon.tint}`}
+                                        aria-hidden="true"
+                                    >
+                                        {icon.icon === "window" && <WindowPointer class="size-5" />}
+                                        {icon.icon === "paintbrush" && <WindowPaintbrush class="size-5" />}
+                                        {icon.icon === "code" && <CodeEditor class="size-5" />}
+                                    </span>
+                                    <h2 class="text-xl font-medium leading-tight text-gray-900">
+                                        {service.title}
+                                    </h2>
+                                    <p class="text-base font-normal leading-relaxed text-gray-600">
+                                        {service.intro}
+                                    </p>
+                                </div>
+                                <a
+                                    class="group relative mt-auto w-fit text-base font-normal text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                    href={`/services/${service.slug}`}
+                                >
+                                    Découvrir {service.navLabel.toLowerCase()}
+                                    <span
+                                        class="absolute left-0 bottom-0 h-px w-full origin-left scale-x-0 bg-gray-900 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                                        aria-hidden="true"></span>
+                                </a>
+                            </article>
+                        </FadeReveal>
+                    );
+                })
+            }
+        </section>
+
+        <section class="grid gap-6 rounded-4xl bg-snow-50 p-6 ring-1 ring-snow-600 md:grid-cols-[0.9fr_1.1fr] md:gap-12 md:p-8">
+            <div class="flex flex-col gap-4">
+                <h2 class="section-heading text-left">
+                    Pourquoi ne pas juste générer le site avec l'IA ?
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-gray-600">
+                    L'IA peut accélérer une partie du travail, mais sans cadrage elle
+                    produit surtout une moyenne : une page correcte, souvent jolie,
+                    mais rarement pensée pour votre offre, vos preuves, votre cible
+                    et le doute à lever.
+                </p>
+                <div class="flex flex-col gap-3 sm:flex-row">
+                    <a
+                        class="inline-flex min-h-14 items-center justify-center rounded-xl bg-gray-100 px-8 py-3 text-base font-normal text-gray-900 ring-1 ring-gray-200 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                        href="/methode"
+                    >
+                        Voir comment j'utilise l'IA
+                    </a>
+                    <CalButton
+                        class="rounded-xl text-base font-normal"
+                        label="Parler d'un site utile"
+                        location="services-ai"
+                    />
+                </div>
+            </div>
+            <ul class="grid gap-3">
+                {
+                    aiGenericIssues.map((issue) => (
+                        <li class="rounded-xl bg-gray-100 px-4 py-3 text-base font-normal leading-relaxed text-gray-700 ring-1 ring-gray-200">
+                            {issue}
+                        </li>
+                    ))
+                }
+            </ul>
+        </section>
+
+        <section class="flex flex-col items-center text-center">
+            <div class="mx-auto flex max-w-4xl flex-col items-center gap-4">
+                <h2 class="section-heading">
+                    Le socle commun : enlever les freins visibles
+                </h2>
+                <p class="section-subheading">
+                    Le format change selon votre situation, mais le socle reste le
+                    même : clarifier le message, structurer le parcours, soigner
+                    l'interface, puis vérifier vitesse, accessibilité et contact.
+                </p>
+            </div>
+            <ul class="mx-auto mt-12 grid w-full max-w-sm gap-4 sm:max-w-2xl sm:grid-cols-2 md:gap-6 lg:max-w-5xl lg:grid-cols-4">
+                {
+                    commonBaseItems.map((item) => (
+                        <li class="flex items-center gap-3 text-left">
+                            <span class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-snow-50 text-emerald-500 shadow-[0_14px_32px_-24px_rgba(34,42,55,0.55)] ring-1 ring-gray-200/70">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 18 18"
+                                    aria-hidden="true"
+                                    class="size-4"
+                                >
+                                    <g fill="currentColor">
+                                        <path d="M6.75009 15H6.74808C6.52058 14.9995 6.30668 14.896 6.16408 14.7188L2.16408 9.7188C1.90528 9.3951 1.95798 8.92339 2.28128 8.66459C2.60548 8.40679 3.07618 8.4576 3.33598 8.7813L6.75398 13.0538L14.6671 3.27839C14.9278 2.95559 15.4015 2.9073 15.7218 3.1671C16.0441 3.4278 16.0939 3.9 15.8331 4.2218L7.33308 14.7218C7.19048 14.8981 6.97669 15 6.75009 15Z">
+                                        </path>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span class="text-base font-normal leading-snug text-gray-900">
+                                {item}
+                            </span>
+                        </li>
+                    ))
+                }
+            </ul>
+        </section>
+
+    </div>
+
+    <ProjectShowcase id="services-projects" class="mt-12 md:mt-16" />
+
+    <div class="mx-auto w-full max-w-5xl px-4 py-12 md:py-16">
+        <section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-4xl bg-coffee-300 py-12 text-snow-50 sm:w-[calc(100dvw-2rem)] md:py-16">
+            <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-4 px-4 text-center sm:px-8 md:gap-6">
+                <h2 class="section-heading section-heading--inverse max-w-4xl">
+                    Vous ne savez pas encore quel frein traiter en premier ?
+                </h2>
+                <p class="section-subheading section-subheading--inverse max-w-3xl">
+                    Un échange de 15 minutes suffit souvent à distinguer une
+                    création, une refonte ou une simple amélioration ciblée.
+                </p>
+                <CalButton
+                    class="mt-2 rounded-xl text-base font-normal"
+                    location="services-final"
+                    variant="light"
+                />
+            </div>
+        </section>
+    </div>
+</Layout>
+
+<script>
+    const revealServicesTitle = (title: HTMLElement) => {
+        if (title.dataset.animatedTitleReady === "true") return;
+        title.dataset.animatedTitleReady = "true";
+    };
+
+    const initServicesTitle = () => {
+        const title = document.querySelector<HTMLElement>(
+            "[data-services-animated-title]",
+        );
+
+        if (!title || title.dataset.animatedTitleReady) return;
+
+        if (
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+            !("IntersectionObserver" in window)
+        ) {
+            revealServicesTitle(title);
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry?.isIntersecting) return;
+                revealServicesTitle(title);
+                observer.disconnect();
+            },
+            { rootMargin: "0px 0px -10% 0px", threshold: 0.2 },
+        );
+
+        observer.observe(title);
+    };
+
+    initServicesTitle();
+    document.addEventListener("astro:page-load", initServicesTitle);
+</script>
+
+<style>
+    [data-services-animated-title-word] {
+        display: inline-block;
+    }
+
+    [data-services-animated-title]:not([data-animated-title-ready="true"])
+        [data-services-animated-title-word] {
+        filter: blur(10px);
+        opacity: 0;
+        transform: translateY(-0.65em);
+    }
+
+    [data-services-animated-title][data-animated-title-ready="true"]
+        [data-services-animated-title-word] {
+        animation: services-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
+            backwards;
+        animation-delay: calc(var(--animated-word-index, 0) * 65ms);
+    }
+
+    @keyframes services-title-word {
+        from {
+            filter: blur(10px);
+            opacity: 0;
+            transform: translateY(-0.65em);
+        }
+
+        to {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @media (scripting: none), (prefers-reduced-motion: reduce) {
+        [data-services-animated-title] [data-services-animated-title-word] {
+            animation: none;
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+</style>

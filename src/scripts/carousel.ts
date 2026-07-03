@@ -208,20 +208,43 @@ export function initCarousel(wrapperNode: HTMLElement) {
     let isPaused = false;
     let progressAnimation: Animation | undefined;
     let progressRun = 0;
+    let autoplayTimeout: number | undefined;
     const delay = Number(wrapperNode.dataset.carouselAutoplayDelay) || 4500;
 
     const resetProgress = () => {
       progressRun += 1;
+      window.clearTimeout(autoplayTimeout);
+      autoplayTimeout = undefined;
       progressAnimation?.cancel();
       progressAnimation = undefined;
       if (progressNode) progressNode.style.transform = "scaleX(0)";
     };
 
     const startProgress = () => {
-      if (!progressNode || !isInAutoplayZone || isPaused) return;
+      if (!isInAutoplayZone || isPaused) return;
 
       resetProgress();
       const currentRun = progressRun;
+
+      const scrollIfCurrent = () => {
+        if (
+          state.destroyed ||
+          currentRun !== progressRun ||
+          !document.contains(wrapperNode) ||
+          !isInAutoplayZone ||
+          isPaused
+        ) {
+          return;
+        }
+
+        if (progressNode) progressNode.style.transform = "scaleX(1)";
+        emblaApi.scrollNext();
+      };
+
+      if (!progressNode) {
+        autoplayTimeout = window.setTimeout(scrollIfCurrent, delay);
+        return;
+      }
 
       progressAnimation = progressNode.animate(
         [
@@ -236,22 +259,7 @@ export function initCarousel(wrapperNode: HTMLElement) {
         }
       );
 
-      progressAnimation.finished
-        .then(() => {
-          if (
-            state.destroyed ||
-            currentRun !== progressRun ||
-            !document.contains(wrapperNode) ||
-            !isInAutoplayZone ||
-            isPaused
-          ) {
-            return;
-          }
-
-          progressNode.style.transform = "scaleX(1)";
-          emblaApi.scrollNext();
-        })
-        .catch(() => {});
+      progressAnimation.finished.then(scrollIfCurrent).catch(() => {});
     };
 
     const syncPausedUi = () => {
@@ -280,6 +288,7 @@ export function initCarousel(wrapperNode: HTMLElement) {
       startProgress();
     };
     cancelAutoplay = clearAutoplay;
+    emblaApi.on("pointerDown", cancelAutoplay);
 
     const autoplayObserver = new IntersectionObserver(
       (entries) => {

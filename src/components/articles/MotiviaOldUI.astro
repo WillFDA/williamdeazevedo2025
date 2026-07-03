@@ -7,24 +7,27 @@ const oldSrc =
     "https://igpmag5dwziffdrn.public.blob.vercel-storage.com/blog/motivia_old_ui.jpeg";
 ---
 
-<figure class="ui-compare" data-ui-compare>
-    <figcaption class="ui-compare__caption">
+<figure class="mx-auto my-8 max-w-2xl" data-ui-compare>
+    <figcaption class="mb-4 text-center text-sm text-gray-600">
         L'ancienne interface vs la nouvelle.
-        <span>Glisse pour comparer</span>
+        <span class="text-gray-400">Glisse pour comparer</span>
     </figcaption>
 
-    <div class="ui-compare__frame" style="--pos: 50%">
+    <div
+        class="ui-compare__frame relative aspect-[4/3] overflow-hidden rounded-lg border border-gray-100 select-none"
+        style="--pos: 50%"
+    >
         <img
-            class="ui-compare__img"
+            class="absolute inset-0 m-0 block size-full max-w-none rounded-none object-cover object-top"
             src={newSrc}
             alt="Nouvelle interface de Motivai"
             loading="lazy"
             decoding="async"
             draggable="false"
         />
-        <div class="ui-compare__clip">
+        <div class="ui-compare__clip absolute inset-0 overflow-hidden">
             <img
-                class="ui-compare__img"
+                class="absolute inset-0 m-0 block size-full max-w-none rounded-none object-cover object-top"
                 src={oldSrc}
                 alt="Ancienne interface de Motivai"
                 loading="lazy"
@@ -33,19 +36,34 @@ const oldSrc =
             />
         </div>
 
-        <div class="ui-compare__line" aria-hidden="true">
-            <span class="ui-compare__handle">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <div
+            class="ui-compare__line absolute top-0 bottom-0 w-0.5 -translate-x-1/2 bg-white/90"
+            aria-hidden="true"
+        >
+            <span class="ui-compare__handle absolute top-1/2 left-1/2 flex size-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-[0_1px_6px_rgb(17_24_39_/_0.18)]">
+                <svg
+                    class="size-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
                     <path d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
                 </svg>
             </span>
         </div>
 
-        <span class="ui-compare__label ui-compare__label--before">Avant</span>
-        <span class="ui-compare__label ui-compare__label--after">Après</span>
+        <span class="absolute bottom-3 left-3 rounded bg-white/90 px-2 py-0.5 text-xs font-medium text-gray-600 backdrop-blur-sm">
+            Avant
+        </span>
+        <span class="absolute right-3 bottom-3 rounded bg-gray-900/80 px-2 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
+            Après
+        </span>
 
         <input
-            class="ui-compare__range"
+            class="ui-compare__range absolute inset-0 m-0 size-full cursor-ew-resize opacity-0"
             type="range"
             min="0"
             max="100"
@@ -84,114 +102,12 @@ const oldSrc =
 </script>
 
 <style>
-    .ui-compare {
-        margin: 2rem auto;
-        max-width: 42rem;
-    }
-
-    .ui-compare__caption {
-        color: var(--color-gray-600);
-        font-size: 0.875rem;
-        margin-bottom: 1rem;
-        text-align: center;
-    }
-
-    .ui-compare__caption span {
-        color: var(--color-gray-400);
-    }
-
-    .ui-compare__frame {
-        aspect-ratio: 4 / 3;
-        border: 1px solid var(--color-gray-100);
-        border-radius: 0.5rem;
-        overflow: hidden;
-        position: relative;
-        user-select: none;
-    }
-
-    .ui-compare__img {
-        border-radius: 0;
-        display: block;
-        height: 100%;
-        inset: 0;
-        margin: 0;
-        max-width: none;
-        object-fit: cover;
-        object-position: top;
-        position: absolute;
-        width: 100%;
-    }
-
     .ui-compare__clip {
-        inset: 0;
-        overflow: hidden;
-        position: absolute;
         clip-path: inset(0 calc(100% - var(--pos)) 0 0);
     }
 
     .ui-compare__line {
-        background: rgba(255, 255, 255, 0.9);
-        bottom: 0;
         left: var(--pos);
-        position: absolute;
-        top: 0;
-        transform: translateX(-50%);
-        width: 2px;
-    }
-
-    .ui-compare__handle {
-        align-items: center;
-        background: #fff;
-        border: 1px solid var(--color-gray-200);
-        border-radius: 9999px;
-        box-shadow: 0 1px 6px rgb(17 24 39 / 0.18);
-        color: var(--color-gray-400);
-        display: flex;
-        height: 2rem;
-        justify-content: center;
-        left: 50%;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 2rem;
-    }
-
-    .ui-compare__handle svg {
-        height: 1rem;
-        width: 1rem;
-    }
-
-    .ui-compare__label {
-        backdrop-filter: blur(4px);
-        border-radius: 0.25rem;
-        bottom: 0.75rem;
-        font-size: 0.75rem;
-        font-weight: 500;
-        padding: 0.125rem 0.5rem;
-        position: absolute;
-    }
-
-    .ui-compare__label--before {
-        background: rgba(255, 255, 255, 0.9);
-        color: var(--color-gray-600);
-        left: 0.75rem;
-    }
-
-    .ui-compare__label--after {
-        background: rgba(17, 24, 39, 0.8);
-        color: #fff;
-        right: 0.75rem;
-    }
-
-    /* Native range input overlaid full-frame, visually hidden but interactive. */
-    .ui-compare__range {
-        cursor: ew-resize;
-        height: 100%;
-        inset: 0;
-        margin: 0;
-        opacity: 0;
-        position: absolute;
-        width: 100%;
     }
 
     .ui-compare__range:focus-visible {

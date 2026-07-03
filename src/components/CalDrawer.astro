@@ -9,19 +9,21 @@ const calLink = String(
 
 <dialog
     aria-label="Planifier un créneau"
-    class="cal-drawer"
+    class="cal-drawer fixed overflow-hidden rounded-lg border-0 p-0 text-snow-50"
     data-cal-drawer
+    id="cal-drawer"
     transition:persist
 >
-    <div class="cal-drawer__header">
+    <div class="cal-drawer__header flex items-center justify-end p-4">
         <button
             aria-label="Fermer"
-            class="cal-drawer__close"
+            class="cal-drawer__close inline-flex size-11 items-center justify-center rounded-lg border-0 bg-white/10 p-0 text-snow-50"
             data-cal-close
             type="button"
         >
             <svg
                 aria-hidden="true"
+                class="size-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +39,7 @@ const calLink = String(
     </div>
     <div
         aria-label="Réserver un appel avec William De Azevedo"
-        class="cal-drawer__embed"
+        class="cal-drawer__embed mx-auto h-full min-h-0 w-full overflow-auto"
         data-cal-inline
         data-cal-link={calLink}
     ></div>
@@ -248,17 +250,11 @@ const calLink = String(
 
     .cal-drawer {
         background: #141016;
-        border: 0;
-        border-radius: 8px;
-        color: var(--color-snow-50);
         height: calc(100dvh - 2rem);
         inset: 1rem 1rem 1rem auto;
         margin: auto 0 auto auto;
         max-height: calc(100dvh - 2rem);
         max-width: min(720px, calc(100dvw - 2rem));
-        overflow: hidden;
-        padding: 0;
-        position: fixed;
         width: min(720px, calc(100dvw - 2rem));
     }
 
@@ -286,44 +282,14 @@ const calLink = String(
             forwards;
     }
 
-    .cal-drawer__header {
-        align-items: center;
-        display: flex;
-        justify-content: flex-end;
-        padding: 1rem;
-    }
-
-    .cal-drawer__close {
-        align-items: center;
-        background: rgb(255 255 255 / 0.1);
-        border: 0;
-        border-radius: 8px;
-        color: var(--color-snow-50);
-        display: inline-flex;
-        height: 2.75rem;
-        justify-content: center;
-        padding: 0;
-        width: 2.75rem;
-    }
-
-    .cal-drawer__close svg {
-        height: 1.25rem;
-        width: 1.25rem;
-    }
-
     .cal-drawer__close:focus-visible {
         outline: 2px solid var(--color-blue-500);
         outline-offset: 3px;
     }
 
     .cal-drawer__embed {
-        height: 100%;
-        margin: 0 auto;
         max-width: 640px;
-        min-height: 0;
-        overflow: auto;
         scrollbar-width: none;
-        width: 100%;
     }
 
     .cal-drawer__embed::-webkit-scrollbar {

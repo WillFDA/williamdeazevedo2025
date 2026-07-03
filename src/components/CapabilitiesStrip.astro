@@ -1,0 +1,130 @@
+---
+import FadeReveal from "./animations/FadeReveal.astro";
+import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
+import Gauge from "./icons/nucleo/gauge-3-fill.svg";
+import Globe from "./icons/nucleo/globe-outline.svg";
+import Msgs from "./icons/nucleo/msgs-fill.svg";
+import SearchContent from "./icons/nucleo/search-content-2-fill.svg";
+import Sparkle from "./icons/nucleo/sparkle-3-fill.svg";
+import TouchClick from "./icons/nucleo/touch-click-fill.svg";
+import WindowLayout from "./icons/nucleo/window-layout-fill.svg";
+import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
+import WindowPointer from "./icons/nucleo/window-pointer-fill.svg";
+
+type CapabilityIcon =
+    | "cms"
+    | "deploy"
+    | "form"
+    | "ia"
+    | "performance"
+    | "refonte"
+    | "search"
+    | "touch"
+    | "ux"
+    | "web";
+type CapabilityTone =
+    | "blue"
+    | "cyan"
+    | "green"
+    | "indigo"
+    | "orange"
+    | "pink"
+    | "sky"
+    | "slate"
+    | "teal"
+    | "violet";
+
+type Capability = {
+    icon: CapabilityIcon;
+    label: string;
+    tone: CapabilityTone;
+};
+
+const capabilities: Capability[] = [
+    { icon: "web", label: "Site web", tone: "blue" },
+    { icon: "refonte", label: "Refonte web", tone: "cyan" },
+    { icon: "ux", label: "UX/UI", tone: "violet" },
+    { icon: "performance", label: "Performance", tone: "green" },
+    { icon: "search", label: "SEO technique", tone: "sky" },
+    { icon: "touch", label: "Accessibilité", tone: "teal" },
+    { icon: "cms", label: "CMS", tone: "slate" },
+    { icon: "form", label: "Formulaire", tone: "pink" },
+    { icon: "deploy", label: "Mise en ligne", tone: "orange" },
+    { icon: "ia", label: "IA utile", tone: "indigo" },
+];
+
+const toneClasses: Record<CapabilityTone, string> = {
+    blue: "bg-blue-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(62,96,212,0.9)]",
+    cyan: "bg-[#43b8d6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(67,184,214,0.9)]",
+    green: "bg-[#3ba879] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(59,168,121,0.9)]",
+    indigo: "bg-[#6574e8] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(101,116,232,0.9)]",
+    orange: "bg-[#f6821f] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_14px_24px_-14px_rgba(246,130,31,0.88)]",
+    pink: "bg-fuchsia-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(255,51,102,0.72)]",
+    sky: "bg-[#2f8fd6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(47,143,214,0.88)]",
+    slate: "bg-gray-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_14px_24px_-14px_rgba(64,73,87,0.7)]",
+    teal: "bg-[#62c7c4] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(98,199,196,0.85)]",
+    violet: "bg-[#8b73e6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(139,115,230,0.86)]",
+};
+---
+
+<section
+    class="mx-auto w-full max-w-6xl px-4 pt-4 pb-12 sm:px-8 md:pt-2 md:pb-16"
+    aria-labelledby="capabilities-strip-title"
+>
+    <h2 id="capabilities-strip-title" class="sr-only">
+        Ce que je peux prendre en charge
+    </h2>
+    <ul class="flex flex-wrap justify-center gap-3 md:gap-4">
+        {
+            capabilities.map((capability, index) => (
+                <li class="flex">
+                    <FadeReveal class="flex" delay={0.08 + index * 0.05}>
+                        <span class="inline-flex shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-xl bg-snow-50 py-1.5 pr-4 pl-2 text-gray-900 shadow-lg">
+                            <span
+                                class:list={[
+                                    "inline-flex size-8 shrink-0 items-center justify-center rounded-lg text-snow-50",
+                                    toneClasses[capability.tone],
+                                ]}
+                                aria-hidden="true"
+                            >
+                                {capability.icon === "web" && (
+                                    <WindowPointer class="size-5" />
+                                )}
+                                {capability.icon === "refonte" && (
+                                    <WindowPaintbrush class="size-5" />
+                                )}
+                                {capability.icon === "ux" && (
+                                    <WindowLayout class="size-5" />
+                                )}
+                                {capability.icon === "performance" && (
+                                    <Gauge class="size-5" />
+                                )}
+                                {capability.icon === "search" && (
+                                    <SearchContent class="size-5" />
+                                )}
+                                {capability.icon === "touch" && (
+                                    <TouchClick class="size-5" />
+                                )}
+                                {capability.icon === "cms" && (
+                                    <CodeEditor class="size-5" />
+                                )}
+                                {capability.icon === "form" && (
+                                    <Msgs class="size-5" />
+                                )}
+                                {capability.icon === "deploy" && (
+                                    <Globe class="size-5" />
+                                )}
+                                {capability.icon === "ia" && (
+                                    <Sparkle class="size-5" />
+                                )}
+                            </span>
+                            <span class="whitespace-nowrap text-base font-medium leading-none">
+                                {capability.label}
+                            </span>
+                        </span>
+                    </FadeReveal>
+                </li>
+            ))
+        }
+    </ul>
+</section>

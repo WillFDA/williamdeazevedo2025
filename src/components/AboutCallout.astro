@@ -1,6 +1,9 @@
 ---
 import { Image } from "astro:assets";
-import AboutLogoMatrix from "./AboutLogoMatrix.astro";
+import Msgs from "./icons/nucleo/msgs-fill.svg";
+import UserHeart from "./icons/nucleo/user-heart-fill.svg";
+import ViewAll from "./icons/nucleo/view-all-fill.svg";
+import WindowLayout from "./icons/nucleo/window-layout-fill.svg";
 import williamPortrait from "../assets/williamdeazevedo.webp";
 
 interface Props {
@@ -11,183 +14,134 @@ const { title } = Astro.props;
 const titleWords = title.replace("design !", "design\u00A0!").split(" ");
 const aboutPoints = [
     {
-        icon: "code",
-        text: "+3 ans d'expérience dans le développement",
+        description:
+            "Design graphique, motion design puis développement web : un parcours complet au service d'interfaces claires.",
+        icon: "window-layout",
+        title: "+10 ans d'expérience",
     },
     {
+        description:
+            "Des collaborations cadrées, avec des décisions lisibles et des livraisons fiables.",
         icon: "users",
-        text: "+10 clients satisfaits",
+        title: "+10 clients satisfaits",
     },
     {
+        description:
+            "Une approche B2B et produit qui relie clarté, usage et contraintes techniques.",
         icon: "product",
-        text: "Expérience produit sur des SaaS B2B et IA",
+        title: "Culture produit SaaS",
     },
 ];
 ---
 
-<section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-2xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-3xl md:py-28">
-    <AboutLogoMatrix />
-    <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-10 px-4 sm:gap-14 sm:px-8 md:gap-16">
-        <h2 class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-[0.18em] text-center text-3xl font-medium leading-tighter tracking-normal text-snow-50 sm:text-4xl md:text-6xl">
-            {
-                titleWords.map((word, index) => {
-                    const cleanWord = word.replace("\u00A0", " ");
-                    const isWilliam = cleanWord === "William,";
-                    const isHighlighted =
-                        cleanWord === "design !" ||
-                        cleanWord.replace(/[,.!]+$/, "") === "design";
+<section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-3xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-4xl md:py-28">
+    <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-8 px-4 sm:gap-10 sm:px-8 md:gap-12">
+        <div class="mx-auto flex max-w-4xl flex-col items-center gap-6 text-center md:gap-7">
+            <h2 class="section-heading section-heading--inverse flex flex-wrap justify-center gap-x-[0.18em]">
+                {
+                    titleWords.map((word, index) => {
+                        const cleanWord = word.replace("\u00A0", " ");
+                        const normalizedWord = cleanWord
+                            .replace(/[,.!]+$/, "")
+                            .trim();
+                        const isWilliam = cleanWord === "William,";
+                        const isPill =
+                            normalizedWord === "développeur" ||
+                            normalizedWord === "design";
 
-                    return (
-                        <span
-                            class:list={[
-                                "about-callout-title-word",
-                                isWilliam &&
-                                    "about-callout-title-word--with-avatar",
-                                isHighlighted ? "text-blue-400" : "text-snow-50",
-                            ]}
-                            style={`--about-callout-word-index: ${index}`}
-                        >
-                            {isWilliam ? (
-                                <>
-                                    William
-                                    <span
-                                        class="about-callout-avatar"
-                                        aria-hidden="true"
-                                    >
-                                        <Image
-                                            class="about-callout-avatar__image"
-                                            src={williamPortrait}
-                                            alt=""
-                                            width={72}
-                                            height={72}
-                                            loading="eager"
-                                        />
-                                    </span>
-                                    ,
-                                </>
-                            ) : (
-                                cleanWord
-                            )}
-                        </span>
-                    );
-                })
-            }
-        </h2>
-        <ul class="mx-auto flex w-full max-w-md flex-col items-start gap-5 text-sm font-light text-snow-100 sm:gap-6 md:max-w-none md:flex-row md:justify-center md:gap-12 md:text-base">
+                        return (
+                            <span
+                                class:list={[
+                                    "about-callout-title-word",
+                                    isPill && "title-pill",
+                                    isWilliam &&
+                                        "about-callout-title-word--with-avatar",
+                                    isWilliam ? "inline-flex items-center" : "inline-block",
+                                    "text-snow-50",
+                                ]}
+                                style={`--about-callout-word-index: ${index}`}
+                            >
+                                {isWilliam ? (
+                                    <>
+                                        William
+                                        <span
+                                            class="about-callout-avatar"
+                                            aria-hidden="true"
+                                        >
+                                            <Image
+                                                class="block size-full object-contain"
+                                                src={williamPortrait}
+                                                alt=""
+                                                width={72}
+                                                height={72}
+                                                loading="eager"
+                                            />
+                                        </span>
+                                        ,
+                                    </>
+                                ) : (
+                                    cleanWord
+                                )}
+                            </span>
+                        );
+                    })
+                }
+            </h2>
+            <p class="section-subheading section-subheading--inverse">
+                J'aide à transformer un site daté, une première présence ou une
+                idée produit en interface claire, accessible et crédible, avec un
+                accompagnement qui relie design, front-end et logique métier.
+            </p>
+        </div>
+        <ul class="mx-auto grid w-full max-w-5xl gap-4 sm:grid-cols-3">
             {
                 aboutPoints.map((point) => (
-                    <li class="flex w-full items-center gap-3">
-                        <span class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-snow-50 text-blue-500">
-                            {point.icon === "code" && (
-                                <svg
-                                    aria-hidden="true"
-                                    class="size-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="m9 18-6-6 6-6"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.8"
+                    <li class="flex flex-col gap-4 rounded-xl bg-gray-800 p-4 text-snow-50 shadow-[0_18px_44px_-30px_rgba(14,20,32,0.55)]">
+                        <div class="flex items-center gap-3">
+                            <span class="about-callout-proof-card__icon inline-flex size-8 shrink-0 items-center justify-center rounded-lg bg-blue-500 text-snow-50">
+                                {point.icon === "window-layout" && (
+                                    <WindowLayout
+                                        aria-hidden="true"
+                                        class="size-5"
                                     />
-                                    <path
-                                        d="m15 6 6 6-6 6"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.8"
+                                )}
+                                {point.icon === "users" && (
+                                    <UserHeart
+                                        aria-hidden="true"
+                                        class="size-5"
                                     />
-                                </svg>
-                            )}
-                            {point.icon === "users" && (
-                                <svg
-                                    aria-hidden="true"
-                                    class="size-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M16 19c0-2.2-1.8-4-4-4s-4 1.8-4 4"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-width="1.8"
+                                )}
+                                {point.icon === "product" && (
+                                    <ViewAll
+                                        aria-hidden="true"
+                                        class="size-5"
                                     />
-                                    <path
-                                        d="M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"
-                                    />
-                                    <path
-                                        d="M19 18c-.2-1.7-1.2-3-2.6-3.7"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-width="1.8"
-                                    />
-                                </svg>
-                            )}
-                            {point.icon === "product" && (
-                                <svg
-                                    aria-hidden="true"
-                                    class="size-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M4 7.5 12 3l8 4.5-8 4.5-8-4.5Z"
-                                        stroke="currentColor"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.8"
-                                    />
-                                    <path
-                                        d="M4 12.5 12 17l8-4.5"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.8"
-                                    />
-                                    <path
-                                        d="M4 17.5 12 22l8-4.5"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.8"
-                                    />
-                                </svg>
-                            )}
-                        </span>
-                        <span class="min-w-0">{point.text}</span>
+                                )}
+                            </span>
+                            <h3 class="text-base font-medium leading-tight text-snow-50">
+                                {point.title}
+                            </h3>
+                        </div>
+                        <p class="text-sm font-light leading-6 text-coffee-50">
+                            {point.description}
+                        </p>
                     </li>
                 ))
             }
         </ul>
         <button
-            class="about-callout-cta mx-auto inline-flex h-12 items-center justify-center gap-3 rounded-xl px-6 text-md font-regular focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
+            class="about-callout-cta mx-auto inline-flex min-h-14 w-fit max-w-full items-center justify-center gap-5 rounded-xl px-8 py-3 text-base font-normal focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
             data-cal-location="about"
             data-cal-open
             type="button"
         >
-            <svg
+            <Msgs
                 aria-hidden="true"
                 class="about-callout-cta__icon size-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path
-                    d="M7.4 4.8 9 8.5c.3.7.1 1.5-.5 2l-1.2 1c.9 1.9 2.4 3.4 4.3 4.3l1-1.2c.5-.6 1.3-.8 2-.5l3.7 1.6c.8.3 1.2 1.2 1 2l-.5 2.1c-.2.8-.9 1.3-1.7 1.3C9.3 21 3 14.7 3 6.9c0-.8.5-1.5 1.3-1.7l2.1-.5c.8-.2 1.7.3 2 1Z"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.8"
-                />
-            </svg>
+            />
             <span>Me contacter</span>
         </button>
+        <slot />
     </div>
 </section>
 
@@ -196,18 +150,12 @@ const aboutPoints = [
         animation: about-callout-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
             backwards;
         animation-delay: calc(var(--about-callout-word-index, 0) * 65ms);
-        display: inline-block;
-    }
-
-    .about-callout-title-word--with-avatar {
-        align-items: center;
-        display: inline-flex;
     }
 
     .about-callout-avatar {
         align-self: center;
         aspect-ratio: 1;
-        background: #e8e5e8;
+        background: var(--color-snow-600);
         border: 0.06em solid #fff;
         border-radius: 9999px;
         box-shadow:
@@ -215,58 +163,71 @@ const aboutPoints = [
             0 4px 14px rgba(0, 0, 0, 0.24);
         display: inline-flex;
         height: 1.08em;
-        margin-inline-end: -0.03em;
-        margin-inline-start: 0.14em;
+        margin-inline: 0.08em;
         overflow: hidden;
     }
 
-    .about-callout-avatar__image {
-        display: block;
-        height: 100%;
-        object-fit: contain;
-        width: 100%;
+    .about-callout-proof-card__icon {
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.22),
+            inset 0 -1px 0 rgba(31, 54, 130, 0.14),
+            0 12px 26px -20px rgba(141, 165, 247, 0.55),
+            0 5px 12px -10px rgba(62, 96, 212, 0.58);
     }
 
     .about-callout-cta {
         background: transparent;
         border: 0;
-        color: var(--color-coffee-300);
+        box-shadow: none;
+        color: var(--color-snow-50);
         isolation: isolate;
+        overflow: hidden;
         position: relative;
         text-decoration: none;
+        transition: box-shadow 280ms cubic-bezier(0.2, 0, 0, 1);
     }
 
     .about-callout-cta::before {
-        background: linear-gradient(180deg, #f3f4f6 0%, #ffffff 100%);
-        border: 0.5px solid var(--color-snow-600);
+        background: var(--color-blue-500);
+        border: 1px solid
+            color-mix(in srgb, var(--color-blue-500) 70%, var(--color-blue-600));
         border-radius: inherit;
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.9),
-            0 18px 38px -24px rgba(0, 0, 0, 0.5);
+        box-shadow: inset 0 2px rgba(184, 200, 255, 0.18);
         content: "";
         inset: 0;
-        pointer-events: none;
         position: absolute;
         transform: scale(1);
-        transition:
-            box-shadow 280ms cubic-bezier(0.2, 0, 0, 1),
-            transform 520ms
-                var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        transition: transform 520ms
+            var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
         z-index: -1;
     }
 
-    .about-callout-cta:hover::before,
+    .about-callout-cta:focus-visible {
+        box-shadow: none;
+    }
+
     .about-callout-cta:focus-visible::before {
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.95),
-            0 20px 44px -22px rgba(37, 99, 235, 0.35);
         transform: scale(0.95);
     }
 
-    .about-callout-cta:hover .about-callout-cta__icon,
     .about-callout-cta:focus-visible .about-callout-cta__icon {
         animation: phone-ring 620ms cubic-bezier(0.2, 0, 0, 1);
         transform-origin: 50% 80%;
+    }
+
+    @media (hover: hover) {
+        .about-callout-cta:hover {
+            box-shadow: none;
+        }
+
+        .about-callout-cta:hover::before {
+            transform: scale(0.95);
+        }
+
+        .about-callout-cta:hover .about-callout-cta__icon {
+            animation: phone-ring 620ms cubic-bezier(0.2, 0, 0, 1);
+            transform-origin: 50% 80%;
+        }
     }
 
     @keyframes about-callout-title-word {
@@ -319,6 +280,7 @@ const aboutPoints = [
             transform: none;
         }
 
+        .about-callout-cta,
         .about-callout-cta::before {
             transition: none;
         }

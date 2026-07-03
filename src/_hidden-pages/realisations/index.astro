@@ -1,0 +1,105 @@
+---
+import CalButton from "@/components/CalButton.astro";
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import { caseStudies } from "@/data/caseStudies";
+import { homeProjects } from "@/data/projects";
+import Layout from "@/layout/Layout.astro";
+
+export const prerender = true;
+
+const projects = caseStudies.map((caseStudy) => ({
+    ...caseStudy,
+    project: homeProjects.find((project) => project.id === caseStudy.projectId),
+}));
+---
+
+<Layout
+    title="Réalisations web - William De Azevedo"
+    description="Études de cas de sites vitrines, refontes et interfaces produit conçus pour clarifier une offre, rassurer et faciliter le passage à l'action."
+>
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 py-12 md:py-16">
+        <FadeReveal delay={0.1}>
+            <section class="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
+                <h1 class="page-heading">
+                    Des projets pensés pour lever un doute précis
+                </h1>
+                <p class="page-subheading">
+                    Chaque étude de cas part d'un problème concret : rendre une
+                    offre plus compréhensible, moderniser une expérience ou guider
+                    plus clairement vers le contact.
+                </p>
+            </section>
+        </FadeReveal>
+
+        <section class="grid gap-6">
+            {
+                projects.map(({ project, ...caseStudy }, index) => (
+                    <FadeReveal delay={0.15 + index * 0.08}>
+                        <article class="grid gap-6 rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600 md:grid-cols-[0.9fr_1.1fr] md:p-6">
+                            {project?.media.type === "video" && (
+                                <video
+                                    muted
+                                    playsinline
+                                    loop
+                                    preload="metadata"
+                                    poster={project.media.poster}
+                                    aria-hidden="true"
+                                    class="aspect-video w-full rounded-xl object-cover"
+                                >
+                                    <source src={project.media.src} type="video/mp4" />
+                                </video>
+                            )}
+                            <div class="flex flex-col gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <p class="text-xs font-normal uppercase tracking-widest text-blue-500">
+                                        {caseStudy.serviceLabel}
+                                    </p>
+                                    <h2 class="text-2xl font-medium leading-tight text-gray-900">
+                                        {project?.title ?? caseStudy.title}
+                                    </h2>
+                                    <p class="text-base font-normal leading-7 text-gray-600">
+                                        {caseStudy.description}
+                                    </p>
+                                </div>
+                                <p class="text-base font-normal leading-7 text-gray-600">
+                                    {caseStudy.takeaway}
+                                </p>
+                                <div class="mt-auto flex flex-col gap-3 sm:flex-row">
+                                    <a
+                                        class="flex min-h-14 items-center justify-center rounded-xl bg-coffee-300 px-8 py-3 text-sm font-normal text-snow-50 transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                        href={`/realisations/${caseStudy.slug}`}
+                                    >
+                                        Lire l'étude de cas
+                                    </a>
+                                    <a
+                                        class="flex min-h-14 items-center justify-center rounded-xl px-8 py-3 text-sm font-normal text-gray-900 ring-1 ring-gray-200 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                        href={caseStudy.serviceHref}
+                                    >
+                                        Service associé
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    </FadeReveal>
+                ))
+            }
+        </section>
+
+        <section class="rounded-xl bg-coffee-300 p-6 text-snow-50 sm:p-8">
+            <div class="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
+                <h2 class="text-2xl font-medium leading-tight">
+                    Vous avez un frein proche ?
+                </h2>
+                <p class="text-base font-normal leading-7 text-snow-100">
+                    On peut partir d'un exemple existant pour identifier le bon
+                    niveau de cadrage, de design et de développement.
+                </p>
+                <CalButton
+                    class="rounded-xl text-base font-normal"
+                    location="realisations-final"
+                    variant="light"
+                />
+            </div>
+        </section>
+    </div>
+</Layout>
