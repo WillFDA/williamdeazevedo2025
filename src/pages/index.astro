@@ -153,7 +153,9 @@ const displayedTestimonials = temoignages
 ---
 
 <Layout>
-    <section class="mx-auto flex w-full min-w-0 max-w-5xl flex-col gap-6 px-2 sm:px-4">
+    <section
+        class="mx-auto flex w-full min-w-0 max-w-5xl flex-col gap-6 px-2 sm:px-4"
+    >
         <a
             aria-label="Avis Google : 5 étoiles sur 5"
             class="mx-auto inline-flex max-w-full items-center gap-2 rounded-xl bg-snow-50 px-3.5 py-2 text-sm font-normal leading-tight text-gray-900 no-underline shadow-[0_10px_22px_-16px_rgba(34,42,55,0.45)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 sm:text-base"
@@ -163,7 +165,9 @@ const displayedTestimonials = temoignages
             target="_blank"
         >
             <span>Avis Google</span>
-            <span class="inline-flex items-center gap-1.5 rounded-xl bg-blue-500 px-2.5 py-1 font-medium text-snow-50">
+            <span
+                class="inline-flex items-center gap-1.5 rounded-xl bg-blue-500 px-2.5 py-1 font-medium text-snow-50"
+            >
                 <Star aria-hidden="true" class="size-4 text-snow-50" />
                 <span>5.0</span>
             </span>
@@ -175,9 +179,7 @@ const displayedTestimonials = temoignages
             {
                 heroTitleParts.map((part, index) => (
                     <span
-                        class:list={[
-                            part.pill && "title-pill",
-                        ]}
+                        class:list={[part.pill && "title-pill"]}
                         style={`--animated-word-index: ${index}`}
                         data-animated-title-word
                     >
@@ -187,15 +189,15 @@ const displayedTestimonials = temoignages
             }
         </h1>
         <FadeReveal delay={0.32}>
-            <p
-                class="page-subheading max-w-sm sm:max-w-lg"
-            >
+            <p class="page-subheading max-w-sm sm:max-w-lg">
                 J’aide les petites structures et les équipes produit à lancer
                 des interfaces & sites performants, soignés et SEO-friendly.
             </p>
         </FadeReveal>
         <FadeReveal delay={0.44}>
-            <div class="mx-auto mt-5 flex w-full max-w-sm flex-col items-center justify-center gap-3 sm:mt-7 sm:max-w-none sm:flex-row sm:gap-8">
+            <div
+                class="mx-auto mt-5 flex w-full max-w-sm flex-col items-center justify-center gap-3 sm:mt-7 sm:max-w-none sm:flex-row sm:gap-8"
+            >
                 <button
                     class="hero-button hero-button--primary flex min-h-14 w-full max-w-full items-center justify-center gap-5 rounded-xl px-8 py-3 text-base font-normal sm:w-auto sm:px-10"
                     data-cal-location="hero"
@@ -225,7 +227,7 @@ const displayedTestimonials = temoignages
         </FadeReveal>
         <FadeReveal delay={0.56}>
             <div
-                class="testimonial-rotator mx-auto mb-4 mt-0 text-center text-xs"
+                class="testimonial-rotator mx-auto mb-4 mt-8 mt-0 text-center text-xs"
                 data-testimonial-rotator
                 data-testimonial-interval="5500"
             >
@@ -280,7 +282,9 @@ const displayedTestimonials = temoignages
     </section>
     <CapabilitiesStrip />
     <ProblemComparison />
-    <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !" />
+    <AboutCallout
+        title="Hello moi c'est William, un développeur à la frontière du design !"
+    />
     <div class="mx-auto w-full max-w-7xl px-4 py-12 sm:px-8 md:py-16">
         <ExpertiseShowcase
             title="Ce que je corrige pour rendre un site plus convaincant"
@@ -400,8 +404,10 @@ const displayedTestimonials = temoignages
 
                 const interval = Math.max(
                     1200,
-                    Number.parseInt(root.dataset.testimonialInterval ?? "", 10) ||
-                        5500,
+                    Number.parseInt(
+                        root.dataset.testimonialInterval ?? "",
+                        10,
+                    ) || 5500,
                 );
                 let activeIndex = items.findIndex((item) =>
                     item.classList.contains("is-active"),
@@ -448,7 +454,9 @@ const displayedTestimonials = temoignages
     initTitleAnimations();
     initTestimonialRotators();
 
-    if (windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady !== true) {
+    if (
+        windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady !== true
+    ) {
         windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady = true;
         document.addEventListener("astro:before-swap", resetHomeInteractions);
         document.addEventListener("astro:page-load", initTitleAnimations);
@@ -458,8 +466,7 @@ const displayedTestimonials = temoignages
 
 <style>
     [data-hero-eyebrow] {
-        animation: hero-eyebrow-fade 780ms cubic-bezier(0.2, 0, 0, 1)
-            backwards;
+        animation: hero-eyebrow-fade 780ms cubic-bezier(0.2, 0, 0, 1) backwards;
     }
 
     @keyframes hero-eyebrow-fade {
@@ -511,8 +518,8 @@ const displayedTestimonials = temoignages
 
     .testimonial-rotator__item.is-active blockquote,
     .testimonial-rotator__item.is-active .testimonial-rotator__person {
-        animation: testimonial-content-in 920ms cubic-bezier(0.22, 1.16, 0.36, 1)
-            backwards;
+        animation: testimonial-content-in 920ms
+            cubic-bezier(0.22, 1.16, 0.36, 1) backwards;
     }
 
     .testimonial-rotator__item.is-active blockquote {
@@ -585,7 +592,6 @@ const displayedTestimonials = temoignages
         .testimonial-rotator blockquote {
             animation: none;
         }
-
     }
     .hero-button {
         --hero-button-bg: var(--color-snow-600);

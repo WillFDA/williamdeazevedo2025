@@ -5,12 +5,14 @@ import { homeProjects } from "@/data/projects";
 
 interface Props {
     class?: string;
+    description?: string;
     id?: string;
     title?: string;
 }
 
 const {
     class: className,
+    description = "Chaque projet montre comment clarifier une offre, rassurer les visiteurs et transformer une première impression en parcours crédible.",
     id = "projects",
     title = "Des projets pensés pour inspirer confiance",
 } = Astro.props;
@@ -22,34 +24,17 @@ const {
     data-project-showcase
     aria-labelledby={`${id}-title`}
 >
-    <h2 id={`${id}-title`} class="section-heading mx-auto mb-12 max-w-4xl px-4 sm:px-8">
-        {title}
-    </h2>
-    <div class="project-copy mx-auto grid max-w-5xl px-4 pb-5">
-        {
-            homeProjects.map((project, index) => (
-                <article
-                    class:list={[
-                        "project-copy__panel",
-                        index === 0 && "is-active",
-                    ]}
-                    data-project-panel
-                    data-project-index={index}
-                    aria-hidden={index === 0 ? undefined : "true"}
-                    inert={index === 0 ? undefined : true}
-                >
-                    <ProjectIntro
-                        href={project.href}
-                        title={project.title}
-                    >
-                        {project.summary}
-                    </ProjectIntro>
-                </article>
-            ))
-        }
+    <div
+        class="mx-auto mb-12 flex max-w-5xl flex-col items-start gap-4 px-4 text-left"
+    >
+        <h2 id={`${id}-title`} class="section-heading project-showcase-heading">
+            {title}
+        </h2>
+        <p class="section-subheading mx-0 max-w-3xl text-left text-gray-700">
+            {description}
+        </p>
     </div>
-
-    <Carousel controlsPlacement="top" compactControls>
+    <Carousel compactControls>
         {
             homeProjects.map((project) => (
                 <div class="embla__slide">
@@ -72,6 +57,27 @@ const {
             ))
         }
     </Carousel>
+
+    <div class="project-copy mx-auto grid max-w-5xl px-4 pt-8 md:pt-10">
+        {
+            homeProjects.map((project, index) => (
+                <article
+                    class:list={[
+                        "project-copy__panel",
+                        index === 0 && "is-active",
+                    ]}
+                    data-project-panel
+                    data-project-index={index}
+                    aria-hidden={index === 0 ? undefined : "true"}
+                    inert={index === 0 ? undefined : true}
+                >
+                    <ProjectIntro href={project.href} title={project.title}>
+                        {project.summary}
+                    </ProjectIntro>
+                </article>
+            ))
+        }
+    </div>
 </section>
 
 <script>
@@ -80,7 +86,8 @@ const {
     };
 
     const replayProjectPanelAnimation = (panel: HTMLElement) => {
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+            return;
 
         delete panel.dataset.projectPanelAnimate;
         void panel.offsetWidth;
@@ -93,8 +100,9 @@ const {
             .forEach((root) => {
                 if (root.dataset.projectShowcaseReady === "true") return;
 
-                const panels =
-                    root.querySelectorAll<HTMLElement>("[data-project-panel]");
+                const panels = root.querySelectorAll<HTMLElement>(
+                    "[data-project-panel]",
+                );
 
                 const setActivePanel = (
                     index: number,
@@ -146,6 +154,12 @@ const {
 </script>
 
 <style>
+    .project-showcase-heading {
+        font-size: clamp(2.35rem, 3.9vw, 3.45rem);
+        max-width: 54rem;
+        text-align: left;
+    }
+
     .project-copy__panel {
         filter: blur(6px);
         grid-area: 1 / 1;
