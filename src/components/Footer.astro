@@ -16,33 +16,6 @@ const socialLinks = [
         label: "X",
     },
 ];
-const linkGroups = [
-    {
-        title: "Services",
-        links: [
-            { href: "/services/creation-site-vitrine", label: "Création site vitrine" },
-            { href: "/services/refonte-site-internet", label: "Refonte site internet" },
-            { href: "/services/developpeur-web-freelance", label: "Développeur freelance" },
-        ],
-    },
-    {
-        title: "Réalisations",
-        links: [
-            { href: "/realisations/le-fellic", label: "Le Fellic" },
-            { href: "/realisations/persistance", label: "Persistance" },
-            { href: "/realisations/motivai", label: "Motivai" },
-        ],
-    },
-    {
-        title: "Ressources",
-        links: [
-            { href: "/tarifs", label: "Tarifs" },
-            { href: "/methode", label: "Méthode" },
-            { href: "/articles", label: "Conseils" },
-            { href: "/mentions-legales", label: "Mentions légales" },
-        ],
-    },
-];
 ---
 
 <footer
@@ -104,31 +77,6 @@ const linkGroups = [
                 <WaveText text="Parlons de votre projet" trigger="parent" />
             </button>
         </div>
-        <nav aria-label="Navigation pied de page">
-            <div class="grid gap-8 border-t border-snow-50/15 pt-10 sm:grid-cols-3">
-                {
-                    linkGroups.map((group) => (
-                        <div>
-                            <h2 class="mb-3 text-xs font-medium uppercase tracking-widest text-snow-50/55">
-                                {group.title}
-                            </h2>
-                            <ul class="flex flex-col gap-2">
-                                {group.links.map((link) => (
-                                    <li>
-                                        <a
-                                            class="text-snow-50/80 transition-colors hover:text-snow-50 focus-visible:text-snow-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-snow-50"
-                                            href={link.href}
-                                        >
-                                            {link.label}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))
-                }
-            </div>
-        </nav>
         <p class="border-t border-snow-50/15 pt-6 text-xs text-snow-50/60">
             © {year} William De Azevedo
         </p>
