@@ -9,7 +9,7 @@ const calLink = String(
 
 <dialog
     aria-label="Planifier un créneau"
-    class="cal-drawer fixed overflow-hidden rounded-lg border-0 bg-coffee-700 p-0 text-snow-50"
+    class="cal-drawer fixed overflow-hidden rounded-lg border-0 p-0 text-snow-50"
     data-cal-drawer
     id="cal-drawer"
     transition:persist
@@ -116,16 +116,16 @@ const calLink = String(
         window.Cal("ui", {
             cssVarsPerTheme: {
                 dark: {
-                    "cal-bg": "#151c27",
-                    "cal-bg-muted": "#1b2230",
-                    "cal-bg-subtle": "#222a37",
-                    "cal-border": "#2f3642",
-                    "cal-border-subtle": "#2f3642",
+                    "cal-bg": "#141016",
+                    "cal-bg-muted": "#171219",
+                    "cal-bg-subtle": "#1f1822",
+                    "cal-border": "#2a2230",
+                    "cal-border-subtle": "#2a2230",
                 },
             },
             styles: {
-                body: { background: "#151c27" },
-                eventTypeListItem: { background: "#222a37" },
+                body: { background: "#141016" },
+                eventTypeListItem: { background: "#1f1822" },
             },
             theme: "dark",
         });
@@ -249,6 +249,7 @@ const calLink = String(
     }
 
     .cal-drawer {
+        background: #141016;
         height: calc(100dvh - 2rem);
         inset: 1rem 1rem 1rem auto;
         margin: auto 0 auto auto;
@@ -259,7 +260,7 @@ const calLink = String(
 
     .cal-drawer::backdrop {
         backdrop-filter: blur(5px);
-        background: rgb(211 214 218 / 0.48);
+        background: rgb(232 229 232 / 0.48);
     }
 
     .cal-drawer[open] {
@@ -346,22 +347,22 @@ const calLink = String(
     @keyframes cal-backdrop-in {
         from {
             backdrop-filter: blur(0);
-            background: rgb(211 214 218 / 0);
+            background: rgb(232 229 232 / 0);
         }
         to {
             backdrop-filter: blur(5px);
-            background: rgb(211 214 218 / 0.48);
+            background: rgb(232 229 232 / 0.48);
         }
     }
 
     @keyframes cal-backdrop-out {
         from {
             backdrop-filter: blur(5px);
-            background: rgb(211 214 218 / 0.48);
+            background: rgb(232 229 232 / 0.48);
         }
         to {
             backdrop-filter: blur(0);
-            background: rgb(211 214 218 / 0);
+            background: rgb(232 229 232 / 0);
         }
     }
 

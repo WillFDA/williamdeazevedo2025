@@ -71,11 +71,12 @@ const workingPoints = [
     class="mx-auto w-full max-w-7xl px-4 pt-12 pb-5 sm:px-8 md:py-16"
     aria-labelledby="problem-comparison-title"
 >
-    <div class="mx-auto flex max-w-4xl flex-col items-center gap-4 text-center">
-        <h2 id="problem-comparison-title" class="section-heading">
-            Un site peut être généré vite. La confiance, elle, se construit.
+    <div class="flex max-w-4xl flex-col items-start gap-4 text-left">
+        <h2 id="problem-comparison-title" class="section-heading problem-comparison-heading">
+            <span>Un site peut être généré vite.</span>
+            <span class="block">La confiance, elle, se construit.</span>
         </h2>
-        <p class="section-subheading">
+        <p class="section-subheading mx-0 text-left text-gray-700">
             Demander un site à l'IA ou à quelqu'un qui applique un template peut
             produire quelque chose de présentable. Le vrai risque, c'est de
             publier une page qui ne clarifie rien.
@@ -182,6 +183,12 @@ const workingPoints = [
 </section>
 
 <style>
+    .problem-comparison-heading {
+        font-size: clamp(2.35rem, 3.9vw, 3.45rem);
+        max-width: 54rem;
+        text-align: left;
+    }
+
     .comparison-visual {
         background: color-mix(in srgb, var(--color-gray-100) 74%, white);
         border-radius: 2rem;
