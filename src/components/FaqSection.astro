@@ -36,6 +36,15 @@ const faqItems = [
             "Oui. Pour une interface produit, je cadre d'abord les écrans, les rôles, les états, les données et les intégrations. Le devis dépend surtout de cette complexité, pas seulement du nombre de pages.",
     },
 ] as const;
+
+const accordionClasses = {
+    content:
+        "px-5 pb-5 pr-14 text-base font-light leading-normal text-gray-600 sm:px-6 sm:pr-16",
+    icon: "text-gray-900",
+    item: "bg-gray-100 shadow-sm ring-1 ring-gray-200",
+    summary:
+        "px-5 py-4 text-base font-normal leading-tight text-gray-900 sm:px-6",
+};
 ---
 
 <section
@@ -43,23 +52,17 @@ const faqItems = [
     class="mx-auto w-full max-w-7xl px-4 py-12 sm:px-8 md:py-16"
     aria-labelledby="faq-title"
 >
-    <div class="mx-auto flex max-w-4xl flex-col items-center gap-4 text-center">
-        <h2 id="faq-title" class="section-heading">
-            Les questions qui reviennent avant de se lancer
-        </h2>
-        <p class="section-subheading">
-            L'objectif est de savoir vite si on part sur une création, une
-            refonte ou une interface produit, avec un périmètre réaliste.
-        </p>
+    <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
+        <h2 id="faq-title" class="section-heading">FAQ</h2>
     </div>
 
     <Accordion
-        class="mx-auto mt-12 max-w-5xl md:grid-cols-2"
+        class="mx-auto mt-12 max-w-4xl"
         items={faqItems}
-        itemClass="bg-gray-100 shadow-sm ring-1 ring-gray-200"
-        summaryClass="px-5 py-4 text-base font-normal leading-tight text-gray-900 sm:px-6"
-        contentClass="px-5 pb-5 pr-14 text-base font-light leading-normal text-gray-600 sm:px-6 sm:pr-16"
-        iconClass="text-gray-900"
+        itemClass={accordionClasses.item}
+        summaryClass={accordionClasses.summary}
+        contentClass={accordionClasses.content}
+        iconClass={accordionClasses.icon}
     />
 
     <div class="mt-10 flex justify-center">
