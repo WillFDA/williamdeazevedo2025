@@ -99,7 +99,7 @@ const secondaryItems = items.slice(1);
 					<BentoVisualVitrine />
 				</div>
 
-				<div class="relative z-10 flex shrink-0 flex-col px-6 pt-4 pb-7 transition-transform duration-300 ease-out group-hover:-translate-y-2 sm:px-7 sm:pb-8">
+				<div class="relative z-10 flex shrink-0 flex-col px-6 pt-4 pb-6 transition-transform duration-300 ease-out group-hover:-translate-y-7 group-focus-visible:-translate-y-7 sm:px-7">
 					<span
 						class:list={[
 							"mb-5 flex size-11 items-center justify-center rounded-xl text-snow-50",
@@ -115,11 +115,12 @@ const secondaryItems = items.slice(1);
 					<p class="mt-4 max-w-md text-base font-normal leading-relaxed text-gray-600">
 						{featureItem.description}
 					</p>
-					<span class="mt-auto inline-flex translate-y-2 items-center gap-2 pt-8 text-base font-medium text-blue-500 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
-						Découvrir
-						<ArrowRight class="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
-					</span>
 				</div>
+
+				<span class="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex translate-y-3 items-center gap-2 px-6 pb-5 text-base font-medium text-blue-500 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:px-7 sm:pb-6">
+					Découvrir
+					<ArrowRight class="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
+				</span>
 
 				<span
 					class="pointer-events-none absolute inset-0 bg-[#0b1a4a]/[0.018] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
@@ -162,7 +163,7 @@ const secondaryItems = items.slice(1);
 								{item.icon === "deploy" && <BentoVisualSeo />}
 							</div>
 
-							<div class="relative z-10 flex flex-1 flex-col px-6 pt-4 pb-7 transition-transform duration-300 ease-out group-hover:-translate-y-2 sm:px-7 sm:pb-8">
+							<div class="relative z-10 flex flex-1 flex-col px-6 pt-4 pb-6 transition-transform duration-300 ease-out group-hover:-translate-y-7 group-focus-visible:-translate-y-7 sm:px-7">
 								<span
 									class:list={[
 										"mb-5 flex size-11 items-center justify-center rounded-xl text-snow-50",
@@ -182,11 +183,12 @@ const secondaryItems = items.slice(1);
 								<p class="mt-4 max-w-lg text-base font-normal leading-relaxed text-gray-600">
 									{item.description}
 								</p>
-								<span class="mt-auto inline-flex translate-y-2 items-center gap-2 pt-8 text-base font-medium text-blue-500 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
-									Découvrir
-									<ArrowRight class="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
-								</span>
 							</div>
+
+							<span class="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex translate-y-3 items-center gap-2 px-6 pb-5 text-base font-medium text-blue-500 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:px-7 sm:pb-6">
+								Découvrir
+								<ArrowRight class="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
+							</span>
 
 							<span
 								class="pointer-events-none absolute inset-0 bg-[#0b1a4a]/[0.018] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"

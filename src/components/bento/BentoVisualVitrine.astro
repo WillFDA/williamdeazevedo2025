@@ -51,20 +51,14 @@
 			<svg class="size-3.5 drop-shadow-sm" viewBox="0 0 16 16" fill="none">
 				<path d="M3.5 1.5l10 5.4-4.3 1.1 2.3 4.7-2 1-2.2-4.6-3.8 3z" fill="#10b981" stroke="#ffffff" stroke-width="1" stroke-linejoin="round"></path>
 			</svg>
-			<span class="mt-2.5 -ml-0.5 rounded-full bg-emerald-500 px-1.5 py-0.5 text-[8px] font-semibold text-white shadow-sm">Sarah</span>
+			<span class="mt-2.5 -ml-0.5 rounded-full bg-emerald-500 px-1.5 py-0.5 text-[8px] font-semibold text-white shadow-sm">Prospect</span>
 		</div>
 
 		<div class="vitrine-cursor-william absolute top-0 left-0 flex items-start">
 			<svg class="size-3.5 drop-shadow-sm" viewBox="0 0 16 16" fill="none">
 				<path d="M3.5 1.5l10 5.4-4.3 1.1 2.3 4.7-2 1-2.2-4.6-3.8 3z" fill="#3e60d4" stroke="#ffffff" stroke-width="1" stroke-linejoin="round"></path>
 			</svg>
-			<span class="mt-2.5 -ml-0.5 rounded-full bg-blue-500 px-1.5 py-0.5 text-[8px] font-semibold text-white shadow-sm">William</span>
-		</div>
-
-		<div class="vitrine-palette absolute -bottom-3 -left-2 flex items-center gap-1 rounded-full border border-gray-100 bg-white px-2 py-1 shadow-[0_12px_24px_-14px_rgba(34,42,55,0.4)]">
-			<span class="size-2 rounded-full bg-blue-500"></span>
-			<span class="size-2 rounded-full bg-[#43b8d6]"></span>
-			<span class="size-2 rounded-full bg-[#f6821f]"></span>
+			<span class="mt-2.5 -ml-0.5 rounded-full bg-blue-500 px-1.5 py-0.5 text-[8px] font-semibold text-white shadow-sm">Visiteur</span>
 		</div>
 	</div>
 	</div>
@@ -79,13 +73,11 @@
 	}
 
 	.scene-backdrop {
-		background:
-			radial-gradient(120% 90% at 50% 0%, rgba(62, 96, 212, 0.07), transparent 70%),
-			repeating-linear-gradient(
-				to bottom,
-				rgba(31, 38, 52, 0.04) 0 1px,
-				transparent 1px 24px
-			);
+		background: radial-gradient(
+			120% 90% at 50% 0%,
+			rgba(62, 96, 212, 0.07),
+			transparent 70%
+		);
 	}
 
 	.vitrine-cursor-client,
@@ -199,20 +191,6 @@
 		100% {
 			opacity: 0;
 			transform: translate3d(0, -4px, 0) scale(0.98);
-		}
-	}
-
-	.vitrine-palette {
-		animation: vitrine-palette 6s ease-in-out infinite;
-	}
-
-	@keyframes vitrine-palette {
-		0%,
-		100% {
-			transform: translate3d(0, 0, 0);
-		}
-		50% {
-			transform: translate3d(0, -4px, 0);
 		}
 	}
 
