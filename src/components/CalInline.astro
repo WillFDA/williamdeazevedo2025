@@ -39,8 +39,13 @@ const calLink = String(
     let isContactCalConfigured = false;
 
     function trackContactCal(eventName, eventProperties = {}) {
-        if (typeof window.zaraz?.track !== "function") return;
-        void window.zaraz.track(eventName, eventProperties);
+        if (typeof window.zaraz?.track === "function") {
+            void window.zaraz.track(eventName, eventProperties);
+        }
+
+        if (typeof window.rybbit?.event === "function") {
+            window.rybbit.event(eventName, eventProperties);
+        }
     }
 
     function loadContactCalEmbed() {
