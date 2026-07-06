@@ -1,0 +1,176 @@
+---
+/**
+ * Scène animée "Refonte" : une fenêtre "Avant" terne et désalignée, une flèche,
+ * puis une fenêtre "Après" dont les blocs se remettent en place en boucle (6s).
+ */
+---
+
+<div class="refonte-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden" aria-hidden="true">
+	<div class="scene-backdrop absolute inset-0"></div>
+
+	<div class="refonte-stage relative flex items-center gap-3 transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:gap-4">
+		<div class="relative w-[136px] -rotate-[1.5deg] rounded-lg border border-gray-200 bg-gray-50 opacity-90 shadow-[0_12px_26px_-18px_rgba(34,42,55,0.35)] sm:w-[152px]">
+			<div class="flex items-center gap-1 border-b border-gray-200/70 px-2.5 py-1.5">
+				<span class="size-1 rounded-full bg-gray-300"></span>
+				<span class="size-1 rounded-full bg-gray-300"></span>
+				<span class="size-1 rounded-full bg-gray-300"></span>
+			</div>
+			<div class="flex flex-col gap-[6px] px-2.5 pt-2.5 pb-3">
+				<span class="h-2 w-[88%] rounded-full bg-gray-300/80"></span>
+				<span class="h-2 w-[52%] translate-x-2 -rotate-2 rounded-full bg-gray-200"></span>
+				<span class="h-2 w-[70%] rounded-full bg-gray-200/70"></span>
+				<span class="h-3 w-8 rotate-1 rounded-sm bg-gray-300/70"></span>
+			</div>
+			<span class="absolute -top-2 left-2 rounded-full border border-gray-200 bg-white px-1.5 py-0.5 text-[8px] font-medium text-gray-500 shadow-sm">Avant</span>
+		</div>
+
+		<span class="refonte-arrow flex size-7 shrink-0 items-center justify-center rounded-full border border-gray-100 bg-white shadow-[0_10px_20px_-12px_rgba(34,42,55,0.45)]">
+			<svg class="size-3 text-[#2f9dbd]" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M2.5 8h11M9.5 4l4 4-4 4"></path>
+			</svg>
+		</span>
+
+		<div class="relative w-[136px] rotate-[1deg] rounded-lg border border-cyan-200/70 bg-white shadow-[0_16px_32px_-20px_rgba(67,184,214,0.55)] sm:w-[152px]">
+			<div class="flex items-center gap-1 border-b border-cyan-100/80 px-2.5 py-1.5">
+				<span class="size-1 rounded-full bg-cyan-300/80"></span>
+				<span class="size-1 rounded-full bg-cyan-300/60"></span>
+				<span class="size-1 rounded-full bg-cyan-300/40"></span>
+			</div>
+			<div class="flex flex-col gap-[6px] px-2.5 pt-2.5 pb-3">
+				<span class="refonte-row-1 h-2 w-[85%] rounded-full bg-cyan-200"></span>
+				<span class="refonte-row-2 h-2 w-[62%] rounded-full bg-gray-200"></span>
+				<span class="refonte-row-3 h-2 w-[74%] rounded-full bg-gray-100"></span>
+				<span class="refonte-row-4 h-3.5 w-10 rounded-full bg-[#43b8d6] shadow-[0_6px_12px_-6px_rgba(67,184,214,0.9)]"></span>
+			</div>
+			<span class="absolute -top-2 left-2 rounded-full border border-cyan-200 bg-cyan-50 px-1.5 py-0.5 text-[8px] font-medium text-cyan-700 shadow-sm">Après</span>
+		</div>
+	</div>
+
+	<div class="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-b from-transparent to-white"></div>
+</div>
+
+<style>
+	.refonte-scene,
+	.refonte-scene * {
+		animation-play-state: var(--bento-play, running) !important;
+	}
+
+	.scene-backdrop {
+		background:
+			radial-gradient(120% 90% at 50% 0%, rgba(67, 184, 214, 0.09), transparent 70%),
+			repeating-linear-gradient(
+				to bottom,
+				rgba(31, 38, 52, 0.04) 0 1px,
+				transparent 1px 24px
+			);
+	}
+
+	.refonte-arrow {
+		animation: refonte-arrow 1.9s ease-in-out infinite;
+	}
+
+	@keyframes refonte-arrow {
+		0%,
+		100% {
+			transform: translate3d(0, 0, 0);
+		}
+		50% {
+			transform: translate3d(3px, 0, 0);
+		}
+	}
+
+	.refonte-row-1 {
+		animation: refonte-row-1 6s ease-out infinite;
+	}
+
+	.refonte-row-2 {
+		animation: refonte-row-2 6s ease-out infinite;
+	}
+
+	.refonte-row-3 {
+		animation: refonte-row-3 6s ease-out infinite;
+	}
+
+	.refonte-row-4 {
+		animation: refonte-row-4 6s ease-out infinite;
+	}
+
+	@keyframes refonte-row-1 {
+		0%,
+		8% {
+			opacity: 0;
+			transform: translate3d(0, 5px, 0);
+		}
+		15%,
+		88% {
+			opacity: 1;
+			transform: translate3d(0, 0, 0);
+		}
+		96%,
+		100% {
+			opacity: 0;
+			transform: translate3d(0, 5px, 0);
+		}
+	}
+
+	@keyframes refonte-row-2 {
+		0%,
+		16% {
+			opacity: 0;
+			transform: translate3d(0, 5px, 0);
+		}
+		23%,
+		88% {
+			opacity: 1;
+			transform: translate3d(0, 0, 0);
+		}
+		96%,
+		100% {
+			opacity: 0;
+			transform: translate3d(0, 5px, 0);
+		}
+	}
+
+	@keyframes refonte-row-3 {
+		0%,
+		24% {
+			opacity: 0;
+			transform: translate3d(0, 5px, 0);
+		}
+		31%,
+		88% {
+			opacity: 1;
+			transform: translate3d(0, 0, 0);
+		}
+		96%,
+		100% {
+			opacity: 0;
+			transform: translate3d(0, 5px, 0);
+		}
+	}
+
+	@keyframes refonte-row-4 {
+		0%,
+		32% {
+			opacity: 0;
+			transform: translate3d(0, 5px, 0);
+		}
+		40%,
+		88% {
+			opacity: 1;
+			transform: translate3d(0, 0, 0);
+		}
+		96%,
+		100% {
+			opacity: 0;
+			transform: translate3d(0, 5px, 0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.refonte-scene,
+		.refonte-scene * {
+			animation: none !important;
+		}
+	}
+</style>

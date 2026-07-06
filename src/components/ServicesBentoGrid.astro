@@ -1,5 +1,9 @@
 ---
 import FadeReveal from "./animations/FadeReveal.astro";
+import BentoVisualFrontend from "./bento/BentoVisualFrontend.astro";
+import BentoVisualRefonte from "./bento/BentoVisualRefonte.astro";
+import BentoVisualSeo from "./bento/BentoVisualSeo.astro";
+import BentoVisualVitrine from "./bento/BentoVisualVitrine.astro";
 import ArrowRight from "./icons/nucleo/arrow-right-fill.svg";
 import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
 import Globe from "./icons/nucleo/globe-outline.svg";
@@ -74,7 +78,12 @@ const featureItem = items[0];
 const secondaryItems = items.slice(1);
 ---
 
-<section class="mx-auto w-full max-w-7xl" aria-labelledby="services-bento-title">
+<section
+	class="mx-auto w-full max-w-7xl"
+	aria-labelledby="services-bento-title"
+	data-services-bento
+	style="--bento-play: running"
+>
 	<h2 id="services-bento-title" class="sr-only">
 		Ce que je peux prendre en charge
 	</h2>
@@ -86,9 +95,11 @@ const secondaryItems = items.slice(1);
 				href={featureItem.href}
 				aria-label={featureItem.linkLabel}
 			>
-				<div class="h-36 shrink-0 bg-gray-100 sm:h-40 lg:h-48"></div>
+				<div class="relative min-h-[200px] flex-1 shrink-0 overflow-hidden sm:min-h-[220px]">
+					<BentoVisualVitrine />
+				</div>
 
-				<div class="relative z-10 flex flex-1 flex-col px-6 pt-6 pb-7 transition-transform duration-300 ease-out group-hover:-translate-y-2 sm:px-7 sm:pt-7 sm:pb-8">
+				<div class="relative z-10 flex shrink-0 flex-col px-6 pt-4 pb-7 transition-transform duration-300 ease-out group-hover:-translate-y-2 sm:px-7 sm:pb-8">
 					<span
 						class:list={[
 							"mb-5 flex size-11 items-center justify-center rounded-xl text-snow-50",
@@ -138,9 +149,20 @@ const secondaryItems = items.slice(1);
 							href={item.href}
 							aria-label={item.linkLabel}
 						>
-							<div class="h-20 shrink-0 bg-gray-100 sm:h-24"></div>
+							<div
+								class:list={[
+									"relative shrink-0 overflow-hidden",
+									item.layout === "wide"
+										? "h-32 sm:h-36"
+										: "h-40",
+								]}
+							>
+								{item.icon === "refonte" && <BentoVisualRefonte />}
+								{item.icon === "code" && <BentoVisualFrontend />}
+								{item.icon === "deploy" && <BentoVisualSeo />}
+							</div>
 
-							<div class="relative z-10 flex flex-1 flex-col px-6 pt-6 pb-7 transition-transform duration-300 ease-out group-hover:-translate-y-2 sm:px-7 sm:pt-7 sm:pb-8">
+							<div class="relative z-10 flex flex-1 flex-col px-6 pt-4 pb-7 transition-transform duration-300 ease-out group-hover:-translate-y-2 sm:px-7 sm:pb-8">
 								<span
 									class:list={[
 										"mb-5 flex size-11 items-center justify-center rounded-xl text-snow-50",
@@ -177,3 +199,30 @@ const secondaryItems = items.slice(1);
 		</div>
 	</div>
 </section>
+
+<script>
+	// Met en pause les boucles CSS des scènes quand le bento sort de l'écran.
+	const initBentoPause = () => {
+		const bento = document.querySelector<HTMLElement>("[data-services-bento]");
+
+		if (!bento || bento.dataset.bentoPauseReady) return;
+		bento.dataset.bentoPauseReady = "true";
+
+		if (!("IntersectionObserver" in window)) return;
+
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				bento.style.setProperty(
+					"--bento-play",
+					entry?.isIntersecting ? "running" : "paused",
+				);
+			},
+			{ rootMargin: "96px 0px" },
+		);
+
+		observer.observe(bento);
+	};
+
+	initBentoPause();
+	document.addEventListener("astro:page-load", initBentoPause);
+</script>

@@ -1,0 +1,225 @@
+---
+/**
+ * Scène animée "Création de site vitrine" : un mini navigateur se construit,
+ * un curseur visiteur clique le bouton Contact et un toast de message arrive.
+ * Animations CSS uniquement (transform/opacity), synchronisées sur 7s.
+ */
+---
+
+<div class="vitrine-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden px-3 pt-6 pb-7" aria-hidden="true">
+	<div class="scene-backdrop absolute inset-0"></div>
+
+	<div class="lg:scale-[1.22]">
+	<div class="vitrine-stage relative w-[272px] transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:w-[290px]">
+		<div class="relative w-full rounded-xl border border-gray-200/80 bg-white shadow-[0_18px_40px_-24px_rgba(34,42,55,0.35)]">
+			<div class="flex items-center gap-1.5 border-b border-gray-100 px-3.5 py-2">
+				<span class="size-1.5 rounded-full bg-[#f87171]/70"></span>
+				<span class="size-1.5 rounded-full bg-[#fbbf24]/70"></span>
+				<span class="size-1.5 rounded-full bg-[#34d399]/70"></span>
+				<span class="ml-2 h-2 w-24 rounded-full bg-gray-100"></span>
+			</div>
+			<div class="flex items-start gap-4 px-4 pt-3.5 pb-4">
+				<div class="flex min-w-0 flex-1 flex-col gap-[7px]">
+					<span class="h-3 w-[92%] rounded-full bg-gray-200"></span>
+					<span class="h-3 w-[68%] rounded-full bg-gray-200/80"></span>
+					<span class="h-2.5 w-[78%] rounded-full bg-gray-100"></span>
+					<span class="vitrine-cta mt-2 inline-flex w-fit items-center rounded-full bg-blue-500 px-3 py-1 text-[10px] font-medium text-white shadow-[0_8px_16px_-8px_rgba(62,96,212,0.8)]">
+						Contact
+					</span>
+				</div>
+				<div class="flex h-[92px] w-[96px] shrink-0 items-center justify-center rounded-lg bg-blue-50 ring-1 ring-blue-100/80">
+					<svg class="size-6 text-blue-200" viewBox="0 0 24 24" fill="currentColor">
+						<circle cx="8.5" cy="8" r="2.2"></circle>
+						<path d="M3 18l5.5-6.5 4 4.5 3-3.5L21 18z" opacity="0.85"></path>
+					</svg>
+				</div>
+			</div>
+		</div>
+
+		<span class="vitrine-click-ring absolute top-[83px] left-[27px] size-10 rounded-full border-2 border-blue-400"></span>
+
+		<div class="vitrine-toast absolute -top-3 -right-1 flex items-center gap-1.5 rounded-lg border border-gray-100 bg-white px-2.5 py-1.5 shadow-[0_14px_28px_-16px_rgba(34,42,55,0.45)]">
+			<span class="flex size-3.5 items-center justify-center rounded-full bg-emerald-500">
+				<svg class="size-2 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M3.5 8.5l3 3 6-7"></path>
+				</svg>
+			</span>
+			<span class="text-[9px] font-medium text-gray-700">Nouveau message</span>
+		</div>
+
+		<div class="vitrine-cursor-client absolute top-0 left-0 flex items-start">
+			<svg class="size-3.5 drop-shadow-sm" viewBox="0 0 16 16" fill="none">
+				<path d="M3.5 1.5l10 5.4-4.3 1.1 2.3 4.7-2 1-2.2-4.6-3.8 3z" fill="#10b981" stroke="#ffffff" stroke-width="1" stroke-linejoin="round"></path>
+			</svg>
+			<span class="mt-2.5 -ml-0.5 rounded-full bg-emerald-500 px-1.5 py-0.5 text-[8px] font-semibold text-white shadow-sm">Sarah</span>
+		</div>
+
+		<div class="vitrine-cursor-william absolute top-0 left-0 flex items-start">
+			<svg class="size-3.5 drop-shadow-sm" viewBox="0 0 16 16" fill="none">
+				<path d="M3.5 1.5l10 5.4-4.3 1.1 2.3 4.7-2 1-2.2-4.6-3.8 3z" fill="#3e60d4" stroke="#ffffff" stroke-width="1" stroke-linejoin="round"></path>
+			</svg>
+			<span class="mt-2.5 -ml-0.5 rounded-full bg-blue-500 px-1.5 py-0.5 text-[8px] font-semibold text-white shadow-sm">William</span>
+		</div>
+
+		<div class="vitrine-palette absolute -bottom-3 -left-2 flex items-center gap-1 rounded-full border border-gray-100 bg-white px-2 py-1 shadow-[0_12px_24px_-14px_rgba(34,42,55,0.4)]">
+			<span class="size-2 rounded-full bg-blue-500"></span>
+			<span class="size-2 rounded-full bg-[#43b8d6]"></span>
+			<span class="size-2 rounded-full bg-[#f6821f]"></span>
+		</div>
+	</div>
+	</div>
+
+	<div class="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-b from-transparent to-white"></div>
+</div>
+
+<style>
+	.vitrine-scene,
+	.vitrine-scene * {
+		animation-play-state: var(--bento-play, running) !important;
+	}
+
+	.scene-backdrop {
+		background:
+			radial-gradient(120% 90% at 50% 0%, rgba(62, 96, 212, 0.07), transparent 70%),
+			repeating-linear-gradient(
+				to bottom,
+				rgba(31, 38, 52, 0.04) 0 1px,
+				transparent 1px 24px
+			);
+	}
+
+	.vitrine-cursor-client,
+	.vitrine-cursor-william {
+		will-change: transform;
+	}
+
+	.vitrine-cursor-client {
+		animation: vitrine-cursor-client 7s ease-in-out infinite;
+		transform: translate3d(160px, 96px, 0);
+	}
+
+	@keyframes vitrine-cursor-client {
+		0% {
+			transform: translate3d(238px, 116px, 0);
+		}
+		22% {
+			transform: translate3d(168px, 92px, 0);
+		}
+		44%,
+		56% {
+			transform: translate3d(45px, 98px, 0);
+		}
+		74% {
+			transform: translate3d(152px, 126px, 0);
+		}
+		100% {
+			transform: translate3d(238px, 116px, 0);
+		}
+	}
+
+	.vitrine-cursor-william {
+		animation: vitrine-cursor-william 9s ease-in-out infinite;
+		transform: translate3d(120px, 26px, 0);
+	}
+
+	@keyframes vitrine-cursor-william {
+		0%,
+		100% {
+			transform: translate3d(96px, 24px, 0);
+		}
+		34% {
+			transform: translate3d(150px, 16px, 0);
+		}
+		66% {
+			transform: translate3d(118px, 42px, 0);
+		}
+	}
+
+	.vitrine-click-ring {
+		animation: vitrine-click-ring 7s ease-out infinite;
+		opacity: 0;
+	}
+
+	@keyframes vitrine-click-ring {
+		0%,
+		46% {
+			opacity: 0;
+			transform: scale(0.35);
+		}
+		49% {
+			opacity: 0.9;
+			transform: scale(0.55);
+		}
+		60% {
+			opacity: 0;
+			transform: scale(1.15);
+		}
+		100% {
+			opacity: 0;
+			transform: scale(1.15);
+		}
+	}
+
+	.vitrine-cta {
+		animation: vitrine-cta-press 7s ease-in-out infinite;
+		transform-origin: left center;
+	}
+
+	@keyframes vitrine-cta-press {
+		0%,
+		46% {
+			transform: scale(1);
+		}
+		49% {
+			transform: scale(0.92);
+		}
+		53%,
+		100% {
+			transform: scale(1);
+		}
+	}
+
+	.vitrine-toast {
+		animation: vitrine-toast 7s ease-in-out infinite;
+		opacity: 0;
+	}
+
+	@keyframes vitrine-toast {
+		0%,
+		56% {
+			opacity: 0;
+			transform: translate3d(0, -6px, 0) scale(0.96);
+		}
+		62%,
+		86% {
+			opacity: 1;
+			transform: translate3d(0, 0, 0) scale(1);
+		}
+		93%,
+		100% {
+			opacity: 0;
+			transform: translate3d(0, -4px, 0) scale(0.98);
+		}
+	}
+
+	.vitrine-palette {
+		animation: vitrine-palette 6s ease-in-out infinite;
+	}
+
+	@keyframes vitrine-palette {
+		0%,
+		100% {
+			transform: translate3d(0, 0, 0);
+		}
+		50% {
+			transform: translate3d(0, -4px, 0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.vitrine-scene,
+		.vitrine-scene * {
+			animation: none !important;
+		}
+	}
+</style>
