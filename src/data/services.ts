@@ -14,6 +14,7 @@ export type Service = {
   included: string[];
   intro: string;
   navLabel: string;
+  rootPath?: string;
   problem: {
     items: string[];
     title: string;
@@ -33,6 +34,7 @@ export type Service = {
 export const services: Service[] = [
   {
     slug: "creation-site-vitrine",
+    rootPath: "/creation-site-vitrine",
     navLabel: "Création site vitrine",
     title: "Création de site vitrine",
     seoTitle: "Création de site vitrine freelance - William De Azevedo",
@@ -102,7 +104,11 @@ export const services: Service[] = [
       projectId: "le-fellic",
       text: "Le Fellic illustre un site vitrine compact, pensé pour clarifier une activité B2B et faciliter la prise de contact sans alourdir le parcours.",
     },
-    relatedServices: ["refonte-site-internet", "developpeur-web-freelance"],
+    relatedServices: [
+      "creation-site-internet-artisan",
+      "creation-site-internet-professionnel",
+      "refonte-site-internet",
+    ],
     faq: [
       {
         question: "Combien de pages faut-il prévoir ?",
@@ -128,6 +134,7 @@ export const services: Service[] = [
   },
   {
     slug: "refonte-site-internet",
+    rootPath: "/refonte-site-internet",
     navLabel: "Refonte site internet",
     title: "Refonte de site internet",
     seoTitle: "Refonte de site internet rapide et soignée - William De Azevedo",
@@ -193,7 +200,11 @@ export const services: Service[] = [
       projectId: "persistance",
       text: "Persistance montre comment un site peut devenir un support éditorial plus clair, administrable et cohérent avec une identité créative.",
     },
-    relatedServices: ["creation-site-vitrine", "developpeur-web-freelance"],
+    relatedServices: [
+      "creation-site-vitrine",
+      "creation-site-internet-professionnel",
+      "developpeur-web-freelance",
+    ],
     faq: [
       {
         question: "Vais-je perdre mon référencement ?",
@@ -267,7 +278,11 @@ export const services: Service[] = [
       projectId: "motivai",
       text: "Motivai démontre une capacité à transformer une idée produit en interface complète, avec authentification, génération IA et parcours utilisateur.",
     },
-    relatedServices: ["creation-site-vitrine", "refonte-site-internet"],
+    relatedServices: [
+      "creation-site-vitrine",
+      "refonte-site-internet",
+      "creation-site-internet-professionnel",
+    ],
     faq: [
       {
         question: "Travaillez-vous avec des équipes existantes ?",
@@ -288,6 +303,197 @@ export const services: Service[] = [
         question: "Faites-vous seulement du développement ?",
         answer:
           "Je peux intervenir uniquement en développement, mais mon intérêt est aussi d'aider à repérer les détails UX, responsive et accessibilité qui fragilisent souvent une interface.",
+      },
+    ],
+  },
+  {
+    slug: "creation-site-internet-artisan",
+    rootPath: "/creation-site-internet-artisan",
+    navLabel: "Site artisan",
+    title: "Création de site internet artisan",
+    seoTitle: "Création de site internet artisan - William De Azevedo",
+    description:
+      "Création de site internet pour artisan : site vitrine rapide, mobile, rassurant, avec réalisations, zone d'intervention, formulaire et base SEO locale.",
+    eyebrow: "Site artisan",
+    h1: "Création de site internet artisan pour inspirer confiance avant le premier appel",
+    intro:
+      "La création de site internet artisan doit rassurer vite : expliquer votre savoir-faire, montrer vos réalisations, clarifier votre zone d'intervention et faciliter la prise de contact.",
+    serviceType: "Création de site internet artisan",
+    problem: {
+      title: "Un site d'artisan doit rassurer sans compliquer",
+      items: [
+        "montrer concrètement ce que vous réalisez, pas seulement lister des prestations",
+        "expliquer votre zone d'intervention, vos méthodes et vos délais",
+        "rassurer les prospects qui comparent plusieurs professionnels",
+        "fonctionner parfaitement sur mobile, là où les demandes arrivent souvent",
+        "poser une base SEO locale propre sans promettre de miracle",
+      ],
+    },
+    fit: [
+      "vous êtes artisan, maître d'oeuvre, indépendant ou dirigeant d'une petite structure locale",
+      "vous avez besoin d'un support crédible avant un appel, un devis ou une recommandation",
+      "vos réalisations existent mais ne sont pas assez bien présentées",
+      "vous voulez clarifier vos services sans créer un site trop lourd",
+      "vous partez de zéro et devez aussi cadrer les contenus, photos ou preuves",
+    ],
+    included: [
+      "cadrage de l'activité, des prestations et de la zone d'intervention",
+      "architecture des pages utiles : accueil, services, réalisations, contact",
+      "mise en valeur des photos, références, avis ou preuves disponibles",
+      "design responsive clair et professionnel",
+      "formulaire de contact ou appel à l'action adapté",
+      "SEO technique initial et structure locale propre",
+      "mise en ligne et vérifications sur mobile",
+    ],
+    formats: [
+      {
+        title: "Site one-page",
+        description:
+          "Pour présenter une activité locale, quelques prestations et un contact simple.",
+      },
+      {
+        title: "Site avec réalisations",
+        description:
+          "Pour montrer vos chantiers, projets ou cas clients avec plus de contexte.",
+      },
+      {
+        title: "Site administrable",
+        description:
+          "Pour ajouter vous-même de nouvelles réalisations, actualités ou contenus.",
+      },
+    ],
+    steps: [
+      "cadrage du métier, des prestations et des preuves disponibles",
+      "structure des pages, des appels à l'action et de la zone d'intervention",
+      "design responsive et mise en valeur des visuels",
+      "développement, formulaire, performance et SEO technique",
+      "mise en ligne, tests mobile et prise en main",
+    ],
+    proof: {
+      projectId: "le-fellic",
+      text: "Le Fellic montre comment un site compact peut clarifier une activité de maîtrise d'oeuvre, présenter le métier et faciliter la prise de contact.",
+    },
+    relatedServices: [
+      "creation-site-vitrine",
+      "refonte-site-internet",
+      "creation-site-internet-professionnel",
+    ],
+    faq: [
+      {
+        question:
+          "Je n'ai pas de logo ou de charte graphique, est-ce bloquant ?",
+        answer:
+          "Ce n'est pas bloquant pour démarrer, mais un site fonctionne mieux avec une base visuelle claire. Si vous partez de zéro, je peux vous orienter vers Persistance Studio pour cadrer logo, charte, supports ou photos avant le site.",
+      },
+      {
+        question: "Est-ce utile si je travaille déjà par bouche-à-oreille ?",
+        answer:
+          "Oui, parce que vos recommandations ont souvent besoin d'un support crédible. Un site clair confirme le sérieux, explique votre méthode et facilite la demande de devis.",
+      },
+      {
+        question: "Le SEO local est-il inclus ?",
+        answer:
+          "J'intègre les bases techniques : structure, titres, descriptions, performance, zone d'intervention et pages utiles. Une stratégie locale plus poussée peut ensuite être travaillée séparément.",
+      },
+      {
+        question: "Puis-je ajouter des réalisations plus tard ?",
+        answer:
+          "Oui, si le périmètre prévoit un site administrable. Sinon, on peut garder une structure prête à évoluer avec des ajouts ponctuels.",
+      },
+    ],
+  },
+  {
+    slug: "creation-site-internet-professionnel",
+    rootPath: "/creation-site-internet-professionnel",
+    navLabel: "Site professionnel",
+    title: "Création de site internet professionnel",
+    seoTitle: "Création de site internet professionnel - William De Azevedo",
+    description:
+      "Création de site internet professionnel pour indépendants, petites structures et équipes produit : stratégie, design, développement front-end, performance, accessibilité et SEO technique.",
+    eyebrow: "Site professionnel",
+    h1: "Création de site internet professionnel pour transformer une présence en support de confiance",
+    intro:
+      "La création de site internet professionnel ne consiste pas à remplir un template : il faut clarifier l'offre, structurer le parcours, soigner l'interface et vérifier les détails qui rassurent.",
+    serviceType: "Création de site internet professionnel",
+    problem: {
+      title: "Un site professionnel ne doit pas seulement être propre",
+      items: [
+        "l'offre doit être comprise rapidement par quelqu'un qui ne vous connaît pas",
+        "le design doit inspirer confiance sans donner une impression générique",
+        "le parcours doit guider vers le contact, le devis ou l'essai",
+        "le site doit rester rapide, accessible et confortable sur mobile",
+        "la base technique doit permettre d'évoluer sans repartir de zéro",
+      ],
+    },
+    fit: [
+      "vous voulez lancer une présence web crédible",
+      "vous avez besoin d'un site plus sérieux qu'un template générique",
+      "votre offre demande de la pédagogie pour être comprise",
+      "vous voulez relier contenu, design, développement et SEO technique",
+      "vous cherchez un interlocuteur capable de cadrer puis de livrer",
+    ],
+    included: [
+      "clarification de l'offre, des cibles et des objections principales",
+      "architecture des pages et des parcours de conversion",
+      "direction d'interface et design responsive",
+      "développement front-end propre et maintenable",
+      "performance, accessibilité, SEO technique et données structurées",
+      "formulaire, prise de rendez-vous ou action de contact",
+      "mise en ligne et vérifications post-lancement",
+    ],
+    formats: [
+      {
+        title: "Site de lancement",
+        description:
+          "Pour poser une présence claire autour d'une activité, d'une offre ou d'un produit.",
+      },
+      {
+        title: "Site de services",
+        description:
+          "Pour organiser plusieurs prestations, preuves, pages SEO et appels à l'action.",
+      },
+      {
+        title: "Site administrable",
+        description:
+          "Pour publier des contenus, projets, articles ou pages après la livraison.",
+      },
+    ],
+    steps: [
+      "lecture de votre offre, de vos concurrents et des freins à lever",
+      "structure des pages, messages clés et preuves nécessaires",
+      "design des écrans prioritaires et des versions responsive",
+      "développement, intégration, performance et accessibilité",
+      "mise en ligne, contrôle SEO technique et ajustements finaux",
+    ],
+    proof: {
+      projectId: "persistance",
+      text: "Persistance illustre une présence plus complète : pages de prestations, portfolio, articles, témoignages et base administrable.",
+    },
+    relatedServices: [
+      "creation-site-vitrine",
+      "refonte-site-internet",
+      "developpeur-web-freelance",
+    ],
+    faq: [
+      {
+        question: "Quelle différence avec un site vitrine classique ?",
+        answer:
+          "Le site vitrine présente. Le site professionnel doit aussi clarifier, rassurer, guider et tenir techniquement dans le temps. La différence se joue dans le cadrage et les détails.",
+      },
+      {
+        question: "Peut-on partir d'un template ?",
+        answer:
+          "On peut s'en inspirer, mais je préfère éviter les sites interchangeables. Un bon site doit refléter votre offre, vos preuves et votre manière de travailler.",
+      },
+      {
+        question: "Est-ce que vous faites le contenu ?",
+        answer:
+          "Je structure les messages, les sections et les formulations clés. Si le projet demande une identité éditoriale ou beaucoup de contenus, on peut cadrer un périmètre dédié.",
+      },
+      {
+        question: "Que faire si je n'ai pas encore d'identité visuelle ?",
+        answer:
+          "On peut commencer par cadrer le besoin, mais si vous n'avez ni logo, ni charte, ni visuels, je recommande souvent de travailler avec Persistance Studio pour poser une base solide avant le site.",
       },
     ],
   },

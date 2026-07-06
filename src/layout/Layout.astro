@@ -10,6 +10,7 @@ interface Props {
     description?: string;
     image?: string;
     imageAlt?: string;
+    canonicalPath?: string;
     ogType?: "website" | "article" | "profile";
     article?: {
         publishedTime?: string;
@@ -24,13 +25,14 @@ const {
     description = "Développeur front-end freelance orienté design et produit, je rends les sites plus clairs, rapides, accessibles et crédibles.",
     image = "/pictures/william-low.png",
     imageAlt = "William De Azevedo, développeur front-end freelance",
+    canonicalPath,
     ogType = "website",
     article,
 } = Astro.props;
 
 const siteName = "William De Azevedo";
 const siteUrl = Astro.site ?? Astro.url;
-const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
+const canonicalUrl = new URL(canonicalPath ?? Astro.url.pathname, siteUrl);
 const imageUrl = new URL(image, siteUrl);
 
 const personJsonLd = {

@@ -17,7 +17,7 @@ const navItems = [
     { href: "/services", id: "services", label: "Services" },
     { href: "/realisations", id: "realisations", label: "Réalisations" },
     { href: "/articles", id: "articles", label: "Articles" },
-    { href: "/tarifs", id: "tarifs", label: "Tarifs" },
+    { href: "/tarif-creation-site-internet", id: "tarifs", label: "Tarifs" },
     { href: "/methode", id: "methode", label: "Méthode" },
     { href: "/contact", id: "contact", label: "Contact" },
 ];
@@ -28,11 +28,30 @@ const items = navItems.map((item) => ({
         currentPath === item.href ||
         (item.href !== "/" && currentPath.startsWith(`${item.href}/`)),
 }));
-const serviceLinks = services.map((service) => ({
-    href: `/services/${service.slug}`,
-    label: service.navLabel,
-    title: service.title,
-}));
+type ServiceIconKind = "code" | "paintbrush" | "pointer";
+
+const getServiceIconKind = (href: string): ServiceIconKind => {
+    if (href.includes("refonte-site-internet")) {
+        return "paintbrush";
+    }
+
+    if (href.includes("developpeur-web-freelance")) {
+        return "code";
+    }
+
+    return "pointer";
+};
+
+const serviceLinks = services.map((service) => {
+    const href = service.rootPath ?? `/services/${service.slug}`;
+
+    return {
+        href,
+        iconKind: getServiceIconKind(href),
+        label: service.navLabel,
+        title: service.title,
+    };
+});
 ---
 
 <header class="site-header sticky top-0 z-50 w-full" data-site-header>
@@ -160,13 +179,13 @@ const serviceLinks = services.map((service) => ({
                                                     class="nav-dropdown__icon"
                                                     aria-hidden="true"
                                                 >
-                                                    {service.href.includes("creation-site-vitrine") && (
+                                                    {service.iconKind === "pointer" && (
                                                         <WindowPointer class="size-4" />
                                                     )}
-                                                    {service.href.includes("refonte-site-internet") && (
+                                                    {service.iconKind === "paintbrush" && (
                                                         <WindowPaintbrush class="size-4" />
                                                     )}
-                                                    {service.href.includes("developpeur-web-freelance") && (
+                                                    {service.iconKind === "code" && (
                                                         <CodeEditor class="size-4" />
                                                     )}
                                                 </span>
@@ -224,13 +243,13 @@ const serviceLinks = services.map((service) => ({
                                                 class="nav-dropdown__icon"
                                                 aria-hidden="true"
                                             >
-                                                {service.href.includes("creation-site-vitrine") && (
+                                                {service.iconKind === "pointer" && (
                                                     <WindowPointer class="size-4" />
                                                 )}
-                                                {service.href.includes("refonte-site-internet") && (
+                                                {service.iconKind === "paintbrush" && (
                                                     <WindowPaintbrush class="size-4" />
                                                 )}
-                                                {service.href.includes("developpeur-web-freelance") && (
+                                                {service.iconKind === "code" && (
                                                     <CodeEditor class="size-4" />
                                                 )}
                                             </span>

@@ -28,7 +28,7 @@ export const caseStudies: CaseStudy[] = [
     description:
       "Site vitrine one-page pour une entreprise de maîtrise d'oeuvre à Rennes, pensé pour rassurer et faciliter la prise de contact.",
     role: "Cadrage, design d'interface, développement Astro, formulaire sécurisé et mise en ligne.",
-    serviceHref: "/services/creation-site-vitrine",
+    serviceHref: "/creation-site-vitrine",
     serviceLabel: "Création de site vitrine",
     situation: [
       "une société récente qui devait inspirer confiance rapidement",
@@ -73,7 +73,7 @@ export const caseStudies: CaseStudy[] = [
     description:
       "Site vitrine administrable pour un studio d'accompagnement graphique, avec portfolio, articles, prestations et témoignages.",
     role: "Architecture du site, design d'interface, développement Astro, intégration Sanity et formulaire sécurisé.",
-    serviceHref: "/services/refonte-site-internet",
+    serviceHref: "/refonte-site-internet",
     serviceLabel: "Refonte de site internet",
     situation: [
       "une activité créative qui devait expliquer sa méthode et ses offres",
