@@ -1,0 +1,179 @@
+---
+import FadeReveal from "./animations/FadeReveal.astro";
+import ArrowRight from "./icons/nucleo/arrow-right-fill.svg";
+import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
+import Globe from "./icons/nucleo/globe-outline.svg";
+import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
+import WindowPointer from "./icons/nucleo/window-pointer-fill.svg";
+
+type BentoIcon = "code" | "deploy" | "refonte" | "site";
+type BentoTone = "blue" | "cyan" | "orange" | "sky";
+
+type BentoItem = {
+	description: string;
+	href: string;
+	icon: BentoIcon;
+	layout: "feature" | "small" | "wide";
+	linkLabel: string;
+	title: string;
+	tone: BentoTone;
+};
+
+const items: BentoItem[] = [
+	{
+		description:
+			"Du cadrage à la mise en ligne, je construis une présence claire, rapide et crédible, avec un parcours pensé pour déclencher le contact.",
+		href: "/services/creation-site-vitrine",
+		icon: "site",
+		layout: "feature",
+		linkLabel: "Découvrir création de site vitrine",
+		title: "Création de site vitrine",
+		tone: "blue",
+	},
+	{
+		description:
+			"Je pars de l'existant : ce qui rassure, ce qui bloque, ce qui ralentit. Puis on reconstruit une expérience plus lisible et plus crédible.",
+		href: "/services/refonte-site-internet",
+		icon: "refonte",
+		layout: "wide",
+		linkLabel: "Découvrir refonte de site internet",
+		title: "Refonte de site internet",
+		tone: "cyan",
+	},
+	{
+		description:
+			"J'intègre des maquettes, corrige les états d'interface, le responsive, l'accessibilité et la performance sans casser votre produit.",
+		href: "/services/developpeur-web-freelance",
+		icon: "code",
+		layout: "small",
+		linkLabel: "Découvrir renfort front-end",
+		title: "Renfort front-end",
+		tone: "sky",
+	},
+	{
+		description:
+			"Structure, vitesse, métadonnées, formulaires et mise en ligne : je pose une base propre pour être trouvé, compris et contacté.",
+		href: "/services/refonte-site-internet",
+		icon: "deploy",
+		layout: "small",
+		linkLabel: "Découvrir SEO et mise en ligne",
+		title: "SEO & mise en ligne",
+		tone: "orange",
+	},
+];
+
+const iconToneClasses: Record<BentoTone, string> = {
+	blue: "bg-blue-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_16px_28px_-16px_rgba(62,96,212,0.9)]",
+	cyan: "bg-[#43b8d6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_16px_28px_-16px_rgba(67,184,214,0.88)]",
+	orange:
+		"bg-[#f6821f] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_16px_28px_-16px_rgba(246,130,31,0.85)]",
+	sky: "bg-[#2f8fd6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_16px_28px_-16px_rgba(47,143,214,0.86)]",
+};
+
+const featureItem = items[0];
+const secondaryItems = items.slice(1);
+---
+
+<section class="mx-auto w-full max-w-7xl" aria-labelledby="services-bento-title">
+	<h2 id="services-bento-title" class="sr-only">
+		Ce que je peux prendre en charge
+	</h2>
+
+	<div class="grid items-stretch gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+		<FadeReveal class="flex" delay={0.12}>
+			<a
+				class="group relative flex min-h-[360px] w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-white text-gray-900 no-underline shadow-[0_20px_56px_-42px_rgba(34,42,55,0.45)] transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[460px]"
+				href={featureItem.href}
+				aria-label={featureItem.linkLabel}
+			>
+				<div class="h-36 shrink-0 bg-gray-100 sm:h-40 lg:h-48"></div>
+
+				<div class="relative z-10 flex flex-1 flex-col px-6 pt-6 pb-7 transition-transform duration-300 ease-out group-hover:-translate-y-2 sm:px-7 sm:pt-7 sm:pb-8">
+					<span
+						class:list={[
+							"mb-5 flex size-11 items-center justify-center rounded-xl text-snow-50",
+							iconToneClasses[featureItem.tone],
+						]}
+						aria-hidden="true"
+					>
+						<WindowPointer class="size-5" />
+					</span>
+					<h3 class="text-2xl font-medium leading-tight text-gray-900">
+						{featureItem.title}
+					</h3>
+					<p class="mt-4 max-w-md text-base font-normal leading-relaxed text-gray-600">
+						{featureItem.description}
+					</p>
+					<span class="mt-auto inline-flex translate-y-2 items-center gap-2 pt-8 text-base font-medium text-blue-500 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+						Découvrir
+						<ArrowRight class="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
+					</span>
+				</div>
+
+				<span
+					class="pointer-events-none absolute inset-0 bg-[#0b1a4a]/[0.018] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+					aria-hidden="true"></span>
+			</a>
+		</FadeReveal>
+
+		<div class="grid gap-5 md:grid-cols-2">
+			{
+				secondaryItems.map((item, index) => (
+					<FadeReveal
+						class={[
+							"flex",
+							item.layout === "wide" ? "md:col-span-2" : "",
+						]
+							.filter(Boolean)
+							.join(" ")}
+						delay={0.2 + index * 0.08}
+					>
+						<a
+							class:list={[
+								"group relative flex w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-white text-gray-900 no-underline shadow-[0_20px_56px_-44px_rgba(34,42,55,0.42)] transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500",
+								item.layout === "wide"
+									? "min-h-[260px] lg:min-h-[250px]"
+									: "min-h-[270px] lg:min-h-[280px]",
+							]}
+							href={item.href}
+							aria-label={item.linkLabel}
+						>
+							<div class="h-20 shrink-0 bg-gray-100 sm:h-24"></div>
+
+							<div class="relative z-10 flex flex-1 flex-col px-6 pt-6 pb-7 transition-transform duration-300 ease-out group-hover:-translate-y-2 sm:px-7 sm:pt-7 sm:pb-8">
+								<span
+									class:list={[
+										"mb-5 flex size-11 items-center justify-center rounded-xl text-snow-50",
+										iconToneClasses[item.tone],
+									]}
+									aria-hidden="true"
+								>
+									{item.icon === "refonte" && (
+										<WindowPaintbrush class="size-5" />
+									)}
+									{item.icon === "code" && <CodeEditor class="size-5" />}
+									{item.icon === "deploy" && <Globe class="size-5" />}
+								</span>
+								<h3 class="text-2xl font-medium leading-tight text-gray-900">
+									{item.title}
+								</h3>
+								<p class="mt-4 max-w-lg text-base font-normal leading-relaxed text-gray-600">
+									{item.description}
+								</p>
+								<span class="mt-auto inline-flex translate-y-2 items-center gap-2 pt-8 text-base font-medium text-blue-500 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+									Découvrir
+									<ArrowRight class="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
+								</span>
+							</div>
+
+							<span
+								class="pointer-events-none absolute inset-0 bg-[#0b1a4a]/[0.018] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+								aria-hidden="true"
+							/>
+						</a>
+					</FadeReveal>
+				))
+			}
+		</div>
+	</div>
+</section>

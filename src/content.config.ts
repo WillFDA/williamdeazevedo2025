@@ -24,4 +24,35 @@ const articles = defineCollection({
   }),
 });
 
-export const collections = { articles };
+const realisations = defineCollection({
+  loader: glob({
+    base: "./src/content/realisations",
+    pattern: "**/[^_]*.{md,mdx}",
+  }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    projectId: z.string(),
+    siteLabel: z.string().default("Voir le site"),
+    siteUrl: z.string().url().optional(),
+    partners: z
+      .array(
+        z.object({
+          label: z.string(),
+          href: z.string().url(),
+          description: z.string().optional(),
+        })
+      )
+      .default([]),
+    gallery: z
+      .array(
+        z.object({
+          src: z.string(),
+          alt: z.string(),
+        })
+      )
+      .default([]),
+  }),
+});
+
+export const collections = { articles, realisations };

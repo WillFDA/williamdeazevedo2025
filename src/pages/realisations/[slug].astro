@@ -1,50 +1,86 @@
 ---
-import CalButton from "@/components/CalButton.astro";
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
-import {
-    type CaseStudy,
-    caseStudies,
-} from "@/data/caseStudies";
+import ArrowRight from "@/components/icons/nucleo/arrow-right-fill.svg";
+import ChevronLeft from "@/components/icons/nucleo/chevron-left-fill.svg";
+import GlobeIcon from "@/components/icons/nucleo/globe-outline.svg";
+import WaveIcon from "@/components/ui/WaveIcon.astro";
+import WaveText from "@/components/ui/WaveText.astro";
+import motivaiAichoosePoster from "@/assets/projects/motivai-aichoose.webp";
+import motivaiOnboardingPoster from "@/assets/projects/motivai-onboarding.webp";
 import { homeProjects } from "@/data/projects";
 import Layout from "@/layout/Layout.astro";
 
 export const prerender = true;
 
-export function getStaticPaths() {
-    return caseStudies.map((caseStudy) => ({
-        params: { slug: caseStudy.slug },
-        props: { caseStudy },
+export async function getStaticPaths() {
+    const realisations = await getCollection("realisations");
+
+    return realisations.map((entry) => ({
+        params: { slug: entry.id },
+        props: { entry },
     }));
 }
 
 interface Props {
-    caseStudy: CaseStudy;
+    entry: CollectionEntry<"realisations">;
 }
 
-const { caseStudy } = Astro.props;
-const project = homeProjects.find((item) => item.id === caseStudy.projectId);
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { description, gallery, partners, projectId, siteLabel, siteUrl, title } =
+    entry.data;
+
+const project = homeProjects.find((item) => item.id === projectId);
 
 if (!project) {
-    throw new Error(`Projet introuvable pour ${caseStudy.slug}`);
+    throw new Error(`Projet introuvable pour ${entry.id}`);
 }
 
-const siteUrl = Astro.site ?? new URL(Astro.url.origin);
-const canonicalUrl = new URL(`/realisations/${caseStudy.slug}`, siteUrl);
+const extraGallery = {
+    motivai: [
+        {
+            src: motivaiAichoosePoster.src,
+            alt: "Interface de choix du modèle IA dans Motivai",
+        },
+        {
+            src: motivaiOnboardingPoster.src,
+            alt: "Parcours d'onboarding de Motivai",
+        },
+    ],
+} satisfies Record<string, { alt: string; src: string }[]>;
+
+const galleryItems = [
+    ...(project.media.type === "video"
+        ? [
+                {
+                    src: project.media.poster,
+                    alt: `Capture du projet ${project.title}`,
+                },
+            ]
+        : []),
+    ...(extraGallery[projectId as keyof typeof extraGallery] ?? []),
+    ...gallery,
+];
+
+const site = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = new URL(`/realisations/${entry.id}`, site);
 
 const creativeWorkJsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
-    name: caseStudy.title,
-    headline: caseStudy.h1,
-    description: caseStudy.description,
+    name: title,
+    headline: title,
+    description,
     inLanguage: "fr-FR",
     url: canonicalUrl.href,
     mainEntityOfPage: canonicalUrl.href,
-    workExample: project.href,
+    workExample: siteUrl ?? project.href,
     creator: {
         "@type": "Person",
         name: "William De Azevedo",
-        url: siteUrl.href,
+        url: site.href,
     },
 };
 
@@ -56,25 +92,25 @@ const breadcrumbJsonLd = {
             "@type": "ListItem",
             position: 1,
             name: "Accueil",
-            item: siteUrl.href,
+            item: site.href,
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Réalisations",
-            item: new URL("/realisations", siteUrl).href,
+            item: new URL("/realisations", site).href,
         },
         {
             "@type": "ListItem",
             position: 3,
-            name: project.title,
+            name: title,
             item: canonicalUrl.href,
         },
     ],
 };
 ---
 
-<Layout title={`${caseStudy.seoTitle} - William De Azevedo`} description={caseStudy.description}>
+<Layout title={`${title} - William De Azevedo`} description={description}>
     <script
         type="application/ld+json"
         is:inline
@@ -86,193 +122,166 @@ const breadcrumbJsonLd = {
         set:html={JSON.stringify(breadcrumbJsonLd)}
     />
 
-    <div class="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 py-12 md:py-16">
+    <main class="mx-auto w-full max-w-7xl px-4 py-12 md:px-6 md:py-16">
         <FadeReveal delay={0.1}>
-            <section class="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
-                <a
-                    class="text-sm font-normal text-gray-500 transition-colors hover:text-gray-900 focus-visible:text-gray-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                    href="/realisations"
-                >
-                    Toutes les réalisations
-                </a>
-                <h1 class="page-heading">
-                    {caseStudy.h1}
-                </h1>
-                <p class="page-subheading">
-                    {caseStudy.description}
-                </p>
-                <div class="flex flex-col items-center gap-3 sm:flex-row">
-                    <a
-                        class="flex min-h-14 items-center justify-center rounded-xl bg-coffee-300 px-8 py-3 text-sm font-normal text-snow-50 transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                        href={caseStudy.serviceHref}
-                    >
-                        {caseStudy.serviceLabel}
-                    </a>
-                    <a
-                        class="flex min-h-14 items-center justify-center rounded-xl px-8 py-3 text-sm font-normal text-gray-900 ring-1 ring-gray-200 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                        href={project.href}
-                        rel="noreferrer"
-                        target="_blank"
-                    >
-                        Voir le site
-                    </a>
-                </div>
-            </section>
+            <a
+                class="group inline-flex size-12 items-center justify-center rounded-full bg-snow-50 text-gray-700 shadow-[0_12px_30px_-24px_rgba(34,42,55,0.5)] transition-transform hover:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                href="/realisations"
+                aria-label="Retour aux réalisations"
+            >
+                <ChevronLeft class="size-5" aria-hidden="true" />
+            </a>
         </FadeReveal>
 
-        {
-            project.media.type === "video" && (
-                <video
-                    muted
-                    playsinline
-                    loop
-                    controls
-                    preload="metadata"
-                    poster={project.media.poster}
-                    aria-label={`Démonstration vidéo du projet ${project.title}`}
-                    class="aspect-video w-full rounded-xl object-cover ring-1 ring-snow-600"
-                >
-                    <source src={project.media.src} type="video/mp4" />
-                </video>
-            )
-        }
+        <section class="mt-10 grid gap-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-start lg:gap-16">
+            <FadeReveal delay={0.16}>
+                <aside class="flex flex-col gap-8 lg:sticky lg:top-28">
+                    <header class="flex flex-col gap-5">
+                        <h1 class="max-w-xl text-5xl font-medium leading-none tracking-normal text-gray-900 md:text-6xl">
+                            {title}
+                        </h1>
+                        <p class="max-w-2xl text-base font-normal leading-7 text-gray-600 md:text-lg md:leading-8">
+                            {description}
+                        </p>
+                    </header>
 
-        <section class="grid gap-4 md:grid-cols-3">
-            <article class="rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600 md:col-span-2">
-                <h2 class="mb-3 text-2xl font-medium leading-tight text-gray-900">
-                    Le projet
-                </h2>
-                <p class="text-base font-normal leading-7 text-gray-600">
-                    {project.caseStudy.overview}
-                </p>
-            </article>
-            <article class="rounded-xl bg-gray-100 p-6 ring-1 ring-gray-200">
-                <h2 class="mb-3 text-lg font-medium leading-tight text-gray-900">
-                    Mon rôle
-                </h2>
-                <p class="text-base font-normal leading-7 text-gray-600">
-                    {caseStudy.role}
-                </p>
-            </article>
-        </section>
+                    <div class="grid gap-3">
+                        {siteUrl && (
+                            <a
+                                class="group relative isolate inline-flex min-h-14 items-center justify-center gap-4 overflow-hidden rounded-xl bg-snow-50 px-6 py-3 text-base font-normal text-gray-900 no-underline shadow-[0_12px_30px_-24px_rgba(34,42,55,0.5)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                href={siteUrl}
+                                rel="noreferrer"
+                                target="_blank"
+                            >
+                                <WaveText text={siteLabel} trigger="parent" />
+                                <WaveIcon
+                                    style="--wui-wave-icon-size: 1.1rem;"
+                                    direction="up"
+                                    trigger="parent"
+                                >
+                                    <GlobeIcon class="size-full" aria-hidden="true" />
+                                </WaveIcon>
+                            </a>
+                        )}
 
-        <section class="grid gap-8 md:grid-cols-2">
-            <article class="flex flex-col gap-4">
-                <h2 class="text-2xl font-medium leading-tight text-gray-900">
-                    Situation initiale
-                </h2>
-                <ul class="flex flex-col gap-3">
-                    {
-                        caseStudy.situation.map((item) => (
-                            <li class="rounded-xl bg-snow-50 px-4 py-3 text-base font-normal leading-7 text-gray-600 ring-1 ring-snow-600">
-                                {item}
-                            </li>
-                        ))
-                    }
-                </ul>
-            </article>
-            <article class="flex flex-col gap-4">
-                <h2 class="text-2xl font-medium leading-tight text-gray-900">
-                    Objectifs
-                </h2>
-                <ul class="flex flex-col gap-3">
-                    {
-                        caseStudy.goals.map((item) => (
-                            <li class="rounded-xl bg-snow-50 px-4 py-3 text-base font-normal leading-7 text-gray-600 ring-1 ring-snow-600">
-                                {item}
-                            </li>
-                        ))
-                    }
-                </ul>
-            </article>
-        </section>
+                        {partners.map((partner) => (
+                            <a
+                                class="group grid gap-1 rounded-xl bg-gray-100 px-5 py-4 text-left no-underline transition-transform hover:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                href={partner.href}
+                                rel="noreferrer"
+                                target="_blank"
+                            >
+                                <span class="inline-flex items-center gap-2 text-sm font-medium text-gray-900">
+                                    {partner.label}
+                                    <ArrowRight class="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+                                </span>
+                                {partner.description && (
+                                    <span class="text-sm font-normal leading-6 text-gray-600">
+                                        {partner.description}
+                                    </span>
+                                )}
+                            </a>
+                        ))}
+                    </div>
 
-        <section class="flex flex-col gap-6">
-            <div class="flex flex-col gap-3 md:max-w-2xl">
-                <h2 class="text-2xl font-medium leading-tight text-gray-900">
-                    Réponse apportée
-                </h2>
-                <p class="text-base font-normal leading-7 text-gray-600">
-                    Une étude de cas utile doit montrer les décisions prises pour
-                    lever un frein, pas seulement une capture ou une stack.
-                </p>
-            </div>
-            <div class="grid gap-4 md:grid-cols-3">
-                {
-                    caseStudy.choices.map((choice) => (
-                        <article class="rounded-xl bg-gray-100 p-6 ring-1 ring-gray-200">
-                            <h3 class="mb-2 text-lg font-medium leading-tight text-gray-900">
-                                {choice.title}
-                            </h3>
-                            <p class="text-base font-normal leading-7 text-gray-600">
-                                {choice.text}
-                            </p>
-                        </article>
-                    ))
-                }
-            </div>
-        </section>
+                    <div class="realisation-prose">
+                        <Content />
+                    </div>
+                </aside>
+            </FadeReveal>
 
-        <section class="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-start">
-            <div class="flex flex-col gap-4">
-                <h2 class="text-2xl font-medium leading-tight text-gray-900">
-                    Résultat observable
-                </h2>
-                <p class="text-base font-normal leading-7 text-gray-600">
-                    Je reste volontairement sobre sur les résultats : pas de chiffre
-                    inventé, seulement ce qui est vérifiable sur le projet.
-                </p>
-            </div>
-            <ul class="grid gap-3">
-                {
-                    caseStudy.results.map((item) => (
-                        <li class="rounded-xl bg-snow-50 px-4 py-3 text-base font-normal leading-7 text-gray-600 ring-1 ring-snow-600">
-                            {item}
-                        </li>
-                    ))
-                }
-            </ul>
-        </section>
+            <FadeReveal delay={0.24}>
+                <div class="grid gap-6">
+                    {project.media.type === "video" && (
+                        <figure class="rounded-3xl bg-snow-50 p-3 shadow-[0_24px_70px_-50px_rgba(34,42,55,0.55)] ring-1 ring-gray-200">
+                            <video
+                                muted
+                                playsinline
+                                controls
+                                preload="metadata"
+                                poster={project.media.poster}
+                                aria-label={`Vidéo du projet ${project.title}`}
+                                class="aspect-video w-full rounded-2xl object-cover"
+                            >
+                                <source src={project.media.src} type="video/mp4" />
+                            </video>
+                        </figure>
+                    )}
 
-        <section class="grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
-            <article class="rounded-xl bg-coffee-300 p-6 text-snow-50 sm:p-8">
-                <h2 class="mb-3 text-2xl font-medium leading-tight">
-                    Ce que ce projet démontre
-                </h2>
-                <p class="text-base font-normal leading-7 text-snow-100">
-                    {caseStudy.takeaway}
-                </p>
-            </article>
-            <article class="rounded-xl bg-gray-100 p-6 ring-1 ring-gray-200">
-                <h2 class="mb-4 text-lg font-medium leading-tight text-gray-900">
-                    Stack utilisée
-                </h2>
-                <ul class="flex flex-wrap gap-2">
-                    {
-                        project.stack.map((item) => (
-                            <li class="rounded-full bg-snow-50 px-3 py-1 text-xs font-normal text-gray-700 ring-1 ring-snow-600">
-                                {item}
-                            </li>
-                        ))
-                    }
-                </ul>
-            </article>
+                    {galleryItems.length > 0 && (
+                        <div class="grid gap-6">
+                            {galleryItems.map((item, index) => (
+                                <figure class="rounded-3xl bg-snow-50 p-3 shadow-[0_20px_60px_-50px_rgba(34,42,55,0.5)] ring-1 ring-gray-200">
+                                    <img
+                                        src={item.src}
+                                        alt={item.alt}
+                                        class="w-full rounded-2xl object-cover"
+                                        loading={index === 0 ? "eager" : "lazy"}
+                                        decoding="async"
+                                    />
+                                </figure>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </FadeReveal>
         </section>
-
-        <section class="rounded-xl bg-snow-50 p-6 text-center ring-1 ring-snow-600 sm:p-8">
-            <div class="mx-auto flex max-w-2xl flex-col items-center gap-4">
-                <h2 class="text-2xl font-medium leading-tight text-gray-900">
-                    Vous avez un frein similaire à lever ?
-                </h2>
-                <p class="text-base font-normal leading-7 text-gray-600">
-                    Un échange de 15 minutes permet de comprendre votre situation,
-                    le doute à lever et la prochaine étape réaliste.
-                </p>
-                <CalButton
-                    class="rounded-xl text-base font-normal"
-                    location={`realisation-${caseStudy.slug}-final`}
-                />
-            </div>
-        </section>
-    </div>
+    </main>
 </Layout>
+
+<style is:global>
+    .realisation-prose {
+        color: var(--color-gray-600);
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.75;
+    }
+
+    .realisation-prose > * + * {
+        margin-top: 1.1rem;
+    }
+
+    .realisation-prose h2 {
+        color: var(--color-gray-900);
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.35;
+        margin-top: 2.5rem;
+    }
+
+    .realisation-prose strong {
+        color: var(--color-gray-900);
+        font-weight: 500;
+    }
+
+    .realisation-prose a {
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-color: var(--color-gray-300);
+        text-underline-offset: 2px;
+        transition: color 200ms ease;
+    }
+
+    @media (hover: hover) {
+        .realisation-prose a:hover {
+            color: var(--color-gray-900);
+        }
+    }
+
+    .realisation-prose ul,
+    .realisation-prose ol {
+        padding-left: 1.25rem;
+    }
+
+    .realisation-prose ul {
+        list-style: disc;
+    }
+
+    .realisation-prose ol {
+        list-style: decimal;
+    }
+
+    .realisation-prose li + li {
+        margin-top: 0.35rem;
+    }
+</style>

@@ -1,0 +1,319 @@
+---
+import CheckIcon from "./icons/nucleo/check-2-outline.svg";
+import BadgeDollar from "./icons/nucleo/badge-dollar-fill.svg";
+import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
+import Gauge from "./icons/nucleo/gauge-3-fill.svg";
+import Msgs from "./icons/nucleo/msgs-fill.svg";
+import SearchContent from "./icons/nucleo/search-content-2-fill.svg";
+import Sparkle from "./icons/nucleo/sparkle-3-fill.svg";
+import Target from "./icons/nucleo/target-fill.svg";
+import TouchClick from "./icons/nucleo/touch-click-fill.svg";
+import UserHeart from "./icons/nucleo/user-heart-fill.svg";
+import WindowLayout from "./icons/nucleo/window-layout-fill.svg";
+import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
+import XMarkIcon from "./icons/nucleo/xmark-fill.svg";
+
+type ComparisonCell =
+    | {
+          type: "check" | "x";
+      }
+    | {
+          type: "text";
+          text: string;
+      };
+
+type ComparisonRow = {
+    label: string;
+    icon: ComparisonIcon;
+    tone: ComparisonTone;
+    solo: ComparisonCell;
+    split: ComparisonCell;
+    complete: string;
+};
+
+type ComparisonIcon =
+    | "budget"
+    | "code"
+    | "form"
+    | "ia"
+    | "identity"
+    | "performance"
+    | "search"
+    | "target"
+    | "touch"
+    | "user"
+    | "ux";
+
+type ComparisonTone =
+    | "blue"
+    | "cyan"
+    | "green"
+    | "indigo"
+    | "orange"
+    | "pink"
+    | "sky"
+    | "slate"
+    | "teal"
+    | "violet";
+
+const rows: ComparisonRow[] = [
+    {
+        label: "Offre et positionnement",
+        icon: "target",
+        tone: "blue",
+        solo: { type: "text", text: "À clarifier seul" },
+        split: { type: "text", text: "Souvent dispersé" },
+        complete: "Message cadré",
+    },
+    {
+        label: "Identité visuelle",
+        icon: "identity",
+        tone: "violet",
+        solo: { type: "text", text: "À fournir" },
+        split: { type: "text", text: "À coordonner" },
+        complete: "Persistance si besoin",
+    },
+    {
+        label: "Parcours pensé conversion",
+        icon: "touch",
+        tone: "teal",
+        solo: { type: "text", text: "Variable" },
+        split: { type: "text", text: "Dépend du brief" },
+        complete: "Objectif priorisé",
+    },
+    {
+        label: "Design responsive",
+        icon: "ux",
+        tone: "sky",
+        solo: { type: "text", text: "Souvent basique" },
+        split: { type: "text", text: "Selon profil" },
+        complete: "Sur mesure",
+    },
+    {
+        label: "Performance et accessibilité",
+        icon: "performance",
+        tone: "green",
+        solo: { type: "text", text: "Souvent option" },
+        split: { type: "text", text: "Souvent à part" },
+        complete: "Vérifiées",
+    },
+    {
+        label: "SEO technique initial",
+        icon: "search",
+        tone: "orange",
+        solo: { type: "text", text: "Léger" },
+        split: { type: "text", text: "À part" },
+        complete: "Inclus",
+    },
+    {
+        label: "Formulaire, CMS ou tracking",
+        icon: "form",
+        tone: "pink",
+        solo: { type: "text", text: "Option" },
+        split: { type: "text", text: "À connecter" },
+        complete: "Prévu au cadrage",
+    },
+    {
+        label: "Interlocuteur unique",
+        icon: "user",
+        tone: "indigo",
+        solo: { type: "text", text: "Oui, mais limité" },
+        split: { type: "x" },
+        complete: "Oui",
+    },
+    {
+        label: "Évolutions après livraison",
+        icon: "code",
+        tone: "slate",
+        solo: { type: "text", text: "À recadrer" },
+        split: { type: "text", text: "Intervenants à rappeler" },
+        complete: "Base maintenable",
+    },
+    {
+        label: "Budget de départ",
+        icon: "budget",
+        tone: "cyan",
+        solo: { type: "text", text: "600 - 2 000 €" },
+        split: { type: "text", text: "Très variable" },
+        complete: "Dès 2 000 € HT",
+    },
+    {
+        label: "Pertinent si",
+        icon: "ia",
+        tone: "blue",
+        solo: { type: "text", text: "Besoin très simple" },
+        split: { type: "text", text: "Projet déjà cadré" },
+        complete: "Doute à lever",
+    },
+];
+
+const renderCell = (cell: ComparisonCell) => cell;
+
+const toneClasses: Record<ComparisonTone, string> = {
+    blue: "bg-blue-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(62,96,212,0.9)]",
+    cyan: "bg-[#43b8d6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(67,184,214,0.9)]",
+    green: "bg-[#3ba879] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(59,168,121,0.9)]",
+    indigo: "bg-[#6574e8] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(101,116,232,0.9)]",
+    orange: "bg-[#f6821f] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_14px_24px_-14px_rgba(246,130,31,0.88)]",
+    pink: "bg-fuchsia-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(255,51,102,0.72)]",
+    sky: "bg-[#2f8fd6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(47,143,214,0.88)]",
+    slate: "bg-gray-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_14px_24px_-14px_rgba(64,73,87,0.7)]",
+    teal: "bg-[#62c7c4] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(98,199,196,0.85)]",
+    violet: "bg-[#8b73e6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(139,115,230,0.86)]",
+};
+---
+
+<section
+    class="relative left-1/2 w-[calc(100dvw-2rem)] max-w-7xl -translate-x-1/2 rounded-4xl bg-gray-100 px-4 py-12 sm:px-8 md:py-16"
+    aria-labelledby="pricing-comparison-title"
+>
+    <div class="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
+        <span class="rounded-full bg-snow-50 px-4 py-2 text-sm font-normal text-gray-900 shadow-lg">
+            Comparaison
+        </span>
+        <h2 id="pricing-comparison-title" class="section-heading max-w-3xl">
+            Pourquoi un accompagnement complet évite les angles morts.
+        </h2>
+        <p class="section-subheading max-w-xl">
+            Vous pouvez acheter un site seul, empiler plusieurs prestataires, ou
+            construire une présence claire avec le bon cadrage dès le départ.
+        </p>
+    </div>
+
+    <div class="mx-auto mt-12 grid max-w-6xl gap-5 lg:grid-cols-[minmax(0,1fr)_17rem]">
+        <div class="overflow-hidden rounded-3xl bg-snow-50 ring-1 ring-gray-200">
+            <div class="overflow-x-auto">
+                <div class="min-w-[52rem]">
+                    <div class="grid grid-cols-[1.25fr_1fr_1fr] border-b border-gray-200">
+                        <div class="min-h-28 border-r border-gray-200"></div>
+                        <div class="flex min-h-28 flex-col items-center justify-center border-r border-gray-200 px-5 text-center">
+                            <span class="text-sm font-normal text-gray-500">Option 1</span>
+                            <strong class="mt-1 text-base font-normal text-gray-900">
+                                Site seul
+                            </strong>
+                        </div>
+                        <div class="flex min-h-28 flex-col items-center justify-center px-5 text-center">
+                            <span class="text-sm font-normal text-gray-500">Option 2</span>
+                            <strong class="mt-1 text-base font-normal text-gray-900">
+                                Prestataires séparés
+                            </strong>
+                        </div>
+                    </div>
+
+                    {
+                        rows.map((row) => (
+                            <div class="grid min-h-16 grid-cols-[1.25fr_1fr_1fr] border-b border-gray-200 last:border-b-0">
+                                <div class="flex items-center gap-3 border-r border-gray-200 px-5 py-4 text-sm font-normal leading-tight text-gray-900">
+                                    <span
+                                        class:list={[
+                                            "inline-flex size-8 shrink-0 items-center justify-center rounded-lg text-snow-50",
+                                            toneClasses[row.tone],
+                                        ]}
+                                        aria-hidden="true"
+                                    >
+                                        {row.icon === "target" && (
+                                            <Target class="size-5" />
+                                        )}
+                                        {row.icon === "identity" && (
+                                            <WindowPaintbrush class="size-5" />
+                                        )}
+                                        {row.icon === "touch" && (
+                                            <TouchClick class="size-5" />
+                                        )}
+                                        {row.icon === "ux" && (
+                                            <WindowLayout class="size-5" />
+                                        )}
+                                        {row.icon === "performance" && (
+                                            <Gauge class="size-5" />
+                                        )}
+                                        {row.icon === "search" && (
+                                            <SearchContent class="size-5" />
+                                        )}
+                                        {row.icon === "form" && (
+                                            <Msgs class="size-5" />
+                                        )}
+                                        {row.icon === "user" && (
+                                            <UserHeart class="size-5" />
+                                        )}
+                                        {row.icon === "code" && (
+                                            <CodeEditor class="size-5" />
+                                        )}
+                                        {row.icon === "budget" && (
+                                            <BadgeDollar class="size-5" />
+                                        )}
+                                        {row.icon === "ia" && (
+                                            <Sparkle class="size-5" />
+                                        )}
+                                    </span>
+                                    <span>{row.label}</span>
+                                </div>
+                                {[renderCell(row.solo), renderCell(row.split)].map(
+                                    (cell, index) => (
+                                        <div
+                                            class:list={[
+                                                "flex items-center justify-center px-5 py-4 text-center text-sm font-normal leading-tight text-gray-500",
+                                                index === 0
+                                                    ? "border-r border-gray-200"
+                                                    : "",
+                                            ]}
+                                        >
+                                            {cell.type === "check" && (
+                                                <span
+                                                    class="inline-flex size-8 items-center justify-center rounded-full bg-blue-50 text-blue-500"
+                                                    aria-label="Oui"
+                                                >
+                                                    <CheckIcon class="size-4" />
+                                                </span>
+                                            )}
+                                            {cell.type === "x" && (
+                                                <span
+                                                    class="inline-flex size-8 items-center justify-center rounded-full bg-gray-100 text-gray-900"
+                                                    aria-label="Non"
+                                                >
+                                                    <XMarkIcon class="size-3" />
+                                                </span>
+                                            )}
+                                            {cell.type === "text" && <span>{cell.text}</span>}
+                                        </div>
+                                    ),
+                                )}
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
+
+        <aside class="overflow-hidden rounded-3xl bg-blue-500 text-snow-50 shadow-[0_34px_80px_-44px_rgba(62,96,212,0.95)]">
+            <div class="flex min-h-28 flex-col items-center justify-center border-b border-snow-50/15 px-5 text-center">
+                <strong class="text-xl font-semibold leading-none">
+                    William + partenaires
+                </strong>
+                <span class="mt-2 text-sm font-light text-snow-50/80">
+                    Cadrage, site, identité si besoin
+                </span>
+            </div>
+
+            <div>
+                {
+                    rows.map((row) => (
+                        <div class="grid min-h-16 grid-cols-[2rem_minmax(0,1fr)] items-center gap-3 border-b border-snow-50/15 px-5 py-4 text-sm font-normal leading-tight last:border-b-0">
+                            <span
+                                class="inline-flex size-8 flex-none items-center justify-center rounded-full bg-snow-50 text-blue-500"
+                                aria-hidden="true"
+                            >
+                                <CheckIcon class="size-4" />
+                            </span>
+                            <span class="text-left">{row.complete}</span>
+                        </div>
+                    ))
+                }
+            </div>
+        </aside>
+    </div>
+
+    <p class="mx-auto mt-8 max-w-2xl text-center text-sm font-normal leading-relaxed text-gray-500">
+        Le but n'est pas de cocher toutes les cases pour tous les projets. C'est
+        de savoir lesquelles comptent vraiment avant d'engager du budget.
+    </p>
+</section>

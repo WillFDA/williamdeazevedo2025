@@ -83,7 +83,7 @@ const firstId = items[0]?.id ?? "";
     <div class="expertise-showcase__panels min-w-0">
       {
         items.map((item) => (
-            <article
+          <div
             aria-labelledby={`expertise-tab-${item.id}`}
             class:list={[
               "expertise-showcase__panel grid gap-10",
@@ -159,7 +159,7 @@ const firstId = items[0]?.id ?? "";
                 }
               </div>
             </div>
-          </article>
+          </div>
         ))
       }
     </div>

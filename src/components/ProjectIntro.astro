@@ -17,7 +17,7 @@ const isDetailsExternal = detailsHref?.startsWith("http");
 ---
 
 <div
-    class="project-intro flex flex-col items-center gap-4 text-center sm:items-start sm:text-left"
+    class="project-intro flex flex-col items-start gap-4 text-left"
     data-project-intro
 >
     <a
@@ -42,7 +42,7 @@ const isDetailsExternal = detailsHref?.startsWith("http");
     {
         stack.length > 0 && (
             <ul
-                class="flex flex-wrap justify-center gap-2 sm:justify-start"
+                class="flex flex-wrap justify-start gap-2"
                 aria-label="Stack technique"
             >
                 {stack.map((item) => (

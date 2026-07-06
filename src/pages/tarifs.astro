@@ -1,6 +1,7 @@
 ---
 import CalButton from "@/components/CalButton.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
+import PricingComparison from "@/components/PricingComparison.astro";
 import { homeProjects } from "@/data/projects";
 import Layout from "@/layout/Layout.astro";
 
@@ -90,6 +91,8 @@ const aiBudgetPoints = [
                 <CalButton class="rounded-xl text-base font-normal" location="tarifs-hero" />
             </section>
         </FadeReveal>
+
+        <PricingComparison />
 
         <section class="grid gap-4 md:grid-cols-3">
             {

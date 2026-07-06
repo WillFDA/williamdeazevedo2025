@@ -5,6 +5,10 @@ type AccordionItem = {
     answer?: string;
     content?: string;
     id?: string;
+    link?: {
+        href: string;
+        label: string;
+    };
     open?: boolean;
     question?: string;
     title?: string;
@@ -62,6 +66,18 @@ const getContent = (item: AccordionItem) => item.content ?? item.answer ?? "";
                 </summary>
                 <div class:list={["accordion__content", contentClass]}>
                     <p class="m-0">{getContent(item)}</p>
+                    {
+                        item.link && (
+                            <a
+                                class="mt-4 inline-flex text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:decoration-gray-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                href={item.link.href}
+                                rel="noreferrer"
+                                target="_blank"
+                            >
+                                {item.link.label}
+                            </a>
+                        )
+                    }
                 </div>
             </details>
         ))
