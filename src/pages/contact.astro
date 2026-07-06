@@ -1,6 +1,8 @@
 ---
 import CalInline from "@/components/CalInline.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
+import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro";
+import CheckIcon from "@/components/icons/nucleo/check-2-outline.svg";
 import Layout from "@/layout/Layout.astro";
 
 export const prerender = true;
@@ -58,75 +60,101 @@ const prepare = [
         <CalInline />
 
         <section class="grid gap-4 md:grid-cols-2">
-            <article class="rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
-                <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
-                    Ce rendez-vous est utile si...
-                </h2>
-                <ul class="flex flex-col gap-3">
-                    {
-                        usefulIf.map((item) => (
-                            <li class="text-base font-normal leading-relaxed text-gray-600">
-                                {item}
-                            </li>
-                        ))
-                    }
-                </ul>
-            </article>
-            <article class="rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
-                <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
-                    Ce que vous pouvez préparer
-                </h2>
-                <ul class="flex flex-col gap-3">
-                    {
-                        prepare.map((item) => (
-                            <li class="text-base font-normal leading-relaxed text-gray-600">
-                                {item}
-                            </li>
-                        ))
-                    }
-                </ul>
-            </article>
+            <FadeRevealOnScroll class="flex">
+                <article class="w-full rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
+                    <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
+                        Ce rendez-vous est utile si...
+                    </h2>
+                    <ul class="flex flex-col gap-3">
+                        {
+                            usefulIf.map((item) => (
+                                <li class="flex items-start gap-3 text-base font-normal leading-relaxed text-gray-600">
+                                    <span
+                                        class="mt-1 flex size-6 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500"
+                                        aria-hidden="true"
+                                    >
+                                        <CheckIcon class="size-3.5" />
+                                    </span>
+                                    <span>{item}</span>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </article>
+            </FadeRevealOnScroll>
+            <FadeRevealOnScroll class="flex" delay={0.08}>
+                <article class="w-full rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
+                    <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
+                        Ce que vous pouvez préparer
+                    </h2>
+                    <ul class="flex flex-col gap-3">
+                        {
+                            prepare.map((item) => (
+                                <li class="flex items-start gap-3 text-base font-normal leading-relaxed text-gray-600">
+                                    <span
+                                        class="mt-1 flex size-6 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-500"
+                                        aria-hidden="true"
+                                    >
+                                        <CheckIcon class="size-3.5" />
+                                    </span>
+                                    <span>{item}</span>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                    <p class="mt-5 text-sm font-normal leading-relaxed text-gray-500">
+                        Rien n'est obligatoire : ces éléments rendent simplement
+                        l'échange plus concret.
+                    </p>
+                </article>
+            </FadeRevealOnScroll>
         </section>
 
-        <section class="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:items-start md:gap-12">
-            <div class="flex flex-col gap-4">
-                <h2 class="text-2xl font-normal leading-tight text-gray-900">
-                    Pendant les 15 minutes
-                </h2>
-                <p class="text-base font-normal leading-relaxed text-gray-600">
-                    On parle de votre activité, de la situation actuelle, de ce que
-                    le site doit rendre plus clair et des contraintes principales :
-                    contenu, délai, budget, outils et décision.
-                </p>
-            </div>
-            <div class="rounded-xl bg-gray-100 p-6 ring-1 ring-gray-200">
-                <h2 class="mb-3 text-lg font-normal leading-tight text-gray-900">
-                    Après le rendez-vous
-                </h2>
-                <p class="text-base font-normal leading-relaxed text-gray-600">
-                    Si le besoin correspond à mon accompagnement, je vous demande les
-                    informations nécessaires pour estimer proprement le périmètre. Si
-                    ce n'est pas le bon format, je vous le dis clairement.
-                </p>
-            </div>
-        </section>
+        <FadeRevealOnScroll>
+            <section class="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:items-start md:gap-12">
+                <div class="flex flex-col gap-4">
+                    <h2 class="text-2xl font-normal leading-tight text-gray-900">
+                        Pendant les 15 minutes
+                    </h2>
+                    <p class="text-base font-normal leading-relaxed text-gray-600">
+                        On parle de votre activité, de la situation actuelle, de ce
+                        que le site doit rendre plus clair et des contraintes
+                        principales : contenu, délai, budget, outils et décision.
+                    </p>
+                </div>
+                <div class="rounded-xl bg-gray-100 p-6 ring-1 ring-gray-200">
+                    <h2 class="mb-3 text-lg font-normal leading-tight text-gray-900">
+                        Après le rendez-vous
+                    </h2>
+                    <p class="text-base font-normal leading-relaxed text-gray-600">
+                        Si le besoin correspond à mon accompagnement, je vous
+                        demande les informations nécessaires pour estimer proprement
+                        le périmètre. Si ce n'est pas le bon format, je vous le dis
+                        clairement.
+                    </p>
+                </div>
+            </section>
+        </FadeRevealOnScroll>
 
-        <section class="rounded-xl bg-snow-50 p-6 text-center ring-1 ring-snow-600 sm:p-8">
-            <div class="mx-auto flex max-w-2xl flex-col items-center gap-4">
-                <h2 class="text-2xl font-normal leading-tight text-gray-900">
-                    Vous préférez écrire d'abord ?
-                </h2>
-                <p class="text-base font-normal leading-relaxed text-gray-600">
-                    Le calendrier reste disponible plus haut, mais vous pouvez aussi
-                    poser le contexte à l'écrit si le projet demande quelques détails.
-                </p>
-                <a
-                    class="flex min-h-14 items-center justify-center rounded-xl bg-coffee-300 px-8 py-3 text-base font-normal text-snow-50 transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                    href="mailto:william.deazevedopro@gmail.com"
-                >
-                    Écrire par e-mail
-                </a>
-            </div>
-        </section>
+        <FadeRevealOnScroll>
+            <section class="rounded-xl bg-snow-50 p-6 text-center ring-1 ring-snow-600 sm:p-8">
+                <div class="mx-auto flex max-w-2xl flex-col items-center gap-4">
+                    <h2 class="text-2xl font-normal leading-tight text-gray-900">
+                        Vous préférez écrire d'abord ?
+                    </h2>
+                    <p class="text-base font-normal leading-relaxed text-gray-600">
+                        Le calendrier reste disponible plus haut, mais vous pouvez
+                        aussi poser le contexte à l'écrit si le projet demande
+                        quelques détails.
+                    </p>
+                    <a
+                        class="flex min-h-14 items-center justify-center rounded-xl bg-coffee-300 px-8 py-3 text-base font-normal text-snow-50 transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                        href="mailto:william.deazevedopro@gmail.com"
+                    >
+                        Écrire par e-mail
+                    </a>
+                </div>
+            </section>
+        </FadeRevealOnScroll>
     </div>
 </Layout>

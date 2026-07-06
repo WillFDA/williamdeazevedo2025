@@ -3,7 +3,12 @@ import { Image } from "astro:assets";
 import Layout from "../layout/Layout.astro";
 import AboutCallout from "../components/AboutCallout.astro";
 import FadeReveal from "../components/animations/FadeReveal.astro";
+import FadeRevealOnScroll from "../components/animations/FadeRevealOnScroll.astro";
 import Marquee from "../components/Marquee.astro";
+import UserHeart from "../components/icons/nucleo/user-heart-fill.svg";
+import WindowPaintbrush from "../components/icons/nucleo/window-paintbrush-fill.svg";
+import WindowPointer from "../components/icons/nucleo/window-pointer-fill.svg";
+import { type IconTone, iconToneClasses } from "@/lib/iconTones";
 import bourgetPicture from "@/assets/pictures/bourget-opti.jpg";
 import desktopPicture from "@/assets/pictures/desktop-opti.jpg";
 import gokuPicture from "@/assets/pictures/goku-opti.jpg";
@@ -57,8 +62,17 @@ const pictures = [
     },
 ];
 
-const clientAngles = [
+type ClientAngle = {
+    icon: "design" | "way" | "projects";
+    items: string[];
+    title: string;
+    tone: IconTone;
+};
+
+const clientAngles: ClientAngle[] = [
     {
+        icon: "design",
+        tone: "violet",
         title: "Ce que le design apporte",
         items: [
             "hiérarchie visuelle plus lisible",
@@ -67,6 +81,8 @@ const clientAngles = [
         ],
     },
     {
+        icon: "way",
+        tone: "blue",
         title: "Ma manière de travailler",
         items: [
             "écoute et pédagogie",
@@ -75,6 +91,8 @@ const clientAngles = [
         ],
     },
     {
+        icon: "projects",
+        tone: "sky",
         title: "Les projets où je suis utile",
         items: [
             "sites vitrines et refontes",
@@ -117,47 +135,75 @@ const clientAngles = [
             <Marquee />
         </section>
 
-        <section class="mx-auto flex w-full max-w-2xl flex-col gap-4 text-center">
-            <h2 class="text-base font-medium text-coffee-300">Parcours</h2>
-            <div class="flex flex-col gap-4 text-base font-normal leading-relaxed text-coffee-300">
-                <p>
-                    Mon parcours dans l'infographie et le motion design
-                    m'a donné un <span class="font-normal text-coffee-300"
-                        >œil aiguisé pour le design</span
-                    > et une sensibilité forte pour les interfaces qui se comprennent
-                    vite.
-                </p>
-                <p>
-                    En 2022, j'ai fait le choix de me reconvertir dans le
-                    développement web pour <span class="font-normal text-coffee-300"
-                        >donner vie à mes propres projets</span
-                    >. Depuis, je construis des expériences web avec une approche
-                    front-end, produit et full stack.
-                </p>
-                <p>
-                    Aujourd'hui, je travaille sur des sites vitrines, des
-                    interfaces produit et des applications complètes, avec le
-                    même objectif : enlever les frictions qui font douter et
-                    livrer quelque chose de clair, rapide et réellement utile.
-                </p>
-            </div>
-        </section>
+        <FadeRevealOnScroll>
+            <section class="mx-auto flex w-full max-w-2xl flex-col gap-4 text-center">
+                <h2 class="text-base font-medium text-blue-500">Parcours</h2>
+                <div class="flex flex-col gap-4 text-base font-normal leading-relaxed text-gray-600">
+                    <p>
+                        Mon parcours dans l'infographie et le motion design
+                        m'a donné un <span class="font-medium text-gray-900"
+                            >œil aiguisé pour le design</span
+                        > et une sensibilité forte pour les interfaces qui se comprennent
+                        vite.
+                    </p>
+                    <p>
+                        En 2022, j'ai fait le choix de me reconvertir dans le
+                        développement web pour <span class="font-medium text-gray-900"
+                            >donner vie à mes propres projets</span
+                        >. Depuis, je construis des expériences web avec une approche
+                        front-end, produit et full stack.
+                    </p>
+                    <p>
+                        Aujourd'hui, je travaille sur des sites vitrines, des
+                        interfaces produit et des applications complètes, avec le
+                        même objectif : <span class="font-medium text-gray-900"
+                            >enlever les frictions qui font douter</span
+                        > et livrer quelque chose de clair, rapide et réellement utile.
+                    </p>
+                </div>
+            </section>
+        </FadeRevealOnScroll>
 
         <section class="grid gap-4 md:grid-cols-3">
             {
-                clientAngles.map((angle) => (
-                    <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
-                        <h2 class="mb-4 text-lg font-normal leading-tight text-gray-900">
-                            {angle.title}
-                        </h2>
-                        <ul class="flex flex-col gap-3">
-                            {angle.items.map((item) => (
-                                <li class="text-base font-normal leading-relaxed text-gray-600">
-                                    {item}
-                                </li>
-                            ))}
-                        </ul>
-                    </article>
+                clientAngles.map((angle, index) => (
+                    <FadeRevealOnScroll class="flex" delay={0.05 + index * 0.06}>
+                        <article class="w-full rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
+                            <div class="mb-4 flex items-center gap-3">
+                                <span
+                                    class:list={[
+                                        "inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-snow-50",
+                                        iconToneClasses[angle.tone],
+                                    ]}
+                                    aria-hidden="true"
+                                >
+                                    {angle.icon === "design" && (
+                                        <WindowPaintbrush class="size-5" />
+                                    )}
+                                    {angle.icon === "way" && (
+                                        <UserHeart class="size-5" />
+                                    )}
+                                    {angle.icon === "projects" && (
+                                        <WindowPointer class="size-5" />
+                                    )}
+                                </span>
+                                <h2 class="text-lg font-normal leading-tight text-gray-900">
+                                    {angle.title}
+                                </h2>
+                            </div>
+                            <ul class="flex flex-col gap-3">
+                                {angle.items.map((item) => (
+                                    <li class="flex items-start gap-3 text-base font-normal leading-relaxed text-gray-600">
+                                        <span
+                                            class="mt-2.5 size-1.5 shrink-0 rounded-full bg-gray-300"
+                                            aria-hidden="true"
+                                        />
+                                        <span>{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </article>
+                    </FadeRevealOnScroll>
                 ))
             }
         </section>
@@ -165,27 +211,29 @@ const clientAngles = [
         <AboutCallout title="Je relie mon œil design au code pour créer des interfaces utiles." />
 
         <section class="relative left-1/2 w-dvw -translate-x-1/2">
-            <div class="photo-strip flex items-center justify-start gap-3 overflow-x-auto px-4 sm:px-4 lg:justify-center lg:gap-5 lg:overflow-visible lg:px-0">
-                {
-                    pictures.map((picture, index) => (
-                        <div
-                            class:list={[
-                                "aspect-[9/10] w-36 shrink-0 overflow-hidden rounded-lg bg-gray-100 transition-transform duration-300 hover:scale-[1.02] sm:w-40 lg:w-44",
-                                picture.className,
-                            ]}
-                        >
-                            <Image
-                                alt={picture.alt}
-                                class="h-full w-full object-cover"
-                                loading={index < 3 ? "eager" : "lazy"}
-                                widths={[176, 352]}
-                                sizes="176px"
-                                src={picture.src}
-                            />
-                        </div>
-                    ))
-                }
-            </div>
+            <FadeRevealOnScroll>
+                <div class="photo-strip flex items-center justify-start gap-3 overflow-x-auto px-4 sm:px-4 lg:justify-center lg:gap-5 lg:overflow-visible lg:px-0">
+                    {
+                        pictures.map((picture, index) => (
+                            <div
+                                class:list={[
+                                    "aspect-[9/10] w-36 shrink-0 overflow-hidden rounded-lg bg-gray-100 transition-transform duration-300 hover:scale-[1.02] sm:w-40 lg:w-44",
+                                    picture.className,
+                                ]}
+                            >
+                                <Image
+                                    alt={picture.alt}
+                                    class="h-full w-full object-cover"
+                                    loading={index < 3 ? "eager" : "lazy"}
+                                    widths={[176, 352]}
+                                    sizes="176px"
+                                    src={picture.src}
+                                />
+                            </div>
+                        ))
+                    }
+                </div>
+            </FadeRevealOnScroll>
         </section>
     </div>
 </Layout>

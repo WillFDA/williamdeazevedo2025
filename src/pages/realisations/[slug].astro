@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
+import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro";
 import ArrowRight from "@/components/icons/nucleo/arrow-right-fill.svg";
 import ChevronLeft from "@/components/icons/nucleo/chevron-left-fill.svg";
 import GlobeIcon from "@/components/icons/nucleo/globe-outline.svg";
@@ -190,9 +191,9 @@ const breadcrumbJsonLd = {
                 </aside>
             </FadeReveal>
 
-            <FadeReveal delay={0.24}>
-                <div class="grid gap-6">
-                    {project.media.type === "video" && (
+            <div class="grid gap-6">
+                {project.media.type === "video" && (
+                    <FadeReveal delay={0.24}>
                         <figure class="rounded-3xl bg-snow-50 p-3 shadow-[0_24px_70px_-50px_rgba(34,42,55,0.55)] ring-1 ring-gray-200">
                             <video
                                 muted
@@ -206,11 +207,13 @@ const breadcrumbJsonLd = {
                                 <source src={project.media.src} type="video/mp4" />
                             </video>
                         </figure>
-                    )}
+                    </FadeReveal>
+                )}
 
-                    {galleryItems.length > 0 && (
-                        <div class="grid gap-6">
-                            {galleryItems.map((item, index) => (
+                {galleryItems.length > 0 && (
+                    <div class="grid gap-6">
+                        {galleryItems.map((item, index) => (
+                            <FadeRevealOnScroll>
                                 <figure class="rounded-3xl bg-snow-50 p-3 shadow-[0_20px_60px_-50px_rgba(34,42,55,0.5)] ring-1 ring-gray-200">
                                     <img
                                         src={item.src}
@@ -220,11 +223,11 @@ const breadcrumbJsonLd = {
                                         decoding="async"
                                     />
                                 </figure>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </FadeReveal>
+                            </FadeRevealOnScroll>
+                        ))}
+                    </div>
+                )}
+            </div>
         </section>
     </main>
 </Layout>

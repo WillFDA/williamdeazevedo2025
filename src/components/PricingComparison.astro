@@ -1,4 +1,7 @@
 ---
+import { type IconTone, iconToneClasses } from "@/lib/iconTones";
+import CalButton from "./CalButton.astro";
+import FadeRevealOnScroll from "./animations/FadeRevealOnScroll.astro";
 import CheckIcon from "./icons/nucleo/check-2-outline.svg";
 import BadgeDollar from "./icons/nucleo/badge-dollar-fill.svg";
 import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
@@ -25,7 +28,7 @@ type ComparisonCell =
 type ComparisonRow = {
     label: string;
     icon: ComparisonIcon;
-    tone: ComparisonTone;
+    tone: IconTone;
     solo: ComparisonCell;
     split: ComparisonCell;
     complete: string;
@@ -44,17 +47,18 @@ type ComparisonIcon =
     | "user"
     | "ux";
 
-type ComparisonTone =
-    | "blue"
-    | "cyan"
-    | "green"
-    | "indigo"
-    | "orange"
-    | "pink"
-    | "sky"
-    | "slate"
-    | "teal"
-    | "violet";
+const otherColumns = [
+    {
+        eyebrow: "Option 1",
+        title: "Site seul",
+        note: "Template ou page générée vite",
+    },
+    {
+        eyebrow: "Option 2",
+        title: "Prestataires séparés",
+        note: "Graphiste, dev et SEO à coordonner",
+    },
+] as const;
 
 const rows: ComparisonRow[] = [
     {
@@ -71,7 +75,7 @@ const rows: ComparisonRow[] = [
         tone: "violet",
         solo: { type: "text", text: "À fournir" },
         split: { type: "text", text: "À coordonner" },
-        complete: "Persistance si besoin",
+        complete: "Graphiste partenaire si besoin",
     },
     {
         label: "Parcours pensé conversion",
@@ -95,7 +99,7 @@ const rows: ComparisonRow[] = [
         tone: "green",
         solo: { type: "text", text: "Souvent option" },
         split: { type: "text", text: "Souvent à part" },
-        complete: "Vérifiées",
+        complete: "Vérifiées avant mise en ligne",
     },
     {
         label: "SEO technique initial",
@@ -119,7 +123,7 @@ const rows: ComparisonRow[] = [
         tone: "indigo",
         solo: { type: "text", text: "Oui, mais limité" },
         split: { type: "x" },
-        complete: "Oui",
+        complete: "Oui, du cadrage à la mise en ligne",
     },
     {
         label: "Évolutions après livraison",
@@ -143,120 +147,141 @@ const rows: ComparisonRow[] = [
         tone: "blue",
         solo: { type: "text", text: "Besoin très simple" },
         split: { type: "text", text: "Projet déjà cadré" },
-        complete: "Doute à lever",
+        complete: "Doute à lever avant d'investir",
     },
 ];
-
-const renderCell = (cell: ComparisonCell) => cell;
-
-const toneClasses: Record<ComparisonTone, string> = {
-    blue: "bg-blue-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(62,96,212,0.9)]",
-    cyan: "bg-[#43b8d6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(67,184,214,0.9)]",
-    green: "bg-[#3ba879] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(59,168,121,0.9)]",
-    indigo: "bg-[#6574e8] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(101,116,232,0.9)]",
-    orange: "bg-[#f6821f] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_14px_24px_-14px_rgba(246,130,31,0.88)]",
-    pink: "bg-fuchsia-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(255,51,102,0.72)]",
-    sky: "bg-[#2f8fd6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(47,143,214,0.88)]",
-    slate: "bg-gray-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_14px_24px_-14px_rgba(64,73,87,0.7)]",
-    teal: "bg-[#62c7c4] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(98,199,196,0.85)]",
-    violet: "bg-[#8b73e6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(139,115,230,0.86)]",
-};
 ---
 
 <section
     class="relative left-1/2 w-[calc(100dvw-2rem)] max-w-7xl -translate-x-1/2 rounded-4xl bg-gray-100 px-4 py-12 sm:px-8 md:py-16"
     aria-labelledby="pricing-comparison-title"
 >
-    <div class="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
-        <span class="rounded-full bg-snow-50 px-4 py-2 text-sm font-normal text-gray-900 shadow-lg">
-            Comparaison
-        </span>
-        <h2 id="pricing-comparison-title" class="section-heading max-w-3xl">
-            Pourquoi un accompagnement complet évite les angles morts.
-        </h2>
-        <p class="section-subheading max-w-xl">
-            Vous pouvez acheter un site seul, empiler plusieurs prestataires, ou
-            construire une présence claire avec le bon cadrage dès le départ.
-        </p>
-    </div>
+    <FadeRevealOnScroll>
+        <div class="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
+            <span class="rounded-full bg-snow-50 px-4 py-2 text-sm font-normal text-gray-900 shadow-lg">
+                Comparaison
+            </span>
+            <h2 id="pricing-comparison-title" class="section-heading max-w-3xl">
+                Pourquoi un accompagnement complet évite les angles morts.
+            </h2>
+            <p class="section-subheading max-w-xl">
+                Vous pouvez acheter un site seul, empiler plusieurs prestataires,
+                ou construire une présence claire avec le bon cadrage dès le
+                départ.
+            </p>
+        </div>
+    </FadeRevealOnScroll>
 
-    <div class="mx-auto mt-12 grid max-w-6xl gap-5 lg:grid-cols-[minmax(0,1fr)_17rem]">
-        <div class="overflow-hidden rounded-3xl bg-snow-50 ring-1 ring-gray-200">
+    <FadeRevealOnScroll class="mx-auto mt-12 max-w-6xl" delay={0.08}>
+        <div class="overflow-hidden rounded-3xl bg-snow-50 shadow-[0_34px_90px_-64px_rgba(34,42,55,0.6)] ring-1 ring-gray-200">
             <div class="overflow-x-auto">
-                <div class="min-w-[52rem]">
-                    <div class="grid grid-cols-[1.25fr_1fr_1fr] border-b border-gray-200">
-                        <div class="min-h-28 border-r border-gray-200"></div>
-                        <div class="flex min-h-28 flex-col items-center justify-center border-r border-gray-200 px-5 text-center">
-                            <span class="text-sm font-normal text-gray-500">Option 1</span>
-                            <strong class="mt-1 text-base font-normal text-gray-900">
-                                Site seul
-                            </strong>
-                        </div>
-                        <div class="flex min-h-28 flex-col items-center justify-center px-5 text-center">
-                            <span class="text-sm font-normal text-gray-500">Option 2</span>
-                            <strong class="mt-1 text-base font-normal text-gray-900">
-                                Prestataires séparés
-                            </strong>
-                        </div>
-                    </div>
-
-                    {
-                        rows.map((row) => (
-                            <div class="grid min-h-16 grid-cols-[1.25fr_1fr_1fr] border-b border-gray-200 last:border-b-0">
-                                <div class="flex items-center gap-3 border-r border-gray-200 px-5 py-4 text-sm font-normal leading-tight text-gray-900">
-                                    <span
-                                        class:list={[
-                                            "inline-flex size-8 shrink-0 items-center justify-center rounded-lg text-snow-50",
-                                            toneClasses[row.tone],
-                                        ]}
-                                        aria-hidden="true"
+                <table class="w-full min-w-[58rem] border-separate border-spacing-0 text-left">
+                    <caption class="sr-only">
+                        Comparaison entre un site seul, plusieurs prestataires
+                        séparés et un accompagnement complet, poste par poste.
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th
+                                class="sticky left-0 z-10 w-[26%] border-b border-r border-gray-200 bg-snow-50 px-5 py-5 align-bottom"
+                                scope="col"
+                            >
+                                <span class="text-sm font-normal leading-tight text-gray-500">
+                                    Ce que le budget doit couvrir
+                                </span>
+                            </th>
+                            {
+                                otherColumns.map((column) => (
+                                    <th
+                                        class="w-[21%] border-b border-r border-gray-200 px-5 py-5 text-center align-bottom"
+                                        scope="col"
                                     >
-                                        {row.icon === "target" && (
-                                            <Target class="size-5" />
-                                        )}
-                                        {row.icon === "identity" && (
-                                            <WindowPaintbrush class="size-5" />
-                                        )}
-                                        {row.icon === "touch" && (
-                                            <TouchClick class="size-5" />
-                                        )}
-                                        {row.icon === "ux" && (
-                                            <WindowLayout class="size-5" />
-                                        )}
-                                        {row.icon === "performance" && (
-                                            <Gauge class="size-5" />
-                                        )}
-                                        {row.icon === "search" && (
-                                            <SearchContent class="size-5" />
-                                        )}
-                                        {row.icon === "form" && (
-                                            <Msgs class="size-5" />
-                                        )}
-                                        {row.icon === "user" && (
-                                            <UserHeart class="size-5" />
-                                        )}
-                                        {row.icon === "code" && (
-                                            <CodeEditor class="size-5" />
-                                        )}
-                                        {row.icon === "budget" && (
-                                            <BadgeDollar class="size-5" />
-                                        )}
-                                        {row.icon === "ia" && (
-                                            <Sparkle class="size-5" />
-                                        )}
-                                    </span>
-                                    <span>{row.label}</span>
-                                </div>
-                                {[renderCell(row.solo), renderCell(row.split)].map(
-                                    (cell, index) => (
-                                        <div
-                                            class:list={[
-                                                "flex items-center justify-center px-5 py-4 text-center text-sm font-normal leading-tight text-gray-500",
-                                                index === 0
-                                                    ? "border-r border-gray-200"
-                                                    : "",
-                                            ]}
-                                        >
+                                        <span class="block text-sm font-normal text-gray-500">
+                                            {column.eyebrow}
+                                        </span>
+                                        <strong class="mt-1 block text-base font-medium leading-tight text-gray-900">
+                                            {column.title}
+                                        </strong>
+                                        <span class="mt-1.5 block text-xs font-light leading-snug text-gray-500">
+                                            {column.note}
+                                        </span>
+                                    </th>
+                                ))
+                            }
+                            <th
+                                class="comparison-highlight w-[32%] border-b px-5 py-5 text-center align-bottom text-snow-50"
+                                scope="col"
+                            >
+                                <span class="inline-flex rounded-full bg-snow-50/15 px-3 py-1 text-[0.68rem] font-medium uppercase tracking-widest text-snow-50 ring-1 ring-snow-50/25">
+                                    Recommandé
+                                </span>
+                                <strong class="mt-2 block text-lg font-semibold leading-tight">
+                                    William + partenaires
+                                </strong>
+                                <span class="mt-1.5 block text-xs font-light leading-snug text-snow-50/80">
+                                    Cadrage, site, identité si besoin
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            rows.map((row, rowIndex) => (
+                                <tr
+                                    class="comparison-row group"
+                                    style={`--row-index: ${rowIndex}`}
+                                >
+                                    <th
+                                        class="sticky left-0 z-10 bg-snow-50 px-5 py-4 text-sm font-normal leading-tight text-gray-900 transition-colors group-hover:bg-snow-200"
+                                        scope="row"
+                                    >
+                                        <span class="flex items-center gap-3">
+                                            <span
+                                                class:list={[
+                                                    "inline-flex size-8 shrink-0 items-center justify-center rounded-lg text-snow-50",
+                                                    iconToneClasses[row.tone],
+                                                ]}
+                                                aria-hidden="true"
+                                            >
+                                                {row.icon === "target" && (
+                                                    <Target class="size-5" />
+                                                )}
+                                                {row.icon === "identity" && (
+                                                    <WindowPaintbrush class="size-5" />
+                                                )}
+                                                {row.icon === "touch" && (
+                                                    <TouchClick class="size-5" />
+                                                )}
+                                                {row.icon === "ux" && (
+                                                    <WindowLayout class="size-5" />
+                                                )}
+                                                {row.icon === "performance" && (
+                                                    <Gauge class="size-5" />
+                                                )}
+                                                {row.icon === "search" && (
+                                                    <SearchContent class="size-5" />
+                                                )}
+                                                {row.icon === "form" && (
+                                                    <Msgs class="size-5" />
+                                                )}
+                                                {row.icon === "user" && (
+                                                    <UserHeart class="size-5" />
+                                                )}
+                                                {row.icon === "code" && (
+                                                    <CodeEditor class="size-5" />
+                                                )}
+                                                {row.icon === "budget" && (
+                                                    <BadgeDollar class="size-5" />
+                                                )}
+                                                {row.icon === "ia" && (
+                                                    <Sparkle class="size-5" />
+                                                )}
+                                            </span>
+                                            <span>{row.label}</span>
+                                        </span>
+                                    </th>
+                                    {[row.solo, row.split].map((cell) => (
+                                        <td class="px-5 py-4 text-center text-sm font-normal leading-tight text-gray-500 transition-colors group-hover:bg-snow-200">
                                             {cell.type === "check" && (
                                                 <span
                                                     class="inline-flex size-8 items-center justify-center rounded-full bg-blue-50 text-blue-500"
@@ -273,47 +298,98 @@ const toneClasses: Record<ComparisonTone, string> = {
                                                     <XMarkIcon class="size-3" />
                                                 </span>
                                             )}
-                                            {cell.type === "text" && <span>{cell.text}</span>}
-                                        </div>
-                                    ),
-                                )}
-                            </div>
-                        ))
-                    }
-                </div>
+                                            {cell.type === "text" && (
+                                                <span>{cell.text}</span>
+                                            )}
+                                        </td>
+                                    ))}
+                                    <td class="comparison-highlight px-5 py-4 text-sm font-normal leading-tight text-snow-50">
+                                        <span class="flex items-center gap-3">
+                                            <span
+                                                class="inline-flex size-7 flex-none items-center justify-center rounded-full bg-snow-50 text-blue-500 shadow-[0_10px_20px_-12px_rgba(14,23,37,0.55)]"
+                                                aria-hidden="true"
+                                            >
+                                                <CheckIcon class="size-3.5" />
+                                            </span>
+                                            <span>{row.complete}</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
+        <p class="mt-3 text-center text-xs font-normal text-gray-500 lg:hidden">
+            Faites défiler le tableau horizontalement pour comparer les trois
+            options.
+        </p>
+    </FadeRevealOnScroll>
 
-        <aside class="overflow-hidden rounded-3xl bg-blue-500 text-snow-50 shadow-[0_34px_80px_-44px_rgba(62,96,212,0.95)]">
-            <div class="flex min-h-28 flex-col items-center justify-center border-b border-snow-50/15 px-5 text-center">
-                <strong class="text-xl font-semibold leading-none">
-                    William + partenaires
-                </strong>
-                <span class="mt-2 text-sm font-light text-snow-50/80">
-                    Cadrage, site, identité si besoin
-                </span>
-            </div>
-
-            <div>
-                {
-                    rows.map((row) => (
-                        <div class="grid min-h-16 grid-cols-[2rem_minmax(0,1fr)] items-center gap-3 border-b border-snow-50/15 px-5 py-4 text-sm font-normal leading-tight last:border-b-0">
-                            <span
-                                class="inline-flex size-8 flex-none items-center justify-center rounded-full bg-snow-50 text-blue-500"
-                                aria-hidden="true"
-                            >
-                                <CheckIcon class="size-4" />
-                            </span>
-                            <span class="text-left">{row.complete}</span>
-                        </div>
-                    ))
-                }
-            </div>
-        </aside>
-    </div>
-
-    <p class="mx-auto mt-8 max-w-2xl text-center text-sm font-normal leading-relaxed text-gray-500">
-        Le but n'est pas de cocher toutes les cases pour tous les projets. C'est
-        de savoir lesquelles comptent vraiment avant d'engager du budget.
-    </p>
+    <FadeRevealOnScroll delay={0.12}>
+        <p class="mx-auto mt-8 max-w-2xl text-center text-sm font-normal leading-relaxed text-gray-500">
+            Le but n'est pas de cocher toutes les cases pour tous les projets.
+            C'est de savoir lesquelles comptent vraiment avant d'engager du
+            budget.
+        </p>
+        <div class="mt-6 flex justify-center">
+            <CalButton
+                class="rounded-xl text-base font-normal"
+                label="Vérifier ce qui compte pour votre projet"
+                location="tarifs-comparaison"
+            />
+        </div>
+    </FadeRevealOnScroll>
 </section>
+
+<style>
+    /* Per-cell borders (border-separate keeps the sticky column clean). */
+    tbody th,
+    tbody td {
+        border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    tbody th {
+        border-right: 1px solid var(--color-gray-200);
+    }
+
+    tbody tr:last-child th,
+    tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    .comparison-highlight {
+        background: var(--color-blue-500);
+        box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.14);
+    }
+
+    thead .comparison-highlight {
+        border-bottom-color: rgba(255, 255, 255, 0.22);
+    }
+
+    tbody .comparison-highlight {
+        border-bottom-color: rgba(255, 255, 255, 0.16);
+        transition: background-color 200ms ease;
+    }
+
+    tbody tr:hover .comparison-highlight {
+        background: var(--color-blue-600);
+    }
+
+    /* Staggered row reveal, driven by the FadeRevealOnScroll wrapper state.
+       Gated on (scripting: enabled) so rows stay visible without JS and in
+       browsers that do not support the scripting media feature. */
+    @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+        .comparison-row {
+            transition: opacity 700ms cubic-bezier(0.2, 0, 0, 1);
+            transition-delay: calc(var(--row-index, 0) * 55ms);
+        }
+
+        :global(.fade-reveal-on-scroll.is-reveal-ready:not(.is-visible))
+            .comparison-row {
+            opacity: 0;
+            transition: none;
+        }
+    }
+</style>

@@ -1,6 +1,7 @@
 ---
 import CalButton from "@/components/CalButton.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
+import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro";
 import ArrowRight from "@/components/icons/nucleo/arrow-right-fill.svg";
 import GlobeIcon from "@/components/icons/nucleo/globe-outline.svg";
 import SparkleIcon from "@/components/icons/nucleo/sparkle-3-fill.svg";
@@ -72,8 +73,11 @@ const projects = caseStudies.map((caseStudy) => ({
 
         <section class="grid gap-16 md:gap-20">
             {
-                projects.map(({ project, presentation, ...caseStudy }, index) => (
-                    <FadeReveal delay={0.15 + index * 0.08}>
+                projects.map(({ project, presentation, ...caseStudy }, index) => {
+                    const Reveal = index === 0 ? FadeReveal : FadeRevealOnScroll;
+
+                    return (
+                    <Reveal delay={index === 0 ? 0.15 : 0}>
                         <article class="grid gap-7">
                             {project?.media.type === "video" && (
                                 <a
@@ -86,6 +90,7 @@ const projects = caseStudies.map((caseStudy) => ({
                                         alt={`Aperçu du projet ${project.title}`}
                                         class="aspect-video w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                                         loading={index === 0 ? "eager" : "lazy"}
+                                        fetchpriority={index === 0 ? "high" : undefined}
                                         decoding="async"
                                     />
                                 </a>
@@ -151,26 +156,29 @@ const projects = caseStudies.map((caseStudy) => ({
                                 </div>
                             </div>
                         </article>
-                    </FadeReveal>
-                ))
+                    </Reveal>
+                    );
+                })
             }
         </section>
 
-        <section class="rounded-xl bg-coffee-300 p-6 text-snow-50 sm:p-8">
-            <div class="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
-                <h2 class="text-2xl font-medium leading-tight">
-                    Vous avez un frein proche ?
-                </h2>
-                <p class="text-base font-normal leading-7 text-snow-100">
-                    On peut partir d'un exemple existant pour identifier le bon
-                    niveau de cadrage, de design et de développement.
-                </p>
-                <CalButton
-                    class="rounded-xl text-base font-normal"
-                    location="realisations-final"
-                    variant="light"
-                />
-            </div>
-        </section>
+        <FadeRevealOnScroll>
+            <section class="rounded-4xl bg-coffee-300 p-6 text-snow-50 sm:p-8">
+                <div class="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
+                    <h2 class="text-2xl font-medium leading-tight">
+                        Vous avez un frein proche ?
+                    </h2>
+                    <p class="text-base font-normal leading-7 text-snow-100">
+                        On peut partir d'un exemple existant pour identifier le bon
+                        niveau de cadrage, de design et de développement.
+                    </p>
+                    <CalButton
+                        class="rounded-xl text-base font-normal"
+                        location="realisations-final"
+                        variant="light"
+                    />
+                </div>
+            </section>
+        </FadeRevealOnScroll>
     </div>
 </Layout>
