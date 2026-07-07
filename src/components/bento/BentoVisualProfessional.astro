@@ -1,0 +1,333 @@
+---
+/**
+ * Scène "Site professionnel" : une carte de décision qui transforme
+ * les doutes en preuves, puis en contact.
+ */
+---
+
+<div
+    class="professional-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden px-5 py-5"
+    data-bento-visual="professional"
+    aria-hidden="true"
+>
+    <div class="professional-stage relative w-[300px] transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:w-[420px]">
+        <div class="professional-map">
+            <span class="professional-map__grain professional-map__grain--top"></span>
+            <span class="professional-map__grain professional-map__grain--bottom"></span>
+        </div>
+
+        <div class="professional-route">
+            <span
+                class="professional-route__segment professional-route__segment--one"
+                data-bento-professional-line></span>
+            <span
+                class="professional-route__segment professional-route__segment--two"
+                data-bento-professional-line></span>
+            <span
+                class="professional-route__arrow"
+                data-bento-professional-arrow></span>
+        </div>
+
+        <div class="professional-note professional-note--doubt" data-bento-professional-note>
+            Doutes
+        </div>
+        <div class="professional-note professional-note--proof" data-bento-professional-note>
+            Preuves
+        </div>
+        <div class="professional-note professional-note--action" data-bento-professional-note>
+            Action
+        </div>
+
+        <div class="professional-step-slot professional-step-slot--understand">
+            <span
+                class="professional-step professional-step--understand"
+                data-bento-professional-module
+            >
+                <span
+                    class="professional-index professional-index--understand"
+                    data-bento-professional-dot>1</span>
+                Comprendre
+            </span>
+        </div>
+
+        <div class="professional-step-slot professional-step-slot--trust">
+            <span
+                class="professional-step professional-step--trust"
+                data-bento-professional-module
+            >
+                <span
+                    class="professional-index professional-index--trust"
+                    data-bento-professional-dot>2</span>
+                Rassurer
+            </span>
+        </div>
+
+        <div class="professional-step-slot professional-step-slot--contact">
+            <span
+                class="professional-step professional-step--contact"
+                data-bento-professional-module
+            >
+                <span
+                    class="professional-index professional-index--contact"
+                    data-bento-professional-dot>3</span>
+                Contacter
+            </span>
+        </div>
+
+        <span class="professional-outcome" data-bento-professional-chip>
+            Parcours clair
+        </span>
+    </div>
+</div>
+
+<style>
+    .professional-stage {
+        min-height: 12.15rem;
+    }
+
+    .professional-map {
+        background:
+            linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.88)),
+            repeating-linear-gradient(
+                0deg,
+                rgba(148, 163, 184, 0.08) 0,
+                rgba(148, 163, 184, 0.08) 1px,
+                transparent 1px,
+                transparent 2.05rem
+            );
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        border-radius: 1.35rem;
+        box-shadow: 0 22px 44px -30px rgba(34, 42, 55, 0.48);
+        inset: 0.25rem 0.15rem 0.7rem;
+        overflow: hidden;
+        position: absolute;
+    }
+
+    .professional-map__grain {
+        background: rgba(148, 163, 184, 0.14);
+        border-radius: 999em;
+        height: 0.18rem;
+        left: 1.2rem;
+        position: absolute;
+        right: 1.2rem;
+    }
+
+    .professional-map__grain--top {
+        top: 2.2rem;
+    }
+
+    .professional-map__grain--bottom {
+        bottom: 2.45rem;
+    }
+
+    .professional-route {
+        left: 3.35rem;
+        position: absolute;
+        right: 3.35rem;
+        top: 5.92rem;
+    }
+
+    .professional-route__segment {
+        background: linear-gradient(
+            90deg,
+            rgba(62, 96, 212, 0.28),
+            rgba(34, 197, 94, 0.24),
+            rgba(31, 41, 55, 0.22)
+        );
+        border-radius: 999em;
+        height: 0.28rem;
+        position: absolute;
+        top: 0;
+        transform-origin: left center;
+        will-change: opacity, transform;
+    }
+
+    .professional-route__segment--one {
+        left: 0;
+        width: 46%;
+    }
+
+    .professional-route__segment--two {
+        right: 0;
+        width: 46%;
+    }
+
+    .professional-route__arrow {
+        border-right: 0.24rem solid #1f2937;
+        border-top: 0.24rem solid #1f2937;
+        height: 0.78rem;
+        position: absolute;
+        right: -0.05rem;
+        top: -0.25rem;
+        transform: rotate(45deg);
+        width: 0.78rem;
+        will-change: opacity, transform;
+    }
+
+    .professional-step-slot,
+    .professional-note {
+        position: absolute;
+    }
+
+    .professional-step-slot--understand {
+        left: 0.2rem;
+        top: 4.65rem;
+    }
+
+    .professional-step-slot--trust {
+        left: 50%;
+        top: 4.65rem;
+        transform: translateX(-50%);
+    }
+
+    .professional-step-slot--contact {
+        right: 0.2rem;
+        top: 4.65rem;
+    }
+
+    .professional-step {
+        align-items: center;
+        background: var(--color-snow-50);
+        border: 1px solid rgba(226, 232, 240, 0.94);
+        border-radius: 1rem;
+        box-shadow: 0 18px 34px -24px rgba(34, 42, 55, 0.46);
+        color: var(--color-gray-800);
+        display: inline-flex;
+        font-size: 0.67rem;
+        font-weight: 500;
+        gap: 0.45rem;
+        line-height: 1;
+        min-width: 6.95rem;
+        padding: 0.78rem 0.8rem;
+        white-space: nowrap;
+        will-change: opacity, transform;
+    }
+
+    .professional-step--contact {
+        background: #1f2937;
+        color: var(--color-snow-50);
+    }
+
+    .professional-index {
+        align-items: center;
+        border-radius: 999em;
+        color: var(--color-snow-50);
+        display: inline-flex;
+        font-size: 0.52rem;
+        font-weight: 600;
+        height: 1rem;
+        justify-content: center;
+        line-height: 1;
+        width: 1rem;
+        will-change: transform;
+    }
+
+    .professional-index--understand {
+        background: #3e60d4;
+    }
+
+    .professional-index--trust {
+        background: #22c55e;
+    }
+
+    .professional-index--contact {
+        background: rgba(255, 255, 255, 0.34);
+    }
+
+    .professional-note {
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(226, 232, 240, 0.88);
+        border-radius: 999em;
+        color: var(--color-gray-600);
+        font-size: 0.54rem;
+        font-weight: 500;
+        line-height: 1;
+        padding: 0.42rem 0.62rem;
+        white-space: nowrap;
+        will-change: opacity, transform;
+    }
+
+    .professional-note--doubt {
+        left: 1.05rem;
+        top: 1.15rem;
+        transform: rotate(-4deg);
+    }
+
+    .professional-note--proof {
+        left: 50%;
+        top: 1.1rem;
+        transform: translateX(-50%) rotate(2deg);
+    }
+
+    .professional-note--action {
+        right: 1.05rem;
+        top: 1.15rem;
+        transform: rotate(4deg);
+    }
+
+    .professional-outcome {
+        background: #1f2937;
+        border-radius: 999em;
+        bottom: 0.05rem;
+        box-shadow: 0 16px 30px -20px rgba(34, 42, 55, 0.6);
+        color: var(--color-snow-50);
+        font-size: 0.6rem;
+        font-weight: 500;
+        left: 50%;
+        line-height: 1;
+        padding: 0.55rem 0.72rem;
+        position: absolute;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        will-change: opacity, transform;
+    }
+
+    @media (max-width: 639px) {
+        .professional-stage {
+            min-height: 11.45rem;
+        }
+
+        .professional-route {
+            left: 2.9rem;
+            right: 2.9rem;
+            top: 5.72rem;
+        }
+
+        .professional-step {
+            font-size: 0.58rem;
+            min-width: 5.85rem;
+            padding: 0.68rem 0.62rem;
+        }
+
+        .professional-step-slot--understand {
+            left: 0;
+            top: 4.55rem;
+        }
+
+        .professional-step-slot--trust {
+            top: 4.55rem;
+        }
+
+        .professional-step-slot--contact {
+            right: 0;
+            top: 4.55rem;
+        }
+
+        .professional-note {
+            font-size: 0.5rem;
+            padding: 0.38rem 0.5rem;
+        }
+
+        .professional-note--doubt {
+            left: 0.55rem;
+        }
+
+        .professional-note--action {
+            right: 0.55rem;
+        }
+
+        .professional-outcome {
+            bottom: 0;
+        }
+    }
+</style>

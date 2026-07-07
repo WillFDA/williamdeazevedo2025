@@ -1,0 +1,262 @@
+---
+/**
+ * Scène "Site artisan" : un plan de travail où les pièces essentielles
+ * s'organisent en demande claire.
+ */
+---
+
+<div
+    class="artisan-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden px-5 py-6"
+    data-bento-visual="artisan"
+    aria-hidden="true"
+>
+    <div class="artisan-stage relative w-[300px] transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:w-[340px]">
+        <div class="artisan-bench" data-bento-artisan-board>
+            <span class="artisan-bench__grain artisan-bench__grain--one"></span>
+            <span class="artisan-bench__grain artisan-bench__grain--two"></span>
+            <span class="artisan-ruler" data-bento-artisan-guide></span>
+            <span class="artisan-pin artisan-pin--one"></span>
+            <span class="artisan-pin artisan-pin--two"></span>
+        </div>
+
+        <div class="artisan-piece-slot artisan-piece-slot--services">
+            <span
+                class="artisan-piece artisan-piece--services"
+                data-bento-artisan-piece
+            >
+                <span class="artisan-piece__mark"></span>
+                Prestations
+            </span>
+        </div>
+
+        <div class="artisan-piece-slot artisan-piece-slot--work">
+            <span
+                class="artisan-piece artisan-piece--work"
+                data-bento-artisan-piece
+            >
+                <span class="artisan-piece__mark"></span>
+                Réalisations
+            </span>
+        </div>
+
+        <div class="artisan-piece-slot artisan-piece-slot--local">
+            <span
+                class="artisan-piece artisan-piece--local"
+                data-bento-artisan-piece
+            >
+                <span class="artisan-piece__mark"></span>
+                Zone locale
+            </span>
+        </div>
+
+        <div class="artisan-piece-slot artisan-piece-slot--quote">
+            <span
+                class="artisan-piece artisan-piece--quote"
+                data-bento-artisan-piece
+            >
+                <span class="artisan-piece__mark"></span>
+                Devis
+            </span>
+        </div>
+
+        <span class="artisan-result" data-bento-artisan-result>
+            Demande claire
+        </span>
+    </div>
+</div>
+
+<style>
+    .artisan-stage {
+        min-height: 11.75rem;
+    }
+
+    .artisan-bench {
+        background:
+            linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.88)),
+            repeating-linear-gradient(
+                90deg,
+                rgba(148, 163, 184, 0.11) 0,
+                rgba(148, 163, 184, 0.11) 1px,
+                transparent 1px,
+                transparent 2.2rem
+            );
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        border-radius: 1.35rem;
+        box-shadow: 0 22px 44px -30px rgba(34, 42, 55, 0.48);
+        inset: 0.2rem 0.15rem 0.85rem;
+        overflow: hidden;
+        position: absolute;
+        will-change: transform;
+    }
+
+    .artisan-bench__grain {
+        background: rgba(148, 163, 184, 0.16);
+        border-radius: 999em;
+        height: 0.18rem;
+        left: 1.1rem;
+        position: absolute;
+        right: 1.1rem;
+    }
+
+    .artisan-bench__grain--one {
+        top: 2.15rem;
+    }
+
+    .artisan-bench__grain--two {
+        bottom: 2.35rem;
+    }
+
+    .artisan-ruler {
+        background:
+            repeating-linear-gradient(
+                90deg,
+                rgba(34, 42, 55, 0.22) 0,
+                rgba(34, 42, 55, 0.22) 1px,
+                transparent 1px,
+                transparent 0.62rem
+            ),
+            linear-gradient(90deg, rgba(62, 96, 212, 0.18), rgba(34, 197, 94, 0.16));
+        border-radius: 999em;
+        height: 0.35rem;
+        left: 2rem;
+        position: absolute;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        transform-origin: left center;
+        will-change: transform;
+    }
+
+    .artisan-pin {
+        background: rgba(34, 42, 55, 0.16);
+        border-radius: 999em;
+        height: 0.42rem;
+        position: absolute;
+        width: 0.42rem;
+    }
+
+    .artisan-pin--one {
+        left: 1rem;
+        top: 1rem;
+    }
+
+    .artisan-pin--two {
+        bottom: 1rem;
+        right: 1rem;
+    }
+
+    .artisan-piece-slot {
+        position: absolute;
+    }
+
+    .artisan-piece-slot--services {
+        left: 1rem;
+        top: 1.15rem;
+    }
+
+    .artisan-piece-slot--work {
+        right: 1rem;
+        top: 1.65rem;
+    }
+
+    .artisan-piece-slot--local {
+        bottom: 1.55rem;
+        left: 1.35rem;
+    }
+
+    .artisan-piece-slot--quote {
+        bottom: 1.35rem;
+        right: 1.1rem;
+    }
+
+    .artisan-piece {
+        align-items: center;
+        background: var(--color-snow-50);
+        border: 1px solid rgba(226, 232, 240, 0.94);
+        border-radius: 0.95rem;
+        box-shadow: 0 16px 30px -22px rgba(34, 42, 55, 0.45);
+        color: var(--color-gray-800);
+        display: inline-flex;
+        font-size: 0.62rem;
+        font-weight: 500;
+        gap: 0.45rem;
+        line-height: 1;
+        min-width: 6.7rem;
+        padding: 0.7rem 0.78rem;
+        white-space: nowrap;
+        will-change: opacity, transform;
+    }
+
+    .artisan-piece__mark {
+        border-radius: 0.35rem;
+        height: 0.82rem;
+        width: 0.82rem;
+    }
+
+    .artisan-piece--services .artisan-piece__mark {
+        background: #3e60d4;
+    }
+
+    .artisan-piece--work .artisan-piece__mark {
+        background: #94a3b8;
+    }
+
+    .artisan-piece--local .artisan-piece__mark {
+        background: #22c55e;
+    }
+
+    .artisan-piece--quote {
+        background: #1f2937;
+        color: var(--color-snow-50);
+    }
+
+    .artisan-piece--quote .artisan-piece__mark {
+        background: rgba(255, 255, 255, 0.38);
+    }
+
+    .artisan-result {
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(226, 232, 240, 0.92);
+        border-radius: 999em;
+        bottom: 0.05rem;
+        box-shadow: 0 14px 26px -20px rgba(34, 42, 55, 0.55);
+        color: var(--color-gray-700);
+        font-size: 0.58rem;
+        font-weight: 500;
+        left: 50%;
+        line-height: 1;
+        padding: 0.5rem 0.72rem;
+        position: absolute;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        will-change: opacity, transform;
+    }
+
+    @media (max-width: 639px) {
+        .artisan-stage {
+            min-height: 11.4rem;
+        }
+
+        .artisan-piece {
+            font-size: 0.58rem;
+            min-width: 6.05rem;
+            padding: 0.65rem 0.68rem;
+        }
+
+        .artisan-piece-slot--services {
+            left: 0.55rem;
+        }
+
+        .artisan-piece-slot--work {
+            right: 0.55rem;
+        }
+
+        .artisan-piece-slot--local {
+            left: 0.75rem;
+        }
+
+        .artisan-piece-slot--quote {
+            right: 0.65rem;
+        }
+    }
+</style>
