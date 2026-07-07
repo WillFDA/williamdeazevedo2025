@@ -88,14 +88,14 @@ const secondaryItems = items.slice(1);
 		Ce que je peux prendre en charge
 	</h2>
 
-	<div class="grid items-stretch gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+	<div class="grid max-w-260 items-stretch gap-5 lg:grid-cols-[0.9fr_1.1fr]">
 		<FadeReveal class="flex" delay={0.12}>
 			<a
-				class="group relative flex min-h-[360px] w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-white text-gray-900 no-underline shadow-[0_20px_56px_-42px_rgba(34,42,55,0.45)] transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[460px]"
+				class="group relative flex min-h-[360px] w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-surface-100 text-gray-900 no-underline shadow-[0_20px_56px_-42px_rgba(34,42,55,0.45)] transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[460px]"
 				href={featureItem.href}
 				aria-label={featureItem.linkLabel}
 			>
-				<div class="relative min-h-[200px] flex-1 shrink-0 overflow-hidden sm:min-h-[220px]">
+				<div class="relative min-h-[200px] flex-1 shrink-0 overflow-hidden rounded-t-[24px] transition-all duration-300 ease-out group-hover:m-2 group-hover:rounded-[20px] sm:min-h-[220px]">
 					<BentoVisualVitrine />
 				</div>
 
@@ -142,7 +142,7 @@ const secondaryItems = items.slice(1);
 					>
 						<a
 							class:list={[
-								"group relative flex w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-white text-gray-900 no-underline shadow-[0_20px_56px_-44px_rgba(34,42,55,0.42)] transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500",
+								"group relative flex w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-surface-100 text-gray-900 no-underline shadow-[0_20px_56px_-44px_rgba(34,42,55,0.42)] transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500",
 								item.layout === "wide"
 									? "min-h-[260px] lg:min-h-[250px]"
 									: "min-h-[270px] lg:min-h-[280px]",
@@ -152,7 +152,7 @@ const secondaryItems = items.slice(1);
 						>
 							<div
 								class:list={[
-									"relative shrink-0 overflow-hidden",
+									"relative shrink-0 overflow-hidden rounded-t-[24px] transition-all duration-300 ease-out group-hover:m-2 group-hover:rounded-[20px]",
 									item.layout === "wide"
 										? "h-32 sm:h-36"
 										: "h-40",
@@ -203,7 +203,6 @@ const secondaryItems = items.slice(1);
 </section>
 
 <script>
-	// Met en pause les boucles CSS des scènes quand le bento sort de l'écran.
 	const initBentoPause = () => {
 		const bento = document.querySelector<HTMLElement>("[data-services-bento]");
 
