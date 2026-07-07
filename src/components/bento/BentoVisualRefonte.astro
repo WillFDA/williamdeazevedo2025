@@ -1,24 +1,30 @@
 ---
 /**
- * Scène animée "Refonte" : une fenêtre "Avant" terne et désalignée, une flèche,
- * puis une fenêtre "Après" dont les blocs se remettent en place en boucle.
- * Les boucles sont pilotées par Anime.js depuis ServicesBentoGrid.astro.
+ * Scène animée "Refonte" : les contenus quittent la fenêtre "Avant" (terne,
+ * penchée) et volent un par un vers leurs emplacements en pointillés dans la
+ * fenêtre "Après" — arc de trajectoire, balayage lumineux, badge final.
+ * Chorégraphie pilotée par src/scripts/animations/bento/refonte.ts.
+ * Sans JS : les deux fenêtres pleines, badge visible.
  */
 ---
 
-<div class="refonte-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden" data-bento-visual="refonte" aria-hidden="true">
+<div
+	class="refonte-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden"
+	data-bento-visual="refonte"
+	aria-hidden="true"
+>
 	<div class="refonte-stage relative flex items-center gap-3 transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:gap-4">
-		<div class="relative w-[136px] -rotate-[1.5deg] rounded-lg border border-red-200/80 bg-red-50/70 opacity-95 shadow-[0_12px_26px_-18px_rgba(34,42,55,0.35)] sm:w-[152px]">
+		<div class="relative w-[136px] -rotate-[1.5deg] rounded-lg border border-red-200/70 bg-red-50/60 shadow-[0_12px_26px_-18px_rgba(34,42,55,0.35)] sm:w-[152px]">
 			<div class="flex items-center gap-1 border-b border-red-100/80 px-2.5 py-1.5">
 				<span class="size-1 rounded-full bg-red-300/90"></span>
 				<span class="size-1 rounded-full bg-red-300/70"></span>
 				<span class="size-1 rounded-full bg-red-300/50"></span>
 			</div>
 			<div class="flex flex-col gap-[6px] px-2.5 pt-2.5 pb-3">
-				<span class="h-2 w-[88%] rounded-full bg-red-300/70"></span>
-				<span class="h-2 w-[52%] translate-x-2 -rotate-2 rounded-full bg-red-200/70"></span>
-				<span class="h-2 w-[70%] rounded-full bg-red-200/50"></span>
-				<span class="h-3 w-8 rotate-1 rounded-sm bg-red-300/60"></span>
+				<span class="refonte-source h-2 w-[88%] rounded-full bg-red-300/70" data-bento-refonte-source></span>
+				<span class="refonte-source h-2 w-[52%] translate-x-2 -rotate-2 rounded-full bg-red-200/70" data-bento-refonte-source></span>
+				<span class="refonte-source h-2 w-[70%] -translate-x-0.5 rotate-1 rounded-full bg-red-200/50" data-bento-refonte-source></span>
+				<span class="refonte-source h-3 w-8 rotate-1 rounded-sm bg-red-300/60" data-bento-refonte-source></span>
 			</div>
 			<span class="absolute -top-2 left-2 rounded-full border border-red-200 bg-red-50 px-1.5 py-0.5 text-[8px] font-medium text-red-700 shadow-sm">Avant</span>
 		</div>
@@ -29,33 +35,72 @@
 			</svg>
 		</span>
 
-		<div class="relative w-[136px] rotate-[1deg] rounded-lg border border-emerald-200/80 bg-white shadow-[0_16px_32px_-22px_rgba(34,42,55,0.35)] sm:w-[152px]">
+		<div class="relative w-[136px] rounded-lg border border-emerald-200/80 bg-white shadow-[0_16px_32px_-22px_rgba(34,42,55,0.35)] sm:w-[152px]" data-bento-refonte-apres>
 			<div class="flex items-center gap-1 border-b border-emerald-100/80 px-2.5 py-1.5">
 				<span class="size-1 rounded-full bg-emerald-300/90"></span>
 				<span class="size-1 rounded-full bg-emerald-300/70"></span>
 				<span class="size-1 rounded-full bg-emerald-300/50"></span>
 			</div>
 			<div class="flex flex-col gap-[6px] px-2.5 pt-2.5 pb-3">
-				<span class="refonte-row-1 h-2 w-[85%] rounded-full bg-emerald-300" data-bento-refonte-row></span>
-				<span class="refonte-row-2 h-2 w-[62%] rounded-full bg-gray-200" data-bento-refonte-row></span>
-				<span class="refonte-row-3 h-2 w-[74%] rounded-full bg-gray-100" data-bento-refonte-row></span>
-				<span class="refonte-row-4 h-3.5 w-10 rounded-full bg-emerald-500 shadow-sm" data-bento-refonte-row></span>
+				<span class="relative flex h-2 w-[85%]">
+					<span class="refonte-slot absolute -inset-[2px] rounded-full" data-bento-refonte-slot></span>
+					<span class="refonte-fly h-full w-full rounded-full bg-emerald-300" data-bento-refonte-fly></span>
+				</span>
+				<span class="relative flex h-2 w-[62%]">
+					<span class="refonte-slot absolute -inset-[2px] rounded-full" data-bento-refonte-slot></span>
+					<span class="refonte-fly h-full w-full rounded-full bg-gray-200" data-bento-refonte-fly></span>
+				</span>
+				<span class="relative flex h-2 w-[74%]">
+					<span class="refonte-slot absolute -inset-[2px] rounded-full" data-bento-refonte-slot></span>
+					<span class="refonte-fly h-full w-full rounded-full bg-gray-100" data-bento-refonte-fly></span>
+				</span>
+				<span class="relative flex h-3.5 w-10">
+					<span class="refonte-slot absolute -inset-[2px] rounded-full" data-bento-refonte-slot></span>
+					<span class="refonte-fly h-full w-full rounded-full bg-emerald-500 shadow-sm" data-bento-refonte-fly></span>
+				</span>
 			</div>
 			<span class="absolute -top-2 left-2 rounded-full border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[8px] font-medium text-emerald-700 shadow-sm">Après</span>
+
+			<span class="absolute inset-0 overflow-hidden rounded-lg">
+				<span class="refonte-shine absolute top-0 bottom-0 -left-10 w-8 bg-gradient-to-r from-transparent via-white to-transparent" data-bento-refonte-shine></span>
+			</span>
+
+			<span class="refonte-chip absolute -right-2 -bottom-2.5 flex items-center gap-1 rounded-full bg-emerald-500 px-2 py-1 text-[8px] font-semibold text-white shadow-sm" data-bento-refonte-chip>
+				<svg class="size-2" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M3.5 8.5l3 3 6-7"></path>
+				</svg>
+				Plus lisible
+			</span>
 		</div>
 	</div>
-
 </div>
 
 <style>
+	.refonte-source {
+		will-change: opacity;
+	}
+
+	.refonte-slot {
+		border: 1.5px dashed rgba(148, 163, 184, 0.55);
+		opacity: 0;
+	}
+
+	.refonte-fly {
+		will-change: opacity, transform;
+	}
+
+	.refonte-shine {
+		opacity: 0;
+		will-change: opacity, transform;
+	}
+
 	.refonte-arrow {
+		transform-origin: center;
 		will-change: transform;
 	}
 
-	.refonte-row-1,
-	.refonte-row-2,
-	.refonte-row-3,
-	.refonte-row-4 {
+	.refonte-chip {
+		transform-origin: center;
 		will-change: opacity, transform;
 	}
 </style>

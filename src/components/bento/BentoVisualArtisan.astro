@@ -1,7 +1,11 @@
 ---
 /**
- * Scène "Site artisan" : un plan de travail où les pièces essentielles
- * s'organisent en demande claire.
+ * Scène "Site internet artisan" : un établi vu de dessus. Quatre pièces
+ * posées en léger désordre se rangent une à une dans leurs emplacements
+ * tracés en pointillés, le long de la règle centrale qui se dessine.
+ * "Devis" se cale en dernier, puis "Demande claire" valide le parcours.
+ * Chorégraphie pilotée par src/scripts/animations/bento/artisan.ts.
+ * Sans JS : pièces rangées, repères allumés, "Demande claire" visible.
  */
 ---
 
@@ -11,57 +15,58 @@
     aria-hidden="true"
 >
     <div class="artisan-stage relative w-[300px] transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:w-[340px]">
-        <div class="artisan-bench" data-bento-artisan-board>
+        <div class="artisan-bench">
             <span class="artisan-bench__grain artisan-bench__grain--one"></span>
             <span class="artisan-bench__grain artisan-bench__grain--two"></span>
-            <span class="artisan-ruler" data-bento-artisan-guide></span>
             <span class="artisan-pin artisan-pin--one"></span>
             <span class="artisan-pin artisan-pin--two"></span>
+            <span class="artisan-ruler" data-bento-artisan-ruler></span>
+            <span class="artisan-tick artisan-tick--services" data-bento-artisan-tick></span>
+            <span class="artisan-tick artisan-tick--work" data-bento-artisan-tick></span>
+            <span class="artisan-tick artisan-tick--local" data-bento-artisan-tick></span>
+            <span class="artisan-tick artisan-tick--quote" data-bento-artisan-tick></span>
         </div>
 
-        <div class="artisan-piece-slot artisan-piece-slot--services">
-            <span
-                class="artisan-piece artisan-piece--services"
-                data-bento-artisan-piece
-            >
+        <div class="artisan-slot artisan-slot--services">
+            <span class="artisan-slot__outline" data-bento-artisan-slot></span>
+            <span class="artisan-piece artisan-piece--services" data-bento-artisan-piece>
                 <span class="artisan-piece__mark"></span>
                 Prestations
             </span>
         </div>
 
-        <div class="artisan-piece-slot artisan-piece-slot--work">
-            <span
-                class="artisan-piece artisan-piece--work"
-                data-bento-artisan-piece
-            >
+        <div class="artisan-slot artisan-slot--work">
+            <span class="artisan-slot__outline" data-bento-artisan-slot></span>
+            <span class="artisan-piece artisan-piece--work" data-bento-artisan-piece>
                 <span class="artisan-piece__mark"></span>
                 Réalisations
             </span>
         </div>
 
-        <div class="artisan-piece-slot artisan-piece-slot--local">
-            <span
-                class="artisan-piece artisan-piece--local"
-                data-bento-artisan-piece
-            >
+        <div class="artisan-slot artisan-slot--local">
+            <span class="artisan-slot__outline" data-bento-artisan-slot></span>
+            <span class="artisan-piece artisan-piece--local" data-bento-artisan-piece>
                 <span class="artisan-piece__mark"></span>
                 Zone locale
             </span>
         </div>
 
-        <div class="artisan-piece-slot artisan-piece-slot--quote">
-            <span
-                class="artisan-piece artisan-piece--quote"
-                data-bento-artisan-piece
-            >
+        <div class="artisan-slot artisan-slot--quote">
+            <span class="artisan-slot__outline" data-bento-artisan-slot></span>
+            <span class="artisan-piece artisan-piece--quote" data-bento-artisan-piece>
                 <span class="artisan-piece__mark"></span>
                 Devis
             </span>
         </div>
 
-        <span class="artisan-result" data-bento-artisan-result>
-            Demande claire
-        </span>
+        <div class="artisan-chip-slot">
+            <span class="artisan-chip" data-bento-artisan-chip>
+                <svg class="artisan-chip__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3.5 8.5l3 3 6-7"></path>
+                </svg>
+                Demande claire
+            </span>
+        </div>
     </div>
 </div>
 
@@ -86,7 +91,6 @@
         inset: 0.2rem 0.15rem 0.85rem;
         overflow: hidden;
         position: absolute;
-        will-change: transform;
     }
 
     .artisan-bench__grain {
@@ -104,27 +108,6 @@
 
     .artisan-bench__grain--two {
         bottom: 2.35rem;
-    }
-
-    .artisan-ruler {
-        background:
-            repeating-linear-gradient(
-                90deg,
-                rgba(34, 42, 55, 0.22) 0,
-                rgba(34, 42, 55, 0.22) 1px,
-                transparent 1px,
-                transparent 0.62rem
-            ),
-            linear-gradient(90deg, rgba(62, 96, 212, 0.18), rgba(34, 197, 94, 0.16));
-        border-radius: 999em;
-        height: 0.35rem;
-        left: 2rem;
-        position: absolute;
-        right: 2rem;
-        top: 50%;
-        transform: translateY(-50%);
-        transform-origin: left center;
-        will-change: transform;
     }
 
     .artisan-pin {
@@ -145,28 +128,87 @@
         right: 1rem;
     }
 
-    .artisan-piece-slot {
+    .artisan-ruler {
+        background:
+            repeating-linear-gradient(
+                90deg,
+                rgba(34, 42, 55, 0.22) 0,
+                rgba(34, 42, 55, 0.22) 1px,
+                transparent 1px,
+                transparent 0.62rem
+            ),
+            linear-gradient(90deg, rgba(62, 96, 212, 0.2), rgba(34, 197, 94, 0.18), rgba(31, 41, 55, 0.18));
+        border-radius: 999em;
+        height: 0.35rem;
+        left: 2rem;
+        position: absolute;
+        right: 2rem;
+        top: calc(50% - 0.175rem);
+        transform-origin: left center;
+        will-change: opacity, transform;
+    }
+
+    .artisan-tick {
+        border-radius: 999em;
+        height: 0.46rem;
+        position: absolute;
+        top: calc(50% - 0.23rem);
+        transform-origin: center;
+        width: 0.46rem;
+        will-change: opacity, transform;
+    }
+
+    .artisan-tick--services {
+        background: #3e60d4;
+        left: 19%;
+    }
+
+    .artisan-tick--work {
+        background: #94a3b8;
+        left: 43%;
+    }
+
+    .artisan-tick--local {
+        background: #22c55e;
+        left: 63%;
+    }
+
+    .artisan-tick--quote {
+        background: #1f2937;
+        left: 85%;
+    }
+
+    .artisan-slot {
         position: absolute;
     }
 
-    .artisan-piece-slot--services {
-        left: 1rem;
-        top: 1.15rem;
+    .artisan-slot--services {
+        left: 1.4rem;
+        top: 1.55rem;
     }
 
-    .artisan-piece-slot--work {
-        right: 1rem;
-        top: 1.65rem;
+    .artisan-slot--work {
+        right: 1.4rem;
+        top: 1.55rem;
     }
 
-    .artisan-piece-slot--local {
-        bottom: 1.55rem;
-        left: 1.35rem;
+    .artisan-slot--local {
+        bottom: 1.7rem;
+        left: 1.4rem;
     }
 
-    .artisan-piece-slot--quote {
-        bottom: 1.35rem;
-        right: 1.1rem;
+    .artisan-slot--quote {
+        bottom: 1.7rem;
+        right: 1.4rem;
+    }
+
+    .artisan-slot__outline {
+        border: 1.5px dashed rgba(148, 163, 184, 0.6);
+        border-radius: 1.05rem;
+        inset: -3px;
+        opacity: 0;
+        position: absolute;
+        will-change: opacity;
     }
 
     .artisan-piece {
@@ -183,8 +225,9 @@
         line-height: 1;
         min-width: 6.7rem;
         padding: 0.7rem 0.78rem;
+        position: relative;
         white-space: nowrap;
-        will-change: opacity, transform;
+        will-change: transform;
     }
 
     .artisan-piece__mark {
@@ -214,22 +257,36 @@
         background: rgba(255, 255, 255, 0.38);
     }
 
-    .artisan-result {
+    .artisan-chip-slot {
+        bottom: 0.05rem;
+        display: flex;
+        justify-content: center;
+        left: 0;
+        position: absolute;
+        right: 0;
+    }
+
+    .artisan-chip {
+        align-items: center;
         background: rgba(255, 255, 255, 0.95);
         border: 1px solid rgba(226, 232, 240, 0.92);
         border-radius: 999em;
-        bottom: 0.05rem;
         box-shadow: 0 14px 26px -20px rgba(34, 42, 55, 0.55);
         color: var(--color-gray-700);
+        display: inline-flex;
         font-size: 0.58rem;
         font-weight: 500;
-        left: 50%;
+        gap: 0.3rem;
         line-height: 1;
         padding: 0.5rem 0.72rem;
-        position: absolute;
-        transform: translateX(-50%);
         white-space: nowrap;
         will-change: opacity, transform;
+    }
+
+    .artisan-chip__check {
+        color: #22c55e;
+        height: 0.55rem;
+        width: 0.55rem;
     }
 
     @media (max-width: 639px) {
@@ -243,20 +300,14 @@
             padding: 0.65rem 0.68rem;
         }
 
-        .artisan-piece-slot--services {
-            left: 0.55rem;
+        .artisan-slot--services,
+        .artisan-slot--local {
+            left: 0.7rem;
         }
 
-        .artisan-piece-slot--work {
-            right: 0.55rem;
-        }
-
-        .artisan-piece-slot--local {
-            left: 0.75rem;
-        }
-
-        .artisan-piece-slot--quote {
-            right: 0.65rem;
+        .artisan-slot--work,
+        .artisan-slot--quote {
+            right: 0.7rem;
         }
     }
 </style>

@@ -1,48 +1,80 @@
 ---
 /**
- * Scène animée "Renfort front-end" : un mini éditeur de code sombre où un diff
- * se joue en boucle — ligne rouge barrée, lignes vertes ajoutées,
- * badge "Corrigé". Le curseur clignote sur son propre cycle.
- * Les boucles sont pilotées par Anime.js depuis ServicesBentoGrid.astro.
+ * Scène animée "Renfort front-end" : un mini éditeur sombre (numéros de
+ * ligne, barre de statut) où un diff se joue en boucle — ligne fautive
+ * barrée, lignes correctives qui se "tapent", statut "1 problème" →
+ * "0 problème", badge "Corrigé" et halo vert de validation.
+ * Chorégraphie pilotée par src/scripts/animations/bento/frontend.ts.
+ * Sans JS : état corrigé (diff appliqué, statut à zéro, badge visible).
  */
 ---
 
-<div class="fe-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden" data-bento-visual="frontend" aria-hidden="true">
+<div
+	class="fe-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden"
+	data-bento-visual="frontend"
+	aria-hidden="true"
+>
 	<div class="fe-stage relative transition-transform duration-500 ease-out group-hover:scale-[1.03]">
-		<div class="w-[196px] rounded-xl bg-gray-900 shadow-[0_20px_40px_-22px_rgba(31,38,52,0.7)] ring-1 ring-white/10">
+		<span class="fe-glow absolute -inset-x-8 -inset-y-6 rounded-[2rem] bg-[radial-gradient(55%_60%_at_50%_55%,rgba(52,211,153,0.2),rgba(52,211,153,0)_70%)]" data-bento-fe-glow></span>
+
+		<div class="fe-editor relative w-[196px] rounded-xl bg-gray-900 shadow-[0_20px_40px_-22px_rgba(31,38,52,0.7)] ring-1 ring-white/10" data-bento-fe-editor>
 			<div class="flex items-center gap-1.5 border-b border-white/[0.07] px-3 py-2">
 				<span class="size-1.5 rounded-full bg-gray-600"></span>
 				<span class="size-1.5 rounded-full bg-gray-600"></span>
 				<span class="size-1.5 rounded-full bg-gray-600"></span>
 				<span class="ml-1.5 rounded-md bg-white/[0.08] px-1.5 py-0.5 font-mono text-[7px] leading-none text-gray-400">header.tsx</span>
 			</div>
-			<div class="flex flex-col gap-[6px] px-3 pt-2.5 pb-2.5">
+
+			<div class="flex flex-col gap-[6px] px-2.5 pt-2.5 pb-2.5">
 				<span class="flex items-center gap-1.5">
+					<span class="fe-num">1</span>
 					<span class="h-1.5 w-7 rounded-full bg-[#c4b5fd]/70"></span>
 					<span class="h-1.5 w-11 rounded-full bg-sky-400/60"></span>
 				</span>
-				<span class="ml-2.5 flex items-center gap-1.5">
-					<span class="h-1.5 w-9 rounded-full bg-sky-300/50"></span>
+				<span class="flex items-center gap-1.5">
+					<span class="fe-num">2</span>
+					<span class="ml-2 h-1.5 w-9 rounded-full bg-sky-300/50"></span>
 					<span class="h-1.5 w-6 rounded-full bg-gray-500/50"></span>
 				</span>
-				<span class="fe-line-del relative ml-2.5 flex items-center gap-1.5" data-bento-fe-line-del>
-					<span class="w-2 font-mono text-[9px] leading-none text-rose-400">−</span>
+				<span class="fe-line-del flex items-center gap-1.5" data-bento-fe-line-del>
+					<span class="fe-num">3</span>
+					<span class="ml-2 w-2 font-mono text-[9px] leading-none text-rose-400">−</span>
 					<span class="relative h-1.5 w-14 rounded-full bg-rose-400/50">
 						<span class="fe-strike absolute top-1/2 left-0 h-px w-full bg-rose-300" data-bento-fe-strike></span>
 					</span>
 				</span>
-				<span class="fe-line-add-1 ml-2.5 flex items-center gap-1.5" data-bento-fe-line-add>
-					<span class="w-2 font-mono text-[9px] leading-none text-emerald-400">+</span>
-					<span class="h-1.5 w-10 rounded-full bg-emerald-400/60"></span>
-					<span class="h-1.5 w-5 rounded-full bg-emerald-300/40"></span>
+				<span class="fe-line-add flex items-center gap-1.5" data-bento-fe-line-add>
+					<span class="fe-num">4</span>
+					<span class="ml-2 w-2 font-mono text-[9px] leading-none text-emerald-400">+</span>
+					<span class="fe-add-pill h-1.5 w-10 rounded-full bg-emerald-400/60" data-bento-fe-add-pill></span>
+					<span class="fe-add-pill h-1.5 w-5 rounded-full bg-emerald-300/40" data-bento-fe-add-pill></span>
 				</span>
-				<span class="fe-line-add-2 ml-2.5 flex items-center gap-1.5" data-bento-fe-line-add>
-					<span class="w-2 font-mono text-[9px] leading-none text-emerald-400">+</span>
-					<span class="h-1.5 w-12 rounded-full bg-emerald-400/50"></span>
+				<span class="fe-line-add flex items-center gap-1.5" data-bento-fe-line-add>
+					<span class="fe-num">5</span>
+					<span class="ml-2 w-2 font-mono text-[9px] leading-none text-emerald-400">+</span>
+					<span class="fe-add-pill h-1.5 w-12 rounded-full bg-emerald-400/50" data-bento-fe-add-pill></span>
 				</span>
 				<span class="flex items-center gap-1.5">
-					<span class="h-1.5 w-4 rounded-full bg-gray-500/50"></span>
+					<span class="fe-num">6</span>
+					<span class="ml-2 h-1.5 w-4 rounded-full bg-gray-500/50"></span>
 					<span class="fe-caret h-2.5 w-px bg-sky-300" data-bento-fe-caret></span>
+				</span>
+			</div>
+
+			<div class="flex items-center justify-between border-t border-white/[0.07] px-3 py-1.5">
+				<span class="relative h-[10px] w-20">
+					<span class="fe-status-err absolute top-0 left-0 flex items-center gap-1" data-bento-fe-status-err>
+						<span class="size-1.5 rounded-full bg-rose-400"></span>
+						<span class="font-mono text-[7px] leading-[10px] text-gray-400">1 problème</span>
+					</span>
+					<span class="fe-status-ok absolute top-0 left-0 flex items-center gap-1" data-bento-fe-status-ok>
+						<span class="size-1.5 rounded-full bg-emerald-400"></span>
+						<span class="font-mono text-[7px] leading-[10px] text-gray-400">0 problème</span>
+					</span>
+				</span>
+				<span class="flex items-center gap-1">
+					<span class="size-1 rounded-full bg-sky-400/70"></span>
+					<span class="font-mono text-[7px] leading-[10px] text-gray-500">main</span>
 				</span>
 			</div>
 		</div>
@@ -54,26 +86,56 @@
 			Corrigé
 		</span>
 	</div>
-
 </div>
 
 <style>
+	.fe-num {
+		color: rgba(156, 163, 175, 0.4);
+		font-family: var(--font-mono, ui-monospace, monospace);
+		font-size: 6.5px;
+		line-height: 1;
+		text-align: right;
+		width: 0.5rem;
+	}
+
+	.fe-glow {
+		opacity: 0;
+		will-change: opacity;
+	}
+
+	.fe-editor {
+		will-change: transform;
+	}
+
 	.fe-strike {
 		transform-origin: left center;
 		will-change: transform;
 	}
 
 	.fe-line-del {
-		opacity: 0.45;
+		opacity: 0.38;
+		will-change: opacity;
 	}
 
-	.fe-line-add-1,
-	.fe-line-add-2 {
+	.fe-line-add {
+		will-change: opacity, transform;
+	}
+
+	.fe-add-pill {
+		transform-origin: left center;
+		will-change: transform;
+	}
+
+	.fe-status-err {
+		opacity: 0;
+		will-change: opacity, transform;
+	}
+
+	.fe-status-ok {
 		will-change: opacity, transform;
 	}
 
 	.fe-chip {
-		opacity: 1;
 		transform-origin: center;
 		will-change: opacity, transform;
 	}

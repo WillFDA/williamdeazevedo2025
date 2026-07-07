@@ -1,51 +1,73 @@
 ---
 /**
- * Scène animée "SEO & mise en ligne" : une page de résultats de recherche où
- * la ligne du client grimpe de la 3e à la 1re position, avec un
- * badge "1ʳᵉ position" et une pastille "En ligne" qui pulse.
- * Les boucles sont pilotées par Anime.js depuis ServicesBentoGrid.astro.
+ * Scène animée "SEO & mise en ligne" : une page de résultats où la ligne du
+ * client grimpe de la 3e à la 2e puis à la 1re position (les rangs restent
+ * fixes en gouttière), balayage lumineux à l'arrivée, badge "1ʳᵉ position"
+ * et pastille "En ligne" qui pulse.
+ * Chorégraphie pilotée par src/scripts/animations/bento/seo.ts.
+ * Sans JS : le client est 1er, badge visible.
  */
 ---
 
-<div class="seo-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden" data-bento-visual="seo" aria-hidden="true">
+<div
+	class="seo-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden"
+	data-bento-visual="seo"
+	aria-hidden="true"
+>
 	<div class="seo-stage relative transition-transform duration-500 ease-out group-hover:scale-[1.03]">
 		<div class="w-[196px] rounded-xl border border-gray-200/80 bg-white p-2.5 shadow-[0_18px_36px_-22px_rgba(34,42,55,0.4)]">
 			<div class="flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-[5px]">
-				<svg xmlns="http://www.w3.org/2000/svg" class="size-[18px] shrink-0 text-gray-400" viewBox="0 0 18 18" aria-hidden="true">
-					<title>square-chart-search</title>
-					<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke="currentColor">
-						<path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M9.507 3.25C9.637 5.619 11.599 7.5 14 7.5C14.084 7.5 14.167 7.498 14.25 7.493V13.75C14.25 14.855 13.355 15.75 12.25 15.75H3.75C2.645 15.75 1.75 14.855 1.75 13.75V5.25C1.75 4.145 2.645 3.25 3.75 3.25H9.507Z" fill="currentColor" data-stroke="none" stroke="none"></path>
-						<path d="M4.75 8.5V12.75"></path>
-						<path d="M11.25 10.75V12.75"></path>
-						<path d="M8 6.25V12.75"></path>
-						<path d="M14 5.25C15.243 5.25 16.25 4.243 16.25 3C16.25 1.757 15.243 0.75 14 0.75C12.757 0.75 11.75 1.757 11.75 3C11.75 4.243 12.757 5.25 14 5.25Z"></path>
-						<path d="M15.59 4.59L17.25 6.25"></path>
-						<path d="M8.7753 3.25H3.75C2.645 3.25 1.75 4.145 1.75 5.25V13.75C1.75 14.855 2.645 15.75 3.75 15.75H12.25C13.355 15.75 14.25 14.855 14.25 13.75V8.23579"></path>
-					</g>
-				</svg>
+				<span class="seo-lens flex shrink-0" data-bento-seo-lens>
+					<svg xmlns="http://www.w3.org/2000/svg" class="size-[18px] text-gray-400" viewBox="0 0 18 18" aria-hidden="true">
+						<title>square-chart-search</title>
+						<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke="currentColor">
+							<path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M9.507 3.25C9.637 5.619 11.599 7.5 14 7.5C14.084 7.5 14.167 7.498 14.25 7.493V13.75C14.25 14.855 13.355 15.75 12.25 15.75H3.75C2.645 15.75 1.75 14.855 1.75 13.75V5.25C1.75 4.145 2.645 3.25 3.75 3.25H9.507Z" fill="currentColor" data-stroke="none" stroke="none"></path>
+							<path d="M4.75 8.5V12.75"></path>
+							<path d="M11.25 10.75V12.75"></path>
+							<path d="M8 6.25V12.75"></path>
+							<path d="M14 5.25C15.243 5.25 16.25 4.243 16.25 3C16.25 1.757 15.243 0.75 14 0.75C12.757 0.75 11.75 1.757 11.75 3C11.75 4.243 12.757 5.25 14 5.25Z"></path>
+							<path d="M15.59 4.59L17.25 6.25"></path>
+							<path d="M8.7753 3.25H3.75C2.645 3.25 1.75 4.145 1.75 5.25V13.75C1.75 14.855 2.645 15.75 3.75 15.75H12.25C13.355 15.75 14.25 14.855 14.25 13.75V8.23579"></path>
+						</g>
+					</svg>
+				</span>
 				<span class="truncate text-[8px] font-medium text-gray-500">votre métier + votre ville</span>
 			</div>
 
-			<div class="seo-list mt-2 flex flex-col gap-[5px]" data-bento-seo-list>
-				<div class="seo-row-mine flex h-5 items-center gap-1.5 rounded-md bg-orange-50 px-1.5 ring-1 ring-orange-200/80" data-bento-seo-row="mine">
-					<span class="size-2 shrink-0 rounded-full bg-[#f6821f]"></span>
-					<span class="h-1.5 w-16 rounded-full bg-gray-400/70"></span>
-					<span class="h-1.5 w-8 rounded-full bg-gray-200"></span>
+			<div class="mt-2 flex gap-1.5">
+				<div class="flex flex-col gap-[5px]">
+					<span class="seo-rank">1</span>
+					<span class="seo-rank">2</span>
+					<span class="seo-rank">3</span>
 				</div>
-				<div class="seo-row-other-1 flex h-5 items-center gap-1.5 rounded-md px-1.5" data-bento-seo-row="other-1">
-					<span class="size-2 shrink-0 rounded-full bg-gray-200"></span>
-					<span class="h-1.5 w-14 rounded-full bg-gray-200"></span>
-					<span class="h-1.5 w-6 rounded-full bg-gray-100"></span>
-				</div>
-				<div class="seo-row-other-2 flex h-5 items-center gap-1.5 rounded-md px-1.5" data-bento-seo-row="other-2">
-					<span class="size-2 shrink-0 rounded-full bg-gray-200"></span>
-					<span class="h-1.5 w-12 rounded-full bg-gray-200"></span>
-					<span class="h-1.5 w-9 rounded-full bg-gray-100"></span>
+
+				<div class="seo-list flex min-w-0 flex-1 flex-col gap-[5px]" data-bento-seo-list>
+					<div class="seo-row-mine relative flex h-5 items-center gap-1.5 overflow-hidden rounded-md bg-blue-50 px-1.5 ring-1 ring-blue-200/80" data-bento-seo-row="mine">
+						<span class="size-2 shrink-0 rounded-full bg-[#3e60d4]"></span>
+						<span class="h-1.5 w-16 rounded-full bg-gray-400/70"></span>
+						<span class="h-1.5 w-8 rounded-full bg-gray-200"></span>
+						<span class="seo-sweep absolute top-0 bottom-0 left-0 w-7 bg-gradient-to-r from-transparent via-white to-transparent" data-bento-seo-sweep></span>
+					</div>
+					<div class="seo-row flex h-5 items-center gap-1.5 rounded-md px-1.5" data-bento-seo-row="other-1">
+						<span class="size-2 shrink-0 rounded-full bg-gray-200"></span>
+						<span class="h-1.5 w-14 rounded-full bg-gray-200"></span>
+						<span class="h-1.5 w-6 rounded-full bg-gray-100"></span>
+					</div>
+					<div class="seo-row flex h-5 items-center gap-1.5 rounded-md px-1.5" data-bento-seo-row="other-2">
+						<span class="size-2 shrink-0 rounded-full bg-gray-200"></span>
+						<span class="h-1.5 w-12 rounded-full bg-gray-200"></span>
+						<span class="h-1.5 w-9 rounded-full bg-gray-100"></span>
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<span class="seo-chip absolute -right-3 top-8 rounded-full bg-[#f6821f] px-2 py-1 text-[8px] font-semibold text-white shadow-sm" data-bento-seo-chip>1ʳᵉ position</span>
+		<span class="seo-chip absolute -right-3 top-8 flex items-center gap-1 rounded-full bg-blue-500 px-2 py-1 text-[8px] font-semibold text-white shadow-sm" data-bento-seo-chip>
+			<svg class="size-2" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M8 13V3M4 7l4-4 4 4"></path>
+			</svg>
+			1ʳᵉ position
+		</span>
 
 		<span class="absolute -bottom-2.5 -left-2 flex items-center gap-1.5 rounded-full border border-gray-100 bg-white px-2 py-1 shadow-[0_12px_24px_-14px_rgba(34,42,55,0.4)]">
 			<span class="relative flex size-1.5">
@@ -55,18 +77,37 @@
 			<span class="text-[8px] font-medium text-gray-600">En ligne</span>
 		</span>
 	</div>
-
 </div>
 
 <style>
-	.seo-row-mine,
-	.seo-row-other-1,
-	.seo-row-other-2 {
+	.seo-rank {
+		align-items: center;
+		color: rgba(112, 122, 135, 0.55);
+		display: flex;
+		font-family: var(--font-mono, ui-monospace, monospace);
+		font-size: 7px;
+		height: 1.25rem;
+		justify-content: center;
+		line-height: 1;
+		width: 0.65rem;
+	}
+
+	.seo-lens {
+		transform-origin: center;
 		will-change: transform;
 	}
 
+	.seo-row-mine,
+	.seo-row {
+		will-change: transform;
+	}
+
+	.seo-sweep {
+		opacity: 0;
+		will-change: opacity, transform;
+	}
+
 	.seo-chip {
-		opacity: 1;
 		transform-origin: center;
 		will-change: opacity, transform;
 	}
