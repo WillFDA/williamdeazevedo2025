@@ -4,226 +4,745 @@ import BentoVisualFrontend from "./bento/BentoVisualFrontend.astro";
 import BentoVisualRefonte from "./bento/BentoVisualRefonte.astro";
 import BentoVisualSeo from "./bento/BentoVisualSeo.astro";
 import BentoVisualVitrine from "./bento/BentoVisualVitrine.astro";
-import ArrowRight from "./icons/nucleo/arrow-right-fill.svg";
-import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
-import Globe from "./icons/nucleo/globe-outline.svg";
-import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
-import WindowPointer from "./icons/nucleo/window-pointer-fill.svg";
 
 type BentoIcon = "code" | "deploy" | "refonte" | "site";
-type BentoTone = "blue" | "cyan" | "orange" | "sky";
 
 type BentoItem = {
-	description: string;
-	href: string;
-	icon: BentoIcon;
-	layout: "feature" | "small" | "wide";
-	linkLabel: string;
-	title: string;
-	tone: BentoTone;
+    description: string;
+    href: string;
+    icon: BentoIcon;
+    layout: "feature" | "small" | "wide";
+    linkLabel: string;
+    title: string;
 };
 
 const items: BentoItem[] = [
-	{
-		description:
-			"Du cadrage à la mise en ligne, je construis une présence claire, rapide et crédible, avec un parcours pensé pour déclencher le contact.",
-		href: "/creation-site-vitrine",
-		icon: "site",
-		layout: "feature",
-		linkLabel: "Découvrir création de site vitrine",
-		title: "Création de site vitrine",
-		tone: "blue",
-	},
-	{
-		description:
-			"Je pars de l'existant : ce qui rassure, ce qui bloque, ce qui ralentit. Puis on reconstruit une expérience plus lisible et plus crédible.",
-		href: "/refonte-site-internet",
-		icon: "refonte",
-		layout: "wide",
-		linkLabel: "Découvrir refonte de site internet",
-		title: "Refonte de site internet",
-		tone: "cyan",
-	},
-	{
-		description:
-			"J'intègre des maquettes, corrige les états d'interface, le responsive, l'accessibilité et la performance sans casser votre produit.",
-		href: "/services/developpeur-web-freelance",
-		icon: "code",
-		layout: "small",
-		linkLabel: "Découvrir renfort front-end",
-		title: "Renfort front-end",
-		tone: "sky",
-	},
-	{
-		description:
-			"Structure, vitesse, métadonnées, formulaires et mise en ligne : je pose une base propre pour être trouvé, compris et contacté.",
-		href: "/tarif-creation-site-internet",
-		icon: "deploy",
-		layout: "small",
-		linkLabel: "Découvrir SEO et mise en ligne",
-		title: "SEO & mise en ligne",
-		tone: "orange",
-	},
+    {
+        description:
+            "Du cadrage à la mise en ligne, je construis une présence claire, rapide et crédible, avec un parcours pensé pour déclencher le contact.",
+        href: "/creation-site-vitrine",
+        icon: "site",
+        layout: "feature",
+        linkLabel: "Découvrir création de site vitrine",
+        title: "Création de site vitrine",
+    },
+    {
+        description:
+            "Je pars de l'existant : ce qui rassure, ce qui bloque, ce qui ralentit. Puis on reconstruit une expérience plus lisible et plus crédible.",
+        href: "/refonte-site-internet",
+        icon: "refonte",
+        layout: "wide",
+        linkLabel: "Découvrir refonte de site internet",
+        title: "Refonte de site internet",
+    },
+    {
+        description:
+            "J'intègre des maquettes, corrige les états d'interface, le responsive, l'accessibilité et la performance sans casser votre produit.",
+        href: "/services/developpeur-web-freelance",
+        icon: "code",
+        layout: "small",
+        linkLabel: "Découvrir renfort front-end",
+        title: "Renfort front-end",
+    },
+    {
+        description:
+            "Structure, vitesse, métadonnées, formulaires et mise en ligne : je pose une base propre pour être trouvé, compris et contacté.",
+        href: "/tarif-creation-site-internet",
+        icon: "deploy",
+        layout: "small",
+        linkLabel: "Découvrir SEO et mise en ligne",
+        title: "SEO & mise en ligne",
+    },
 ];
-
-const iconToneClasses: Record<BentoTone, string> = {
-	blue: "bg-blue-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_16px_28px_-16px_rgba(62,96,212,0.9)]",
-	cyan: "bg-[#43b8d6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_16px_28px_-16px_rgba(67,184,214,0.88)]",
-	orange:
-		"bg-[#f6821f] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_16px_28px_-16px_rgba(246,130,31,0.85)]",
-	sky: "bg-[#2f8fd6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_16px_28px_-16px_rgba(47,143,214,0.86)]",
-};
 
 const featureItem = items[0];
 const secondaryItems = items.slice(1);
+const wideItem = secondaryItems[0];
+const smallItems = secondaryItems.slice(1);
 ---
 
 <section
-	class="mx-auto w-full max-w-7xl px-4 sm:px-8"
-	aria-labelledby="services-bento-title"
-	data-services-bento
-	style="--bento-play: running"
+    class="mx-auto w-full max-w-7xl px-4 sm:px-8"
+    aria-labelledby="services-bento-title"
+    data-services-bento
 >
-	<h2 id="services-bento-title" class="sr-only">
-		Ce que je peux prendre en charge
-	</h2>
+    <h2 id="services-bento-title" class="sr-only">
+        Ce que je peux prendre en charge
+    </h2>
 
-	<div class="grid max-w-260 items-stretch gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-		<FadeReveal class="flex" delay={0.12}>
-			<a
-				class="group relative flex min-h-[360px] w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-surface-100 text-gray-900 no-underline shadow-[0_20px_56px_-42px_rgba(34,42,55,0.45)] transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[460px]"
-				href={featureItem.href}
-				aria-label={featureItem.linkLabel}
-			>
-				<div class="relative min-h-[200px] flex-1 shrink-0 overflow-hidden rounded-t-[24px] transition-all duration-300 ease-out group-hover:m-2 group-hover:rounded-[20px] sm:min-h-[220px]">
-					<BentoVisualVitrine />
-				</div>
+    <div
+        class="mx-auto mt-[72px] grid max-w-[1040px] items-stretch gap-5 lg:grid-cols-[0.82fr_1.18fr]"
+    >
+        <FadeReveal class="flex" delay={0.12}>
+            <a
+                class="group relative flex w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[640px]"
+                href={featureItem.href}
+                aria-label={featureItem.linkLabel}
+            >
+                <div
+                    class="relative h-[26rem] shrink-0 overflow-hidden rounded-t-[24px] bg-[#F6F8FB] transition-all duration-300 ease-out m-1 rounded-[20px] lg:h-[27.5rem]"
+                >
+                    <BentoVisualVitrine />
+                </div>
 
-				<div class="relative z-10 flex shrink-0 flex-col px-6 pt-4 pb-6 transition-transform duration-300 ease-out group-hover:-translate-y-7 group-focus-visible:-translate-y-7 sm:px-7">
-					<span
-						class:list={[
-							"mb-5 flex size-11 items-center justify-center rounded-xl text-snow-50",
-							iconToneClasses[featureItem.tone],
-						]}
-						aria-hidden="true"
-					>
-						<WindowPointer class="size-5" />
-					</span>
-					<h3 class="text-xl font-medium leading-tight text-gray-900">
-						{featureItem.title}
-					</h3>
-					<p class="mt-4 max-w-md text-sm font-normal leading-relaxed text-gray-600">
-						{featureItem.description}
-					</p>
-				</div>
+                <div
+                    class="relative z-10 flex shrink-0 flex-col px-6 pt-6 pb-6 sm:px-7"
+                >
+                    <h3 class="text-xl font-normal leading-tight text-gray-900">
+                        {featureItem.title}
+                    </h3>
+                    <p
+                        class="mt-4 max-w-md text-sm font-light leading-relaxed text-gray-600"
+                    >
+                        {featureItem.description}
+                    </p>
+                </div>
+            </a>
+        </FadeReveal>
 
-				<span class="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex translate-y-3 items-center gap-2 px-6 pb-5 text-base font-medium text-blue-500 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:px-7 sm:pb-6">
-					Découvrir
-					<ArrowRight class="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
-				</span>
+        <div class="grid gap-5">
+            <FadeReveal class="flex" delay={0.2}>
+                <a
+                    class="group relative flex w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[300px]"
+                    href={wideItem.href}
+                    aria-label={wideItem.linkLabel}
+                >
+                    <div
+                        class="relative h-32 shrink-0 overflow-hidden rounded-t-[24px] bg-[#F6F8FB] transition-all duration-300 ease-out m-1 rounded-[20px] sm:h-36"
+                    >
+                        <BentoVisualRefonte />
+                    </div>
 
-				<span
-					class="pointer-events-none absolute inset-0 bg-[#0b1a4a]/[0.018] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
-					aria-hidden="true"></span>
-			</a>
-		</FadeReveal>
+                    <div
+                        class="relative z-10 flex flex-1 flex-col px-6 pt-6 pb-6 sm:px-7"
+                    >
+                        <h3
+                            class="text-xl font-normal leading-tight text-gray-900"
+                        >
+                            {wideItem.title}
+                        </h3>
+                        <p
+                            class="mt-4 max-w-lg text-sm font-light leading-relaxed text-gray-600"
+                        >
+                            {wideItem.description}
+                        </p>
+                    </div>
+                </a>
+            </FadeReveal>
 
-		<div class="grid gap-5 md:grid-cols-2">
-			{
-				secondaryItems.map((item, index) => (
-					<FadeReveal
-						class={[
-							"flex",
-							item.layout === "wide" ? "md:col-span-2" : "",
-						]
-							.filter(Boolean)
-							.join(" ")}
-						delay={0.2 + index * 0.08}
-					>
-						<a
-							class:list={[
-								"group relative flex w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-surface-100 text-gray-900 no-underline shadow-[0_20px_56px_-44px_rgba(34,42,55,0.42)] transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500",
-								item.layout === "wide"
-									? "min-h-[260px] lg:min-h-[250px]"
-									: "min-h-[270px] lg:min-h-[280px]",
-							]}
-							href={item.href}
-							aria-label={item.linkLabel}
-						>
-							<div
-								class:list={[
-									"relative shrink-0 overflow-hidden rounded-t-[24px] transition-all duration-300 ease-out group-hover:m-2 group-hover:rounded-[20px]",
-									item.layout === "wide"
-										? "h-32 sm:h-36"
-										: "h-40",
-								]}
-							>
-								{item.icon === "refonte" && <BentoVisualRefonte />}
-								{item.icon === "code" && <BentoVisualFrontend />}
-								{item.icon === "deploy" && <BentoVisualSeo />}
-							</div>
+            <div class="grid gap-5 md:grid-cols-2">
+                {
+                    smallItems.map((item, index) => (
+                        <FadeReveal class="flex" delay={0.28 + index * 0.08}>
+                            <a
+                                class="group relative flex w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[320px]"
+                                href={item.href}
+                                aria-label={item.linkLabel}
+                            >
+                                <div class="relative h-40 shrink-0 overflow-hidden rounded-t-[24px] bg-[#F6F8FB] transition-all duration-300 ease-out m-1 rounded-[20px]">
+                                    {item.icon === "code" && (
+                                        <BentoVisualFrontend />
+                                    )}
+                                    {item.icon === "deploy" && (
+                                        <BentoVisualSeo />
+                                    )}
+                                </div>
 
-							<div class="relative z-10 flex flex-1 flex-col px-6 pt-4 pb-6 transition-transform duration-300 ease-out group-hover:-translate-y-7 group-focus-visible:-translate-y-7 sm:px-7">
-								<span
-									class:list={[
-										"mb-5 flex size-11 items-center justify-center rounded-xl text-snow-50",
-										iconToneClasses[item.tone],
-									]}
-									aria-hidden="true"
-								>
-									{item.icon === "refonte" && (
-										<WindowPaintbrush class="size-5" />
-									)}
-									{item.icon === "code" && <CodeEditor class="size-5" />}
-									{item.icon === "deploy" && <Globe class="size-5" />}
-								</span>
-								<h3 class="text-xl font-medium leading-tight text-gray-900">
-									{item.title}
-								</h3>
-								<p class="mt-4 max-w-lg text-sm font-normal leading-relaxed text-gray-600">
-									{item.description}
-								</p>
-							</div>
-
-							<span class="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex translate-y-3 items-center gap-2 px-6 pb-5 text-base font-medium text-blue-500 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:px-7 sm:pb-6">
-								Découvrir
-								<ArrowRight class="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
-							</span>
-
-							<span
-								class="pointer-events-none absolute inset-0 bg-[#0b1a4a]/[0.018] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
-								aria-hidden="true"
-							/>
-						</a>
-					</FadeReveal>
-				))
-			}
-		</div>
-	</div>
+                                <div class="relative z-10 flex flex-1 flex-col px-6 pt-6 pb-6 sm:px-7">
+                                    <h3 class="text-xl font-normal leading-tight text-gray-900">
+                                        {item.title}
+                                    </h3>
+                                    <p class="mt-4 max-w-lg text-sm font-light leading-relaxed text-gray-600">
+                                        {item.description}
+                                    </p>
+                                </div>
+                            </a>
+                        </FadeReveal>
+                    ))
+                }
+            </div>
+        </div>
+    </div>
 </section>
 
 <script>
-	const initBentoPause = () => {
-		const bento = document.querySelector<HTMLElement>("[data-services-bento]");
+    import { animate, createTimeline, utils } from "animejs";
 
-		if (!bento || bento.dataset.bentoPauseReady) return;
-		bento.dataset.bentoPauseReady = "true";
+    type BentoPlayer = {
+        cancel?: () => void;
+        pause?: () => void;
+        play?: () => void;
+        revert?: () => void;
+    };
 
-		if (!("IntersectionObserver" in window)) return;
+    const activeBentoControllers = new WeakMap<HTMLElement, () => void>();
+    const prefersReducedMotion = () =>
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const compactElements = (
+        items: Array<HTMLElement | null | undefined>,
+    ) => items.filter(Boolean) as HTMLElement[];
+    const addPlayer = (
+        players: BentoPlayer[],
+        player: BentoPlayer | null | undefined,
+    ) => {
+        if (player) players.push(player);
+    };
+    const cleanupPlayer = (player: BentoPlayer) => {
+        if (player.revert) {
+            player.revert();
+            return;
+        }
 
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				bento.style.setProperty(
-					"--bento-play",
-					entry?.isIntersecting ? "running" : "paused",
-				);
-			},
-			{ rootMargin: "96px 0px" },
-		);
+        player.cancel?.();
+    };
 
-		observer.observe(bento);
-	};
+    const animateVitrine = (root: HTMLElement, players: BentoPlayer[]) => {
+        const clientCursor = root.querySelector<HTMLElement>(
+            "[data-bento-vitrine-cursor-client]",
+        );
+        const williamCursor = root.querySelector<HTMLElement>(
+            "[data-bento-vitrine-cursor-william]",
+        );
+        const clickRing = root.querySelector<HTMLElement>(
+            "[data-bento-vitrine-click-ring]",
+        );
+        const cta = root.querySelector<HTMLElement>("[data-bento-vitrine-cta]");
+        const toast = root.querySelector<HTMLElement>(
+            "[data-bento-vitrine-toast]",
+        );
 
-	initBentoPause();
-	document.addEventListener("astro:page-load", initBentoPause);
+        if (clientCursor) {
+            utils.set(clientCursor, { x: 268, y: 138, rotate: -8 });
+            addPlayer(
+                players,
+                animate(clientCursor, {
+                    keyframes: {
+                        "0%": { x: 268, y: 138, rotate: -8 },
+                        "20%": { x: 184, y: 108, rotate: -12 },
+                        "42%": { x: 58, y: 138, rotate: -5 },
+                        "54%": { x: 58, y: 138, rotate: -5 },
+                        "74%": { x: 166, y: 152, rotate: -10 },
+                        "100%": { x: 268, y: 138, rotate: -8 },
+                    },
+                    duration: 7000,
+                    ease: "inOut(3)",
+                    loop: true,
+                }),
+            );
+        }
+
+        if (williamCursor) {
+            utils.set(williamCursor, { x: 96, y: 24, rotate: -6 });
+            addPlayer(
+                players,
+                animate(williamCursor, {
+                    keyframes: {
+                        "0%": { x: 96, y: 24, rotate: -6 },
+                        "34%": { x: 150, y: 16, rotate: -13 },
+                        "66%": { x: 118, y: 42, rotate: -4 },
+                        "100%": { x: 96, y: 24, rotate: -6 },
+                    },
+                    duration: 9000,
+                    ease: "inOut(3)",
+                    loop: true,
+                }),
+            );
+        }
+
+        if (clickRing) {
+            utils.set(clickRing, { opacity: 0, scale: 0.35 });
+            addPlayer(
+                players,
+                animate(clickRing, {
+                    keyframes: {
+                        "0%": { opacity: 0, scale: 0.35 },
+                        "46%": { opacity: 0, scale: 0.35 },
+                        "49%": { opacity: 0.9, scale: 0.55 },
+                        "60%": { opacity: 0, scale: 1.15 },
+                        "100%": { opacity: 0, scale: 1.15 },
+                    },
+                    duration: 7000,
+                    ease: "out(3)",
+                    loop: true,
+                }),
+            );
+        }
+
+        if (cta) {
+            addPlayer(
+                players,
+                animate(cta, {
+                    keyframes: {
+                        "0%": { scale: 1 },
+                        "46%": { scale: 1 },
+                        "49%": { scale: 0.92 },
+                        "54%": { scale: 1 },
+                        "100%": { scale: 1 },
+                    },
+                    duration: 7000,
+                    ease: "inOut(3)",
+                    loop: true,
+                }),
+            );
+        }
+
+        if (toast) {
+            utils.set(toast, { opacity: 0, y: -6, scale: 0.96 });
+            addPlayer(
+                players,
+                animate(toast, {
+                    keyframes: {
+                        "0%": { opacity: 0, y: -6, scale: 0.96 },
+                        "56%": { opacity: 0, y: -6, scale: 0.96 },
+                        "63%": { opacity: 1, y: 0, scale: 1 },
+                        "86%": { opacity: 1, y: 0, scale: 1 },
+                        "94%": { opacity: 0, y: -4, scale: 0.98 },
+                        "100%": { opacity: 0, y: -4, scale: 0.98 },
+                    },
+                    duration: 7000,
+                    ease: "inOut(3)",
+                    loop: true,
+                }),
+            );
+        }
+    };
+
+    const animateRefonte = (root: HTMLElement, players: BentoPlayer[]) => {
+        const arrow = root.querySelector<HTMLElement>(
+            "[data-bento-refonte-arrow]",
+        );
+        const rows = Array.from(
+            root.querySelectorAll<HTMLElement>("[data-bento-refonte-row]"),
+        );
+
+        if (arrow) {
+            addPlayer(
+                players,
+                animate(arrow, {
+                    x: [0, 3, 0],
+                    duration: 1800,
+                    ease: "inOut(2)",
+                    loop: true,
+                }),
+            );
+        }
+
+        if (rows.length) {
+            utils.set(rows, { opacity: 0, y: 5 });
+
+            const timeline = createTimeline({
+                loop: true,
+                loopDelay: 420,
+            });
+
+            rows.forEach((row, index) => {
+                timeline.add(
+                    row,
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 420,
+                        ease: "out(3)",
+                    },
+                    420 + index * 320,
+                );
+            });
+
+            timeline.add(
+                rows,
+                {
+                    opacity: 0,
+                    y: 5,
+                    duration: 420,
+                    ease: "in(2)",
+                },
+                4400,
+            );
+
+            addPlayer(players, timeline);
+        }
+    };
+
+    const animateFrontend = (root: HTMLElement, players: BentoPlayer[]) => {
+        const strike = root.querySelector<HTMLElement>(
+            "[data-bento-fe-strike]",
+        );
+        const deletedLine = root.querySelector<HTMLElement>(
+            "[data-bento-fe-line-del]",
+        );
+        const addedLines = Array.from(
+            root.querySelectorAll<HTMLElement>("[data-bento-fe-line-add]"),
+        );
+        const chip = root.querySelector<HTMLElement>("[data-bento-fe-chip]");
+        const caret = root.querySelector<HTMLElement>("[data-bento-fe-caret]");
+        const hasAnimatedTargets =
+            Boolean(strike) ||
+            Boolean(deletedLine) ||
+            addedLines.length > 0 ||
+            Boolean(chip);
+
+        if (strike) utils.set(strike, { scaleX: 0 });
+        if (deletedLine) utils.set(deletedLine, { opacity: 1 });
+        if (addedLines.length) utils.set(addedLines, { opacity: 0, x: -7 });
+        if (chip) utils.set(chip, { opacity: 0, scale: 0.84 });
+
+        if (hasAnimatedTargets) {
+            const timeline = createTimeline({
+                loop: true,
+                loopDelay: 360,
+            });
+
+            if (strike) {
+                timeline.add(
+                    strike,
+                    {
+                        scaleX: 1,
+                        duration: 420,
+                        ease: "out(3)",
+                    },
+                    720,
+                );
+            }
+
+            if (deletedLine) {
+                timeline.add(
+                    deletedLine,
+                    {
+                        opacity: 0.45,
+                        duration: 360,
+                        ease: "out(2)",
+                    },
+                    900,
+                );
+            }
+
+            addedLines.forEach((line, index) => {
+                timeline.add(
+                    line,
+                    {
+                        opacity: 1,
+                        x: 0,
+                        duration: 420,
+                        ease: "out(3)",
+                    },
+                    1500 + index * 520,
+                );
+            });
+
+            if (chip) {
+                timeline
+                    .add(
+                        chip,
+                        {
+                            opacity: 1,
+                            scale: 1,
+                            duration: 420,
+                            ease: "out(4)",
+                        },
+                        3000,
+                    )
+                    .add(
+                        chip,
+                        {
+                            opacity: 0,
+                            scale: 0.9,
+                            duration: 320,
+                            ease: "in(2)",
+                        },
+                        4550,
+                    );
+            }
+
+            if (strike) {
+                timeline.add(
+                    strike,
+                    {
+                        scaleX: 0,
+                        duration: 320,
+                        ease: "in(2)",
+                    },
+                    4850,
+                );
+            }
+
+            if (deletedLine) {
+                timeline.add(
+                    deletedLine,
+                    {
+                        opacity: 1,
+                        duration: 320,
+                        ease: "in(2)",
+                    },
+                    4850,
+                );
+            }
+
+            if (addedLines.length) {
+                timeline.add(
+                    addedLines,
+                    {
+                        opacity: 0,
+                        x: -7,
+                        duration: 320,
+                        ease: "in(2)",
+                    },
+                    4850,
+                );
+            }
+
+            addPlayer(players, timeline);
+        }
+
+        if (caret) {
+            addPlayer(
+                players,
+                animate(caret, {
+                    opacity: [1, 0],
+                    alternate: true,
+                    duration: 520,
+                    ease: "linear",
+                    loop: true,
+                }),
+            );
+        }
+    };
+
+    const animateSeo = (root: HTMLElement, players: BentoPlayer[]) => {
+        const list = root.querySelector<HTMLElement>("[data-bento-seo-list]");
+        const ownRow = root.querySelector<HTMLElement>(
+            '[data-bento-seo-row="mine"]',
+        );
+        const firstRow = root.querySelector<HTMLElement>(
+            '[data-bento-seo-row="other-1"]',
+        );
+        const secondRow = root.querySelector<HTMLElement>(
+            '[data-bento-seo-row="other-2"]',
+        );
+        const chip = root.querySelector<HTMLElement>("[data-bento-seo-chip]");
+        const ping = root.querySelector<HTMLElement>("[data-bento-seo-ping]");
+
+        if (list) utils.set(list, { opacity: 1 });
+        if (ownRow) utils.set(ownRow, { y: 50 });
+        if (firstRow) utils.set(firstRow, { y: -25 });
+        if (secondRow) utils.set(secondRow, { y: -25 });
+        if (chip) utils.set(chip, { opacity: 0, scale: 0.84 });
+        if (ping) utils.set(ping, { opacity: 0.72, scale: 1 });
+
+        if (ownRow || firstRow || secondRow || chip || list) {
+            const timeline = createTimeline({
+                loop: true,
+                loopDelay: 380,
+            });
+
+            if (ownRow) {
+                timeline
+                    .add(
+                        ownRow,
+                        {
+                            y: 25,
+                            duration: 620,
+                            ease: "inOut(3)",
+                        },
+                        1450,
+                    )
+                    .add(
+                        ownRow,
+                        {
+                            y: 0,
+                            duration: 620,
+                            ease: "inOut(3)",
+                        },
+                        3300,
+                    );
+            }
+
+            if (secondRow) {
+                timeline.add(
+                    secondRow,
+                    {
+                        y: 0,
+                        duration: 620,
+                        ease: "inOut(3)",
+                    },
+                    1450,
+                );
+            }
+
+            if (firstRow) {
+                timeline.add(
+                    firstRow,
+                    {
+                        y: 0,
+                        duration: 620,
+                        ease: "inOut(3)",
+                    },
+                    3300,
+                );
+            }
+
+            if (chip) {
+                timeline
+                    .add(
+                        chip,
+                        {
+                            opacity: 1,
+                            scale: 1,
+                            duration: 360,
+                            ease: "out(4)",
+                        },
+                        3950,
+                    )
+                    .add(
+                        chip,
+                        {
+                            opacity: 0,
+                            scale: 0.9,
+                            duration: 320,
+                            ease: "in(2)",
+                        },
+                        5600,
+                    );
+            }
+
+            if (list) {
+                timeline
+                    .add(
+                        list,
+                        {
+                            opacity: 0,
+                            duration: 180,
+                            ease: "linear",
+                        },
+                        5750,
+                    )
+                    .add(
+                        list,
+                        {
+                            opacity: 1,
+                            duration: 180,
+                            ease: "linear",
+                        },
+                        6030,
+                    );
+            }
+
+            if (ownRow) {
+                timeline.add(
+                    ownRow,
+                    {
+                        y: 50,
+                        duration: 1,
+                        ease: "linear",
+                    },
+                    5940,
+                );
+            }
+
+            const competitorRows = compactElements([firstRow, secondRow]);
+            if (competitorRows.length) {
+                timeline.add(
+                    competitorRows,
+                    {
+                        y: -25,
+                        duration: 1,
+                        ease: "linear",
+                    },
+                    5940,
+                );
+            }
+
+            addPlayer(players, timeline);
+        }
+
+        if (ping) {
+            addPlayer(
+                players,
+                animate(ping, {
+                    opacity: [0.72, 0],
+                    scale: [1, 2.35],
+                    duration: 2100,
+                    ease: "out(2)",
+                    loop: true,
+                }),
+            );
+        }
+    };
+
+    const cleanupServicesBentoAnimations = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-services-bento]")
+            .forEach((bento) => {
+                activeBentoControllers.get(bento)?.();
+                activeBentoControllers.delete(bento);
+                delete bento.dataset.bentoAnimationsReady;
+            });
+    };
+
+    const initServicesBentoAnimations = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-services-bento]")
+            .forEach((bento) => {
+                if (bento.dataset.bentoAnimationsReady === "true") return;
+
+                const players: BentoPlayer[] = [];
+                const vitrine = bento.querySelector<HTMLElement>(
+                    '[data-bento-visual="vitrine"]',
+                );
+                const refonte = bento.querySelector<HTMLElement>(
+                    '[data-bento-visual="refonte"]',
+                );
+                const frontend = bento.querySelector<HTMLElement>(
+                    '[data-bento-visual="frontend"]',
+                );
+                const seo = bento.querySelector<HTMLElement>(
+                    '[data-bento-visual="seo"]',
+                );
+
+                if (!prefersReducedMotion()) {
+                    if (vitrine) animateVitrine(vitrine, players);
+                    if (refonte) animateRefonte(refonte, players);
+                    if (frontend) animateFrontend(frontend, players);
+                    if (seo) animateSeo(seo, players);
+                }
+
+                let observer: IntersectionObserver | undefined;
+                if ("IntersectionObserver" in window && players.length) {
+                    observer = new IntersectionObserver(
+                        ([entry]) => {
+                            const play = entry?.isIntersecting ?? true;
+                            players.forEach((player) => {
+                                if (play) player.play?.();
+                                else player.pause?.();
+                            });
+                        },
+                        { rootMargin: "96px 0px" },
+                    );
+                    observer.observe(bento);
+                }
+
+                bento.dataset.bentoAnimationsReady = "true";
+                activeBentoControllers.set(bento, () => {
+                    observer?.disconnect();
+                    players.forEach(cleanupPlayer);
+                });
+            });
+    };
+
+    const servicesBentoWindow = window as Window & {
+        __wuiServicesBentoReady?: boolean;
+    };
+
+    initServicesBentoAnimations();
+
+    if (!servicesBentoWindow.__wuiServicesBentoReady) {
+        servicesBentoWindow.__wuiServicesBentoReady = true;
+        document.addEventListener(
+            "astro:before-swap",
+            cleanupServicesBentoAnimations,
+        );
+        document.addEventListener(
+            "astro:page-load",
+            initServicesBentoAnimations,
+        );
+    }
 </script>

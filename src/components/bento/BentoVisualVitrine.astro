@@ -2,15 +2,13 @@
 /**
  * Scène animée "Création de site vitrine" : un mini navigateur se construit,
  * un curseur visiteur clique le bouton Contact et un toast de message arrive.
- * Animations CSS uniquement (transform/opacity), synchronisées sur 7s.
+ * Les boucles sont pilotées par Anime.js depuis ServicesBentoGrid.astro.
  */
 ---
 
-<div class="vitrine-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden px-3 pt-6 pb-7" aria-hidden="true">
-	<div class="scene-backdrop absolute inset-0"></div>
-
-	<div class="lg:scale-[1.22]">
-	<div class="vitrine-stage relative w-[272px] transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:w-[290px]">
+<div class="vitrine-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden px-3 pt-6 pb-7" data-bento-visual="vitrine" aria-hidden="true">
+	<div class="lg:scale-[1.16]">
+	<div class="vitrine-stage relative w-[300px] transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:w-[328px]">
 		<div class="relative w-full rounded-xl border border-gray-200/80 bg-white shadow-[0_18px_40px_-24px_rgba(34,42,55,0.35)]">
 			<div class="flex items-center gap-1.5 border-b border-gray-100 px-3.5 py-2">
 				<span class="size-1.5 rounded-full bg-[#f87171]/70"></span>
@@ -18,27 +16,30 @@
 				<span class="size-1.5 rounded-full bg-[#34d399]/70"></span>
 				<span class="ml-2 h-2 w-24 rounded-full bg-gray-100"></span>
 			</div>
-			<div class="flex items-start gap-4 px-4 pt-3.5 pb-4">
-				<div class="flex min-w-0 flex-1 flex-col gap-[7px]">
-					<span class="h-3 w-[92%] rounded-full bg-gray-200"></span>
-					<span class="h-3 w-[68%] rounded-full bg-gray-200/80"></span>
-					<span class="h-2.5 w-[78%] rounded-full bg-gray-100"></span>
-					<span class="vitrine-cta mt-2 inline-flex w-fit items-center rounded-full bg-blue-500 px-3 py-1 text-[10px] font-medium text-white shadow-[0_8px_16px_-8px_rgba(62,96,212,0.8)]">
+			<div class="flex min-h-[152px] items-start gap-5 px-5 pt-5 pb-5">
+				<div class="flex min-w-0 flex-1 flex-col gap-3">
+					<span class="h-3.5 w-[92%] rounded-full bg-gray-200"></span>
+					<span class="h-3.5 w-[68%] rounded-full bg-gray-200/80"></span>
+					<span class="h-3 w-[78%] rounded-full bg-gray-100"></span>
+					<span class="vitrine-cta mt-2 inline-flex w-fit items-center rounded-full bg-blue-500 px-3 py-1 text-[10px] font-medium text-white shadow-sm" data-bento-vitrine-cta>
 						Contact
 					</span>
 				</div>
-				<div class="flex h-[92px] w-[96px] shrink-0 items-center justify-center rounded-lg bg-blue-50 ring-1 ring-blue-100/80">
-					<svg class="size-6 text-blue-200" viewBox="0 0 24 24" fill="currentColor">
-						<circle cx="8.5" cy="8" r="2.2"></circle>
-						<path d="M3 18l5.5-6.5 4 4.5 3-3.5L21 18z" opacity="0.85"></path>
+				<div class="flex h-[126px] w-[116px] shrink-0 items-center justify-center rounded-lg bg-blue-50 ring-1 ring-blue-100/80">
+					<svg xmlns="http://www.w3.org/2000/svg" class="size-[18px] text-blue-200" viewBox="0 0 18 18" aria-hidden="true">
+						<title>image-mountain</title>
+						<g fill="currentColor">
+							<path d="M5.5 6C6.60457 6 7.5 5.10457 7.5 4C7.5 2.89543 6.60457 2 5.5 2C4.39543 2 3.5 2.89543 3.5 4C3.5 5.10457 4.39543 6 5.5 6Z" fill="currentColor"></path>
+							<path d="M12.661 6.401C11.995 5.495 10.506 5.495 9.83998 6.401L7.12498 10.093L6.28498 8.951C5.61898 8.044 4.13098 8.044 3.46498 8.951L1.06698 12.213C0.673982 12.748 0.615982 13.447 0.915982 14.04C1.21598 14.633 1.81398 15 2.47798 15H15.523C16.186 15 16.785 14.632 17.085 14.04C17.385 13.448 17.326 12.748 16.934 12.213L12.661 6.401Z" fill="currentColor" fill-opacity="0.4"></path>
+						</g>
 					</svg>
 				</div>
 			</div>
 		</div>
 
-		<span class="vitrine-click-ring absolute top-[83px] left-[27px] size-10 rounded-full border-2 border-blue-400"></span>
+		<span class="vitrine-click-ring absolute top-[124px] left-[32px] size-10 rounded-full border-2 border-blue-400" data-bento-vitrine-click-ring></span>
 
-		<div class="vitrine-toast absolute -top-3 -right-1 flex items-center gap-1.5 rounded-lg border border-gray-100 bg-white px-2.5 py-1.5 shadow-[0_14px_28px_-16px_rgba(34,42,55,0.45)]">
+		<div class="vitrine-toast absolute -top-3 -right-1 flex items-center gap-1.5 rounded-lg border border-gray-100 bg-white px-2.5 py-1.5 shadow-[0_14px_28px_-16px_rgba(34,42,55,0.45)]" data-bento-vitrine-toast>
 			<span class="flex size-3.5 items-center justify-center rounded-full bg-emerald-500">
 				<svg class="size-2 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
 					<path d="M3.5 8.5l3 3 6-7"></path>
@@ -47,16 +48,22 @@
 			<span class="text-[9px] font-medium text-gray-700">Nouveau message</span>
 		</div>
 
-		<div class="vitrine-cursor-client absolute top-0 left-0 flex items-start">
-			<svg class="size-3.5 drop-shadow-sm" viewBox="0 0 16 16" fill="none">
-				<path d="M3.5 1.5l10 5.4-4.3 1.1 2.3 4.7-2 1-2.2-4.6-3.8 3z" fill="#10b981" stroke="#ffffff" stroke-width="1" stroke-linejoin="round"></path>
+		<div class="vitrine-cursor-client absolute top-0 left-0 flex items-start" data-bento-vitrine-cursor-client>
+			<svg xmlns="http://www.w3.org/2000/svg" class="size-[18px] text-emerald-500 drop-shadow-sm" viewBox="0 0 18 18" aria-hidden="true">
+				<title>pointer</title>
+				<g fill="currentColor">
+					<path d="M15.154,6.253L3.731,2.079h0c-.477-.175-.994-.058-1.353,.3-.357,.358-.473,.876-.298,1.352L6.254,15.154c.188,.517,.66,.846,1.208,.846,.009,0,.019,0,.027,0,.559-.011,1.03-.362,1.2-.895l1.556-4.86,4.859-1.555c.532-.17,.884-.642,.896-1.201,.011-.559-.321-1.044-.846-1.236Z" fill="currentColor"></path>
+				</g>
 			</svg>
 			<span class="mt-2.5 -ml-0.5 rounded-full bg-emerald-500 px-1.5 py-0.5 text-[8px] font-semibold text-white shadow-sm">Prospect</span>
 		</div>
 
-		<div class="vitrine-cursor-william absolute top-0 left-0 flex items-start">
-			<svg class="size-3.5 drop-shadow-sm" viewBox="0 0 16 16" fill="none">
-				<path d="M3.5 1.5l10 5.4-4.3 1.1 2.3 4.7-2 1-2.2-4.6-3.8 3z" fill="#3e60d4" stroke="#ffffff" stroke-width="1" stroke-linejoin="round"></path>
+		<div class="vitrine-cursor-william absolute top-0 left-0 flex items-start" data-bento-vitrine-cursor-william>
+			<svg xmlns="http://www.w3.org/2000/svg" class="size-[18px] text-blue-500 drop-shadow-sm" viewBox="0 0 18 18" aria-hidden="true">
+				<title>pointer</title>
+				<g fill="currentColor">
+					<path d="M15.154,6.253L3.731,2.079h0c-.477-.175-.994-.058-1.353,.3-.357,.358-.473,.876-.298,1.352L6.254,15.154c.188,.517,.66,.846,1.208,.846,.009,0,.019,0,.027,0,.559-.011,1.03-.362,1.2-.895l1.556-4.86,4.859-1.555c.532-.17,.884-.642,.896-1.201,.011-.559-.321-1.044-.846-1.236Z" fill="currentColor"></path>
+				</g>
 			</svg>
 			<span class="mt-2.5 -ml-0.5 rounded-full bg-blue-500 px-1.5 py-0.5 text-[8px] font-semibold text-white shadow-sm">Visiteur</span>
 		</div>
@@ -66,137 +73,32 @@
 </div>
 
 <style>
-	.vitrine-scene,
-	.vitrine-scene * {
-		animation-play-state: var(--bento-play, running) !important;
-	}
-
-	.scene-backdrop {
-		background: radial-gradient(
-			120% 90% at 50% 0%,
-			rgba(62, 96, 212, 0.07),
-			transparent 70%
-		);
-	}
-
 	.vitrine-cursor-client,
 	.vitrine-cursor-william {
 		will-change: transform;
 	}
 
 	.vitrine-cursor-client {
-		animation: vitrine-cursor-client 7s ease-in-out infinite;
-		transform: translate3d(160px, 96px, 0);
-	}
-
-	@keyframes vitrine-cursor-client {
-		0% {
-			transform: translate3d(238px, 116px, 0);
-		}
-		22% {
-			transform: translate3d(168px, 92px, 0);
-		}
-		44%,
-		56% {
-			transform: translate3d(45px, 98px, 0);
-		}
-		74% {
-			transform: translate3d(152px, 126px, 0);
-		}
-		100% {
-			transform: translate3d(238px, 116px, 0);
-		}
+		transform: translate3d(174px, 132px, 0);
 	}
 
 	.vitrine-cursor-william {
-		animation: vitrine-cursor-william 9s ease-in-out infinite;
 		transform: translate3d(120px, 26px, 0);
 	}
 
-	@keyframes vitrine-cursor-william {
-		0%,
-		100% {
-			transform: translate3d(96px, 24px, 0);
-		}
-		34% {
-			transform: translate3d(150px, 16px, 0);
-		}
-		66% {
-			transform: translate3d(118px, 42px, 0);
-		}
-	}
-
 	.vitrine-click-ring {
-		animation: vitrine-click-ring 7s ease-out infinite;
 		opacity: 0;
-	}
-
-	@keyframes vitrine-click-ring {
-		0%,
-		46% {
-			opacity: 0;
-			transform: scale(0.35);
-		}
-		49% {
-			opacity: 0.9;
-			transform: scale(0.55);
-		}
-		60% {
-			opacity: 0;
-			transform: scale(1.15);
-		}
-		100% {
-			opacity: 0;
-			transform: scale(1.15);
-		}
+		transform: scale(0.35);
+		transform-origin: center;
 	}
 
 	.vitrine-cta {
-		animation: vitrine-cta-press 7s ease-in-out infinite;
 		transform-origin: left center;
 	}
 
-	@keyframes vitrine-cta-press {
-		0%,
-		46% {
-			transform: scale(1);
-		}
-		49% {
-			transform: scale(0.92);
-		}
-		53%,
-		100% {
-			transform: scale(1);
-		}
-	}
-
 	.vitrine-toast {
-		animation: vitrine-toast 7s ease-in-out infinite;
-		opacity: 0;
-	}
-
-	@keyframes vitrine-toast {
-		0%,
-		56% {
-			opacity: 0;
-			transform: translate3d(0, -6px, 0) scale(0.96);
-		}
-		62%,
-		86% {
-			opacity: 1;
-			transform: translate3d(0, 0, 0) scale(1);
-		}
-		93%,
-		100% {
-			opacity: 0;
-			transform: translate3d(0, -4px, 0) scale(0.98);
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.vitrine-scene,
-		.vitrine-scene * {
-			animation: none !important;
-		}
+		opacity: 1;
+		transform: translate3d(0, 0, 0) scale(1);
+		transform-origin: center;
 	}
 </style>
