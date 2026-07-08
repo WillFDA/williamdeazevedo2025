@@ -16,7 +16,45 @@ const baseIncluded = [
     "design responsive sur mesure",
     "développement front-end propre et maintenable",
     "SEO technique initial, performance et accessibilité",
-    "mise en ligne et vérifications avant publication",
+    "mise en ligne, Search Console et vérifications avant publication",
+];
+
+const measureIncluded = [
+    {
+        title: "Google Search Console",
+        text: "Votre site est déclaré et indexé proprement : sitemap soumis, couverture vérifiée, et un œil sur les recherches qui vous affichent.",
+    },
+    {
+        title: "Conversions mesurées",
+        text: "Un tableau de bord d'analytics à votre nom (Rybbit), respectueux du RGPD et sans bannière de cookies. Clic téléphone, formulaire, demande de devis : on sait ce que le site produit.",
+    },
+    {
+        title: "Point à 30 jours",
+        text: "Un mois après la mise en ligne, on lit les premières données ensemble : ce qui fonctionne, ce qui doit être ajusté, et la suite logique.",
+    },
+];
+
+const addOns = [
+    {
+        title: "Campagne Google Ads locale",
+        price: "Mise en place à partir de 600 €, suivi à partir de 300 €/mois",
+        text: "Pour être visible tout de suite sur vos recherches locales : annonces, page d'atterrissage dédiée et conversions suivies. Budget publicitaire versé directement à Google, en plus.",
+    },
+    {
+        title: "Suivi analytics mensuel",
+        price: "À partir de 90 €/mois",
+        text: "Un point chaque mois sur vos visites et vos demandes, avec des recommandations concrètes et priorisées.",
+    },
+    {
+        title: "Blog ou CMS administrable",
+        price: "À partir de 800 €",
+        text: "Pour publier vous-même articles, réalisations ou actualités, sans dépendre de personne.",
+    },
+    {
+        title: "Pages SEO additionnelles",
+        price: "À partir de 250 € par page",
+        text: "Des pages métier ou ville travaillées : recherche, rédaction et intégration, pour élargir vos points d'entrée sur Google.",
+    },
 ];
 
 const priceFactors = [
@@ -76,6 +114,11 @@ const faq = [
             "Non. C'est une base pour lancer ou moderniser une présence web claire. Le budget évolue selon le nombre de pages, le contenu à produire, les animations, le formulaire, le CMS ou les besoins SEO plus poussés.",
     },
     {
+        question: "Comment je saurai si mon site fonctionne ?",
+        answer:
+            "C'est inclus : Search Console configurée, tableau de bord d'analytics à votre nom avec les conversions suivies (appel, formulaire, demande de devis), et un point ensemble 30 jours après la mise en ligne pour lire les données et ajuster.",
+    },
+    {
         question: "Pourquoi un site à 600 € peut coûter plus cher ensuite ?",
         answer:
             "Un site très peu cher peut être présentable, mais générique, mal structuré ou difficile à faire évoluer. Le vrai coût arrive souvent après : reprendre le contenu, corriger le mobile, retravailler le SEO, refaire le design ou réparer une base technique fragile.",
@@ -115,6 +158,60 @@ const offerCatalogJsonLd = {
             itemOffered: {
                 "@type": "Service",
                 name: "Création de site internet",
+                provider: {
+                    "@type": "Person",
+                    name: "William De Azevedo",
+                },
+            },
+        },
+        {
+            "@type": "Offer",
+            name: "Campagne Google Ads locale (mise en place)",
+            priceSpecification: {
+                "@type": "PriceSpecification",
+                price: 600,
+                priceCurrency: "EUR",
+                valueAddedTaxIncluded: false,
+            },
+            itemOffered: {
+                "@type": "Service",
+                name: "Campagne Google Ads locale (mise en place)",
+                provider: {
+                    "@type": "Person",
+                    name: "William De Azevedo",
+                },
+            },
+        },
+        {
+            "@type": "Offer",
+            name: "Blog ou CMS administrable",
+            priceSpecification: {
+                "@type": "PriceSpecification",
+                price: 800,
+                priceCurrency: "EUR",
+                valueAddedTaxIncluded: false,
+            },
+            itemOffered: {
+                "@type": "Service",
+                name: "Blog ou CMS administrable",
+                provider: {
+                    "@type": "Person",
+                    name: "William De Azevedo",
+                },
+            },
+        },
+        {
+            "@type": "Offer",
+            name: "Page SEO additionnelle",
+            priceSpecification: {
+                "@type": "PriceSpecification",
+                price: 250,
+                priceCurrency: "EUR",
+                valueAddedTaxIncluded: false,
+            },
+            itemOffered: {
+                "@type": "Service",
+                name: "Page SEO additionnelle",
                 provider: {
                     "@type": "Person",
                     name: "William De Azevedo",
@@ -231,6 +328,32 @@ const breadcrumbJsonLd = {
             </ul>
         </section>
 
+        <section class="grid gap-4">
+            <div class="flex max-w-3xl flex-col gap-4">
+                <h2 class="section-heading text-left">
+                    Inclus dès la mise en ligne
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-gray-700">
+                    Un site sans mesure est un site muet. Le socle comprend de
+                    quoi savoir ce qu'il produit, dès le premier mois.
+                </p>
+            </div>
+            <div class="grid gap-4 md:grid-cols-3">
+                {
+                    measureIncluded.map((item) => (
+                        <article class="rounded-xl bg-gray-100 p-5 ring-1 ring-gray-200">
+                            <h3 class="mb-2 text-lg font-normal leading-tight text-gray-900">
+                                {item.title}
+                            </h3>
+                            <p class="text-base font-normal leading-relaxed text-gray-700">
+                                {item.text}
+                            </p>
+                        </article>
+                    ))
+                }
+            </div>
+        </section>
+
         <section class="grid gap-6 md:grid-cols-[0.75fr_1.25fr] md:items-start md:gap-12">
             <div class="flex flex-col gap-4">
                 <h2 class="section-heading text-left">
@@ -251,6 +374,35 @@ const breadcrumbJsonLd = {
                             </h3>
                             <p class="text-base font-normal leading-relaxed text-gray-700">
                                 {factor.text}
+                            </p>
+                        </article>
+                    ))
+                }
+            </div>
+        </section>
+
+        <section class="grid gap-4">
+            <div class="flex max-w-3xl flex-col gap-4">
+                <h2 class="section-heading text-left">
+                    Pour aller plus loin
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-gray-700">
+                    Des modules chiffrés « à partir de », à ajouter quand ils
+                    servent votre objectif — pas avant.
+                </p>
+            </div>
+            <div class="grid gap-4 md:grid-cols-2">
+                {
+                    addOns.map((item) => (
+                        <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
+                            <h3 class="text-xl font-normal leading-tight text-gray-900">
+                                {item.title}
+                            </h3>
+                            <p class="mt-1 text-sm font-medium text-blue-600">
+                                {item.price}
+                            </p>
+                            <p class="mt-2 text-base font-normal leading-relaxed text-gray-700">
+                                {item.text}
                             </p>
                         </article>
                     ))

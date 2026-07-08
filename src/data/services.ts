@@ -70,6 +70,7 @@ export const services: Service[] = [
       "formulaire ou prise de contact sécurisée",
       "métadonnées, sitemap, performance et SEO technique initial",
       "mise en ligne et vérifications avant lancement",
+      "Search Console, mesure des conversions (Rybbit) et point de suivi à 30 jours",
     ],
     formats: [
       {
@@ -171,6 +172,7 @@ export const services: Service[] = [
       "préparation des redirections utiles",
       "contrôle des métadonnées, formulaires, performances et conversions",
       "mise en ligne progressive lorsque le contexte le demande",
+      "Search Console, mesure des conversions (Rybbit) et point de suivi à 30 jours",
     ],
     formats: [
       {
@@ -344,6 +346,7 @@ export const services: Service[] = [
       "formulaire de contact ou appel à l'action adapté",
       "SEO technique initial et structure locale propre",
       "mise en ligne et vérifications sur mobile",
+      "Search Console, mesure des conversions (Rybbit) et point de suivi à 30 jours",
     ],
     formats: [
       {
@@ -440,6 +443,7 @@ export const services: Service[] = [
       "performance, accessibilité, SEO technique et données structurées",
       "formulaire, prise de rendez-vous ou action de contact",
       "mise en ligne et vérifications post-lancement",
+      "Search Console, mesure des conversions (Rybbit) et point de suivi à 30 jours",
     ],
     formats: [
       {

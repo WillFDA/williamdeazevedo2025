@@ -11,7 +11,7 @@ image:
 
 import MotiviaOldUI from "@/components/articles/MotiviaOldUI.astro";
 
-Hello, bienvenue sur mon premier post ! 👋
+Hello, bienvenue sur mon premier post !
 
 Ce petit blog, ce sera un espace de discussion où je vais partager des choses que j'ai apprises, des erreurs que j'ai faites et plein d'autres choses. Le mantra de ce blog commence par une citation que j'adore :
 
@@ -19,81 +19,52 @@ Ce petit blog, ce sera un espace de discussion où je vais partager des choses q
 
 Expliquer, c'est mettre sur papier des connaissances, et souvent, c'est en les formalisant qu'on se rend compte des petits trous qu'on a et de la difficulté que ça représente !
 
-Bref, **ce premier post sera dédié à mon premier side project** ! Une petite aventure intéressante où j'ai vraiment beaucoup appris. 🚀
+Bref, ce premier post sera dédié à mon premier side project : une petite aventure où j'ai vraiment beaucoup appris.
 
-## Pourquoi créer un side project ? 🤔
+## Pourquoi créer un side project ?
 
-Déjà, dès le début : pourquoi est-ce que j'ai créé Motivai ? Pourquoi faire un side project ?
+Cette envie a débuté lors de ma première expérience professionnelle. Un de mes collègues, qu'on va appeler JR, était un mordu des side projects. Ce qui était intéressant, hormis le fait qu'on peut tomber sur une niche qui rapporte, c'est que plein de choses nécessaires pour des features en entreprise, il les avait déjà faites sur ses projets perso.
 
-Cette envie a débuté lors de ma première expérience professionnelle. Un de mes collègues, qu'on va appeler **JR**, était un mordu des side projects. Ce qui était intéressant, hormis le fait qu'on peut tomber sur une niche qui rapporte de l'argent, c'est que **plein de choses nécessaires pour des features en entreprise, eh bien il les avait déjà faites** !
+Du coup, il savait déjà ce qu'il fallait faire, ce qu'il ne fallait pas faire et où étaient les points bloquants. Je trouvais ça trop cool.
 
-Du coup, il savait déjà ce qu'il fallait faire, ce qu'il ne fallait pas faire et les points bloquants. Je trouvais ça trop cool !
+Un side project concret, c'est un terrain de jeu où tu peux faire tes erreurs et apprendre sans casser le produit de quelqu'un d'autre.
 
-**Un side project concret t'apporte un terrain de jeu où tu peux faire tes erreurs et apprendre.**
+## Le mur de l'inaction
 
-## Le mur de l'inaction 🧱
+Mais même avec cette envie, j'étais confronté à un mur : que faire ?
 
-Mais même avec cette envie, j'étais confronté à un mur : **que faire ?**
+Je n'avais pas envie de faire un tic-tac-toe. Ça ne te démarque pas, et surtout ce n'est pas un projet où tu apprends beaucoup. Aucune idée ne me semblait ni intéressante ni pertinente… donc je n'ai rien fait.
 
-Parce que je n'avais pas envie de faire un tic-tac-toe. Ça ne te démarque pas des millions d'autres personnes, et surtout ce n'est pas quelque chose de concret où tu vas apprendre beaucoup.
-
-Et donc je n'ai rien fait... Aucun side project que j'avais en tête n'était intéressant ni même pertinent.
-
-Puis j'ai vu un post LinkedIn, je crois, et cette phrase m'avait marqué :
+Puis je suis tombé sur une phrase, dans un post LinkedIn je crois, qui m'a marqué :
 
 > **« Mieux vaut quelque chose d'imparfait qui existe que rien du tout. »**
 
-Et là, ça a résonné en moi. **Il faut faire, et surtout faire petit à petit, apprendre, découvrir.** Ce ne sera pas parfait, mais ce sera fait !
+Et là, ça a résonné. Il faut faire, petit à petit, apprendre en chemin. Ce ne sera pas parfait, mais ce sera fait.
 
-## La naissance de Motivai 💡
+## La naissance de Motivai
 
-J'ai donc commencé. J'avais déjà une idée ; le projet n'est pas sensationnel, mais il répond à un besoin que j'avais eu : **créer ses lettres de motivation avec l'IA et les personnaliser par rapport à une offre d'emploi**.
+J'avais déjà une idée. Le projet n'est pas sensationnel, mais il répond à un besoin que j'avais eu moi-même : créer ses lettres de motivation avec l'IA et les personnaliser par rapport à une offre d'emploi.
 
-Au tout début, le site, c'était un champ texte, un prompt écrit, un appel à ChatGPT et un streaming du rendu... Vraiment simple. Mais c'était créé, en production, sur un lien accessible.
+Au tout début, le site, c'était un champ texte, un prompt écrit en dur, un appel à ChatGPT et un streaming du rendu. Vraiment simple. Mais c'était créé, en production, sur un lien accessible.
 
-Personne ne pouvait vraiment l'utiliser du coup, **comment faire ?**
+Restait un détail : personne ne pouvait vraiment l'utiliser.
 
 <MotiviaOldUI />
 
-## Les défis techniques ⚙️
+## Les défis techniques
 
-Quelques questions que je me suis posées :
+Très vite, les vraies questions sont arrivées : il me fallait de l'authentification, une base de données, un déploiement propre — et je n'avais jamais fait de backend de ma vie.
 
-- Il te faut de l'authentification ?
-- Il te faut une base de données ?
-- Je n'avais jamais fait de backend, comment faire ?
-- Tu connais un peu TypeScript, il y a des bases de données qui ne te sortent pas trop de ta zone de confort comme **Prisma ORM**...
-- Comment on gère le déploiement avec **Vercel** ?
-- Comment je connecte ma DB ?
-- Comment je mets une auth Google ?
+J'ai choisi ce qui ne me sortait pas trop de ma zone de confort TypeScript : Prisma pour la base de données, Vercel pour le déploiement, une connexion Google pour l'authentification. Rien d'exotique, mais tout était nouveau pour moi. J'ai beaucoup utilisé l'IA pour avancer — un peu trop au début. J'étais bloqué toutes les deux minutes, c'était frustrant.
 
-J'ai dû me renseigner, faire, j'ai pas mal utilisé l'IA, **un peu trop au début**. J'étais bloqué toutes les deux minutes, c'était frustrant.
+Mais j'ai réussi, et surtout j'ai compris ce que je construisais.
 
-**Mais j'ai réussi, j'ai appris.**
+## Où en est Motivai aujourd'hui ?
 
-## Où en est Motivai aujourd'hui ? ✨
+Aujourd'hui, sur Motivai, tu peux te connecter, renseigner tes informations, ajouter un CV, et générer une lettre de motivation adaptée à une offre précise — le CV donnant à l'IA encore plus de contexte.
 
-Maintenant, sur Motivai, tu peux :
+Côté organisation, je me suis équipé comme sur un vrai produit : un changelog, un gestionnaire de tickets avec Linear, des releases planifiées avec les features que je veux et une date. Avec les MCP, je décris un ticket et l'IA l'écrit et le range au bon endroit. Les tickets très simples, je les délègue à des agents ; les tickets métier, je questionne l'IA sur des solutions, je vérifie en faisant mes recherches, puis j'implémente.
 
-- Te connecter
-- Mettre tes informations
-- Ajouter un CV
-- Créer ta lettre de motivation selon un poste, avec en plus ton CV pour donner encore plus d'infos à l'IA
+Je suis bien plus efficace qu'il y a quelques mois — grâce à un projet qui pourrait être remplacé par un copier-coller de prompt. La valeur est ailleurs : c'est mon terrain d'entraînement. C'est là que je teste des outils et des méthodes avant de les appliquer aux projets de mes clients.
 
-J'ai commencé à mettre en place :
-
-- Le **changelog**
-- Un gestionnaire de tickets avec **Linear**
-- J'organise mes releases avec les features que je veux et une date
-
-Avec les **MCP**, je décris le ticket, l'IA me l'écrit et le range au bon endroit. Les tickets très simples, je laisse l'IA les faire avec des agents. Les tickets métier, je questionne l'IA sur des solutions, je vérifie en faisant mes recherches, j'implémente.
-
-**Je suis bien plus efficace qu'il y a quelques mois**, et ça, grâce à un projet qui pourrait être remplacé par un copier-coller d'un prompt et l'offre de l'entreprise.
-
-La valeur ajoutée n'est pas énorme pour le moment, mais je compte bien continuer à améliorer et à maintenir. **C'est comme ça qu'on apprend.**
-
----
-
-Je ferai un post plus détaillé sur toutes mes erreurs quand j'ai codé Motivai ! C'était très instructif !
-
-**Merci d'avoir lu !** 🙏
+Merci d'avoir lu !
