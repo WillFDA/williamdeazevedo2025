@@ -10,11 +10,20 @@ import WaveText from "@/components/ui/WaveText.astro";
 import type { Project } from "@/data/projects";
 
 interface Props {
+    description?: string;
+    detailsLabel?: string;
     eager?: boolean;
     project: Project;
+    siteLabel?: string;
 }
 
-const { eager = false, project } = Astro.props;
+const {
+    description,
+    detailsLabel = "Détails du projet",
+    eager = false,
+    project,
+    siteLabel = "Voir le site",
+} = Astro.props;
 
 const projectTagIcons = {
     globe: GlobeIcon,
@@ -47,22 +56,32 @@ const projectTagIcons = {
 
     <div class="grid gap-7 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-10">
         <div class="flex flex-col gap-6">
-            <div class="flex items-center gap-4">
-                <span class="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-snow-50 p-2.5 text-xl font-medium text-gray-900 shadow-[0_18px_42px_-28px_rgba(34,42,55,0.55)] ring-1 ring-gray-200/70">
-                    <img
-                        src={project.brand.logo.src}
-                        alt=""
-                        class:list={[
-                            "block max-h-full max-w-full object-contain",
-                            project.brand.logo.className,
-                        ]}
-                        loading={eager ? "eager" : "lazy"}
-                        decoding="async"
-                    />
-                </span>
-                <h2 class="text-4xl font-medium leading-none tracking-normal text-gray-900 md:text-5xl">
-                    {project.title}
-                </h2>
+            <div class="flex max-w-3xl flex-col gap-5">
+                <div class="flex items-center gap-4">
+                    <span class="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-snow-50 p-2.5 text-xl font-medium text-gray-900 shadow-[0_18px_42px_-28px_rgba(34,42,55,0.55)] ring-1 ring-gray-200/70">
+                        <img
+                            src={project.brand.logo.src}
+                            alt=""
+                            class:list={[
+                                "block max-h-full max-w-full object-contain",
+                                project.brand.logo.className,
+                            ]}
+                            loading={eager ? "eager" : "lazy"}
+                            decoding="async"
+                        />
+                    </span>
+                    <h2 class="text-4xl font-medium leading-none tracking-normal text-gray-900 md:text-5xl">
+                        {project.title}
+                    </h2>
+                </div>
+
+                {
+                    description && (
+                        <p class="max-w-2xl text-lg font-normal leading-relaxed text-gray-600">
+                            {description}
+                        </p>
+                    )
+                }
             </div>
 
             <div class="flex flex-wrap gap-3">
@@ -86,7 +105,7 @@ const projectTagIcons = {
                 class="group relative isolate inline-flex min-h-14 items-center justify-center gap-4 overflow-hidden rounded-xl bg-snow-50 px-8 py-3 text-base font-normal text-gray-900 no-underline shadow-[0_12px_30px_-24px_rgba(34,42,55,0.5)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
                 href={`/realisations/${project.id}`}
             >
-                <WaveText text="Détails du projet" trigger="parent" />
+                <WaveText text={detailsLabel} trigger="parent" />
                 <WaveIcon
                     style="--wui-wave-icon-size: 1rem;"
                     direction="right"
@@ -103,7 +122,7 @@ const projectTagIcons = {
                         rel="noreferrer"
                         target="_blank"
                     >
-                        <WaveText text="Voir le site" trigger="parent" />
+                        <WaveText text={siteLabel} trigger="parent" />
                         <WaveIcon
                             style="--wui-wave-icon-size: 1rem;"
                             direction="up"

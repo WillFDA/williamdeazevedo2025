@@ -1,5 +1,8 @@
 ---
 import CalButton from "@/components/CalButton.astro";
+import FaqSection from "@/components/FaqSection.astro";
+import Marquee from "@/components/Marquee.astro";
+import ProjectListItem from "@/components/realisations/ProjectListItem.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import { getProjectById } from "@/data/projects";
 import { type Service, getServiceBySlug } from "@/data/services";
@@ -19,6 +22,64 @@ const project = getProjectById(service.proof.projectId);
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
 const canonicalUrl = new URL(canonicalPath, siteUrl);
 const serviceHref = (item: Service) => item.rootPath ?? `/services/${item.slug}`;
+const serviceHeroPillPhrases: Record<string, string[]> = {
+    "creation-site-vitrine": ["sites vitrines"],
+    "refonte-site-internet": ["Refonte"],
+    "developpeur-web-freelance": ["front-end"],
+    "creation-site-internet-artisan": ["artisan"],
+    "creation-site-internet-professionnel": ["professionnel"],
+};
+
+type HeroTitlePart = {
+    pill?: boolean;
+    text: string;
+};
+
+const appendTitleWords = (parts: HeroTitlePart[], value: string) => {
+    value
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .forEach((word) => parts.push({ text: word }));
+};
+
+const buildHeroTitleParts = (title: string, pillPhrases: string[]) => {
+    const parts: HeroTitlePart[] = [];
+    let remainingTitle = title;
+
+    while (remainingTitle.trim()) {
+        const lowerTitle = remainingTitle.toLowerCase();
+        const match = pillPhrases
+            .map((phrase) => ({
+                index: lowerTitle.indexOf(phrase.toLowerCase()),
+                phrase,
+            }))
+            .filter((item) => item.index >= 0)
+            .toSorted((first, second) => first.index - second.index)[0];
+
+        if (!match) {
+            appendTitleWords(parts, remainingTitle);
+            break;
+        }
+
+        appendTitleWords(parts, remainingTitle.slice(0, match.index));
+        parts.push({
+            pill: true,
+            text: remainingTitle.slice(
+                match.index,
+                match.index + match.phrase.length,
+            ),
+        });
+        remainingTitle = remainingTitle.slice(match.index + match.phrase.length);
+    }
+
+    return parts;
+};
+
+const heroTitleParts = buildHeroTitleParts(
+    service.h1,
+    serviceHeroPillPhrases[service.slug] ?? [],
+);
 
 const serviceJsonLd = {
     "@context": "https://schema.org",
@@ -97,17 +158,24 @@ const breadcrumbJsonLd = {
 
     <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-12 md:py-16">
         <FadeReveal delay={0.1}>
-            <section class="mx-auto flex max-w-4xl flex-col items-center gap-4 text-center md:gap-6">
-                <a
-                    class="text-base font-normal text-gray-500 transition-colors hover:text-gray-900 focus-visible:text-gray-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                    href="/services"
+            <section class="mx-auto flex w-full min-w-0 max-w-5xl flex-col items-center gap-6 text-center">
+                <h1
+                    class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
+                    data-service-animated-title
                 >
-                    Tous les services
-                </a>
-                <h1 class="page-heading">
-                    {service.h1}
+                    {
+                        heroTitleParts.map((part, index) => (
+                            <span
+                                class:list={[part.pill && "title-pill"]}
+                                style={`--animated-word-index: ${index}`}
+                                data-service-animated-title-word
+                            >
+                                {part.text}
+                            </span>
+                        ))
+                    }
                 </h1>
-                <p class="page-subheading">
+                <p class="page-subheading max-w-sm sm:max-w-lg">
                     {service.intro}
                 </p>
                 <div class="flex flex-col items-center gap-3 sm:flex-row">
@@ -129,6 +197,14 @@ const breadcrumbJsonLd = {
                 </div>
             </section>
         </FadeReveal>
+
+        {
+            service.slug === "developpeur-web-freelance" && (
+                <FadeReveal delay={0.18}>
+                    <Marquee />
+                </FadeReveal>
+            )
+        }
 
         <section class="grid gap-6 md:grid-cols-[0.95fr_1.05fr] md:items-start md:gap-12">
             <div class="flex flex-col gap-4">
@@ -185,34 +261,13 @@ const breadcrumbJsonLd = {
 
         {
             project && (
-                <section class="rounded-4xl bg-coffee-300 p-6 text-snow-50 sm:p-8">
-                    <div class="grid gap-6 md:grid-cols-[1fr_1.2fr] md:items-center">
-                        <div class="flex flex-col gap-4">
-                            <p class="text-xs font-normal uppercase tracking-widest text-blue-300">
-                                Réalisation liée
-                            </p>
-                            <h2 class="text-2xl font-normal leading-tight">
-                                {project.title}
-                            </h2>
-                            <p class="text-base font-normal leading-relaxed text-snow-100">
-                                {service.proof.text}
-                            </p>
-                        </div>
-                        <div class="flex flex-col gap-3 sm:flex-row md:justify-end">
-                            <a
-                                class="flex min-h-14 items-center justify-center rounded-xl bg-snow-50 px-8 py-3 text-base font-normal text-coffee-300 transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                                href={`/realisations/${project.id}`}
-                            >
-                                Lire l'étude de cas
-                            </a>
-                            <CalButton
-                                class="rounded-xl text-base font-normal"
-                                label="Voir si ce format convient"
-                                location={`service-${service.slug}-proof`}
-                                variant="light"
-                            />
-                        </div>
-                    </div>
+                <section>
+                    <ProjectListItem
+                        project={project}
+                        description={service.proof.text}
+                        detailsLabel="Lire l'étude de cas"
+                        siteLabel="Voir le site"
+                    />
                 </section>
             )
         }
@@ -295,31 +350,14 @@ const breadcrumbJsonLd = {
             </ol>
         </section>
 
-        <section class="grid gap-6 md:grid-cols-[0.85fr_1.15fr] md:gap-12">
-            <div class="flex flex-col gap-4">
-                <h2 class="section-heading text-left">
-                    Questions fréquentes
-                </h2>
-                <p class="text-base font-normal leading-relaxed text-gray-600">
-                    Les détails dépendent toujours du projet, mais ces réponses
-                    donnent un premier cadre avant l'appel découverte.
-                </p>
-            </div>
-            <div class="flex flex-col gap-3">
-                {
-                    service.faq.map((item) => (
-                        <details class="rounded-xl bg-snow-50 p-4 ring-1 ring-snow-600">
-                            <summary class="cursor-pointer rounded-xl text-base font-normal text-gray-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500">
-                                {item.question}
-                            </summary>
-                            <p class="mt-3 text-base font-normal leading-relaxed text-gray-600">
-                                {item.answer}
-                            </p>
-                        </details>
-                    ))
-                }
-            </div>
-        </section>
+        <FaqSection
+            id={`${service.slug}-faq`}
+            items={service.faq}
+            title="Questions fréquentes"
+            description="Les détails dépendent toujours du projet, mais ces réponses donnent un premier cadre avant l'appel découverte."
+            padded={false}
+            showCta={false}
+        />
 
         <section class="grid gap-4 md:grid-cols-2">
             {
@@ -360,3 +398,84 @@ const breadcrumbJsonLd = {
         </section>
     </div>
 </Layout>
+
+<script>
+    const revealServiceTitle = (title: HTMLElement) => {
+        if (title.dataset.animatedTitleReady === "true") return;
+        title.dataset.animatedTitleReady = "true";
+    };
+
+    const initServiceTitle = () => {
+        const title = document.querySelector<HTMLElement>(
+            "[data-service-animated-title]",
+        );
+
+        if (!title || title.dataset.animatedTitleReady) return;
+
+        if (
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+            !("IntersectionObserver" in window)
+        ) {
+            revealServiceTitle(title);
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry?.isIntersecting) return;
+                revealServiceTitle(title);
+                observer.disconnect();
+            },
+            { rootMargin: "0px 0px -10% 0px", threshold: 0.2 },
+        );
+
+        observer.observe(title);
+    };
+
+    initServiceTitle();
+
+    document.addEventListener("astro:page-load", initServiceTitle);
+</script>
+
+<style>
+    [data-service-animated-title-word] {
+        display: inline-block;
+    }
+
+    [data-service-animated-title]:not([data-animated-title-ready="true"])
+        [data-service-animated-title-word] {
+        filter: blur(10px);
+        opacity: 0;
+        transform: translateY(-0.65em);
+    }
+
+    [data-service-animated-title][data-animated-title-ready="true"]
+        [data-service-animated-title-word] {
+        animation: service-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
+            backwards;
+        animation-delay: calc(var(--animated-word-index, 0) * 65ms);
+    }
+
+    @keyframes service-title-word {
+        from {
+            filter: blur(10px);
+            opacity: 0;
+            transform: translateY(-0.65em);
+        }
+
+        to {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @media (scripting: none), (prefers-reduced-motion: reduce) {
+        [data-service-animated-title] [data-service-animated-title-word] {
+            animation: none;
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+</style>

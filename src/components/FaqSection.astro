@@ -5,13 +5,34 @@ import WaveIcon from "./ui/WaveIcon.astro";
 import WaveText from "./ui/WaveText.astro";
 import { getProjectById } from "@/data/projects";
 
+type FaqItem = {
+    answer: string;
+    link?: {
+        href: string;
+        label: string;
+    };
+    question: string;
+};
+
+interface Props {
+    class?: string;
+    ctaLabel?: string;
+    ctaLocation?: string;
+    description?: string;
+    id?: string;
+    items?: readonly FaqItem[];
+    padded?: boolean;
+    showCta?: boolean;
+    title?: string;
+}
+
 const persistanceProject = getProjectById("persistance");
 
 if (!persistanceProject) {
     throw new Error("Projet Persistance introuvable pour la FAQ.");
 }
 
-const faqItems = [
+const defaultFaqItems = [
     {
         question: "Est-ce qu'un site à 2 000 € suffit toujours ?",
         answer:
@@ -73,6 +94,19 @@ const faqItems = [
     },
 ] as const;
 
+const {
+    class: className,
+    ctaLabel = "Parler de mon cas",
+    ctaLocation = "faq",
+    description,
+    id = "faq",
+    items = defaultFaqItems,
+    padded = true,
+    showCta = true,
+    title = "FAQ",
+} = Astro.props;
+const faqItems = Array.from(items);
+
 const accordionClasses = {
     content:
         "px-5 pb-5 pr-14 text-base font-light leading-normal text-gray-600 sm:px-6 sm:pr-16",
@@ -84,12 +118,23 @@ const accordionClasses = {
 ---
 
 <section
-    id="faq"
-    class="mx-auto w-full max-w-7xl px-4 py-12 sm:px-8 md:py-16"
-    aria-labelledby="faq-title"
+    id={id}
+    class:list={[
+        "mx-auto w-full max-w-7xl py-12 md:py-16",
+        padded ? "px-4 sm:px-8" : "px-0",
+        className,
+    ]}
+    aria-labelledby={`${id}-title`}
 >
     <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
-        <h2 id="faq-title" class="section-heading">FAQ</h2>
+        <h2 id={`${id}-title`} class="section-heading">{title}</h2>
+        {
+            description && (
+                <p class="section-subheading mt-5 max-w-2xl">
+                    {description}
+                </p>
+            )
+        }
     </div>
 
     <Accordion
@@ -101,21 +146,25 @@ const accordionClasses = {
         iconClass={accordionClasses.icon}
     />
 
-    <div class="mt-10 flex justify-center">
-        <button
-            class="faq-cta inline-flex min-h-14 items-center justify-center gap-5 rounded-xl bg-coffee-300 px-8 py-3 text-base font-normal text-snow-50 shadow-lg transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-            data-cal-location="faq"
-            data-cal-open
-            type="button"
-        >
-            <WaveText text="Parler de mon cas" trigger="parent" />
-            <WaveIcon
-                style="--wui-wave-icon-size: 1rem;"
-                direction="right"
-                trigger="parent"
-            >
-                <ArrowRight class="size-full" aria-hidden="true" />
-            </WaveIcon>
-        </button>
-    </div>
+    {
+        showCta && (
+            <div class="mt-10 flex justify-center">
+                <button
+                    class="faq-cta inline-flex min-h-14 items-center justify-center gap-5 rounded-xl bg-coffee-300 px-8 py-3 text-base font-normal text-snow-50 shadow-lg transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                    data-cal-location={ctaLocation}
+                    data-cal-open
+                    type="button"
+                >
+                    <WaveText text={ctaLabel} trigger="parent" />
+                    <WaveIcon
+                        style="--wui-wave-icon-size: 1rem;"
+                        direction="right"
+                        trigger="parent"
+                    >
+                        <ArrowRight class="size-full" aria-hidden="true" />
+                    </WaveIcon>
+                </button>
+            </div>
+        )
+    }
 </section>
