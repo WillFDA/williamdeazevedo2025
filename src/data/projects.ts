@@ -1,7 +1,7 @@
 import leFellicHomePoster from "../assets/projects/lefellic-home.webp";
-import motivaiAichoosePoster from "../assets/projects/motivai-aichoose.webp";
+import motivaiLandingHero from "../assets/projects/motivai-landing-hero.webp";
+import motivaiLandingPreset from "../assets/projects/motivai-landing-preset.webp";
 import motivaiLandingPoster from "../assets/projects/motivai-landing.webp";
-import motivaiOnboardingPoster from "../assets/projects/motivai-onboarding.webp";
 import persistanceHomePoster from "../assets/projects/persistance-home.webp";
 
 export type Project = {
@@ -161,12 +161,12 @@ export const projects: Project[] = [
     },
     gallery: [
       {
-        src: motivaiAichoosePoster.src,
-        alt: "Interface de choix du modèle IA dans Motivai",
+        src: motivaiLandingHero.src,
+        alt: "Interface de génération de lettre de motivation dans Motivai",
       },
       {
-        src: motivaiOnboardingPoster.src,
-        alt: "Parcours d'onboarding de Motivai",
+        src: motivaiLandingPreset.src,
+        alt: "Sélection du mode de génération dans Motivai",
       },
     ],
     caseStudy: {

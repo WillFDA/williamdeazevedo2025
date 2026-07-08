@@ -17,29 +17,11 @@ const realisationsDiagnosticTitleParts = [
     { text: "pas" },
     { text: "encore" },
     { text: "quelle" },
-    { media: true, text: "réalisation" },
+    { text: "réalisation" },
     { text: "peut" },
     { text: "servir" },
     { text: "de" },
-    { pill: true, text: "repère ?" },
-] as const;
-
-const realisationsDiagnosticCards = [
-    {
-        icon: "layout",
-        title: "Créer",
-        text: "Une présence à poser clairement : offre, pages, contact.",
-    },
-    {
-        icon: "target",
-        title: "Refaire",
-        text: "Un site qui bloque : message, crédibilité, parcours.",
-    },
-    {
-        icon: "view-all",
-        title: "Améliorer",
-        text: "Une base à renforcer : vitesse, mobile, SEO.",
-    },
+    { text: "repère ?" },
 ] as const;
 
 ---
@@ -76,7 +58,6 @@ const realisationsDiagnosticCards = [
             class="px-4 sm:px-6 lg:px-8"
             titleParts={realisationsDiagnosticTitleParts}
             copy="Chaque réalisation aide à situer le besoin : créer une présence claire, refaire un site qui bloque ou renforcer une base déjà en ligne."
-            cards={realisationsDiagnosticCards}
             buttonLabel="Faire le point en 15 min"
             location="realisations-diagnostic"
         />

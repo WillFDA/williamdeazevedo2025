@@ -1,10 +1,12 @@
 ---
+import ArrowRight from "./icons/nucleo/arrow-right-fill.svg";
 import ChevronUp from "./icons/nucleo/chevron-up-fill.svg";
 import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
 import ViewAll from "./icons/nucleo/view-all-fill.svg";
 import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
 import WindowPointer from "./icons/nucleo/window-pointer-fill.svg";
 import { services } from "../data/services";
+import WaveIcon from "./ui/WaveIcon.astro";
 import WaveText from "./ui/WaveText.astro";
 
 interface Props {
@@ -19,15 +21,7 @@ const navItems = [
     { href: "/articles", id: "articles", label: "Articles" },
     { href: "/tarif-creation-site-internet", id: "tarifs", label: "Tarifs" },
     { href: "/methode", id: "methode", label: "Méthode" },
-    { href: "/contact", id: "contact", label: "Contact" },
 ];
-const currentPath = pathName.replace(/\/$/, "") || "/";
-const items = navItems.map((item) => ({
-    ...item,
-    active:
-        currentPath === item.href ||
-        (item.href !== "/" && currentPath.startsWith(`${item.href}/`)),
-}));
 type ServiceIconKind = "code" | "paintbrush" | "pointer";
 
 const getServiceIconKind = (href: string): ServiceIconKind => {
@@ -52,6 +46,27 @@ const serviceLinks = services.map((service) => {
         title: service.title,
     };
 });
+
+const normalizePath = (path: string) => path.replace(/\/$/, "") || "/";
+const currentPath = normalizePath(pathName);
+const servicePaths = new Set(serviceLinks.map((service) => normalizePath(service.href)));
+const isServicesActive =
+    currentPath === "/services" ||
+    currentPath.startsWith("/services/") ||
+    servicePaths.has(currentPath);
+
+const items = navItems.map((item) => {
+    const href = normalizePath(item.href);
+
+    return {
+        ...item,
+        active:
+            item.id === "services"
+                ? isServicesActive
+                : currentPath === href ||
+                  (href !== "/" && currentPath.startsWith(`${href}/`)),
+    };
+});
 ---
 
 <header class="site-header sticky top-0 z-50 w-full" data-site-header>
@@ -63,9 +78,9 @@ const serviceLinks = services.map((service) => {
     </div>
     <nav
         aria-label="Navigation principale"
-        class="relative mx-auto flex max-w-5xl flex-col items-center gap-0 px-3 py-2 sm:min-h-10 sm:p-4"
+        class="relative mx-auto flex max-w-6xl flex-col items-center gap-0 px-3 py-2 lg:grid lg:min-h-10 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-5 lg:p-4"
     >
-        <div class="flex w-full items-center justify-between sm:hidden">
+        <div class="flex w-full items-center justify-between lg:hidden">
             <a
                 class="text-gray-900 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
                 href="/"
@@ -95,7 +110,7 @@ const serviceLinks = services.map((service) => {
             </button>
         </div>
         <a
-            class="hidden text-gray-900 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 sm:absolute sm:left-4 sm:top-1/2 sm:block sm:-translate-y-1/2"
+            class="hidden text-gray-900 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:block"
             href="/"
             aria-label="William De Azevedo - Accueil"
         >
@@ -111,7 +126,7 @@ const serviceLinks = services.map((service) => {
             </svg>
         </a>
         <ul
-            class="relative hidden flex-wrap items-center justify-center gap-1 text-xs font-light sm:flex sm:gap-3"
+            class="relative hidden flex-nowrap items-center justify-center gap-1 text-xs font-light lg:flex lg:justify-self-center lg:gap-3"
         >
             {
                 items.map((item) => (
@@ -197,6 +212,19 @@ const serviceLinks = services.map((service) => {
                 ))
             }
         </ul>
+        <a
+            aria-controls="cal-drawer"
+            aria-haspopup="dialog"
+            class="nav-contact-cta hidden lg:inline-flex lg:justify-self-end"
+            data-cal-location="header"
+            data-cal-open
+            href="mailto:william.deazevedopro@gmail.com"
+        >
+            <WaveText text="Me contacter" trigger="parent" />
+            <WaveIcon style="--wui-wave-icon-size: 0.75rem;" direction="right" trigger="parent">
+                <ArrowRight class="size-full" aria-hidden="true" />
+            </WaveIcon>
+        </a>
         <div id="mobile-menu" class="mobile-menu" data-mobile-menu hidden>
             <div class="mobile-menu__panel">
                 {
@@ -267,6 +295,23 @@ const serviceLinks = services.map((service) => {
                         ),
                     )
                 }
+                <a
+                    aria-controls="cal-drawer"
+                    aria-haspopup="dialog"
+                    class="mobile-contact-cta"
+                    data-cal-location="mobile-header"
+                    data-cal-open
+                    href="mailto:william.deazevedopro@gmail.com"
+                >
+                    <WaveText text="Me contacter" trigger="parent" />
+                    <WaveIcon
+                        style="--wui-wave-icon-size: 0.8rem;"
+                        direction="right"
+                        trigger="parent"
+                    >
+                        <ArrowRight class="size-full" aria-hidden="true" />
+                    </WaveIcon>
+                </a>
             </div>
         </div>
     </nav>
@@ -583,6 +628,70 @@ const serviceLinks = services.map((service) => {
         min-height: 2.85rem;
     }
 
+    .nav-contact-cta,
+    .mobile-contact-cta {
+        align-items: center;
+        background: transparent;
+        border: 0;
+        color: var(--color-snow-50);
+        gap: 0.55rem;
+        isolation: isolate;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+        text-decoration: none;
+    }
+
+    .nav-contact-cta {
+        border-radius: 0.9rem;
+        font-size: 0.72rem;
+        font-weight: 400;
+        min-height: 2.25rem;
+        padding: 0 0.85rem;
+    }
+
+    .mobile-contact-cta {
+        border-radius: 0.95rem;
+        font-size: 0.9rem;
+        font-weight: 400;
+        min-height: 3rem;
+        padding: 0 0.95rem;
+    }
+
+    .nav-contact-cta::before,
+    .mobile-contact-cta::before {
+        background: var(--color-blue-500);
+        border: 1px solid
+            color-mix(in srgb, var(--color-blue-500) 70%, var(--color-blue-600));
+        border-radius: inherit;
+        box-shadow: inset 0 2px rgba(184, 200, 255, 0.18);
+        content: "";
+        inset: 0;
+        position: absolute;
+        transform: scale(1);
+        transition: transform 520ms
+            var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        z-index: -1;
+    }
+
+    .nav-contact-cta:focus-visible::before,
+    .mobile-contact-cta:focus-visible::before {
+        transform: scale(0.95);
+    }
+
+    .nav-contact-cta:focus-visible,
+    .mobile-contact-cta:focus-visible {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 3px;
+    }
+
+    @media (hover: hover) {
+        .nav-contact-cta:hover::before,
+        .mobile-contact-cta:hover::before {
+            transform: scale(0.95);
+        }
+    }
+
     .nav-link {
         background: transparent;
         border: 0;
@@ -776,6 +885,8 @@ const serviceLinks = services.map((service) => {
         .mobile-menu__panel > *,
         .mobile-services__panel > *,
         .mobile-services__chevron,
+        .nav-contact-cta::before,
+        .mobile-contact-cta::before,
         .header-bg,
         .site-header::after {
             transition: none;
@@ -901,7 +1012,7 @@ const serviceLinks = services.map((service) => {
         });
 
         window.addEventListener("resize", () => {
-            if (!window.matchMedia("(min-width: 640px)").matches) {
+            if (!window.matchMedia("(min-width: 1024px)").matches) {
                 return;
             }
 

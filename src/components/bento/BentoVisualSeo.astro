@@ -1,9 +1,10 @@
 ---
+import SquareChartSearch from "@/components/icons/nucleo/square-chart-search-fill.svg";
+
 /**
  * Scène animée "SEO & mise en ligne" : une page de résultats où la ligne du
  * client grimpe de la 3e à la 2e puis à la 1re position (les rangs restent
  * fixes en gouttière), balayage lumineux à l'arrivée, badge "1ʳᵉ position"
- * et pastille "En ligne" qui pulse.
  * Chorégraphie pilotée par src/scripts/animations/bento/seo.ts.
  * Sans JS : le client est 1er, badge visible.
  */
@@ -18,18 +19,7 @@
 		<div class="w-[196px] rounded-xl border border-gray-200/80 bg-white p-2.5 shadow-[0_18px_36px_-22px_rgba(34,42,55,0.4)]">
 			<div class="flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-[5px]">
 				<span class="seo-lens flex shrink-0" data-bento-seo-lens>
-					<svg xmlns="http://www.w3.org/2000/svg" class="size-[18px] text-gray-400" viewBox="0 0 18 18" aria-hidden="true">
-						<title>square-chart-search</title>
-						<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke="currentColor">
-							<path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M9.507 3.25C9.637 5.619 11.599 7.5 14 7.5C14.084 7.5 14.167 7.498 14.25 7.493V13.75C14.25 14.855 13.355 15.75 12.25 15.75H3.75C2.645 15.75 1.75 14.855 1.75 13.75V5.25C1.75 4.145 2.645 3.25 3.75 3.25H9.507Z" fill="currentColor" data-stroke="none" stroke="none"></path>
-							<path d="M4.75 8.5V12.75"></path>
-							<path d="M11.25 10.75V12.75"></path>
-							<path d="M8 6.25V12.75"></path>
-							<path d="M14 5.25C15.243 5.25 16.25 4.243 16.25 3C16.25 1.757 15.243 0.75 14 0.75C12.757 0.75 11.75 1.757 11.75 3C11.75 4.243 12.757 5.25 14 5.25Z"></path>
-							<path d="M15.59 4.59L17.25 6.25"></path>
-							<path d="M8.7753 3.25H3.75C2.645 3.25 1.75 4.145 1.75 5.25V13.75C1.75 14.855 2.645 15.75 3.75 15.75H12.25C13.355 15.75 14.25 14.855 14.25 13.75V8.23579"></path>
-						</g>
-					</svg>
+					<SquareChartSearch class="size-[18px] text-gray-400" />
 				</span>
 				<span class="truncate text-[8px] font-medium text-gray-500">votre métier + votre ville</span>
 			</div>
@@ -69,13 +59,6 @@
 			1ʳᵉ position
 		</span>
 
-		<span class="absolute -bottom-2.5 -left-2 flex items-center gap-1.5 rounded-full border border-gray-100 bg-white px-2 py-1 shadow-[0_12px_24px_-14px_rgba(34,42,55,0.4)]">
-			<span class="relative flex size-1.5">
-				<span class="seo-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400" data-bento-seo-ping></span>
-				<span class="relative inline-flex size-1.5 rounded-full bg-emerald-500"></span>
-			</span>
-			<span class="text-[8px] font-medium text-gray-600">En ligne</span>
-		</span>
 	</div>
 </div>
 
@@ -112,9 +95,4 @@
 		will-change: opacity, transform;
 	}
 
-	.seo-ping {
-		opacity: 0;
-		transform-origin: center;
-		will-change: opacity, transform;
-	}
 </style>

@@ -6,6 +6,8 @@ import BentoVisualProfessional from "./bento/BentoVisualProfessional.astro";
 import BentoVisualRefonte from "./bento/BentoVisualRefonte.astro";
 import BentoVisualSeo from "./bento/BentoVisualSeo.astro";
 import BentoVisualVitrine from "./bento/BentoVisualVitrine.astro";
+import ArrowUpRight from "./icons/nucleo/arrow-up-right-fill.svg";
+import WaveIcon from "./ui/WaveIcon.astro";
 
 type BentoIcon =
     | "artisan"
@@ -98,11 +100,11 @@ const supportItems = items.slice(4);
     </h2>
 
     <div
-        class="mx-auto mt-[72px] grid max-w-7xl items-stretch gap-5 lg:grid-cols-[0.82fr_1.18fr]"
+        class="mx-auto mt-8 grid max-w-7xl items-stretch gap-5 md:mt-10 lg:grid-cols-[0.82fr_1.18fr]"
     >
         <FadeReveal class="flex" delay={0.12}>
             <a
-                class="group relative flex w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[640px]"
+                class="group relative flex w-full flex-col overflow-hidden rounded-[26px] border-[0.5px] border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[640px]"
                 href={featureItem.href}
                 aria-label={featureItem.linkLabel}
             >
@@ -115,8 +117,18 @@ const supportItems = items.slice(4);
                 <div
                     class="relative z-10 flex shrink-0 flex-col px-6 pt-6 pb-6 sm:px-7"
                 >
-                    <h3 class="text-xl font-normal leading-tight text-gray-900">
+                    <h3
+                        class="inline-flex items-start gap-2 text-xl font-normal leading-tight text-gray-900"
+                    >
                         {featureItem.title}
+                        <WaveIcon
+                            class="mt-1.5 text-gray-400 transition-colors duration-300 ease-out group-hover:text-gray-900 group-focus-visible:text-gray-900"
+                            direction="up-right"
+                            style="--wui-wave-icon-size: 0.75rem;"
+                            trigger="parent"
+                        >
+                            <ArrowUpRight class="size-full" aria-hidden="true" />
+                        </WaveIcon>
                     </h3>
                     <p
                         class="mt-4 max-w-md text-sm font-light leading-relaxed text-gray-600"
@@ -130,7 +142,7 @@ const supportItems = items.slice(4);
         <div class="grid gap-5">
             <FadeReveal class="flex" delay={0.2}>
                 <a
-                    class="group relative flex w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[300px]"
+                    class="group relative flex w-full flex-col overflow-hidden rounded-[26px] border-[0.5px] border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[300px]"
                     href={wideItem.href}
                     aria-label={wideItem.linkLabel}
                 >
@@ -143,10 +155,19 @@ const supportItems = items.slice(4);
                     <div
                         class="relative z-10 flex flex-1 flex-col px-6 pt-6 pb-6 sm:px-7"
                     >
-                        <h3
-                            class="text-xl font-normal leading-tight text-gray-900"
-                        >
+                        <h3 class="inline-flex items-start gap-2 text-xl font-normal leading-tight text-gray-900">
                             {wideItem.title}
+                            <WaveIcon
+                                class="mt-1.5 text-gray-400 transition-colors duration-300 ease-out group-hover:text-gray-900 group-focus-visible:text-gray-900"
+                                direction="up-right"
+                                style="--wui-wave-icon-size: 0.75rem;"
+                                trigger="parent"
+                            >
+                                <ArrowUpRight
+                                    class="size-full"
+                                    aria-hidden="true"
+                                />
+                            </WaveIcon>
                         </h3>
                         <p
                             class="mt-4 max-w-lg text-sm font-light leading-relaxed text-gray-600"
@@ -162,7 +183,7 @@ const supportItems = items.slice(4);
                     smallItems.map((item, index) => (
                         <FadeReveal class="flex" delay={0.28 + index * 0.08}>
                             <a
-                                class="group relative flex w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[320px]"
+                                class="group relative flex w-full flex-col overflow-hidden rounded-[26px] border-[0.5px] border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[320px]"
                                 href={item.href}
                                 aria-label={item.linkLabel}
                             >
@@ -176,8 +197,19 @@ const supportItems = items.slice(4);
                                 </div>
 
                                 <div class="relative z-10 flex flex-1 flex-col px-6 pt-6 pb-6 sm:px-7">
-                                    <h3 class="text-xl font-normal leading-tight text-gray-900">
+                                    <h3 class="inline-flex items-start gap-2 text-xl font-normal leading-tight text-gray-900">
                                         {item.title}
+                                        <WaveIcon
+                                            class="mt-1.5 text-gray-400 transition-colors duration-300 ease-out group-hover:text-gray-900 group-focus-visible:text-gray-900"
+                                            direction="up-right"
+                                            style="--wui-wave-icon-size: 0.75rem;"
+                                            trigger="parent"
+                                        >
+                                            <ArrowUpRight
+                                                class="size-full"
+                                                aria-hidden="true"
+                                            />
+                                        </WaveIcon>
                                     </h3>
                                     <p class="mt-4 max-w-lg text-sm font-light leading-relaxed text-gray-600">
                                         {item.description}
@@ -196,7 +228,7 @@ const supportItems = items.slice(4);
             supportItems.map((item, index) => (
                 <FadeReveal class="flex" delay={0.36 + index * 0.08}>
                     <a
-                        class="group relative flex w-full flex-col overflow-hidden rounded-[26px] border border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[370px]"
+                        class="group relative flex w-full flex-col overflow-hidden rounded-[26px] border-[0.5px] border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 lg:min-h-[370px]"
                         href={item.href}
                         aria-label={item.linkLabel}
                     >
@@ -210,8 +242,19 @@ const supportItems = items.slice(4);
                         </div>
 
                         <div class="relative z-10 flex flex-1 flex-col px-6 pt-6 pb-6 sm:px-7">
-                            <h3 class="text-xl font-normal leading-tight text-gray-900">
+                            <h3 class="inline-flex items-start gap-2 text-xl font-normal leading-tight text-gray-900">
                                 {item.title}
+                                <WaveIcon
+                                    class="mt-1.5 text-gray-400 transition-colors duration-300 ease-out group-hover:text-gray-900 group-focus-visible:text-gray-900"
+                                    direction="up-right"
+                                    style="--wui-wave-icon-size: 0.75rem;"
+                                    trigger="parent"
+                                >
+                                    <ArrowUpRight
+                                        class="size-full"
+                                        aria-hidden="true"
+                                    />
+                                </WaveIcon>
                             </h3>
                             <p class="mt-4 max-w-xl text-sm font-light leading-relaxed text-gray-600">
                                 {item.description}

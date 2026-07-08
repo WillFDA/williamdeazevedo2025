@@ -1,16 +1,5 @@
 ---
 import Msgs from "@/components/icons/nucleo/msgs-fill.svg";
-import TargetIcon from "@/components/icons/nucleo/target-fill.svg";
-import ViewAllIcon from "@/components/icons/nucleo/view-all-fill.svg";
-import WindowLayoutIcon from "@/components/icons/nucleo/window-layout-fill.svg";
-
-type CardIcon = "layout" | "target" | "view-all";
-
-type Card = {
-    icon: CardIcon;
-    text: string;
-    title: string;
-};
 
 type TitlePart = {
     media?: boolean;
@@ -20,21 +9,13 @@ type TitlePart = {
 
 interface Props {
     buttonLabel: string;
-    cards: readonly Card[];
     class?: string;
     copy: string;
     location: string;
     titleParts: readonly TitlePart[];
 }
 
-const { buttonLabel, cards, class: className, copy, location, titleParts } =
-    Astro.props;
-
-const cardIcons = {
-    layout: WindowLayoutIcon,
-    target: TargetIcon,
-    "view-all": ViewAllIcon,
-} as const;
+const { buttonLabel, class: className, copy, location, titleParts } = Astro.props;
 ---
 
 <div
@@ -83,26 +64,6 @@ const cardIcons = {
                 </p>
             </div>
 
-            <ul class="mx-auto grid w-full max-w-7xl gap-5 sm:grid-cols-3">
-                {
-                    cards.map((card) => {
-                        const Icon = cardIcons[card.icon];
-
-                        return (
-                            <li class="diagnostic-cta__card" data-diagnostic-card>
-                                <div class="flex items-center gap-3">
-                                    <span class="diagnostic-cta__card-icon">
-                                        <Icon aria-hidden="true" class="size-5" />
-                                    </span>
-                                    <h3>{card.title}</h3>
-                                </div>
-                                <p>{card.text}</p>
-                            </li>
-                        );
-                    })
-                }
-            </ul>
-
             <button
                 class="diagnostic-cta__button mx-auto inline-flex min-h-16 w-full max-w-[23rem] items-center justify-center gap-5 rounded-2xl px-10 py-4 text-lg font-normal focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
                 data-cal-location={location}
@@ -144,10 +105,6 @@ const cardIcons = {
             const context = gsap.context(() => {
                 const words = gsap.utils.toArray<HTMLElement>(
                     "[data-diagnostic-word]",
-                    cta,
-                );
-                const cards = gsap.utils.toArray<HTMLElement>(
-                    "[data-diagnostic-card]",
                     cta,
                 );
                 const media = cta.querySelector<HTMLElement>(
@@ -206,25 +163,6 @@ const cardIcons = {
                     );
                 }
 
-                if (cards.length) {
-                    timeline.fromTo(
-                        cards,
-                        {
-                            autoAlpha: 0.88,
-                            scale: 0.98,
-                            y: 16,
-                        },
-                        {
-                            autoAlpha: 1,
-                            scale: 1,
-                            y: 0,
-                            duration: 0.72,
-                            ease: "none",
-                            stagger: 0.05,
-                        },
-                        0.16,
-                    );
-                }
             }, cta);
 
             activeDiagnosticControllers.set(cta, () => context.revert());
@@ -241,7 +179,7 @@ const cardIcons = {
 
 <style>
     .diagnostic-cta {
-        min-height: min(66rem, calc(100dvh - 2rem));
+        min-height: min(42rem, calc(100dvh - 2rem));
     }
 
     .diagnostic-cta__title [data-diagnostic-word] {
@@ -267,52 +205,6 @@ const cardIcons = {
         transform-origin: center;
         width: 1.08em;
         will-change: opacity, transform;
-    }
-
-    .diagnostic-cta__card {
-        background: var(--color-gray-800);
-        border-radius: 0.75rem;
-        box-shadow: 0 18px 44px -30px rgba(14, 20, 32, 0.55);
-        color: var(--color-snow-50);
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        min-height: 10.75rem;
-        padding: 1.25rem;
-        will-change: opacity, transform;
-    }
-
-    .diagnostic-cta__card h3 {
-        color: var(--color-snow-50);
-        font-size: 1.125rem;
-        font-weight: 500;
-        line-height: 1.1;
-        margin: 0;
-    }
-
-    .diagnostic-cta__card p {
-        color: var(--color-coffee-50);
-        font-size: 1rem;
-        font-weight: 300;
-        line-height: 1.7;
-        margin: 0;
-    }
-
-    .diagnostic-cta__card-icon {
-        align-items: center;
-        background: var(--color-blue-500);
-        border-radius: 0.5rem;
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.22),
-            inset 0 -1px 0 rgba(31, 54, 130, 0.14),
-            0 12px 26px -20px rgba(141, 165, 247, 0.55),
-            0 5px 12px -10px rgba(62, 96, 212, 0.58);
-        color: var(--color-snow-50);
-        display: inline-flex;
-        flex-shrink: 0;
-        height: 2rem;
-        justify-content: center;
-        width: 2rem;
     }
 
     .diagnostic-cta__button {

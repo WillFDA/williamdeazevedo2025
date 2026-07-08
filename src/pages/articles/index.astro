@@ -12,14 +12,13 @@ import { formatArticleDate, getVisibleArticles } from "@/lib/articles";
 
 const articles = await getVisibleArticles();
 const heroTitleParts = [
-    { text: "Des" },
-    { pill: true, text: "articles" },
-    { text: "pour" },
-    { text: "rendre" },
-    { text: "votre" },
-    { text: "site" },
-    { text: "plus" },
-    { text: "clair." },
+    { text: "Ce" },
+    { text: "que" },
+    { pill: true, text: "j'apprends" },
+    { text: "en" },
+    { text: "créant" },
+    { text: "des" },
+    { text: "sites." },
 ];
 const tags = [
     ...new Set(articles.flatMap((article) => article.data.tags)),
@@ -52,7 +51,7 @@ const getTagIcon = (tag: string) => {
             <FadeReveal delay={0.1}>
                 <h1
                     class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
-                    aria-label="Des articles pour rendre votre site plus clair."
+                    aria-label="Ce que j'apprends en créant des sites."
                 >
                     {
                         heroTitleParts.map((part) => (

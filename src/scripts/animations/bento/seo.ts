@@ -1,11 +1,10 @@
 /**
  * Scène "SEO & mise en ligne" — la loupe pulse, la ligne du client grimpe
  * de la 3e à la 2e puis à la 1re position, un balayage lumineux souligne
- * l'arrivée et le badge "1ʳᵉ position" confirme. Pastille "En ligne" en
- * pulsation continue. Cycle ~7,6 s.
+ * l'arrivée et le badge "1ʳᵉ position" confirme. Cycle ~7,6 s.
  */
 
-import { animate, createTimeline, utils } from "animejs";
+import { createTimeline, utils } from "animejs";
 
 import { addPlayer, type BentoPlayer, query } from "./shared";
 
@@ -19,21 +18,6 @@ export const animateSeo = (root: HTMLElement, players: BentoPlayer[]) => {
   const secondRow = query(root, '[data-bento-seo-row="other-2"]');
   const sweep = query(root, "[data-bento-seo-sweep]");
   const chip = query(root, "[data-bento-seo-chip]");
-  const ping = query(root, "[data-bento-seo-ping]");
-
-  if (ping) {
-    utils.set(ping, { opacity: 0.72, scale: 1 });
-    addPlayer(
-      players,
-      animate(ping, {
-        opacity: [0.72, 0],
-        scale: [1, 2.35],
-        duration: 2100,
-        ease: "out(2)",
-        loop: true,
-      })
-    );
-  }
 
   if (!(list && ownRow && firstRow && secondRow)) return;
 

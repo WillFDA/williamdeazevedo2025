@@ -1,4 +1,6 @@
 ---
+import motivaiLandingHero from "@/assets/projects/motivai-landing-hero.webp";
+
 // Accessible before/after image comparison slider (no framework, ~25 lines of JS).
 // Driven by a native range input so it works with keyboard and touch for free.
 interface Props {
@@ -17,9 +19,9 @@ interface Props {
 const {
     afterAlt = "Nouvelle interface de Motivai",
     afterLabel = "Après",
-    afterSrc = "https://igpmag5dwziffdrn.public.blob.vercel-storage.com/blog/motivai_new_ui.png",
+    afterSrc = motivaiLandingHero.src,
     ariaLabel = "Comparer l'ancienne et la nouvelle interface de Motivai",
-    aspectRatio = "4 / 3",
+    aspectRatio = "16 / 9",
     beforeAlt = "Ancienne interface de Motivai",
     beforeLabel = "Avant",
     beforeSrc = "https://igpmag5dwziffdrn.public.blob.vercel-storage.com/blog/motivia_old_ui.jpeg",
