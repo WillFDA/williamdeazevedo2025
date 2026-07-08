@@ -3,6 +3,13 @@ import ArrowRight from "./icons/nucleo/arrow-right-fill.svg";
 import Accordion from "./ui/Accordion.astro";
 import WaveIcon from "./ui/WaveIcon.astro";
 import WaveText from "./ui/WaveText.astro";
+import { getProjectById } from "@/data/projects";
+
+const persistanceProject = getProjectById("persistance");
+
+if (!persistanceProject) {
+    throw new Error("Projet Persistance introuvable pour la FAQ.");
+}
 
 const faqItems = [
     {
@@ -20,8 +27,8 @@ const faqItems = [
         answer:
             "Oui. Si le projet part de zéro, je peux intégrer Persistance, graphiste partenaire, au cadrage. Elle prend en charge l'identité visuelle : logo, palette, typographies, direction artistique et déclinaisons. De mon côté, je construis ensuite le site sur cette base pour éviter de poser une interface propre sur une identité fragile.",
         link: {
-            href: "https://persistance-studio.fr/",
-            label: "Voir le site de Persistance",
+            href: persistanceProject.href,
+            label: `Voir le site de ${persistanceProject.title}`,
         },
     },
     {

@@ -2,6 +2,7 @@
 import Linkedin from "./icons/nucleo/linkedin-fill.svg";
 import XTwitter from "./icons/nucleo/x-twitter-fill.svg";
 import WaveText from "./ui/WaveText.astro";
+import { projects } from "@/data/projects";
 
 const year = new Date().getFullYear();
 const socialLinks = [
@@ -30,16 +31,18 @@ const linkGroups = [
                 href: "/creation-site-internet-professionnel",
                 label: "Site professionnel",
             },
-            { href: "/services/developpeur-web-freelance", label: "Développeur freelance" },
+            {
+                href: "/services/developpeur-web-freelance",
+                label: "Développeur freelance",
+            },
         ],
     },
     {
         title: "Réalisations",
-        links: [
-            { href: "/realisations/le-fellic", label: "Le Fellic" },
-            { href: "/realisations/persistance", label: "Persistance" },
-            { href: "/realisations/motivai", label: "Motivai" },
-        ],
+        links: projects.map((project) => ({
+            href: `/realisations/${project.id}`,
+            label: project.title,
+        })),
     },
     {
         title: "Ressources",
@@ -112,7 +115,7 @@ const linkGroups = [
                 data-wui-wave-parent
                 type="button"
             >
-                <WaveText text="Parlons de votre projet" trigger="parent" />
+                <WaveText text="Réserver 15 min" trigger="parent" />
             </button>
         </div>
         <nav aria-label="Navigation pied de page">

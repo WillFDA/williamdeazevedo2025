@@ -1,26 +1,47 @@
 ---
 // Accessible before/after image comparison slider (no framework, ~25 lines of JS).
 // Driven by a native range input so it works with keyboard and touch for free.
-const newSrc =
-    "https://igpmag5dwziffdrn.public.blob.vercel-storage.com/blog/motivai_new_ui.png";
-const oldSrc =
-    "https://igpmag5dwziffdrn.public.blob.vercel-storage.com/blog/motivia_old_ui.jpeg";
+interface Props {
+    afterAlt?: string;
+    afterLabel?: string;
+    afterSrc?: string;
+    ariaLabel?: string;
+    aspectRatio?: string;
+    beforeAlt?: string;
+    beforeLabel?: string;
+    beforeSrc?: string;
+    caption?: string;
+    helperText?: string;
+}
+
+const {
+    afterAlt = "Nouvelle interface de Motivai",
+    afterLabel = "Après",
+    afterSrc = "https://igpmag5dwziffdrn.public.blob.vercel-storage.com/blog/motivai_new_ui.png",
+    ariaLabel = "Comparer l'ancienne et la nouvelle interface de Motivai",
+    aspectRatio = "4 / 3",
+    beforeAlt = "Ancienne interface de Motivai",
+    beforeLabel = "Avant",
+    beforeSrc = "https://igpmag5dwziffdrn.public.blob.vercel-storage.com/blog/motivia_old_ui.jpeg",
+    caption = "L'ancienne interface vs la nouvelle.",
+    helperText = "Glisse pour comparer",
+} = Astro.props;
 ---
 
 <figure class="mx-auto my-8 max-w-2xl" data-ui-compare>
     <figcaption class="mb-4 text-center text-sm text-gray-600">
-        L'ancienne interface vs la nouvelle.
-        <span class="text-gray-400">Glisse pour comparer</span>
+        {caption}
+        <span class="text-gray-400">{helperText}</span>
     </figcaption>
 
     <div
-        class="ui-compare__frame relative aspect-[4/3] overflow-hidden rounded-lg border border-gray-100 select-none"
-        style="--pos: 50%"
+        class="ui-compare__frame relative overflow-hidden rounded-lg border border-gray-100 select-none"
+        style={`--pos: 50%; aspect-ratio: ${aspectRatio};`}
     >
         <img
             class="absolute inset-0 m-0 block size-full max-w-none rounded-none object-cover object-top"
-            src={newSrc}
-            alt="Nouvelle interface de Motivai"
+            src={afterSrc}
+            alt={afterAlt}
             loading="lazy"
             decoding="async"
             draggable="false"
@@ -28,8 +49,8 @@ const oldSrc =
         <div class="ui-compare__clip absolute inset-0 overflow-hidden">
             <img
                 class="absolute inset-0 m-0 block size-full max-w-none rounded-none object-cover object-top"
-                src={oldSrc}
-                alt="Ancienne interface de Motivai"
+                src={beforeSrc}
+                alt={beforeAlt}
                 loading="lazy"
                 decoding="async"
                 draggable="false"
@@ -56,10 +77,10 @@ const oldSrc =
         </div>
 
         <span class="absolute bottom-3 left-3 rounded bg-white/90 px-2 py-0.5 text-xs font-medium text-gray-600 backdrop-blur-sm">
-            Avant
+            {beforeLabel}
         </span>
         <span class="absolute right-3 bottom-3 rounded bg-gray-900/80 px-2 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
-            Après
+            {afterLabel}
         </span>
 
         <input
@@ -69,7 +90,7 @@ const oldSrc =
             max="100"
             value="50"
             step="0.1"
-            aria-label="Comparer l'ancienne et la nouvelle interface de Motivai"
+            aria-label={ariaLabel}
         />
     </div>
 </figure>

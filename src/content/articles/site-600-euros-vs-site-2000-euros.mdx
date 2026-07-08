@@ -4,7 +4,12 @@ description: "Une offre de site pas cher peut être utile, mais elle ne remplace
 pubDate: 2026-07-04
 tags: ["site web", "pricing", "IA", "conversion"]
 author: "William De Azevedo"
+image:
+  src: "/articles/site-600-euros-vs-site-2000-euros/comparaison-site-ia-site-travaille.webp"
+  alt: "Comparaison visuelle entre une landing page travaillée et une version générique générée."
 ---
+
+import ImageComparison from "@/components/articles/MotiviaOldUI.astro";
 
 Je vois de plus en plus d'offres qui ressemblent à ça : vous remplissez un formulaire, une première version de votre site est générée gratuitement, puis vous payez seulement si le résultat vous plaît.
 
@@ -20,6 +25,19 @@ Mais il y a une confusion dangereuse : croire qu'un site à 600 euros et un site
 
 Ce n'est pas le même travail. Ce n'est pas le même risque. Et surtout, ce n'est pas la même profondeur.
 
+<ImageComparison
+  beforeSrc="/articles/site-600-euros-vs-site-2000-euros/site-web-travaille-sur-mesure.webp"
+  beforeAlt="Landing page actuelle de William De Azevedo, avec une hiérarchie éditoriale sobre et un message précis."
+  beforeLabel="Page travaillée"
+  afterSrc="/articles/site-600-euros-vs-site-2000-euros/site-genere-ia-template.webp"
+  afterAlt="Landing page générique avec un grand dégradé, des promesses vagues et une composition très template."
+  afterLabel="Version générique"
+  caption="Même format de page, deux intentions différentes."
+  helperText="Glisse pour comparer"
+  ariaLabel="Comparer une landing page travaillée et une version générique générée par IA"
+  aspectRatio="16 / 9"
+/>
+
 ## Le problème n'est pas le prix
 
 Un prix bas n'est pas automatiquement un mauvais signe.
@@ -32,7 +50,7 @@ Le site devient alors une vitrine générique :
 
 - une promesse vague ;
 - des textes qui pourraient aller à n'importe quelle activité ;
-- un design propre, mais sans point de vue ;
+- un design vu et revu, sans âme ;
 - aucune hiérarchie claire entre les informations ;
 - pas de vraie logique de conversion ;
 - pas de recherche SEO sérieuse ;

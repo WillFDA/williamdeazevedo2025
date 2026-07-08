@@ -10,8 +10,8 @@ import ViewAll from "@/components/icons/nucleo/view-all-fill.svg";
 import WindowLayout from "@/components/icons/nucleo/window-layout-fill.svg";
 import WindowPaintbrush from "@/components/icons/nucleo/window-paintbrush-fill.svg";
 import WindowPointer from "@/components/icons/nucleo/window-pointer-fill.svg";
+import { projects } from "@/data/projects";
 import { type IconTone, iconToneClasses } from "@/lib/iconTones";
-import { homeProjects } from "@/data/projects";
 import Layout from "@/layout/Layout.astro";
 
 export const prerender = true;
@@ -116,7 +116,11 @@ const aiBudgetPoints = [
                     refonte complète. Le prix dépend du vrai périmètre : contenu,
                     design, autonomie attendue, technique et priorités à traiter.
                 </p>
-                <CalButton class="rounded-xl text-base font-normal" location="tarifs-hero" />
+                <CalButton
+                    class="rounded-xl text-base font-normal"
+                    label="Estimer mon budget"
+                    location="tarifs-hero"
+                />
             </section>
         </FadeReveal>
 
@@ -307,7 +311,7 @@ const aiBudgetPoints = [
                 </div>
                 <div class="grid gap-4 md:grid-cols-3">
                     {
-                        homeProjects.map((project) => (
+                        projects.map((project) => (
                             <article class="flex flex-col rounded-xl bg-gray-100 p-5 ring-1 ring-gray-200 transition-transform duration-300 ease-out hover:-translate-y-1">
                                 <h3 class="mb-2 text-lg font-normal leading-tight text-gray-900">
                                     {project.title}
@@ -343,6 +347,7 @@ const aiBudgetPoints = [
                     </p>
                     <CalButton
                         class="mt-2 rounded-xl text-base font-normal"
+                        label="Demander un devis gratuit"
                         location="tarifs-final"
                         variant="light"
                     />

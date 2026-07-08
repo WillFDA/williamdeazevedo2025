@@ -17,6 +17,7 @@ import { Image } from "astro:assets";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
 import { temoignages } from "../data/temoignage";
+import { getProjectById } from "@/data/projects";
 
 export const prerender = true;
 
@@ -143,13 +144,23 @@ const testimonialImages = import.meta.glob<{ default: ImageMetadata }>(
 );
 const displayedTestimonials = temoignages
     .filter((temoignage) => temoignage.published !== false)
-    .map((temoignage) => ({
-        ...temoignage,
-        image: temoignage.imageFile
-            ? testimonialImages[`../assets/temoignages/${temoignage.imageFile}`]
-                  ?.default
-            : undefined,
-    }));
+    .map((temoignage) => {
+        const project = getProjectById(temoignage.projectId);
+
+        if (!project) {
+            throw new Error(`Projet introuvable pour ${temoignage.id}`);
+        }
+
+        return {
+            ...temoignage,
+            href: project.href,
+            image: temoignage.imageFile
+                ? testimonialImages[
+                      `../assets/temoignages/${temoignage.imageFile}`
+                  ]?.default
+                : undefined,
+        };
+    });
 ---
 
 <Layout>

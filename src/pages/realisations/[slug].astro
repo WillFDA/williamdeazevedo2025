@@ -8,9 +8,7 @@ import ChevronLeft from "@/components/icons/nucleo/chevron-left-fill.svg";
 import GlobeIcon from "@/components/icons/nucleo/globe-outline.svg";
 import WaveIcon from "@/components/ui/WaveIcon.astro";
 import WaveText from "@/components/ui/WaveText.astro";
-import motivaiAichoosePoster from "@/assets/projects/motivai-aichoose.webp";
-import motivaiOnboardingPoster from "@/assets/projects/motivai-onboarding.webp";
-import { homeProjects } from "@/data/projects";
+import { getProjectById } from "@/data/projects";
 import Layout from "@/layout/Layout.astro";
 
 export const prerender = true;
@@ -30,27 +28,34 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { description, gallery, partners, projectId, siteLabel, siteUrl, title } =
-    entry.data;
+const { gallery, partners, projectId, siteLabel } = entry.data;
 
-const project = homeProjects.find((item) => item.id === projectId);
+const project = getProjectById(projectId);
 
 if (!project) {
     throw new Error(`Projet introuvable pour ${entry.id}`);
 }
 
-const extraGallery = {
-    motivai: [
-        {
-            src: motivaiAichoosePoster.src,
-            alt: "Interface de choix du modèle IA dans Motivai",
-        },
-        {
-            src: motivaiOnboardingPoster.src,
-            alt: "Parcours d'onboarding de Motivai",
-        },
-    ],
-} satisfies Record<string, { alt: string; src: string }[]>;
+const title = project.title;
+const description = project.summary;
+const siteUrl = project.href;
+const resolvedPartners = partners.map((partner) => {
+    const linkedProject = partner.projectId
+        ? getProjectById(partner.projectId)
+        : undefined;
+    const href = partner.href ?? linkedProject?.href;
+    const label = partner.label ?? linkedProject?.title;
+
+    if (!href || !label) {
+        throw new Error(`Partenaire invalide pour ${entry.id}`);
+    }
+
+    return {
+        description: partner.description,
+        href,
+        label,
+    };
+});
 
 const galleryItems = [
     ...(project.media.type === "video"
@@ -61,7 +66,7 @@ const galleryItems = [
                 },
             ]
         : []),
-    ...(extraGallery[projectId as keyof typeof extraGallery] ?? []),
+    ...(project.gallery ?? []),
     ...gallery,
 ];
 
@@ -77,7 +82,7 @@ const creativeWorkJsonLd = {
     inLanguage: "fr-FR",
     url: canonicalUrl.href,
     mainEntityOfPage: canonicalUrl.href,
-    workExample: siteUrl ?? project.href,
+    workExample: siteUrl,
     creator: {
         "@type": "Person",
         name: "William De Azevedo",
@@ -165,7 +170,7 @@ const breadcrumbJsonLd = {
                             </a>
                         )}
 
-                        {partners.map((partner) => (
+                        {resolvedPartners.map((partner) => (
                             <a
                                 class="group grid gap-1 rounded-xl bg-gray-100 px-5 py-4 text-left no-underline transition-transform hover:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
                                 href={partner.href}

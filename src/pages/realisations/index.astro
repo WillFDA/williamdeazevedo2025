@@ -1,184 +1,96 @@
 ---
-import CalButton from "@/components/CalButton.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro";
-import ArrowRight from "@/components/icons/nucleo/arrow-right-fill.svg";
-import GlobeIcon from "@/components/icons/nucleo/globe-outline.svg";
-import SparkleIcon from "@/components/icons/nucleo/sparkle-3-fill.svg";
-import WindowLayoutIcon from "@/components/icons/nucleo/window-layout-fill.svg";
-import WindowPaintbrushIcon from "@/components/icons/nucleo/window-paintbrush-fill.svg";
-import WindowPointerIcon from "@/components/icons/nucleo/window-pointer-fill.svg";
-import WaveIcon from "@/components/ui/WaveIcon.astro";
-import WaveText from "@/components/ui/WaveText.astro";
-import { caseStudies } from "@/data/caseStudies";
-import { homeProjects } from "@/data/projects";
+import DiagnosticCta from "@/components/DiagnosticCta.astro";
+import ProjectListItem from "@/components/realisations/ProjectListItem.astro";
+import { projects } from "@/data/projects";
 import Layout from "@/layout/Layout.astro";
 
 export const prerender = true;
 
-const projectPresentation = {
-    "le-fellic": {
-        mark: "LF",
-        tags: [
-            { Icon: WindowLayoutIcon, label: "One-page" },
-            { Icon: GlobeIcon, label: "B2B local" },
-            { Icon: WindowPointerIcon, label: "Contact clair" },
-        ],
-    },
-    motivai: {
-        mark: "M",
-        tags: [
-            { Icon: SparkleIcon, label: "Produit IA" },
-            { Icon: WindowPointerIcon, label: "SaaS" },
-            { Icon: WindowLayoutIcon, label: "Interface complète" },
-        ],
-    },
-    persistance: {
-        mark: "P",
-        tags: [
-            { Icon: WindowPaintbrushIcon, label: "Identité forte" },
-            { Icon: WindowLayoutIcon, label: "CMS" },
-            { Icon: GlobeIcon, label: "SEO technique" },
-        ],
-    },
-} as const;
+const [featuredProject, ...secondaryProjects] = projects;
 
-const projects = caseStudies.map((caseStudy) => ({
-    ...caseStudy,
-    project: homeProjects.find((project) => project.id === caseStudy.projectId),
-    presentation:
-        projectPresentation[
-            caseStudy.projectId as keyof typeof projectPresentation
-        ],
-}));
+const realisationsDiagnosticTitleParts = [
+    { text: "Vous" },
+    { text: "ne" },
+    { text: "savez" },
+    { text: "pas" },
+    { text: "encore" },
+    { text: "quelle" },
+    { media: true, text: "réalisation" },
+    { text: "peut" },
+    { text: "servir" },
+    { text: "de" },
+    { pill: true, text: "repère ?" },
+] as const;
+
+const realisationsDiagnosticCards = [
+    {
+        icon: "layout",
+        title: "Créer",
+        text: "Une présence à poser clairement : offre, pages, contact.",
+    },
+    {
+        icon: "target",
+        title: "Refaire",
+        text: "Un site qui bloque : message, crédibilité, parcours.",
+    },
+    {
+        icon: "view-all",
+        title: "Améliorer",
+        text: "Une base à renforcer : vitesse, mobile, SEO.",
+    },
+] as const;
+
 ---
 
 <Layout
     title="Réalisations web - William De Azevedo"
     description="Études de cas de sites vitrines, refontes et interfaces produit conçus pour clarifier une offre, rassurer et faciliter le passage à l'action."
 >
-    <div class="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 py-12 md:gap-20 md:py-16">
-        <FadeReveal delay={0.1}>
-            <section class="mx-auto flex max-w-5xl flex-col items-center gap-5 text-center">
-                <h1 class="page-heading">
-                    Des projets pensés pour inspirer confiance
-                </h1>
-                <p class="page-subheading max-w-sm sm:max-w-2xl">
-                    Chaque réalisation part d'un doute concret : clarifier une
-                    offre, moderniser une expérience et guider plus naturellement
-                    vers le contact.
-                </p>
-            </section>
-        </FadeReveal>
+    <div class="flex w-full flex-col gap-16 py-12 md:gap-20 md:py-16">
+        <section class="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 md:gap-20">
+            <FadeReveal delay={0.1}>
+                <div class="mx-auto flex max-w-5xl flex-col items-center gap-5 text-center">
+                    <h1 class="page-heading">
+                        Des projets pensés pour inspirer confiance
+                    </h1>
+                    <p class="page-subheading max-w-sm sm:max-w-2xl">
+                        Chaque réalisation part d'un doute concret : clarifier une
+                        offre, moderniser une expérience et guider plus naturellement
+                        vers le contact.
+                    </p>
+                </div>
+            </FadeReveal>
 
-        <section class="grid gap-16 md:gap-20">
             {
-                projects.map(({ project, presentation, ...caseStudy }, index) => {
-                    const Reveal = index === 0 ? FadeReveal : FadeRevealOnScroll;
-
-                    return (
-                    <Reveal delay={index === 0 ? 0.15 : 0}>
-                        <article class="grid gap-7">
-                            {project?.media.type === "video" && (
-                                <a
-                                    aria-label={`Voir l'étude de cas ${project.title}`}
-                                    class="group block overflow-hidden rounded-3xl bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                                    href={`/realisations/${caseStudy.slug}`}
-                                >
-                                    <img
-                                        src={project.media.poster}
-                                        alt={`Aperçu du projet ${project.title}`}
-                                        class="aspect-video w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                                        loading={index === 0 ? "eager" : "lazy"}
-                                        fetchpriority={index === 0 ? "high" : undefined}
-                                        decoding="async"
-                                    />
-                                </a>
-                            )}
-
-                            <div class="grid gap-7 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] md:items-end md:gap-10">
-                                <div class="flex flex-col gap-6">
-                                    <div class="flex items-center gap-4">
-                                        <span class="flex size-16 shrink-0 items-center justify-center rounded-xl bg-coffee-300 text-xl font-medium text-snow-50 shadow-[0_18px_42px_-28px_rgba(34,42,55,0.55)]">
-                                            {presentation?.mark ?? project?.title?.slice(0, 1)}
-                                        </span>
-                                        <h2 class="text-4xl font-medium leading-none tracking-normal text-gray-900 md:text-5xl">
-                                            {project?.title ?? caseStudy.title}
-                                        </h2>
-                                    </div>
-
-                                    <div class="flex flex-wrap gap-3">
-                                        {presentation?.tags.map(({ Icon, label }) => (
-                                            <span class="inline-flex items-center gap-2 rounded-xl bg-snow-50 px-4 py-2 text-sm font-normal leading-none text-blue-500 shadow-[0_12px_30px_-24px_rgba(34,42,55,0.45)]">
-                                                <Icon class="size-4" aria-hidden="true" />
-                                                <span>{label}</span>
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div class="flex flex-col gap-6 md:pt-4">
-                                    <p class="max-w-3xl text-base font-normal leading-7 text-gray-700 md:text-lg md:leading-8">
-                                        {project?.summary ?? caseStudy.description}
-                                    </p>
-                                    <div class="flex flex-col gap-3 sm:flex-row">
-                                        <a
-                                            class="group relative isolate inline-flex min-h-14 items-center justify-center gap-4 overflow-hidden rounded-xl bg-snow-50 px-8 py-3 text-base font-normal text-gray-900 no-underline shadow-[0_12px_30px_-24px_rgba(34,42,55,0.5)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                                            href={`/realisations/${caseStudy.slug}`}
-                                        >
-                                            <WaveText text="Détails du projet" trigger="parent" />
-                                            <WaveIcon
-                                                style="--wui-wave-icon-size: 1rem;"
-                                                direction="right"
-                                                trigger="parent"
-                                            >
-                                                <ArrowRight class="size-full" aria-hidden="true" />
-                                            </WaveIcon>
-                                        </a>
-                                        {project?.href && (
-                                            <a
-                                                class="group relative isolate inline-flex min-h-14 items-center justify-center gap-4 overflow-hidden rounded-xl px-8 py-3 text-base font-normal text-gray-900 no-underline ring-1 ring-gray-200 transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                                                href={project.href}
-                                                rel="noreferrer"
-                                                target="_blank"
-                                            >
-                                                <WaveText text="Voir le site" trigger="parent" />
-                                                <WaveIcon
-                                                    style="--wui-wave-icon-size: 1rem;"
-                                                    direction="up"
-                                                    trigger="parent"
-                                                >
-                                                    <GlobeIcon class="size-full" aria-hidden="true" />
-                                                </WaveIcon>
-                                            </a>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    </Reveal>
-                    );
-                })
+                featuredProject && (
+                    <FadeReveal delay={0.15}>
+                        <ProjectListItem project={featuredProject} eager />
+                    </FadeReveal>
+                )
             }
         </section>
 
-        <FadeRevealOnScroll>
-            <section class="rounded-4xl bg-coffee-300 p-6 text-snow-50 sm:p-8">
-                <div class="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
-                    <h2 class="text-2xl font-medium leading-tight">
-                        Vous avez un frein proche ?
-                    </h2>
-                    <p class="text-base font-normal leading-7 text-snow-100">
-                        On peut partir d'un exemple existant pour identifier le bon
-                        niveau de cadrage, de design et de développement.
-                    </p>
-                    <CalButton
-                        class="rounded-xl text-base font-normal"
-                        location="realisations-final"
-                        variant="light"
-                    />
-                </div>
-            </section>
-        </FadeRevealOnScroll>
+        <DiagnosticCta
+            class="px-4 sm:px-6 lg:px-8"
+            titleParts={realisationsDiagnosticTitleParts}
+            copy="Chaque réalisation aide à situer le besoin : créer une présence claire, refaire un site qui bloque ou renforcer une base déjà en ligne."
+            cards={realisationsDiagnosticCards}
+            buttonLabel="Faire le point en 15 min"
+            location="realisations-diagnostic"
+        />
+
+        {
+            secondaryProjects.length > 0 && (
+                <section class="mx-auto grid w-full max-w-6xl gap-16 px-4 md:gap-20">
+                    {secondaryProjects.map((project) => (
+                        <FadeRevealOnScroll>
+                            <ProjectListItem project={project} />
+                        </FadeRevealOnScroll>
+                    ))}
+                </section>
+            )
+        }
     </div>
 </Layout>

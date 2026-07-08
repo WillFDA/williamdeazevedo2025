@@ -18,6 +18,12 @@ const articles = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
+    image: z
+      .object({
+        alt: z.string().default(""),
+        src: z.string(),
+      })
+      .optional(),
     author: z.string().default("William De Azevedo"),
     // Force-hide an article regardless of its date.
     draft: z.boolean().default(false),
@@ -30,18 +36,20 @@ const realisations = defineCollection({
     pattern: "**/[^_]*.{md,mdx}",
   }),
   schema: z.object({
-    title: z.string(),
-    description: z.string(),
     projectId: z.string(),
     siteLabel: z.string().default("Voir le site"),
-    siteUrl: z.string().url().optional(),
     partners: z
       .array(
-        z.object({
-          label: z.string(),
-          href: z.string().url(),
-          description: z.string().optional(),
-        })
+        z
+          .object({
+            label: z.string().optional(),
+            projectId: z.string().optional(),
+            href: z.string().url().optional(),
+            description: z.string().optional(),
+          })
+          .refine((partner) => partner.href || partner.projectId, {
+            message: "A partner needs either href or projectId.",
+          })
       )
       .default([]),
     gallery: z

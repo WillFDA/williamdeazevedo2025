@@ -1,7 +1,7 @@
 ---
 import CalButton from "@/components/CalButton.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
-import { homeProjects } from "@/data/projects";
+import { getProjectById } from "@/data/projects";
 import { type Service, getServiceBySlug } from "@/data/services";
 import Layout from "@/layout/Layout.astro";
 
@@ -15,7 +15,7 @@ const { service, canonicalPath = service.rootPath ?? `/services/${service.slug}`
 const relatedServices = service.relatedServices
     .map((slug) => getServiceBySlug(slug))
     .filter((item): item is Service => item !== undefined);
-const project = homeProjects.find((item) => item.id === service.proof.projectId);
+const project = getProjectById(service.proof.projectId);
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
 const canonicalUrl = new URL(canonicalPath, siteUrl);
 const serviceHref = (item: Service) => item.rootPath ?? `/services/${item.slug}`;
@@ -113,6 +113,7 @@ const breadcrumbJsonLd = {
                 <div class="flex flex-col items-center gap-3 sm:flex-row">
                     <CalButton
                         class="rounded-xl text-base font-normal"
+                        label="Échanger sur ce besoin"
                         location={`service-${service.slug}-hero`}
                     />
                     {
@@ -206,6 +207,7 @@ const breadcrumbJsonLd = {
                             </a>
                             <CalButton
                                 class="rounded-xl text-base font-normal"
+                                label="Voir si ce format convient"
                                 location={`service-${service.slug}-proof`}
                                 variant="light"
                             />
@@ -351,6 +353,7 @@ const breadcrumbJsonLd = {
                 </p>
                 <CalButton
                     class="rounded-xl text-base font-normal"
+                    label="Vérifier le bon service"
                     location={`service-${service.slug}-final`}
                 />
             </div>
