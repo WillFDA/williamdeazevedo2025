@@ -1,313 +1,422 @@
 ---
 /**
- * Scène "Site internet artisan" : un établi vu de dessus. Quatre pièces
- * posées en léger désordre se rangent une à une dans leurs emplacements
- * tracés en pointillés, le long de la règle centrale qui se dessine.
- * "Devis" se cale en dernier, puis "Demande claire" valide le parcours.
+ * Scène "Site internet artisan" : la carte locale. Le pin de l'artisan se
+ * plante sur le quartier, sa fiche s'ouvre (prestations, réalisations),
+ * la zone d'intervention se dessine, les maisons s'allument puis envoient
+ * leurs demandes de devis vers le pin — toast, puis compteur "2 demandes".
  * Chorégraphie pilotée par src/scripts/animations/bento/artisan.ts.
- * Sans JS : pièces rangées, repères allumés, "Demande claire" visible.
+ * Sans JS : carte complète, pin planté, fiche ouverte, toast et compteur.
  */
 ---
 
 <div
-    class="artisan-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden px-5 py-6"
+    class="artisan-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden px-4 py-4"
     data-bento-visual="artisan"
     aria-hidden="true"
 >
-    <div class="artisan-stage relative w-[300px] transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:w-[340px]">
-        <div class="artisan-bench">
-            <span class="artisan-bench__grain artisan-bench__grain--one"></span>
-            <span class="artisan-bench__grain artisan-bench__grain--two"></span>
-            <span class="artisan-pin artisan-pin--one"></span>
-            <span class="artisan-pin artisan-pin--two"></span>
-            <span class="artisan-ruler" data-bento-artisan-ruler></span>
-            <span class="artisan-tick artisan-tick--services" data-bento-artisan-tick></span>
-            <span class="artisan-tick artisan-tick--work" data-bento-artisan-tick></span>
-            <span class="artisan-tick artisan-tick--local" data-bento-artisan-tick></span>
-            <span class="artisan-tick artisan-tick--quote" data-bento-artisan-tick></span>
+    <div class="artisan-stage relative w-[320px] transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:w-[420px]">
+        <div class="artisan-map">
+            <span class="artisan-road artisan-road--h1"></span>
+            <span class="artisan-road artisan-road--h2"></span>
+            <span class="artisan-road artisan-road--v1"></span>
+            <span class="artisan-road artisan-road--v2"></span>
+            <span class="artisan-block artisan-block--one"></span>
+            <span class="artisan-block artisan-block--two"></span>
+            <span class="artisan-block artisan-block--three"></span>
         </div>
 
-        <div class="artisan-slot artisan-slot--services">
-            <span class="artisan-slot__outline" data-bento-artisan-slot></span>
-            <span class="artisan-piece artisan-piece--services" data-bento-artisan-piece>
-                <span class="artisan-piece__mark"></span>
-                Prestations
-            </span>
+        <span class="artisan-zone-tag">Votre zone</span>
+
+        <span class="artisan-radius" data-bento-artisan-radius></span>
+
+        <div class="artisan-house artisan-house--one">
+            <svg class="artisan-house__icon" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M8 2.4 13.8 7v5.2c0 .66-.54 1.2-1.2 1.2H3.4c-.66 0-1.2-.54-1.2-1.2V7L8 2.4Z" fill="currentColor"></path>
+                <rect x="6.7" y="9.2" width="2.6" height="4.2" rx="0.6" fill="#F6F8FB"></rect>
+            </svg>
+            <span class="artisan-house__ring" data-bento-artisan-house-ring></span>
+            <span class="artisan-house__badge" data-bento-artisan-house-badge></span>
         </div>
 
-        <div class="artisan-slot artisan-slot--work">
-            <span class="artisan-slot__outline" data-bento-artisan-slot></span>
-            <span class="artisan-piece artisan-piece--work" data-bento-artisan-piece>
-                <span class="artisan-piece__mark"></span>
-                Réalisations
-            </span>
+        <div class="artisan-house artisan-house--two">
+            <svg class="artisan-house__icon" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M8 2.4 13.8 7v5.2c0 .66-.54 1.2-1.2 1.2H3.4c-.66 0-1.2-.54-1.2-1.2V7L8 2.4Z" fill="currentColor"></path>
+                <rect x="6.7" y="9.2" width="2.6" height="4.2" rx="0.6" fill="#F6F8FB"></rect>
+            </svg>
+            <span class="artisan-house__ring" data-bento-artisan-house-ring></span>
+            <span class="artisan-house__badge" data-bento-artisan-house-badge></span>
         </div>
 
-        <div class="artisan-slot artisan-slot--local">
-            <span class="artisan-slot__outline" data-bento-artisan-slot></span>
-            <span class="artisan-piece artisan-piece--local" data-bento-artisan-piece>
-                <span class="artisan-piece__mark"></span>
-                Zone locale
-            </span>
+        <div class="artisan-house artisan-house--three">
+            <svg class="artisan-house__icon" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M8 2.4 13.8 7v5.2c0 .66-.54 1.2-1.2 1.2H3.4c-.66 0-1.2-.54-1.2-1.2V7L8 2.4Z" fill="currentColor"></path>
+                <rect x="6.7" y="9.2" width="2.6" height="4.2" rx="0.6" fill="#F6F8FB"></rect>
+            </svg>
+            <span class="artisan-house__ring" data-bento-artisan-house-ring></span>
+            <span class="artisan-house__badge" data-bento-artisan-house-badge></span>
         </div>
 
-        <div class="artisan-slot artisan-slot--quote">
-            <span class="artisan-slot__outline" data-bento-artisan-slot></span>
-            <span class="artisan-piece artisan-piece--quote" data-bento-artisan-piece>
-                <span class="artisan-piece__mark"></span>
-                Devis
-            </span>
+        <span class="artisan-pin-shadow" data-bento-artisan-pin-shadow></span>
+        <div class="artisan-pin" data-bento-artisan-pin>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2c-4.4 0-8 3.5-8 7.9 0 5.6 7.1 11.6 7.4 11.9.3.3.9.3 1.2 0 .3-.3 7.4-6.3 7.4-11.9C20 5.5 16.4 2 12 2Z" fill="#3e60d4"></path>
+                <circle cx="12" cy="9.9" r="3" fill="#ffffff"></circle>
+            </svg>
         </div>
 
-        <div class="artisan-chip-slot">
-            <span class="artisan-chip" data-bento-artisan-chip>
-                <svg class="artisan-chip__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <div class="artisan-fiche" data-bento-artisan-fiche>
+            <div class="artisan-fiche__head">
+                <span class="artisan-fiche__logo"></span>
+                <span class="artisan-fiche__name"></span>
+                <span class="artisan-fiche__meta"></span>
+            </div>
+            <div class="artisan-fiche__tags">
+                <span class="artisan-fiche__tag">Prestations</span>
+                <span class="artisan-fiche__tag">Réalisations</span>
+            </div>
+            <span class="artisan-fiche__caret"></span>
+        </div>
+
+        <span class="artisan-request artisan-request--one" data-bento-artisan-request></span>
+        <span class="artisan-request artisan-request--two" data-bento-artisan-request></span>
+
+        <div class="artisan-toast" data-bento-artisan-toast>
+            <span class="artisan-toast__check">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M3.5 8.5l3 3 6-7"></path>
                 </svg>
-                Demande claire
             </span>
+            Nouvelle demande de devis
         </div>
+
+        <span class="artisan-counter" data-bento-artisan-counter>2 demandes</span>
     </div>
 </div>
 
 <style>
     .artisan-stage {
-        min-height: 11.75rem;
+        height: 12rem;
     }
 
-    .artisan-bench {
-        background:
-            linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.88)),
-            repeating-linear-gradient(
-                90deg,
-                rgba(148, 163, 184, 0.11) 0,
-                rgba(148, 163, 184, 0.11) 1px,
-                transparent 1px,
-                transparent 2.2rem
-            );
+    .artisan-map {
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.97),
+            rgba(248, 250, 252, 0.9)
+        );
         border: 1px solid rgba(226, 232, 240, 0.9);
         border-radius: 1.35rem;
         box-shadow: 0 22px 44px -30px rgba(34, 42, 55, 0.48);
-        inset: 0.2rem 0.15rem 0.85rem;
+        inset: 0;
         overflow: hidden;
         position: absolute;
     }
 
-    .artisan-bench__grain {
+    .artisan-road {
         background: rgba(148, 163, 184, 0.16);
-        border-radius: 999em;
-        height: 0.18rem;
-        left: 1.1rem;
         position: absolute;
-        right: 1.1rem;
     }
 
-    .artisan-bench__grain--one {
-        top: 2.15rem;
+    .artisan-road--h1 {
+        border-radius: 999em;
+        height: 3px;
+        left: 0;
+        right: 0;
+        top: 33%;
     }
 
-    .artisan-bench__grain--two {
-        bottom: 2.35rem;
+    .artisan-road--h2 {
+        border-radius: 999em;
+        height: 3px;
+        left: 0;
+        right: 0;
+        top: 72%;
+    }
+
+    .artisan-road--v1 {
+        border-radius: 999em;
+        bottom: 0;
+        left: 25%;
+        top: 0;
+        width: 3px;
+    }
+
+    .artisan-road--v2 {
+        border-radius: 999em;
+        bottom: 0;
+        left: 71%;
+        top: 0;
+        width: 3px;
+    }
+
+    .artisan-block {
+        background: rgba(148, 163, 184, 0.1);
+        border-radius: 0.3rem;
+        position: absolute;
+    }
+
+    .artisan-block--one {
+        height: 16%;
+        left: 6%;
+        top: 10%;
+        width: 13%;
+    }
+
+    .artisan-block--two {
+        height: 18%;
+        right: 7%;
+        top: 44%;
+        width: 12%;
+    }
+
+    .artisan-block--three {
+        bottom: 9%;
+        height: 12%;
+        left: 9%;
+        width: 10%;
+    }
+
+    .artisan-zone-tag {
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        border-radius: 999em;
+        color: var(--color-gray-500);
+        font-size: 0.5rem;
+        font-weight: 500;
+        left: 0.65rem;
+        line-height: 1;
+        padding: 0.32rem 0.5rem;
+        position: absolute;
+        top: 0.55rem;
+    }
+
+    .artisan-radius {
+        background: rgba(34, 197, 94, 0.05);
+        border: 1.5px dashed rgba(34, 197, 94, 0.5);
+        border-radius: 999em;
+        height: 172px;
+        left: calc(50% - 86px);
+        position: absolute;
+        top: calc(53% - 86px);
+        width: 172px;
+        will-change: opacity, transform;
+    }
+
+    .artisan-house {
+        color: var(--color-gray-400);
+        height: 15px;
+        position: absolute;
+        width: 15px;
+    }
+
+    .artisan-house--one {
+        left: calc(50% - 66px);
+        top: calc(53% - 42px);
+    }
+
+    .artisan-house--two {
+        left: calc(50% + 58px);
+        top: calc(53% - 34px);
+    }
+
+    .artisan-house--three {
+        left: calc(50% - 48px);
+        top: calc(53% + 34px);
+    }
+
+    .artisan-house__icon {
+        height: 100%;
+        width: 100%;
+    }
+
+    .artisan-house__ring {
+        background: rgba(34, 197, 94, 0.5);
+        border-radius: 999em;
+        height: 7px;
+        opacity: 0;
+        position: absolute;
+        right: -3px;
+        top: -3px;
+        width: 7px;
+        will-change: opacity, transform;
+    }
+
+    .artisan-house__badge {
+        background: #22c55e;
+        border: 1.5px solid #ffffff;
+        border-radius: 999em;
+        height: 8px;
+        position: absolute;
+        right: -3.5px;
+        top: -3.5px;
+        width: 8px;
+        will-change: opacity, transform;
     }
 
     .artisan-pin {
-        background: rgba(34, 42, 55, 0.16);
-        border-radius: 999em;
-        height: 0.42rem;
+        filter: drop-shadow(0 6px 8px rgba(34, 42, 55, 0.28));
+        height: 26px;
+        left: calc(50% - 13px);
         position: absolute;
-        width: 0.42rem;
-    }
-
-    .artisan-pin--one {
-        left: 1rem;
-        top: 1rem;
-    }
-
-    .artisan-pin--two {
-        bottom: 1rem;
-        right: 1rem;
-    }
-
-    .artisan-ruler {
-        background:
-            repeating-linear-gradient(
-                90deg,
-                rgba(34, 42, 55, 0.22) 0,
-                rgba(34, 42, 55, 0.22) 1px,
-                transparent 1px,
-                transparent 0.62rem
-            ),
-            linear-gradient(90deg, rgba(62, 96, 212, 0.2), rgba(34, 197, 94, 0.18), rgba(31, 41, 55, 0.18));
-        border-radius: 999em;
-        height: 0.35rem;
-        left: 2rem;
-        position: absolute;
-        right: 2rem;
-        top: calc(50% - 0.175rem);
-        transform-origin: left center;
+        top: calc(53% - 26px);
+        width: 26px;
         will-change: opacity, transform;
     }
 
-    .artisan-tick {
+    .artisan-pin-shadow {
+        background: rgba(31, 41, 55, 0.16);
         border-radius: 999em;
-        height: 0.46rem;
+        height: 5px;
+        left: calc(50% - 8px);
         position: absolute;
-        top: calc(50% - 0.23rem);
-        transform-origin: center;
-        width: 0.46rem;
+        top: calc(53% - 2.5px);
+        width: 16px;
         will-change: opacity, transform;
     }
 
-    .artisan-tick--services {
+    .artisan-fiche {
+        background: #ffffff;
+        border: 1px solid rgba(226, 232, 240, 0.95);
+        border-radius: 0.65rem;
+        box-shadow: 0 16px 30px -20px rgba(34, 42, 55, 0.5);
+        left: calc(50% - 66px);
+        padding: 0.4rem 0.45rem 0.45rem;
+        position: absolute;
+        top: calc(53% - 86px);
+        width: 132px;
+        will-change: opacity, transform;
+    }
+
+    .artisan-fiche__head {
+        align-items: center;
+        display: flex;
+        gap: 0.3rem;
+    }
+
+    .artisan-fiche__logo {
         background: #3e60d4;
-        left: 19%;
+        border-radius: 0.2rem;
+        height: 10px;
+        width: 10px;
     }
 
-    .artisan-tick--work {
-        background: #94a3b8;
-        left: 43%;
+    .artisan-fiche__name {
+        background: var(--color-gray-300);
+        border-radius: 999em;
+        height: 5px;
+        width: 3.4rem;
     }
 
-    .artisan-tick--local {
-        background: #22c55e;
-        left: 63%;
+    .artisan-fiche__meta {
+        background: var(--color-gray-100);
+        border-radius: 999em;
+        height: 5px;
+        width: 1.6rem;
     }
 
-    .artisan-tick--quote {
-        background: #1f2937;
-        left: 85%;
+    .artisan-fiche__tags {
+        display: flex;
+        gap: 0.25rem;
+        margin-top: 0.4rem;
     }
 
-    .artisan-slot {
+    .artisan-fiche__tag {
+        background: var(--color-gray-50);
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        border-radius: 999em;
+        color: var(--color-gray-600);
+        font-size: 0.5rem;
+        font-weight: 500;
+        line-height: 1;
+        padding: 0.28rem 0.42rem;
+        white-space: nowrap;
+    }
+
+    .artisan-fiche__caret {
+        background: #ffffff;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.95);
+        border-right: 1px solid rgba(226, 232, 240, 0.95);
+        bottom: -4.5px;
+        height: 8px;
+        left: calc(50% - 4px);
         position: absolute;
+        transform: rotate(45deg);
+        width: 8px;
     }
 
-    .artisan-slot--services {
-        left: 1.4rem;
-        top: 1.55rem;
-    }
-
-    .artisan-slot--work {
-        right: 1.4rem;
-        top: 1.55rem;
-    }
-
-    .artisan-slot--local {
-        bottom: 1.7rem;
-        left: 1.4rem;
-    }
-
-    .artisan-slot--quote {
-        bottom: 1.7rem;
-        right: 1.4rem;
-    }
-
-    .artisan-slot__outline {
-        border: 1.5px dashed rgba(148, 163, 184, 0.6);
-        border-radius: 1.05rem;
-        inset: -3px;
+    .artisan-request {
+        background: #22c55e;
+        border-radius: 999em;
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
+        height: 8px;
         opacity: 0;
         position: absolute;
-        will-change: opacity;
+        width: 8px;
+        will-change: opacity, transform;
     }
 
-    .artisan-piece {
+    .artisan-request--one {
+        left: calc(50% + 58px + 3.5px);
+        top: calc(53% - 34px + 3.5px);
+    }
+
+    .artisan-request--two {
+        left: calc(50% - 48px + 3.5px);
+        top: calc(53% + 34px + 3.5px);
+    }
+
+    .artisan-toast {
         align-items: center;
-        background: var(--color-snow-50);
-        border: 1px solid rgba(226, 232, 240, 0.94);
-        border-radius: 0.95rem;
-        box-shadow: 0 16px 30px -22px rgba(34, 42, 55, 0.45);
-        color: var(--color-gray-800);
-        display: inline-flex;
-        font-size: 0.62rem;
-        font-weight: 500;
-        gap: 0.45rem;
-        line-height: 1;
-        min-width: 6.7rem;
-        padding: 0.7rem 0.78rem;
-        position: relative;
-        white-space: nowrap;
-        will-change: transform;
-    }
-
-    .artisan-piece__mark {
-        border-radius: 0.35rem;
-        height: 0.82rem;
-        width: 0.82rem;
-    }
-
-    .artisan-piece--services .artisan-piece__mark {
-        background: #3e60d4;
-    }
-
-    .artisan-piece--work .artisan-piece__mark {
-        background: #94a3b8;
-    }
-
-    .artisan-piece--local .artisan-piece__mark {
-        background: #22c55e;
-    }
-
-    .artisan-piece--quote {
-        background: #1f2937;
-        color: var(--color-snow-50);
-    }
-
-    .artisan-piece--quote .artisan-piece__mark {
-        background: rgba(255, 255, 255, 0.38);
-    }
-
-    .artisan-chip-slot {
-        bottom: 0.05rem;
-        display: flex;
-        justify-content: center;
-        left: 0;
-        position: absolute;
-        right: 0;
-    }
-
-    .artisan-chip {
-        align-items: center;
-        background: rgba(255, 255, 255, 0.95);
-        border: 1px solid rgba(226, 232, 240, 0.92);
-        border-radius: 999em;
-        box-shadow: 0 14px 26px -20px rgba(34, 42, 55, 0.55);
+        background: #ffffff;
+        border: 1px solid rgba(226, 232, 240, 0.95);
+        border-radius: 0.55rem;
+        box-shadow: 0 14px 28px -16px rgba(34, 42, 55, 0.45);
         color: var(--color-gray-700);
-        display: inline-flex;
-        font-size: 0.58rem;
+        display: flex;
+        font-size: 0.56rem;
         font-weight: 500;
         gap: 0.3rem;
         line-height: 1;
-        padding: 0.5rem 0.72rem;
+        padding: 0.38rem 0.5rem;
+        position: absolute;
+        right: 0.55rem;
+        top: 0.55rem;
         white-space: nowrap;
         will-change: opacity, transform;
     }
 
-    .artisan-chip__check {
-        color: #22c55e;
-        height: 0.55rem;
-        width: 0.55rem;
+    .artisan-toast__check {
+        align-items: center;
+        background: #22c55e;
+        border-radius: 999em;
+        color: #ffffff;
+        display: inline-flex;
+        height: 0.8rem;
+        justify-content: center;
+        width: 0.8rem;
     }
 
-    @media (max-width: 639px) {
-        .artisan-stage {
-            min-height: 11.4rem;
-        }
+    .artisan-toast__check svg {
+        height: 0.5rem;
+        width: 0.5rem;
+    }
 
-        .artisan-piece {
-            font-size: 0.58rem;
-            min-width: 6.05rem;
-            padding: 0.65rem 0.68rem;
-        }
-
-        .artisan-slot--services,
-        .artisan-slot--local {
-            left: 0.7rem;
-        }
-
-        .artisan-slot--work,
-        .artisan-slot--quote {
-            right: 0.7rem;
-        }
+    .artisan-counter {
+        background: #1f2937;
+        border-radius: 999em;
+        bottom: 0.3rem;
+        box-shadow: 0 14px 26px -18px rgba(34, 42, 55, 0.6);
+        color: #ffffff;
+        font-size: 0.56rem;
+        font-weight: 500;
+        left: 0;
+        line-height: 1;
+        margin-inline: auto;
+        padding: 0.4rem 0.6rem;
+        position: absolute;
+        right: 0;
+        white-space: nowrap;
+        width: fit-content;
+        will-change: opacity, transform;
     }
 </style>

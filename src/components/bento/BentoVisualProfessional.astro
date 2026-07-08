@@ -1,375 +1,330 @@
 ---
 /**
- * Scène "Site internet professionnel" : une carte de décision. Un point
- * visiteur part des doutes, la route se dessine étape par étape
- * (Comprendre → Rassurer → Contacter) et le point se colore à chaque
- * jalon (bleu → vert → gris foncé). "Parcours clair" conclut.
+ * Scène "Site internet professionnel" : l'immeuble qui se construit.
+ * La dalle "Base technique" se pose, les niveaux Services puis Preuves
+ * s'empilent (chaque pose tasse les étages du dessous), le fil à plomb
+ * vérifie l'alignement, le niveau Contact coiffe le tout et son signal
+ * pulse comme un phare. "Présence durable" valide.
  * Chorégraphie pilotée par src/scripts/animations/bento/professional.ts.
- * Sans JS : parcours complet, route tracée, badge visible.
+ * Sans JS : immeuble complet, fil à plomb tendu, signal et badge visibles.
  */
 ---
 
 <div
-    class="professional-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden px-5 py-5"
+    class="pro-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden px-4 py-4"
     data-bento-visual="professional"
     aria-hidden="true"
 >
-    <div class="professional-stage relative w-[300px] transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:w-[420px]">
-        <div class="professional-map">
-            <span class="professional-map__grain professional-map__grain--top"></span>
-            <span class="professional-map__grain professional-map__grain--bottom"></span>
+    <div class="pro-stage relative w-[300px] transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:w-[420px]">
+        <span class="pro-glow" data-bento-pro-glow></span>
+
+        <span class="pro-silhouette pro-silhouette--left"></span>
+        <span class="pro-silhouette pro-silhouette--right"></span>
+        <span class="pro-ground"></span>
+
+        <div class="pro-floor pro-floor--foundation" data-bento-pro-floor>
+            <span class="pro-floor__mark pro-floor__mark--foundation"></span>
+            Base technique
         </div>
 
-        <div class="professional-route" data-bento-professional-route>
-            <span
-                class="professional-route__segment professional-route__segment--one"
-                data-bento-professional-line></span>
-            <span
-                class="professional-route__segment professional-route__segment--two"
-                data-bento-professional-line></span>
-            <svg
-                class="professional-route__arrow"
-                data-bento-professional-arrow
-                viewBox="0 0 16 16"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            >
-                <path d="M6 3.5L10.5 8L6 12.5"></path>
-            </svg>
-            <span class="professional-visitor" data-bento-professional-dot>
-                <span class="professional-visitor__layer professional-visitor__layer--understand" data-bento-professional-dot-layer></span>
-                <span class="professional-visitor__layer professional-visitor__layer--trust" data-bento-professional-dot-layer></span>
-                <span class="professional-visitor__layer professional-visitor__layer--contact" data-bento-professional-dot-layer></span>
+        <div class="pro-floor pro-floor--services" data-bento-pro-floor>
+            <span class="pro-floor__mark pro-floor__mark--services"></span>
+            Services
+            <span class="pro-floor__windows">
+                <span></span>
+                <span></span>
             </span>
         </div>
 
-        <div class="professional-note-slot professional-note-slot--doubt">
-            <span class="professional-note" data-bento-professional-note>Doutes</span>
-        </div>
-        <div class="professional-note-slot professional-note-slot--proof">
-            <span class="professional-note" data-bento-professional-note>Preuves</span>
-        </div>
-        <div class="professional-note-slot professional-note-slot--action">
-            <span class="professional-note" data-bento-professional-note>Action</span>
-        </div>
-
-        <div class="professional-step-slot professional-step-slot--understand">
-            <span class="professional-step professional-step--understand" data-bento-professional-step>
-                <span class="professional-index professional-index--understand">1</span>
-                Comprendre
+        <div class="pro-floor pro-floor--proof" data-bento-pro-floor>
+            <span class="pro-floor__mark pro-floor__mark--proof"></span>
+            Preuves
+            <span class="pro-floor__windows">
+                <span></span>
+                <span></span>
             </span>
         </div>
 
-        <div class="professional-step-slot professional-step-slot--trust">
-            <span class="professional-step professional-step--trust" data-bento-professional-step>
-                <span class="professional-index professional-index--trust">2</span>
-                Rassurer
-            </span>
+        <div class="pro-floor pro-floor--contact" data-bento-pro-floor>
+            <span class="pro-floor__mark pro-floor__mark--contact"></span>
+            Contact
         </div>
 
-        <div class="professional-step-slot professional-step-slot--contact">
-            <span class="professional-step professional-step--contact" data-bento-professional-step>
-                <span class="professional-index professional-index--contact">3</span>
-                Contacter
-            </span>
-        </div>
+        <span class="pro-beacon" data-bento-pro-beacon>
+            <span class="pro-beacon__ping" data-bento-pro-beacon-ping></span>
+            <span class="pro-beacon__dot"></span>
+            <span class="pro-beacon__stem"></span>
+        </span>
 
-        <div class="professional-chip-slot">
-            <span class="professional-chip" data-bento-professional-chip>
-                <svg class="professional-chip__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <span class="pro-plumb">
+            <span class="pro-plumb__line" data-bento-pro-plumb></span>
+            <span class="pro-plumb__bob" data-bento-pro-plumb-bob></span>
+        </span>
+
+        <span class="pro-badge" data-bento-pro-badge>
+            <span class="pro-badge__check">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M3.5 8.5l3 3 6-7"></path>
                 </svg>
-                Parcours clair
             </span>
-        </div>
+            Présence durable
+        </span>
     </div>
 </div>
 
 <style>
-    .professional-stage {
-        min-height: 12.15rem;
+    .pro-stage {
+        height: 12rem;
     }
 
-    .professional-map {
+    .pro-glow {
+        background: radial-gradient(
+            closest-side,
+            rgba(62, 96, 212, 0.12),
+            transparent 72%
+        );
+        bottom: 0.9rem;
+        height: 150px;
+        left: calc(50% - 130px);
+        position: absolute;
+        width: 260px;
+        will-change: opacity, transform;
+    }
+
+    .pro-silhouette {
+        background: rgba(188, 196, 207, 0.26);
+        border-radius: 0.5rem 0.5rem 0 0;
+        bottom: 1.25rem;
+        position: absolute;
+    }
+
+    .pro-silhouette--left {
+        height: 84px;
+        left: 10%;
+        width: 38px;
+    }
+
+    .pro-silhouette--right {
+        background: rgba(188, 196, 207, 0.2);
+        height: 60px;
+        right: 6%;
+        width: 26px;
+    }
+
+    .pro-ground {
+        background: rgba(148, 163, 184, 0.6);
+        border-radius: 999em;
+        bottom: 1.125rem;
+        height: 2px;
+        left: 5%;
+        position: absolute;
+        right: 5%;
+    }
+
+    .pro-floor {
+        align-items: center;
+        background: #ffffff;
+        border: 1px solid rgba(226, 232, 240, 0.95);
+        border-radius: 0.45rem;
+        box-shadow: 0 14px 26px -18px rgba(34, 42, 55, 0.42);
+        color: var(--color-gray-700);
+        display: flex;
+        font-size: 0.56rem;
+        font-weight: 500;
+        gap: 0.35rem;
+        height: 30px;
+        left: 50%;
+        line-height: 1;
+        padding: 0 0.6rem;
+        position: absolute;
+        white-space: nowrap;
+        will-change: opacity, transform;
+    }
+
+    .pro-floor--foundation {
         background:
-            linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.88)),
             repeating-linear-gradient(
-                0deg,
+                45deg,
                 rgba(148, 163, 184, 0.08) 0,
-                rgba(148, 163, 184, 0.08) 1px,
-                transparent 1px,
-                transparent 2.05rem
-            );
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        border-radius: 1.35rem;
-        box-shadow: 0 22px 44px -30px rgba(34, 42, 55, 0.48);
-        inset: 0.25rem 0.15rem 0.7rem;
-        overflow: hidden;
-        position: absolute;
+                rgba(148, 163, 184, 0.08) 4px,
+                transparent 4px,
+                transparent 9px
+            ),
+            #ffffff;
+        border-radius: 0.4rem;
+        bottom: 1.25rem;
+        margin-left: -89px;
+        width: 178px;
     }
 
-    .professional-map__grain {
-        background: rgba(148, 163, 184, 0.14);
+    .pro-floor--services {
+        bottom: calc(1.25rem + 31px);
+        margin-left: -74px;
+        width: 148px;
+    }
+
+    .pro-floor--proof {
+        bottom: calc(1.25rem + 62px);
+        margin-left: -74px;
+        width: 148px;
+    }
+
+    .pro-floor--contact {
+        background: #1f2937;
+        border-color: rgba(31, 41, 55, 0.9);
+        bottom: calc(1.25rem + 93px);
+        box-shadow: 0 16px 30px -18px rgba(31, 41, 55, 0.65);
+        color: var(--color-snow-50);
+        margin-left: -60px;
+        width: 120px;
+    }
+
+    .pro-floor__mark {
+        border-radius: 0.18rem;
+        height: 8px;
+        width: 8px;
+    }
+
+    .pro-floor__mark--foundation {
+        background: #94a3b8;
+    }
+
+    .pro-floor__mark--services {
+        background: #3e60d4;
+    }
+
+    .pro-floor__mark--proof {
+        background: #22c55e;
+    }
+
+    .pro-floor__mark--contact {
+        background: rgba(255, 255, 255, 0.38);
+    }
+
+    .pro-floor__windows {
+        display: flex;
+        gap: 0.2rem;
+        margin-left: auto;
+    }
+
+    .pro-floor__windows span {
+        background: var(--color-gray-200);
         border-radius: 999em;
-        height: 0.18rem;
-        left: 1.2rem;
+        height: 4px;
+        width: 4px;
+    }
+
+    .pro-beacon {
+        bottom: calc(1.25rem + 122px);
+        height: 13px;
+        left: calc(50% - 4px);
         position: absolute;
-        right: 1.2rem;
-    }
-
-    .professional-map__grain--top {
-        top: 2.2rem;
-    }
-
-    .professional-map__grain--bottom {
-        bottom: 2.45rem;
-    }
-
-    .professional-route {
-        left: 3.35rem;
-        position: absolute;
-        right: 3.35rem;
-        top: 5.92rem;
-    }
-
-    .professional-route__segment {
-        border-radius: 999em;
-        height: 0.28rem;
-        position: absolute;
-        top: 0;
-        transform-origin: left center;
-        will-change: transform;
-    }
-
-    .professional-route__segment--one {
-        background: linear-gradient(90deg, rgba(62, 96, 212, 0.3), rgba(34, 197, 94, 0.28));
-        left: 2%;
-        width: 46%;
-    }
-
-    .professional-route__segment--two {
-        background: linear-gradient(90deg, rgba(34, 197, 94, 0.28), rgba(31, 41, 55, 0.3));
-        left: 52%;
-        width: 46%;
-    }
-
-    .professional-route__arrow {
-        color: #1f2937;
-        height: 0.85rem;
-        left: 70%;
-        position: absolute;
-        top: -0.29rem;
-        width: 0.85rem;
-        will-change: opacity, transform;
-    }
-
-    .professional-visitor {
-        background: #9ba4b1;
-        border: 1.5px solid rgba(255, 255, 255, 0.9);
-        border-radius: 999em;
-        box-shadow: 0 6px 14px -6px rgba(34, 42, 55, 0.55);
-        height: 0.68rem;
-        left: calc(100% - 0.34rem);
-        position: absolute;
-        top: calc(0.14rem - 0.34rem);
-        width: 0.68rem;
-        will-change: opacity, transform;
-    }
-
-    .professional-visitor__layer {
-        border-radius: 999em;
-        inset: -1.5px;
-        position: absolute;
+        width: 8px;
         will-change: opacity;
     }
 
-    .professional-visitor__layer--understand {
-        background: #3e60d4;
-        opacity: 0;
-    }
-
-    .professional-visitor__layer--trust {
-        background: #22c55e;
-        opacity: 0;
-    }
-
-    .professional-visitor__layer--contact {
+    .pro-beacon__stem {
         background: #1f2937;
-    }
-
-    .professional-step-slot,
-    .professional-note-slot {
+        bottom: 0;
+        height: 6px;
+        left: calc(50% - 1px);
         position: absolute;
+        width: 2px;
     }
 
-    .professional-step-slot--understand {
-        left: 0.2rem;
-        top: 4.65rem;
-    }
-
-    .professional-step-slot--trust {
-        left: 50%;
-        top: 4.65rem;
-        transform: translateX(-50%);
-    }
-
-    .professional-step-slot--contact {
-        right: 0.2rem;
-        top: 4.65rem;
-    }
-
-    .professional-step {
-        align-items: center;
-        background: var(--color-snow-50);
-        border: 1px solid rgba(226, 232, 240, 0.94);
-        border-radius: 1rem;
-        box-shadow: 0 18px 34px -24px rgba(34, 42, 55, 0.46);
-        color: var(--color-gray-800);
-        display: inline-flex;
-        font-size: 0.67rem;
-        font-weight: 500;
-        gap: 0.45rem;
-        line-height: 1;
-        min-width: 6.95rem;
-        padding: 0.78rem 0.8rem;
-        white-space: nowrap;
-        will-change: opacity, transform;
-    }
-
-    .professional-step--contact {
-        background: #1f2937;
-        color: var(--color-snow-50);
-    }
-
-    .professional-index {
-        align-items: center;
-        border-radius: 999em;
-        color: var(--color-snow-50);
-        display: inline-flex;
-        font-size: 0.52rem;
-        font-weight: 600;
-        height: 1rem;
-        justify-content: center;
-        line-height: 1;
-        width: 1rem;
-    }
-
-    .professional-index--understand {
-        background: #3e60d4;
-    }
-
-    .professional-index--trust {
+    .pro-beacon__dot {
         background: #22c55e;
-    }
-
-    .professional-index--contact {
-        background: rgba(255, 255, 255, 0.34);
-    }
-
-    .professional-note-slot--doubt {
-        left: 1.05rem;
-        top: 1.15rem;
-        transform: rotate(-4deg);
-    }
-
-    .professional-note-slot--proof {
-        left: 50%;
-        top: 1.1rem;
-        transform: translateX(-50%) rotate(2deg);
-    }
-
-    .professional-note-slot--action {
-        right: 1.05rem;
-        top: 1.15rem;
-        transform: rotate(4deg);
-    }
-
-    .professional-note {
-        background: rgba(255, 255, 255, 0.92);
-        border: 1px solid rgba(226, 232, 240, 0.88);
         border-radius: 999em;
-        color: var(--color-gray-600);
-        display: inline-flex;
-        font-size: 0.54rem;
-        font-weight: 500;
-        line-height: 1;
-        padding: 0.42rem 0.62rem;
-        white-space: nowrap;
-        will-change: opacity, transform;
-    }
-
-    .professional-chip-slot {
-        bottom: 0.05rem;
-        display: flex;
-        justify-content: center;
+        height: 8px;
         left: 0;
         position: absolute;
-        right: 0;
+        top: 0;
+        width: 8px;
     }
 
-    .professional-chip {
-        align-items: center;
-        background: #1f2937;
+    .pro-beacon__ping {
+        background: rgba(34, 197, 94, 0.5);
         border-radius: 999em;
-        box-shadow: 0 16px 30px -20px rgba(34, 42, 55, 0.6);
-        color: var(--color-snow-50);
-        display: inline-flex;
-        font-size: 0.6rem;
-        font-weight: 500;
-        gap: 0.3rem;
-        line-height: 1;
-        padding: 0.55rem 0.72rem;
-        white-space: nowrap;
+        height: 8px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 8px;
         will-change: opacity, transform;
     }
 
-    .professional-chip__check {
-        color: #4ade80;
-        height: 0.55rem;
-        width: 0.55rem;
+    .pro-plumb {
+        bottom: 1.25rem;
+        height: 124px;
+        left: calc(50% + 96px);
+        position: absolute;
+        width: 7px;
     }
 
-    @media (max-width: 639px) {
-        .professional-stage {
-            min-height: 11.45rem;
-        }
+    .pro-plumb__line {
+        background: repeating-linear-gradient(
+            180deg,
+            rgba(64, 73, 87, 0.6) 0,
+            rgba(64, 73, 87, 0.6) 5px,
+            transparent 5px,
+            transparent 9px
+        );
+        bottom: 3px;
+        left: calc(50% - 1px);
+        position: absolute;
+        top: 0;
+        transform-origin: top center;
+        width: 2px;
+        will-change: transform;
+    }
 
-        .professional-route {
-            left: 2.9rem;
-            right: 2.9rem;
-            top: 5.72rem;
-        }
+    .pro-plumb__bob {
+        background: #1f2937;
+        border-radius: 999em;
+        bottom: 0;
+        height: 7px;
+        left: calc(50% - 3.5px);
+        position: absolute;
+        width: 7px;
+        will-change: opacity, transform;
+    }
 
-        .professional-step {
-            font-size: 0.58rem;
-            min-width: 5.85rem;
-            padding: 0.68rem 0.62rem;
-        }
+    .pro-badge {
+        align-items: center;
+        background: #ffffff;
+        border: 1px solid rgba(226, 232, 240, 0.95);
+        border-radius: 999em;
+        bottom: 0;
+        box-shadow: 0 14px 26px -18px rgba(34, 42, 55, 0.5);
+        color: var(--color-gray-700);
+        display: flex;
+        font-size: 0.56rem;
+        font-weight: 500;
+        gap: 0.3rem;
+        left: 0;
+        line-height: 1;
+        margin-inline: auto;
+        padding: 0.4rem 0.55rem;
+        position: absolute;
+        right: 0;
+        white-space: nowrap;
+        width: fit-content;
+        will-change: opacity, transform;
+    }
 
-        .professional-step-slot--understand {
-            left: 0;
-            top: 4.55rem;
-        }
+    .pro-badge__check {
+        align-items: center;
+        background: #22c55e;
+        border-radius: 999em;
+        color: #ffffff;
+        display: inline-flex;
+        height: 0.8rem;
+        justify-content: center;
+        width: 0.8rem;
+    }
 
-        .professional-step-slot--trust {
-            top: 4.55rem;
-        }
-
-        .professional-step-slot--contact {
-            right: 0;
-            top: 4.55rem;
-        }
-
-        .professional-note {
-            font-size: 0.5rem;
-            padding: 0.38rem 0.5rem;
-        }
-
-        .professional-chip-slot {
-            bottom: 0;
-        }
+    .pro-badge__check svg {
+        height: 0.5rem;
+        width: 0.5rem;
     }
 </style>

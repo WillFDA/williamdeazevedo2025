@@ -1,140 +1,273 @@
 /**
- * Scène "Site internet artisan" — l'établi vu de dessus : quatre pièces
- * posées en léger désordre se rangent une à une dans leurs emplacements
- * tracés en pointillés, le long de la règle qui se dessine d'abord.
- * "Devis" se cale en dernier, plus affirmé, puis "Demande claire" valide.
- * Cycle ~8 s avec pause lisible sur l'état rangé.
+ * Scène "Site internet artisan" — la carte locale : le pin de l'artisan se
+ * plante sur le quartier, sa fiche s'ouvre, la zone d'intervention se
+ * dessine, les maisons s'allument puis envoient leurs demandes de devis
+ * vers le pin (toast, puis compteur "2 demandes"). Cycle ~9 s avec pause
+ * lisible sur la carte pleine. Trajets maison → pin mesurés au chargement.
  */
 
-import { createTimeline, utils } from "animejs";
+import { createTimeline, type Timeline, utils } from "animejs";
 
-import { addPlayer, type BentoPlayer, query, queryAll } from "./shared";
+import {
+  addPlayer,
+  type BentoPlayer,
+  centerDelta,
+  query,
+  queryAll,
+} from "./shared";
 
-const SCATTER = [
-  { rotate: -6, x: -14, y: 10 },
-  { rotate: 5, x: 14, y: -8 },
-  { rotate: 4, x: -11, y: -11 },
-  { rotate: -5, x: 13, y: 11 },
-];
+type Delta = { x: number; y: number };
 
-export const animateArtisan = (root: HTMLElement, players: BentoPlayer[]) => {
-  const ruler = query(root, "[data-bento-artisan-ruler]");
-  const ticks = queryAll(root, "[data-bento-artisan-tick]");
-  const slots = queryAll(root, "[data-bento-artisan-slot]");
-  const pieces = queryAll(root, "[data-bento-artisan-piece]");
-  const chip = query(root, "[data-bento-artisan-chip]");
+type ArtisanScene = {
+  badges: HTMLElement[];
+  counter: HTMLElement | null;
+  fiche: HTMLElement | null;
+  pin: HTMLElement;
+  pinShadow: HTMLElement | null;
+  radius: HTMLElement;
+  requests: HTMLElement[];
+  rings: HTMLElement[];
+  toast: HTMLElement;
+};
 
-  if (!pieces.length) return;
+const setInitialState = (scene: ArtisanScene) => {
+  utils.set(scene.radius, { opacity: 0, scale: 0.3 });
+  utils.set(scene.pin, { opacity: 0, y: -70 });
+  if (scene.pinShadow) utils.set(scene.pinShadow, { opacity: 0, scale: 0.4 });
+  if (scene.fiche) utils.set(scene.fiche, { opacity: 0, scale: 0.92, y: 6 });
+  utils.set(scene.badges, { opacity: 0, scale: 0.5 });
+  if (scene.rings.length) utils.set(scene.rings, { opacity: 0, scale: 1 });
+  utils.set(scene.requests, { opacity: 0 });
+  utils.set(scene.toast, { opacity: 0, scale: 0.96, y: -6 });
+  if (scene.counter) {
+    utils.set(scene.counter, { opacity: 0, scale: 0.92, y: 6 });
+  }
+};
 
-  if (ruler) utils.set(ruler, { opacity: 0.4, scaleX: 0.14 });
-  if (ticks.length) utils.set(ticks, { opacity: 0.2, scale: 0.7 });
-  if (slots.length) utils.set(slots, { opacity: 0.9 });
-  pieces.forEach((piece, index) => {
-    const offset = SCATTER[index % SCATTER.length];
-    if (offset) utils.set(piece, { ...offset, scale: 1 });
-  });
-  if (chip) utils.set(chip, { opacity: 0, y: 8 });
-
-  const timeline = createTimeline({ loop: true });
-
-  // La règle se dessine : "on cadre" avant de ranger.
-  if (ruler) {
+// Le pin se plante, la fiche s'ouvre, la zone d'intervention se pose.
+const addArrivalPhase = (timeline: Timeline, scene: ArtisanScene) => {
+  timeline.add(scene.pin, { opacity: 1, duration: 200 }, 300);
+  timeline.add(scene.pin, { y: 0, duration: 520, ease: "out(3)" }, 300);
+  timeline.add(
+    scene.pin,
+    {
+      scale: [
+        { to: 0.94, duration: 120, ease: "out(2)" },
+        { to: 1, duration: 240, ease: "inOut(2)" },
+      ],
+    },
+    820
+  );
+  if (scene.pinShadow) {
     timeline.add(
-      ruler,
-      { opacity: 1, scaleX: 1, duration: 700, ease: "out(3)" },
-      500
+      scene.pinShadow,
+      { opacity: 0.45, scale: 1, duration: 260, ease: "out(2)" },
+      820
     );
   }
-
-  // Rangement dans l'ordre : Prestations → Réalisations → Zone locale → Devis.
-  pieces.forEach((piece, index) => {
-    const isLast = index === pieces.length - 1;
-    const start = 1300 + index * 760;
-    const slot = slots[index];
-    const tick = ticks[index];
-
+  if (scene.fiche) {
     timeline.add(
-      piece,
-      {
-        rotate: 0,
-        x: 0,
-        y: 0,
-        duration: isLast ? 680 : 620,
-        ease: "out(4)",
-      },
-      start
+      scene.fiche,
+      { opacity: 1, scale: 1, y: 0, duration: 380, ease: "out(4)" },
+      1200
     );
+  }
+  timeline.add(
+    scene.radius,
+    { opacity: 1, scale: 1, duration: 680, ease: "out(3)" },
+    1800
+  );
+};
+
+// Les maisons du quartier s'allument une à une.
+const addHousesPhase = (timeline: Timeline, scene: ArtisanScene) => {
+  scene.badges.forEach((badge, index) => {
+    const at = 2650 + index * 330;
+    timeline.add(badge, { opacity: 1, duration: 160 }, at);
     timeline.add(
-      piece,
+      badge,
       {
         scale: [
-          { to: isLast ? 1.05 : 0.985, duration: 160, ease: "out(2)" },
-          { to: 1, duration: 240, ease: "inOut(2)" },
+          { to: 1.35, duration: 180, ease: "out(2)" },
+          { to: 1, duration: 220, ease: "inOut(2)" },
         ],
       },
-      start + 520
+      at
     );
-    if (slot) {
-      timeline.add(slot, { opacity: 0, duration: 300 }, start + 430);
-    }
-    if (tick) {
+    const ring = scene.rings[index];
+    if (ring) {
       timeline.add(
-        tick,
+        ring,
         {
-          opacity: 1,
-          scale: [
-            { to: 1.25, duration: 200, ease: "out(2)" },
-            { to: 1, duration: 240, ease: "inOut(2)" },
+          opacity: [
+            { to: 0.55, duration: 120, ease: "out(2)" },
+            { to: 0, duration: 520, ease: "out(2)" },
           ],
+          scale: { to: 2.3, duration: 640, ease: "out(2)" },
         },
-        start + 470
+        at + 80
       );
     }
   });
+};
 
-  // Validation finale.
-  if (chip) {
-    timeline.add(
-      chip,
-      { opacity: 1, y: 0, duration: 420, ease: "out(4)" },
-      4700
-    );
-  }
+const pinReact = (timeline: Timeline, pin: HTMLElement, at: number) => {
+  timeline.add(
+    pin,
+    {
+      scale: [
+        { to: 1.09, duration: 140, ease: "out(3)" },
+        { to: 1, duration: 220, ease: "inOut(2)" },
+      ],
+      y: [
+        { to: -3, duration: 140, ease: "out(2)" },
+        { to: 0, duration: 200, ease: "inOut(2)" },
+      ],
+    },
+    at
+  );
+};
 
-  // Pause lisible (5100 → 7200) puis retour au désordre initial.
-  pieces.forEach((piece, index) => {
-    const offset = SCATTER[index % SCATTER.length];
-    if (!offset) return;
-    timeline.add(
-      piece,
-      { ...offset, duration: 720, ease: "inOut(2)" },
-      7200 + index * 60
-    );
-  });
-  if (slots.length) {
-    timeline.add(slots, { opacity: 0.9, duration: 400 }, 7300);
+const requestFlight = (
+  timeline: Timeline,
+  request: HTMLElement,
+  delta: Delta,
+  at: number
+) => {
+  timeline.add(request, { opacity: 1, duration: 140 }, at);
+  timeline.add(
+    request,
+    {
+      x: { to: delta.x, duration: 620, ease: "inOut(2)" },
+      y: [
+        { to: delta.y * 0.45 - 16, duration: 300, ease: "out(2)" },
+        { to: delta.y, duration: 320, ease: "in(1.7)" },
+      ],
+    },
+    at + 40
+  );
+  timeline.add(request, { opacity: 0, duration: 140 }, at + 610);
+};
+
+// Deux demandes voyagent vers le pin : toast, puis compteur "2 demandes".
+const addRequestsPhase = (
+  timeline: Timeline,
+  scene: ArtisanScene,
+  deltas: Delta[]
+) => {
+  const firstRequest = scene.requests[0];
+  const firstDelta = deltas[0];
+  if (firstRequest && firstDelta) {
+    requestFlight(timeline, firstRequest, firstDelta, 3950);
+    pinReact(timeline, scene.pin, 4630);
   }
-  if (ticks.length) {
+  timeline.add(
+    scene.toast,
+    { opacity: 1, scale: 1, y: 0, duration: 420, ease: "out(4)" },
+    4750
+  );
+
+  const secondRequest = scene.requests[1];
+  const secondDelta = deltas[1];
+  if (!(secondRequest && secondDelta)) return;
+  requestFlight(timeline, secondRequest, secondDelta, 5450);
+  pinReact(timeline, scene.pin, 6130);
+  timeline.add(
+    scene.toast,
+    {
+      scale: [
+        { to: 1.05, duration: 140, ease: "out(2)" },
+        { to: 1, duration: 200, ease: "inOut(2)" },
+      ],
+    },
+    6170
+  );
+  if (scene.counter) {
     timeline.add(
-      ticks,
-      { opacity: 0.2, scale: 0.7, duration: 400, ease: "in(2)" },
-      7250
+      scene.counter,
+      { opacity: 1, scale: 1, y: 0, duration: 380, ease: "out(4)" },
+      6350
     );
   }
-  if (ruler) {
+};
+
+// Pause lisible (6750 → 8300) puis fondu de reset.
+const addResetPhase = (timeline: Timeline, scene: ArtisanScene) => {
+  timeline.add(
+    scene.toast,
+    { opacity: 0, scale: 0.96, y: -6, duration: 260, ease: "in(2)" },
+    8300
+  );
+  if (scene.counter) {
     timeline.add(
-      ruler,
-      { opacity: 0.4, scaleX: 0.14, duration: 500, ease: "inOut(2)" },
-      7250
+      scene.counter,
+      { opacity: 0, scale: 0.92, y: 6, duration: 260, ease: "in(2)" },
+      8300
     );
   }
-  if (chip) {
+  if (scene.fiche) {
     timeline.add(
-      chip,
-      { opacity: 0, y: 8, duration: 300, ease: "in(2)" },
-      7200
+      scene.fiche,
+      { opacity: 0, scale: 0.92, y: 6, duration: 280, ease: "in(2)" },
+      8340
     );
   }
+  timeline.add(
+    scene.badges,
+    { opacity: 0, scale: 0.5, duration: 260, ease: "in(2)" },
+    8380
+  );
+  timeline.add(
+    scene.radius,
+    { opacity: 0, duration: 300, ease: "in(2)" },
+    8440
+  );
+  if (scene.pinShadow) {
+    timeline.add(scene.pinShadow, { opacity: 0, duration: 200 }, 8560);
+  }
+  timeline.add(scene.pin, { opacity: 0, duration: 240, ease: "in(2)" }, 8580);
+  timeline.add(scene.pin, { y: -70, duration: 1 }, 8860);
+  timeline.add(scene.radius, { scale: 0.3, duration: 1 }, 8860);
+  if (scene.rings.length) {
+    timeline.add(scene.rings, { scale: 1, duration: 1 }, 8860);
+  }
+  timeline.add(scene.requests, { x: 0, y: 0, duration: 1 }, 8860);
+};
+
+export const animateArtisan = (root: HTMLElement, players: BentoPlayer[]) => {
+  const radius = query(root, "[data-bento-artisan-radius]");
+  const pin = query(root, "[data-bento-artisan-pin]");
+  const toast = query(root, "[data-bento-artisan-toast]");
+  const badges = queryAll(root, "[data-bento-artisan-house-badge]");
+  const requests = queryAll(root, "[data-bento-artisan-request]");
+
+  if (!(pin && radius && toast && badges.length && requests.length)) return;
+
+  const scene: ArtisanScene = {
+    badges,
+    counter: query(root, "[data-bento-artisan-counter]"),
+    fiche: query(root, "[data-bento-artisan-fiche]"),
+    pin,
+    pinShadow: query(root, "[data-bento-artisan-pin-shadow]"),
+    radius,
+    requests,
+    rings: queryAll(root, "[data-bento-artisan-house-ring]"),
+    toast,
+  };
+
+  // Remise à zéro avant mesure (utile lors d'un re-init après resize),
+  // puis mesure des trajets maison → pin.
+  utils.set([pin, ...requests], { scale: 1, x: 0, y: 0 });
+  const deltas = requests.map((request) => centerDelta(pin, request));
+
+  setInitialState(scene);
+
+  const timeline = createTimeline({ loop: true });
+
+  addArrivalPhase(timeline, scene);
+  addHousesPhase(timeline, scene);
+  addRequestsPhase(timeline, scene, deltas);
+  addResetPhase(timeline, scene);
 
   addPlayer(players, timeline);
 };

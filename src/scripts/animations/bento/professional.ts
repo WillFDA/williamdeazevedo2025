@@ -1,160 +1,154 @@
 /**
- * Scène "Site internet professionnel" — la carte de décision : un point
- * visiteur part des doutes, la route se dessine étape par étape
- * (Comprendre → Rassurer → Contacter) et le point se colore à chaque
- * jalon (bleu → vert → gris foncé). "Parcours clair" conclut.
- * Cycle ~9 s, séquentiel, avec pause lisible sur le parcours complet.
+ * Scène "Site internet professionnel" — l'immeuble qui se construit :
+ * la dalle "Base technique" se pose, puis les niveaux Services et Preuves
+ * s'empilent (chaque pose tasse légèrement les étages du dessous), le fil
+ * à plomb vérifie l'alignement, le niveau Contact coiffe le tout et son
+ * signal s'allume. "Présence durable" valide. Cycle ~9 s avec pause.
  */
 
-import { createTimeline, type Timeline, utils } from "animejs";
+import { animate, createTimeline, utils } from "animejs";
 
 import { addPlayer, type BentoPlayer, query, queryAll } from "./shared";
 
-const activateNote = (timeline: Timeline, note: HTMLElement, at: number) => {
-  timeline.add(
-    note,
-    {
-      opacity: 1,
-      y: [
-        { to: -3, duration: 260, ease: "out(3)" },
-        { to: 0, duration: 300, ease: "inOut(2)" },
-      ],
-    },
-    at
-  );
-};
-
-const activateStep = (
-  timeline: Timeline,
-  step: HTMLElement,
-  layer: HTMLElement | undefined,
-  at: number
-) => {
-  timeline.add(step, { opacity: 1, y: 0, duration: 320, ease: "out(3)" }, at);
-  timeline.add(
-    step,
-    {
-      scale: [
-        { to: 1.035, duration: 220, ease: "out(3)" },
-        { to: 1, duration: 280, ease: "inOut(2)" },
-      ],
-    },
-    at + 120
-  );
-  if (layer) {
-    timeline.add(layer, { opacity: 1, duration: 300 }, at + 140);
-  }
-};
+// Ordre de pose : Base technique, Services, Preuves, puis Contact
+// (après le passage du fil à plomb).
+const FLOOR_DROPS = [400, 1300, 2150, 3750];
 
 export const animateProfessional = (
   root: HTMLElement,
   players: BentoPlayer[]
 ) => {
-  const route = query(root, "[data-bento-professional-route]");
-  const segments = queryAll(root, "[data-bento-professional-line]");
-  const arrow = query(root, "[data-bento-professional-arrow]");
-  const dot = query(root, "[data-bento-professional-dot]");
-  const dotLayers = queryAll(root, "[data-bento-professional-dot-layer]");
-  const steps = queryAll(root, "[data-bento-professional-step]");
-  const notes = queryAll(root, "[data-bento-professional-note]");
-  const chip = query(root, "[data-bento-professional-chip]");
+  const floors = queryAll(root, "[data-bento-pro-floor]");
+  const plumbLine = query(root, "[data-bento-pro-plumb]");
+  const plumbBob = query(root, "[data-bento-pro-plumb-bob]");
+  const beacon = query(root, "[data-bento-pro-beacon]");
+  const ping = query(root, "[data-bento-pro-beacon-ping]");
+  const badge = query(root, "[data-bento-pro-badge]");
+  const glow = query(root, "[data-bento-pro-glow]");
 
-  const required =
-    route &&
-    arrow &&
-    dot &&
-    chip &&
-    segments.length >= 2 &&
-    steps.length === 3 &&
-    notes.length === 3;
-  if (!required) return;
+  if (glow) {
+    utils.set(glow, { opacity: 0.35, scale: 1 });
+    addPlayer(
+      players,
+      animate(glow, {
+        opacity: 0.6,
+        scale: 1.06,
+        alternate: true,
+        duration: 4600,
+        ease: "inOut(2)",
+        loop: true,
+      })
+    );
+  }
 
-  const routeWidth = route.offsetWidth;
-  // Point de départ : à gauche de "Comprendre", visible sur la carte
-  // (le point passe sous les étapes, il n'est visible qu'entre elles).
-  const startX = -(routeWidth + (steps[0] as HTMLElement).offsetWidth / 2 + 14);
+  // Le signal du niveau Contact pulse en continu ; sa visibilité est
+  // pilotée par l'opacité du conteneur beacon dans la timeline.
+  if (ping) {
+    utils.set(ping, { opacity: 0.7, scale: 1 });
+    addPlayer(
+      players,
+      animate(ping, {
+        opacity: [0.7, 0],
+        scale: [1, 2.4],
+        duration: 1900,
+        ease: "out(2)",
+        loop: true,
+      })
+    );
+  }
 
-  utils.set(segments, { scaleX: 0 });
-  utils.set(arrow, { opacity: 0, scale: 0.82 });
-  utils.set(dot, { opacity: 0.95, x: startX });
-  utils.set(dotLayers, { opacity: 0 });
-  utils.set(steps, { opacity: 0.55, scale: 0.97, y: 4 });
-  utils.set(notes, { opacity: 0.45, y: 0 });
-  utils.set(chip, { opacity: 0, y: 8 });
+  if (floors.length !== FLOOR_DROPS.length) return;
+
+  utils.set(floors, { opacity: 0, y: -46 });
+  if (plumbLine) utils.set(plumbLine, { scaleY: 0 });
+  if (plumbBob) utils.set(plumbBob, { opacity: 0, scale: 0.5 });
+  if (beacon) utils.set(beacon, { opacity: 0 });
+  if (badge) utils.set(badge, { opacity: 0, scale: 0.92, y: 6 });
 
   const timeline = createTimeline({ loop: true });
 
-  // Le visiteur arrive avec ses doutes et entre dans "Comprendre".
-  activateNote(timeline, notes[0] as HTMLElement, 400);
-  timeline.add(
-    dot,
-    {
-      scale: [
-        { to: 1.35, duration: 220, ease: "out(2)" },
-        { to: 1, duration: 300, ease: "inOut(2)" },
-      ],
-    },
-    600
-  );
-  timeline.add(dot, { x: -routeWidth, duration: 560, ease: "inOut(2)" }, 1000);
-  activateStep(timeline, steps[0] as HTMLElement, dotLayers[0], 1400);
+  floors.forEach((floor, index) => {
+    const at = FLOOR_DROPS[index] ?? 0;
+    const isTop = index === floors.length - 1;
 
-  // Comprendre → Rassurer.
-  timeline.add(
-    segments[0] as HTMLElement,
-    { scaleX: 1, duration: 620, ease: "out(3)" },
-    2100
-  );
-  timeline.add(
-    dot,
-    { x: -routeWidth / 2, duration: 680, ease: "inOut(2)" },
-    2140
-  );
-  activateNote(timeline, notes[1] as HTMLElement, 2500);
-  activateStep(timeline, steps[1] as HTMLElement, dotLayers[1], 2900);
+    timeline.add(floor, { opacity: 1, duration: 200 }, at);
+    timeline.add(
+      floor,
+      { y: 0, duration: isTop ? 500 : 460, ease: "out(3)" },
+      at
+    );
+    timeline.add(
+      floor,
+      {
+        scale: [
+          { to: isTop ? 0.95 : 0.966, duration: 130, ease: "out(2)" },
+          { to: 1, duration: 230, ease: "inOut(2)" },
+        ],
+      },
+      at + (isTop ? 470 : 430)
+    );
 
-  // Rassurer → Contacter.
-  timeline.add(
-    segments[1] as HTMLElement,
-    { scaleX: 1, duration: 620, ease: "out(3)" },
-    3800
-  );
-  timeline.add(dot, { x: 0, duration: 680, ease: "inOut(2)" }, 3840);
-  timeline.add(
-    arrow,
-    {
-      opacity: 1,
-      scale: [
-        { to: 1.12, duration: 220, ease: "out(3)" },
-        { to: 1, duration: 280, ease: "inOut(2)" },
-      ],
-    },
-    4150
-  );
-  activateNote(timeline, notes[2] as HTMLElement, 4200);
-  activateStep(timeline, steps[2] as HTMLElement, dotLayers[2], 4600);
+    // Chaque pose tasse légèrement les étages déjà en place.
+    for (let below = index - 1; below >= 0; below -= 1) {
+      const floorBelow = floors[below];
+      if (!floorBelow) continue;
+      timeline.add(
+        floorBelow,
+        {
+          y: [
+            { to: 1.5, duration: 110, ease: "out(2)" },
+            { to: 0, duration: 190, ease: "inOut(2)" },
+          ],
+        },
+        at + 450 + (index - 1 - below) * 40
+      );
+    }
+  });
 
-  // Conclusion.
-  timeline.add(chip, { opacity: 1, y: 0, duration: 420, ease: "out(4)" }, 5400);
+  // Le fil à plomb vérifie l'alignement avant le dernier niveau.
+  if (plumbLine) {
+    timeline.add(plumbLine, { scaleY: 1, duration: 520, ease: "out(3)" }, 2950);
+  }
+  if (plumbBob) {
+    timeline.add(
+      plumbBob,
+      { opacity: 0.9, scale: 1, duration: 240, ease: "out(2)" },
+      3430
+    );
+  }
 
-  // Pause lisible (5820 → 8200) puis retour au départ.
-  timeline.add(
-    steps,
-    { opacity: 0.55, scale: 0.97, y: 4, duration: 480, ease: "inOut(2)" },
-    8200
-  );
-  timeline.add(notes, { opacity: 0.45, duration: 420, ease: "inOut(2)" }, 8200);
-  timeline.add(segments, { scaleX: 0, duration: 420, ease: "in(2)" }, 8200);
-  timeline.add(
-    arrow,
-    { opacity: 0, scale: 0.82, duration: 300, ease: "in(2)" },
-    8200
-  );
-  timeline.add(chip, { opacity: 0, y: 8, duration: 300, ease: "in(2)" }, 8200);
-  timeline.add(dot, { opacity: 0, duration: 260, ease: "in(2)" }, 8250);
-  timeline.add(dot, { x: startX, duration: 1 }, 8600);
-  timeline.add(dotLayers, { opacity: 0, duration: 1 }, 8600);
-  timeline.add(dot, { opacity: 0.95, duration: 240 }, 8700);
+  // Le signal s'allume au sommet, la validation conclut.
+  if (beacon) timeline.add(beacon, { opacity: 1, duration: 280 }, 4450);
+  if (badge) {
+    timeline.add(
+      badge,
+      { opacity: 1, scale: 1, y: 0, duration: 400, ease: "out(4)" },
+      4750
+    );
+  }
+
+  // Pause lisible (5150 → 7900) puis démontage en fondu, de haut en bas.
+  floors.forEach((floor, index) => {
+    const order = floors.length - 1 - index;
+    timeline.add(
+      floor,
+      { opacity: 0, y: -8, duration: 260, ease: "in(2)" },
+      7900 + order * 130
+    );
+  });
+  if (plumbBob) timeline.add(plumbBob, { opacity: 0, duration: 200 }, 8480);
+  if (plumbLine) {
+    timeline.add(plumbLine, { scaleY: 0, duration: 300, ease: "in(2)" }, 8480);
+  }
+  if (beacon) timeline.add(beacon, { opacity: 0, duration: 240 }, 7900);
+  if (badge) {
+    timeline.add(
+      badge,
+      { opacity: 0, scale: 0.92, y: 6, duration: 240, ease: "in(2)" },
+      7950
+    );
+  }
+  timeline.add(floors, { y: -46, duration: 1 }, 8850);
 
   addPlayer(players, timeline);
 };
