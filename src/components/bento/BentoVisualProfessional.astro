@@ -1,10 +1,11 @@
 ---
 /**
- * Scène "Site internet professionnel" : une page Accueil isolée devient
- * une arborescence complète. Services, Preuves et Contact se branchent sur
- * une base technique, puis "Présence complète" valide le site structuré.
+ * Scène "Site internet professionnel" : de la page seule au site complet.
+ * Une page Accueil isolée se démultiplie en Services, Preuves et Contact,
+ * les connexions se dessinent jusqu'à une base technique, un signal
+ * s'allume sur Contact puis le badge "Présence complète" valide le tout.
  * Chorégraphie pilotée par src/scripts/animations/bento/professional.ts.
- * Sans JS : arborescence finale complète et lisible.
+ * Sans JS : plan de site complet, connexions posées, badge affiché.
  */
 ---
 
@@ -16,80 +17,67 @@
 	<div class="pro-stage relative w-[300px] transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:w-[420px]">
 		<span class="pro-glow" data-bento-pro-glow></span>
 
-		<span
-			class="pro-line pro-line--trunk"
-			data-bento-pro-line
-			data-bento-pro-trunk></span>
-		<span
-			class="pro-line pro-line--rail"
-			data-bento-pro-line
-			data-bento-pro-rail></span>
-		<span
-			class="pro-line pro-line--drop pro-line--drop-services"
-			data-bento-pro-line
-			data-bento-pro-drop></span>
-		<span
-			class="pro-line pro-line--drop pro-line--drop-proof"
-			data-bento-pro-line
-			data-bento-pro-drop></span>
-		<span
-			class="pro-line pro-line--drop pro-line--drop-contact"
-			data-bento-pro-line
-			data-bento-pro-drop></span>
+		<span class="pro-link pro-link--trunk" data-bento-pro-trunk></span>
+		<span class="pro-link pro-link--rail" data-bento-pro-rail></span>
+		<span class="pro-link pro-link--drop pro-link--drop-1" data-bento-pro-drop></span>
+		<span class="pro-link pro-link--drop pro-link--drop-2" data-bento-pro-drop></span>
+		<span class="pro-link pro-link--drop pro-link--drop-3" data-bento-pro-drop></span>
 
 		<div class="pro-page pro-page--home" data-bento-pro-home>
-			<span class="pro-page__header">
-				<span class="pro-page__dot"></span>
-				Accueil
+			<span class="pro-page__bar">
+				<span class="pro-page__dot" style="background: #3e60d4;"></span>
+				<span class="pro-page__pill"></span>
 			</span>
-			<span class="pro-page__line pro-page__line--wide"></span>
-			<span class="pro-page__line"></span>
+			<span class="pro-page__line pro-page__line--w1"></span>
+			<span class="pro-page__line pro-page__line--w2"></span>
+			<span class="pro-page__line pro-page__line--w3"></span>
 		</div>
 
 		<div
-			class="pro-page pro-page--child pro-page--services"
-			data-bento-pro-page
+			class="pro-page pro-page--services"
+			data-bento-pro-child
 		>
-			<span class="pro-page__header">
-				<span class="pro-page__dot pro-page__dot--blue"></span>
-				Services
+			<span class="pro-page__bar">
+				<span class="pro-page__dot" style="background: #3e60d4;"></span>
+				<span class="pro-page__pill"></span>
 			</span>
-			<span class="pro-page__line pro-page__line--wide"></span>
-			<span class="pro-page__line"></span>
+			<span class="pro-page__line pro-page__line--w1"></span>
+			<span class="pro-page__line pro-page__line--w2"></span>
 		</div>
 
-		<div class="pro-page pro-page--child pro-page--proof" data-bento-pro-page>
-			<span class="pro-page__header">
-				<span class="pro-page__dot pro-page__dot--green"></span>
-				Preuves
+		<div class="pro-page pro-page--proof" data-bento-pro-child>
+			<span class="pro-page__bar">
+				<span class="pro-page__dot" style="background: #22c55e;"></span>
+				<span class="pro-page__pill"></span>
 			</span>
-			<span class="pro-page__line pro-page__line--wide"></span>
-			<span class="pro-page__line"></span>
+			<span class="pro-page__line pro-page__line--w1"></span>
+			<span class="pro-page__line pro-page__line--w2"></span>
 		</div>
 
-		<div
-			class="pro-page pro-page--child pro-page--contact"
-			data-bento-pro-page
-			data-bento-pro-contact
-		>
-			<span class="pro-contact-signal" data-bento-pro-signal>
-				<span
-					class="pro-contact-signal__ping"
-					data-bento-pro-signal-ping></span>
-				<span class="pro-contact-signal__dot"></span>
+		<div class="pro-page pro-page--contact" data-bento-pro-child>
+			<span class="pro-page__bar">
+				<span class="pro-page__dot" style="background: rgba(255, 255, 255, 0.45);"></span>
+				<span class="pro-page__pill"></span>
 			</span>
-			<span class="pro-page__header">
-				<span class="pro-page__dot pro-page__dot--dark"></span>
-				Contact
+			<span class="pro-page__line pro-page__line--w1"></span>
+			<span class="pro-page__line pro-page__line--w2"></span>
+			<span class="pro-signal" data-bento-pro-signal>
+				<span class="pro-signal__ping" data-bento-pro-signal-ping></span>
+				<span class="pro-signal__dot"></span>
 			</span>
-			<span class="pro-page__line pro-page__line--wide"></span>
-			<span class="pro-page__line"></span>
 		</div>
 
-		<div class="pro-base" data-bento-pro-base>
-			<span class="pro-base__mark"></span>
-			Base technique
-		</div>
+		<span class="pro-label-slot" style="left: calc(50% - 138px);">
+			<span class="pro-label" data-bento-pro-label>Services</span>
+		</span>
+		<span class="pro-label-slot" style="left: calc(50% - 28px);">
+			<span class="pro-label" data-bento-pro-label>Preuves</span>
+		</span>
+		<span class="pro-label-slot" style="left: calc(50% + 82px);">
+			<span class="pro-label pro-label--contact" data-bento-pro-label>Contact</span>
+		</span>
+
+		<div class="pro-base" data-bento-pro-base>Base technique</div>
 
 		<span class="pro-badge" data-bento-pro-badge>
 			<span class="pro-badge__check">
@@ -110,159 +98,194 @@
 	.pro-glow {
 		background: radial-gradient(
 			closest-side,
-			rgba(62, 96, 212, 0.14),
+			rgba(62, 96, 212, 0.12),
 			transparent 72%
 		);
-		height: 9rem;
-		left: 50%;
+		height: 150px;
+		left: calc(50% - 130px);
 		position: absolute;
-		top: 1.5rem;
-		transform: translateX(-50%);
-		width: 16rem;
+		top: 20px;
+		width: 260px;
 		will-change: opacity, transform;
 	}
 
-	.pro-line {
-		background: rgba(112, 122, 135, 0.38);
+	.pro-link {
+		background: rgba(148, 163, 184, 0.55);
 		border-radius: 999em;
 		position: absolute;
-		will-change: opacity, transform;
 	}
 
-	.pro-line--trunk {
-		height: 1.65rem;
+	.pro-link--trunk {
+		height: 22px;
 		left: calc(50% - 1px);
-		top: 3.9rem;
+		top: 50px;
 		transform-origin: top center;
 		width: 2px;
 	}
 
-	.pro-line--rail {
+	.pro-link--rail {
 		height: 2px;
-		left: calc(50% - 8.5rem);
-		top: 5.5rem;
-		transform-origin: center;
-		width: 17rem;
+		left: calc(50% - 110px);
+		top: 71px;
+		transform-origin: left center;
+		width: 220px;
 	}
 
-	.pro-line--drop {
-		height: 0.95rem;
-		top: 5.5rem;
+	.pro-link--drop {
+		height: 11px;
+		top: 73px;
 		transform-origin: top center;
 		width: 2px;
 	}
 
-	.pro-line--drop-services {
-		left: calc(50% - 8.5rem);
+	.pro-link--drop-1 {
+		left: calc(50% - 111px);
 	}
 
-	.pro-line--drop-proof {
+	.pro-link--drop-2 {
 		left: calc(50% - 1px);
 	}
 
-	.pro-line--drop-contact {
-		left: calc(50% + 8.5rem);
+	.pro-link--drop-3 {
+		left: calc(50% + 109px);
 	}
 
 	.pro-page {
-		background: rgba(255, 255, 255, 0.92);
-		border: 1px solid rgba(217, 222, 230, 0.95);
-		border-radius: 0.5rem;
-		box-shadow: 0 16px 34px -26px rgba(34, 42, 55, 0.46);
-		color: var(--color-gray-700);
-		display: grid;
-		gap: 0.36rem;
-		height: 3.1rem;
-		padding: 0.55rem 0.62rem;
+		background: #ffffff;
+		border: 1px solid rgba(226, 232, 240, 0.95);
+		border-radius: 8px;
+		box-shadow: 0 14px 26px -18px rgba(34, 42, 55, 0.42);
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+		padding: 6px;
 		position: absolute;
-		width: 5.6rem;
-		will-change: opacity, transform;
+		will-change: transform, opacity;
 	}
 
-	.pro-page--home {
-		left: calc(50% - 2.8rem);
-		top: 0.75rem;
-	}
-
-	.pro-page--child {
-		top: 6.3rem;
-	}
-
-	.pro-page--services {
-		left: calc(50% - 11.3rem);
-	}
-
-	.pro-page--proof {
-		left: calc(50% - 2.8rem);
-	}
-
-	.pro-page--contact {
-		background: color-mix(in srgb, var(--color-blue-50) 86%, white);
-		border-color: rgba(62, 96, 212, 0.32);
-		color: var(--color-gray-800);
-		left: calc(50% + 5.7rem);
-	}
-
-	.pro-page__header {
+	.pro-page__bar {
 		align-items: center;
 		display: flex;
-		font-size: 0.52rem;
-		font-weight: 600;
-		gap: 0.28rem;
-		line-height: 1;
+		gap: 3px;
 	}
 
 	.pro-page__dot {
-		background: var(--color-gray-300);
 		border-radius: 999em;
-		height: 0.36rem;
-		width: 0.36rem;
+		height: 4px;
+		width: 4px;
 	}
 
-	.pro-page__dot--blue {
-		background: var(--color-blue-500);
-	}
-
-	.pro-page__dot--green {
-		background: #22c55e;
-	}
-
-	.pro-page__dot--dark {
-		background: var(--color-blue-500);
+	.pro-page__pill {
+		background: var(--color-gray-200);
+		border-radius: 999em;
+		flex: 1;
+		height: 3px;
 	}
 
 	.pro-page__line {
-		background: color-mix(in srgb, currentColor 18%, transparent);
+		background: var(--color-gray-100);
 		border-radius: 999em;
-		display: block;
-		height: 0.28rem;
+		height: 3px;
+	}
+
+	.pro-page__line--w1 {
+		width: 85%;
+	}
+
+	.pro-page__line--w2 {
 		width: 62%;
 	}
 
-	.pro-page__line--wide {
-		width: 84%;
+	.pro-page__line--w3 {
+		width: 44%;
 	}
 
-	.pro-contact-signal {
-		height: 0.5rem;
+	.pro-page--home {
+		height: 46px;
+		left: calc(50% - 32px);
+		top: 4px;
+		width: 64px;
+	}
+
+	.pro-page--services {
+		height: 40px;
+		left: calc(50% - 138px);
+		top: 84px;
+		width: 56px;
+	}
+
+	.pro-page--proof {
+		height: 40px;
+		left: calc(50% - 28px);
+		top: 84px;
+		width: 56px;
+	}
+
+	.pro-page--contact {
+		background: #1f2937;
+		border-color: rgba(31, 41, 55, 0.9);
+		box-shadow: 0 16px 30px -18px rgba(31, 41, 55, 0.65);
+		height: 40px;
+		left: calc(50% + 82px);
+		top: 84px;
+		width: 56px;
+	}
+
+	.pro-page--contact .pro-page__pill,
+	.pro-page--contact .pro-page__line {
+		background: rgba(255, 255, 255, 0.25);
+	}
+
+	.pro-signal {
+		height: 8px;
 		position: absolute;
-		right: 0.55rem;
-		top: 0.52rem;
-		width: 0.5rem;
+		right: -3px;
+		top: -3px;
+		width: 8px;
 		will-change: opacity;
 	}
 
-	.pro-contact-signal__dot,
-	.pro-contact-signal__ping {
+	.pro-signal__ping {
+		background: rgba(34, 197, 94, 0.5);
+		border-radius: 999em;
+		inset: 0;
+		position: absolute;
+		will-change: opacity, transform;
+	}
+
+	.pro-signal__dot {
 		background: #22c55e;
+		border: 1.5px solid #ffffff;
 		border-radius: 999em;
 		inset: 0;
 		position: absolute;
 	}
 
-	.pro-contact-signal__ping {
-		opacity: 0.55;
+	.pro-label-slot {
+		display: flex;
+		justify-content: center;
+		position: absolute;
+		top: 128px;
+		width: 56px;
+	}
+
+	.pro-label {
+		background: #ffffff;
+		border: 1px solid rgba(226, 232, 240, 0.9);
+		border-radius: 999em;
+		color: var(--color-gray-600);
+		font-size: 0.5rem;
+		font-weight: 500;
+		line-height: 1;
+		padding: 0.28rem 0.42rem;
+		white-space: nowrap;
 		will-change: opacity, transform;
+	}
+
+	.pro-label--contact {
+		background: #1f2937;
+		border-color: rgba(31, 41, 55, 0.9);
+		color: var(--color-snow-50);
 	}
 
 	.pro-base {
@@ -270,104 +293,64 @@
 		background:
 			repeating-linear-gradient(
 				45deg,
-				rgba(255, 255, 255, 0.08) 0,
-				rgba(255, 255, 255, 0.08) 4px,
+				rgba(148, 163, 184, 0.1) 0,
+				rgba(148, 163, 184, 0.1) 4px,
 				transparent 4px,
 				transparent 9px
 			),
-			rgba(64, 73, 87, 0.56);
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		border-radius: 0.5rem;
-		bottom: 1.45rem;
-		color: rgba(255, 255, 255, 0.78);
-		display: inline-flex;
-		font-size: 0.55rem;
+			#ffffff;
+		border: 1px solid rgba(226, 232, 240, 0.95);
+		border-radius: 6px;
+		box-shadow: 0 12px 24px -18px rgba(34, 42, 55, 0.4);
+		color: var(--color-gray-500);
+		display: flex;
+		font-size: 0.5rem;
 		font-weight: 500;
-		gap: 0.35rem;
-		left: 50%;
-		line-height: 1;
-		padding: 0.42rem 0.7rem;
+		height: 16px;
+		justify-content: center;
+		left: calc(50% - 130px);
 		position: absolute;
-		transform: translateX(-50%);
-		white-space: nowrap;
+		top: 148px;
+		width: 260px;
 		will-change: opacity, transform;
-	}
-
-	.pro-base__mark {
-		background: rgba(255, 255, 255, 0.46);
-		border-radius: 999em;
-		height: 0.38rem;
-		width: 0.38rem;
 	}
 
 	.pro-badge {
 		align-items: center;
-		background: var(--color-blue-500);
+		background: #ffffff;
+		border: 1px solid rgba(226, 232, 240, 0.95);
 		border-radius: 999em;
 		bottom: 0;
-		box-shadow: inset 0 2px rgba(184, 200, 255, 0.18);
-		color: var(--color-snow-50);
+		box-shadow: 0 14px 26px -18px rgba(34, 42, 55, 0.6);
+		color: var(--color-gray-700);
 		display: flex;
 		font-size: 0.56rem;
-		font-weight: 600;
-		gap: 0.32rem;
-		left: 50%;
+		font-weight: 500;
+		gap: 0.3rem;
+		left: 0;
 		line-height: 1;
-		padding: 0.43rem 0.65rem;
+		margin-inline: auto;
+		padding: 0.4rem 0.6rem;
 		position: absolute;
-		transform: translateX(-50%);
+		right: 0;
 		white-space: nowrap;
+		width: fit-content;
 		will-change: opacity, transform;
 	}
 
 	.pro-badge__check {
 		align-items: center;
-		background: rgba(255, 255, 255, 0.2);
+		background: #22c55e;
 		border-radius: 999em;
 		color: #ffffff;
 		display: inline-flex;
-		height: 0.78rem;
+		height: 0.8rem;
 		justify-content: center;
-		width: 0.78rem;
+		width: 0.8rem;
 	}
 
 	.pro-badge__check svg {
-		height: 0.48rem;
-		width: 0.48rem;
-	}
-
-	@media (max-width: 639px) {
-		.pro-line--rail {
-			left: calc(50% - 6.3rem);
-			width: 12.6rem;
-		}
-
-		.pro-line--drop-services {
-			left: calc(50% - 6.3rem);
-		}
-
-		.pro-line--drop-contact {
-			left: calc(50% + 6.3rem);
-		}
-
-		.pro-page {
-			width: 5.05rem;
-		}
-
-		.pro-page--home {
-			left: calc(50% - 2.525rem);
-		}
-
-		.pro-page--services {
-			left: calc(50% - 8.825rem);
-		}
-
-		.pro-page--proof {
-			left: calc(50% - 2.525rem);
-		}
-
-		.pro-page--contact {
-			left: calc(50% + 3.775rem);
-		}
+		height: 0.5rem;
+		width: 0.5rem;
 	}
 </style>
