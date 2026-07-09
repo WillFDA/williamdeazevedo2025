@@ -32,8 +32,6 @@
 ::view-transition-group(nav-label-services),
 ::view-transition-group(nav-label-realisations),
 ::view-transition-group(nav-label-articles),
-::view-transition-group(nav-label-offres),
-::view-transition-group(nav-label-methode),
 ::view-transition-group(nav-label-about),
 ::view-transition-group(nav-label-contact) {
   animation-duration: 320ms;
