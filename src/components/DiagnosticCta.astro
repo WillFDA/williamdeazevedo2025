@@ -1,5 +1,6 @@
 ---
 import Msgs from "@/components/icons/nucleo/msgs-fill.svg";
+import DarkCalloutShell from "@/components/ui/DarkCalloutShell.astro";
 
 type TitlePart = {
     media?: boolean;
@@ -9,26 +10,18 @@ type TitlePart = {
 
 interface Props {
     buttonLabel: string;
-    class?: string;
     copy: string;
     location: string;
     titleParts: readonly TitlePart[];
 }
 
-const { buttonLabel, class: className, copy, location, titleParts } = Astro.props;
+const { buttonLabel, copy, location, titleParts } = Astro.props;
 ---
 
-<div
-    class:list={[
-        "w-full",
-        className,
-    ]}
+<DarkCalloutShell
+    class="diagnostic-cta flex items-center text-snow-50"
+    data-diagnostic-cta
 >
-    <section
-        class="diagnostic-cta relative isolate flex items-center overflow-hidden rounded-3xl bg-coffee-300 py-14 text-snow-50 sm:py-24 md:rounded-4xl md:py-28"
-        data-diagnostic-cta
-    >
-        <div class="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 sm:gap-10 sm:px-8 md:gap-12">
             <div class="mx-auto flex max-w-6xl flex-col items-center gap-6 text-center md:gap-7">
                 <h2
                     class="diagnostic-cta__title section-heading section-heading--inverse flex flex-wrap justify-center gap-x-[0.18em]"
@@ -78,9 +71,7 @@ const { buttonLabel, class: className, copy, location, titleParts } = Astro.prop
                 <Msgs aria-hidden="true" class="size-5" />
                 <span>{buttonLabel}</span>
             </button>
-        </div>
-    </section>
-</div>
+</DarkCalloutShell>
 
 <script>
     import { gsap } from "gsap";

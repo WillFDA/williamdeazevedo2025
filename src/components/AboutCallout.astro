@@ -4,6 +4,7 @@ import Msgs from "./icons/nucleo/msgs-fill.svg";
 import UserHeart from "./icons/nucleo/user-heart-fill.svg";
 import ViewAll from "./icons/nucleo/view-all-fill.svg";
 import WindowLayout from "./icons/nucleo/window-layout-fill.svg";
+import DarkCalloutShell from "./ui/DarkCalloutShell.astro";
 import williamPortrait from "../assets/williamdeazevedo.webp";
 
 interface Props {
@@ -34,8 +35,7 @@ const aboutPoints = [
 ];
 ---
 
-<section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-3xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-4xl md:py-28">
-    <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-8 px-4 sm:gap-10 sm:px-8 md:gap-12">
+<DarkCalloutShell>
         <div class="mx-auto flex max-w-4xl flex-col items-center gap-6 text-center md:gap-7">
             <h2 class="section-heading section-heading--inverse flex flex-wrap justify-center gap-x-[0.18em]">
                 {
@@ -149,8 +149,7 @@ const aboutPoints = [
             <span>Me contacter</span>
         </button>
         <slot />
-    </div>
-</section>
+</DarkCalloutShell>
 
 <style>
     .about-callout-title-word {
