@@ -6,6 +6,7 @@ import Globe from "./icons/nucleo/globe-outline.svg";
 import Msgs from "./icons/nucleo/msgs-fill.svg";
 import SearchContent from "./icons/nucleo/search-content-2-fill.svg";
 import Sparkle from "./icons/nucleo/sparkle-3-fill.svg";
+import Target from "./icons/nucleo/target-fill.svg";
 import TouchClick from "./icons/nucleo/touch-click-fill.svg";
 import WindowLayout from "./icons/nucleo/window-layout-fill.svg";
 import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
@@ -13,6 +14,7 @@ import WindowPointer from "./icons/nucleo/window-pointer-fill.svg";
 
 type CapabilityIcon =
     | "cms"
+    | "conversion"
     | "deploy"
     | "form"
     | "ia"
@@ -40,7 +42,14 @@ type Capability = {
     tone: CapabilityTone;
 };
 
-const capabilities: Capability[] = [
+interface Props {
+    capabilities?: Capability[];
+    class?: string;
+    compact?: boolean;
+    title?: string;
+}
+
+const defaultCapabilities: Capability[] = [
     { icon: "web", label: "Site web", tone: "blue" },
     { icon: "refonte", label: "Refonte web", tone: "cyan" },
     { icon: "ux", label: "UX/UI", tone: "violet" },
@@ -65,14 +74,26 @@ const toneClasses: Record<CapabilityTone, string> = {
     teal: "bg-[#62c7c4] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(98,199,196,0.85)]",
     violet: "bg-[#8b73e6] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(139,115,230,0.86)]",
 };
+
+const {
+    capabilities = defaultCapabilities,
+    class: className,
+    compact = false,
+    title = "Ce que je peux prendre en charge",
+} = Astro.props;
 ---
 
 <section
-    class="mx-auto w-full max-w-6xl px-4 pt-4 pb-12 sm:px-8 md:pt-2 md:pb-16"
+    class:list={[
+        compact
+            ? "mx-auto w-full max-w-6xl px-0 pt-1 pb-0"
+            : "mx-auto w-full max-w-6xl px-4 pt-4 pb-12 sm:px-8 md:pt-2 md:pb-16",
+        className,
+    ]}
     aria-labelledby="capabilities-strip-title"
 >
     <h2 id="capabilities-strip-title" class="sr-only">
-        Ce que je peux prendre en charge
+        {title}
     </h2>
     <ul class="flex flex-wrap justify-center gap-3 md:gap-4">
         {
@@ -101,6 +122,9 @@ const toneClasses: Record<CapabilityTone, string> = {
                                 )}
                                 {capability.icon === "search" && (
                                     <SearchContent class="size-5" />
+                                )}
+                                {capability.icon === "conversion" && (
+                                    <Target class="size-5" />
                                 )}
                                 {capability.icon === "touch" && (
                                     <TouchClick class="size-5" />

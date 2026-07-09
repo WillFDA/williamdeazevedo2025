@@ -92,7 +92,7 @@ const getTagIcon = (tag: string) => {
                                     data-article
                                     data-title={article.data.title}
                                     data-description={article.data.description}
-                                    data-tags={article.data.tags.join(" ")}
+                                    data-tags={article.data.tags.join("|")}
                                     data-year={article.data.pubDate.getFullYear()}
                                 >
                                     <a

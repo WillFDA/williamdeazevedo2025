@@ -7,6 +7,8 @@ import ChevronLeft from "@/components/icons/nucleo/chevron-left-fill.svg";
 import GlobeIcon from "@/components/icons/nucleo/globe-outline.svg";
 import MediaPause from "@/components/icons/nucleo/media-pause-fill.svg";
 import MediaPlay from "@/components/icons/nucleo/media-play-fill.svg";
+import ReadingProgress from "@/components/ReadingProgress.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
 import WaveIcon from "@/components/ui/WaveIcon.astro";
 import WaveText from "@/components/ui/WaveText.astro";
 import { getProjectById } from "@/data/projects";
@@ -28,7 +30,7 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 const { gallery, projectId, siteLabel } = entry.data;
 
 const project = getProjectById(projectId);
@@ -41,17 +43,15 @@ const title = project.title;
 const description = project.summary;
 const siteUrl = project.href;
 
-const galleryItems = [
+const galleryItems = [...(project.gallery ?? []), ...gallery];
+const tocItems = [
     ...(project.media.type === "video"
-        ? [
-                {
-                    src: project.media.poster,
-                    alt: `Capture du projet ${project.title}`,
-                },
-            ]
+        ? [{ depth: 2, slug: "apercu-du-projet", text: "Aperçu du projet" }]
         : []),
-    ...(project.gallery ?? []),
-    ...gallery,
+    ...headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3),
+    ...(galleryItems.length > 0
+        ? [{ depth: 2, slug: "captures-du-projet", text: "Captures du projet" }]
+        : []),
 ];
 
 const site = Astro.site ?? new URL(Astro.url.origin);
@@ -101,6 +101,8 @@ const breadcrumbJsonLd = {
 ---
 
 <Layout title={`${title} - William De Azevedo`} description={description}>
+    <ReadingProgress />
+
     <script
         type="application/ld+json"
         is:inline
@@ -112,116 +114,127 @@ const breadcrumbJsonLd = {
         set:html={JSON.stringify(breadcrumbJsonLd)}
     />
 
-    <main class="mx-auto w-full max-w-7xl px-4 py-12 md:px-6 md:py-16">
-        <FadeReveal delay={0.1}>
-            <a
-                class="group inline-flex min-h-11 items-center gap-3 rounded-xl px-1 text-sm font-normal text-gray-600 no-underline transition-colors hover:text-gray-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                href="/realisations"
-            >
-                <ChevronLeft
-                    class="size-4 transition-transform group-hover:-translate-x-0.5"
-                    aria-hidden="true"
-                />
-                <span>Revenir en arrière</span>
-            </a>
+    <main
+        class="mx-auto w-full max-w-7xl px-4 py-12 md:px-6 md:py-16"
+        data-reading-progress-root
+    >
+        <FadeReveal delay={0.16}>
+            <header class="mx-auto mt-10 flex max-w-4xl flex-col items-center gap-5 text-center">
+                <a
+                    class="group mb-2 inline-flex min-h-11 items-center gap-3 rounded-xl px-1 text-sm font-normal text-gray-600 no-underline transition-colors hover:text-gray-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 md:text-base"
+                    href="/realisations"
+                >
+                    <ChevronLeft
+                        class="size-4 transition-transform group-hover:-translate-x-0.5"
+                        aria-hidden="true"
+                    />
+                    <span>Revenir en arrière</span>
+                </a>
+                <h1 class="max-w-4xl text-5xl font-medium leading-none tracking-normal text-gray-900 md:text-6xl">
+                    {title}
+                </h1>
+                <p class="max-w-2xl text-base font-normal leading-7 text-gray-600 md:text-lg md:leading-8">
+                    {description}
+                </p>
+                {siteUrl && (
+                    <a
+                        class="group relative isolate mt-2 inline-flex min-h-14 items-center justify-center gap-4 overflow-hidden rounded-xl bg-snow-50 px-6 py-3 text-base font-normal text-gray-900 no-underline shadow-[0_12px_30px_-24px_rgba(34,42,55,0.5)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                        href={siteUrl}
+                        rel="noreferrer"
+                        target="_blank"
+                    >
+                        <WaveText text={siteLabel} trigger="parent" />
+                        <WaveIcon
+                            style="--wui-wave-icon-size: 1.1rem;"
+                            direction="up"
+                            trigger="parent"
+                        >
+                            <GlobeIcon class="size-full" aria-hidden="true" />
+                        </WaveIcon>
+                    </a>
+                )}
+            </header>
         </FadeReveal>
 
-        <section class="mt-10 grid gap-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-start lg:gap-16">
-            <FadeReveal delay={0.16}>
-                <aside class="flex flex-col gap-8 lg:sticky lg:top-28">
-                    <header class="flex flex-col gap-5">
-                        <h1 class="max-w-xl text-5xl font-medium leading-none tracking-normal text-gray-900 md:text-6xl">
-                            {title}
-                        </h1>
-                        <p class="max-w-2xl text-base font-normal leading-7 text-gray-600 md:text-lg md:leading-8">
-                            {description}
-                        </p>
-                    </header>
+        <section class="realisation-body-shell mx-auto mt-14 grid max-w-7xl gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,46rem)_minmax(13rem,17rem)] lg:gap-12">
+            <div class="hidden lg:block" aria-hidden="true"></div>
 
-                    <div class="grid gap-3">
-                        {siteUrl && (
-                            <a
-                                class="group relative isolate inline-flex min-h-14 items-center justify-center gap-4 overflow-hidden rounded-xl bg-snow-50 px-6 py-3 text-base font-normal text-gray-900 no-underline shadow-[0_12px_30px_-24px_rgba(34,42,55,0.5)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                                href={siteUrl}
-                                rel="noreferrer"
-                                target="_blank"
-                            >
-                                <WaveText text={siteLabel} trigger="parent" />
-                                <WaveIcon
-                                    style="--wui-wave-icon-size: 1.1rem;"
-                                    direction="up"
-                                    trigger="parent"
-                                >
-                                    <GlobeIcon class="size-full" aria-hidden="true" />
-                                </WaveIcon>
-                            </a>
-                        )}
-                    </div>
-
-                    <div class="realisation-prose">
-                        <Content />
-                    </div>
-                </aside>
-            </FadeReveal>
-
-            <div class="grid gap-6">
+            <article class="realisation-story min-w-0">
                 {project.media.type === "video" && (
                     <FadeReveal delay={0.24}>
-                        <figure
-                            class="realisation-video-player relative overflow-hidden rounded-3xl shadow-[0_24px_70px_-54px_rgba(34,42,55,0.5)]"
-                            data-realisation-video-player
-                            data-playing="false"
-                        >
-                            <video
-                                muted
-                                playsinline
-                                preload="metadata"
-                                poster={project.media.poster}
-                                aria-label={`Vidéo du projet ${project.title}`}
-                                class="aspect-video w-full object-cover"
-                                data-realisation-video
+                        <section id="apercu-du-projet" class="scroll-mt-28">
+                            <h2 class="sr-only">Aperçu du projet</h2>
+                            <figure
+                                class="realisation-video-player relative overflow-hidden rounded-3xl shadow-[0_24px_70px_-54px_rgba(34,42,55,0.5)]"
+                                data-realisation-video-player
+                                data-playing="false"
                             >
-                                <source src={project.media.src} type="video/mp4" />
-                            </video>
-                            <button
-                                class="realisation-video-player__button"
-                                type="button"
-                                aria-label={`Lire la vidéo du projet ${project.title}`}
-                                data-realisation-video-toggle
-                            >
-                                <MediaPlay
-                                    class="size-5"
-                                    aria-hidden="true"
-                                    data-realisation-play-icon
-                                />
-                                <MediaPause
-                                    class="size-5"
-                                    aria-hidden="true"
-                                    data-realisation-pause-icon
-                                />
-                            </button>
-                        </figure>
+                                <video
+                                    muted
+                                    playsinline
+                                    preload="metadata"
+                                    poster={project.media.poster}
+                                    aria-label={`Vidéo du projet ${project.title}`}
+                                    class="aspect-video w-full object-cover"
+                                    data-realisation-video
+                                >
+                                    <source src={project.media.src} type="video/mp4" />
+                                </video>
+                                <button
+                                    class="realisation-video-player__button"
+                                    type="button"
+                                    aria-label={`Lire la vidéo du projet ${project.title}`}
+                                    data-realisation-video-toggle
+                                >
+                                    <MediaPlay
+                                        class="size-5"
+                                        aria-hidden="true"
+                                        data-realisation-play-icon
+                                    />
+                                    <MediaPause
+                                        class="size-5"
+                                        aria-hidden="true"
+                                        data-realisation-pause-icon
+                                    />
+                                </button>
+                            </figure>
+                        </section>
                     </FadeReveal>
                 )}
 
-                {galleryItems.length > 0 && (
-                    <div class="grid gap-6">
-                        {galleryItems.map((item, index) => (
-                            <FadeRevealOnScroll>
-                                <figure class="overflow-hidden rounded-3xl shadow-[0_20px_60px_-54px_rgba(34,42,55,0.42)]">
-                                    <img
-                                        src={item.src}
-                                        alt={item.alt}
-                                        class="w-full object-cover"
-                                        loading={index === 0 ? "eager" : "lazy"}
-                                        decoding="async"
-                                    />
-                                </figure>
-                            </FadeRevealOnScroll>
-                        ))}
+                <FadeReveal delay={0.3}>
+                    <div class="realisation-prose mt-12">
+                        <Content />
                     </div>
+                </FadeReveal>
+
+                {galleryItems.length > 0 && (
+                    <section id="captures-du-projet" class="mt-12 scroll-mt-28">
+                        <h2 class="realisation-section-title">
+                            Captures du projet
+                        </h2>
+                        <div class="mt-5 grid gap-6">
+                            {galleryItems.map((item, index) => (
+                                <FadeRevealOnScroll>
+                                    <figure class="overflow-hidden rounded-3xl shadow-[0_20px_60px_-54px_rgba(34,42,55,0.42)]">
+                                        <img
+                                            src={item.src}
+                                            alt={item.alt}
+                                            class="w-full object-cover"
+                                            loading={index === 0 ? "eager" : "lazy"}
+                                            decoding="async"
+                                        />
+                                    </figure>
+                                </FadeRevealOnScroll>
+                            ))}
+                        </div>
+                    </section>
                 )}
-            </div>
+            </article>
+
+            <aside class="realisation-toc-column order-first lg:order-none">
+                <TableOfContents items={tocItems} />
+            </aside>
         </section>
     </main>
 </Layout>
@@ -341,6 +354,17 @@ const breadcrumbJsonLd = {
         }
     }
 
+    .realisation-toc-column {
+        align-self: start;
+    }
+
+    .realisation-section-title {
+        color: var(--color-gray-900);
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.35;
+    }
+
     .realisation-prose {
         color: var(--color-gray-600);
         font-size: 1rem;
@@ -358,6 +382,7 @@ const breadcrumbJsonLd = {
         font-weight: 500;
         line-height: 1.35;
         margin-top: 2.5rem;
+        scroll-margin-top: 7rem;
     }
 
     .realisation-prose strong {
@@ -394,6 +419,13 @@ const breadcrumbJsonLd = {
 
     .realisation-prose li + li {
         margin-top: 0.35rem;
+    }
+
+    @media (min-width: 1024px) {
+        .realisation-toc-column {
+            position: sticky;
+            top: 7.5rem;
+        }
     }
 
     @media (scripting: none) {

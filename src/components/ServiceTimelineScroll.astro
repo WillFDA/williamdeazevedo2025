@@ -1,0 +1,298 @@
+---
+import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
+import Gauge from "./icons/nucleo/gauge-3-fill.svg";
+import Globe from "./icons/nucleo/globe-outline.svg";
+import Msgs from "./icons/nucleo/msgs-fill.svg";
+import SearchContent from "./icons/nucleo/search-content-2-fill.svg";
+import Sparkle from "./icons/nucleo/sparkle-3-fill.svg";
+import Target from "./icons/nucleo/target-fill.svg";
+import TouchClick from "./icons/nucleo/touch-click-fill.svg";
+import WindowLayout from "./icons/nucleo/window-layout-fill.svg";
+import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
+import WindowPointer from "./icons/nucleo/window-pointer-fill.svg";
+import type {
+    ServiceCapabilityTone,
+    ServiceTimelinePoint,
+} from "@/data/services";
+
+interface Props {
+    class?: string;
+    description: string;
+    id?: string;
+    items: readonly ServiceTimelinePoint[];
+    layout?: "center" | "split";
+    linkHref?: string;
+    linkLabel?: string;
+    showHeader?: boolean;
+    title: string;
+}
+
+const {
+    class: className,
+    description,
+    id,
+    items,
+    layout = "center",
+    linkHref,
+    linkLabel,
+    showHeader = true,
+    title,
+} = Astro.props;
+const componentId =
+    id ?? `service-timeline-${Math.random().toString(36).slice(2)}`;
+
+const toneClasses: Record<ServiceCapabilityTone, string> = {
+    blue: "bg-blue-500 text-snow-50",
+    cyan: "bg-[#43b8d6] text-snow-50",
+    green: "bg-[#3ba879] text-snow-50",
+    indigo: "bg-[#6574e8] text-snow-50",
+    orange: "bg-[#f6821f] text-snow-50",
+    pink: "bg-fuchsia-500 text-snow-50",
+    sky: "bg-[#2f8fd6] text-snow-50",
+    slate: "bg-gray-700 text-snow-50",
+    teal: "bg-[#62c7c4] text-snow-50",
+    violet: "bg-[#8b73e6] text-snow-50",
+};
+---
+
+<section
+    id={componentId}
+    class:list={[
+        "service-timeline w-full",
+        layout === "center"
+            ? "mx-auto max-w-5xl"
+            : "grid gap-8 md:grid-cols-[0.78fr_1.22fr] md:items-start md:gap-12",
+        layout === "center" && showHeader ? "mt-16 sm:mt-20" : "",
+        className,
+    ]}
+    aria-label={showHeader ? undefined : title}
+    aria-labelledby={showHeader ? `${componentId}-title` : undefined}
+    data-service-timeline
+>
+    {
+        showHeader && (
+            <div
+                class:list={[
+                    "flex flex-col gap-4",
+                    layout === "center"
+                        ? "mx-auto max-w-4xl items-center text-center"
+                        : "md:sticky md:top-28",
+                ]}
+            >
+                <h2
+                    id={`${componentId}-title`}
+                    class:list={[
+                        layout === "center"
+                            ? "section-heading"
+                            : "section-heading text-left",
+                    ]}
+                >
+                    {title}
+                </h2>
+                <p
+                    class:list={[
+                        layout === "center"
+                            ? "section-subheading"
+                            : "text-base font-normal leading-relaxed text-gray-600",
+                    ]}
+                >
+                    {description}
+                </p>
+                {linkHref && linkLabel && (
+                    <a
+                        class="w-fit text-base font-normal text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                        href={linkHref}
+                    >
+                        {linkLabel}
+                    </a>
+                )}
+            </div>
+        )
+    }
+
+    <ol
+        class:list={[
+            "service-timeline__list relative max-w-3xl list-none px-0",
+            layout === "center"
+                ? showHeader
+                    ? "mx-auto mt-12 sm:mt-14"
+                    : "mx-auto"
+                : "m-0",
+        ]}
+    >
+        <span
+            class="service-timeline__track pointer-events-none absolute top-5 bottom-5 left-5 w-px bg-gray-200 sm:top-6 sm:bottom-6 sm:left-6"
+            aria-hidden="true"
+        >
+            <span
+                class="service-timeline__progress absolute inset-x-0 top-0 h-full origin-top bg-blue-500"
+                data-service-timeline-progress
+            ></span>
+        </span>
+
+        {
+            items.map((item) => (
+                <li
+                    class="service-timeline__item relative grid grid-cols-[2.75rem_minmax(0,1fr)] gap-4 pb-10 text-left last:pb-0 sm:grid-cols-[3.25rem_minmax(0,1fr)] sm:gap-5 sm:pb-12"
+                    data-service-timeline-item
+                >
+                    <span
+                        class:list={[
+                            "service-timeline__icon relative z-10 flex size-10 items-center justify-center rounded-xl ring-4 ring-snow-50 sm:size-12",
+                            toneClasses[item.tone],
+                        ]}
+                        aria-hidden="true"
+                    >
+                        {item.icon === "cms" && <CodeEditor class="size-5" />}
+                        {item.icon === "conversion" && <Target class="size-5" />}
+                        {item.icon === "deploy" && <Globe class="size-5" />}
+                        {item.icon === "form" && <Msgs class="size-5" />}
+                        {item.icon === "ia" && <Sparkle class="size-5" />}
+                        {item.icon === "performance" && <Gauge class="size-5" />}
+                        {item.icon === "refonte" && (
+                            <WindowPaintbrush class="size-5" />
+                        )}
+                        {item.icon === "search" && (
+                            <SearchContent class="size-5" />
+                        )}
+                        {item.icon === "touch" && <TouchClick class="size-5" />}
+                        {item.icon === "ux" && <WindowLayout class="size-5" />}
+                        {item.icon === "web" && <WindowPointer class="size-5" />}
+                    </span>
+
+                    <span class="service-timeline__content relative z-10 block min-w-0 pt-0.5">
+                        <span class="block text-xl font-normal leading-tight text-gray-900 sm:text-2xl">
+                            {item.title}
+                        </span>
+                        <span class="mt-2 block text-base font-normal leading-relaxed text-gray-600 sm:text-lg">
+                            {item.description}
+                        </span>
+                    </span>
+                </li>
+            ))
+        }
+    </ol>
+</section>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const activeServiceTimelineControllers = new WeakMap<HTMLElement, () => void>();
+
+    const cleanupServiceTimelines = () => {
+        document.querySelectorAll<HTMLElement>("[data-service-timeline]").forEach(
+            (timeline) => {
+                activeServiceTimelineControllers.get(timeline)?.();
+                activeServiceTimelineControllers.delete(timeline);
+                delete timeline.dataset.serviceTimelineReady;
+            },
+        );
+    };
+
+    const initServiceTimelines = () => {
+        document.querySelectorAll<HTMLElement>("[data-service-timeline]").forEach(
+            (timeline) => {
+                if (timeline.dataset.serviceTimelineReady === "true") return;
+                timeline.dataset.serviceTimelineReady = "true";
+
+                const progress = timeline.querySelector<HTMLElement>(
+                    "[data-service-timeline-progress]",
+                );
+                const items = gsap.utils.toArray<HTMLElement>(
+                    "[data-service-timeline-item]",
+                    timeline,
+                );
+
+                if (!progress || items.length === 0) return;
+
+                if (
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+                ) {
+                    gsap.set(progress, { scaleY: 1 });
+                    return;
+                }
+
+                const context = gsap.context(() => {
+                    gsap.set(progress, { scaleY: 0, transformOrigin: "top" });
+                    gsap.set(items, {
+                        autoAlpha: 0,
+                        filter: "blur(10px)",
+                        y: 28,
+                    });
+
+                    const scrollTimeline = gsap.timeline({
+                        defaults: { ease: "none" },
+                        scrollTrigger: {
+                            trigger: timeline,
+                            start: "top 72%",
+                            end: "bottom 48%",
+                            scrub: 0.65,
+                        },
+                    });
+
+                    scrollTimeline.to(progress, { scaleY: 1, duration: 1 }, 0);
+
+                    items.forEach((item, index) => {
+                        const position =
+                            items.length === 1
+                                ? 0
+                                : index / Math.max(items.length - 1, 1);
+
+                        scrollTimeline.to(
+                            item,
+                            {
+                                autoAlpha: 1,
+                                duration: 0.22,
+                                filter: "blur(0px)",
+                                y: 0,
+                            },
+                            Math.min(position + 0.02, 0.82),
+                        );
+                    });
+                }, timeline);
+
+                activeServiceTimelineControllers.set(timeline, () =>
+                    context.revert(),
+                );
+            },
+        );
+
+        ScrollTrigger.refresh();
+    };
+
+    initServiceTimelines();
+
+    document.addEventListener("astro:before-swap", cleanupServiceTimelines);
+    document.addEventListener("astro:page-load", initServiceTimelines);
+</script>
+
+<style>
+    .service-timeline__progress {
+        transform: scaleY(0);
+    }
+
+    .service-timeline__item {
+        will-change: opacity, transform, filter;
+    }
+
+    .service-timeline__icon {
+        box-shadow:
+            inset 0 1px rgba(255, 255, 255, 0.22),
+            0 18px 32px -24px rgba(34, 42, 55, 0.55);
+    }
+
+    @media (scripting: none), (prefers-reduced-motion: reduce) {
+        .service-timeline__progress {
+            transform: scaleY(1);
+        }
+
+        .service-timeline__item {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+</style>

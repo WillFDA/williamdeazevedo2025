@@ -36,9 +36,22 @@ const filterContentClass =
 const filterItemClass =
   "relative flex h-9 cursor-pointer select-none items-center rounded-lg px-3 pr-9 outline-none transition-colors data-[highlighted]:bg-gray-100 data-[state=checked]:text-gray-900";
 const tagButtonBaseClass =
-  "article-tag-pill relative isolate inline-flex items-center gap-2 rounded-xl bg-transparent px-3.5 py-2 text-sm font-normal leading-none shadow-[0_16px_34px_-23px_rgba(34,42,55,0.58)] transition-[box-shadow,color] duration-300 ease-out before:absolute before:inset-0 before:-z-10 before:rounded-xl before:transition-transform before:duration-500 before:ease-out hover:shadow-[0_24px_48px_-26px_rgba(34,42,55,0.68)] hover:before:scale-[1.06] focus-visible:shadow-[0_24px_48px_-26px_rgba(34,42,55,0.68)] focus-visible:before:scale-[1.06] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500";
+  "article-tag-pill relative isolate inline-flex cursor-pointer items-center gap-2 rounded-xl bg-transparent px-3.5 py-2 text-sm font-normal leading-none shadow-[0_16px_34px_-23px_rgba(34,42,55,0.58)] transition-[box-shadow,color] duration-300 ease-out before:absolute before:inset-0 before:-z-10 before:rounded-xl before:transition-transform before:duration-500 before:ease-out hover:shadow-[0_24px_48px_-26px_rgba(34,42,55,0.68)] hover:before:scale-[1.06] focus-visible:shadow-[0_24px_48px_-26px_rgba(34,42,55,0.68)] focus-visible:before:scale-[1.06] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500";
 const tagButtonActiveClass = "text-snow-50 before:bg-blue-500";
 const tagButtonInactiveClass = "text-gray-900 before:bg-snow-50";
+
+const getAllowedValue = (value: string | null, allowedValues: string[]) =>
+  value && allowedValues.includes(value) ? value : ALL_VALUE;
+
+const getFiltersFromUrl = (tags: string[], years: string[]) => {
+  const params = new URLSearchParams(window.location.search);
+
+  return {
+    search: params.get("search") ?? "",
+    tag: getAllowedValue(params.get("tag"), tags),
+    year: getAllowedValue(params.get("year"), years),
+  };
+};
 
 function ChevronIcon() {
   return (
@@ -265,7 +278,56 @@ export default function ArticleFilters({ tags, years }: Props) {
   const [search, setSearch] = useState("");
   const [tag, setTag] = useState(ALL_VALUE);
   const [year, setYear] = useState(ALL_VALUE);
+  const [isUrlReady, setIsUrlReady] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    const syncFromUrl = () => {
+      const filters = getFiltersFromUrl(tags, years);
+
+      setSearch(filters.search);
+      setTag(filters.tag);
+      setYear(filters.year);
+      setIsUrlReady(true);
+    };
+
+    syncFromUrl();
+
+    window.addEventListener("popstate", syncFromUrl);
+
+    return () => window.removeEventListener("popstate", syncFromUrl);
+  }, [tags, years]);
+
+  useEffect(() => {
+    if (!isUrlReady) return;
+
+    const url = new URL(window.location.href);
+
+    if (search.trim()) {
+      url.searchParams.set("search", search.trim());
+    } else {
+      url.searchParams.delete("search");
+    }
+
+    if (tag === ALL_VALUE) {
+      url.searchParams.delete("tag");
+    } else {
+      url.searchParams.set("tag", tag);
+    }
+
+    if (year === ALL_VALUE) {
+      url.searchParams.delete("year");
+    } else {
+      url.searchParams.set("year", year);
+    }
+
+    const nextUrl = `${url.pathname}${url.search}${url.hash}`;
+    const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+
+    if (nextUrl !== currentUrl) {
+      window.history.replaceState({}, "", nextUrl);
+    }
+  }, [isUrlReady, search, tag, year]);
 
   useEffect(() => {
     const root = formRef.current?.closest<HTMLElement>("[data-articles-page]");
@@ -281,12 +343,13 @@ export default function ArticleFilters({ tags, years }: Props) {
     for (const item of items) {
       const title = normalize(item.dataset.title ?? "");
       const description = normalize(item.dataset.description ?? "");
-      const itemTags = normalize(item.dataset.tags ?? "");
+      const itemTags = (item.dataset.tags ?? "").split("|").map(normalize);
+      const searchableTags = itemTags.join(" ");
       const matchesQuery =
         query.length === 0 ||
         title.includes(query) ||
         description.includes(query) ||
-        itemTags.includes(query);
+        searchableTags.includes(query);
       const matchesTag =
         selectedTag.length === 0 || itemTags.includes(selectedTag);
       const matchesYear =
