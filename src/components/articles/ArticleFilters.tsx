@@ -1,4 +1,3 @@
-import * as Select from "@radix-ui/react-select";
 import { useEffect, useRef, useState } from "react";
 
 const ALL_VALUE = "all";
@@ -29,12 +28,8 @@ type TagIconProps = {
 const normalize = (value: string) =>
   value.toLowerCase().normalize("NFD").replaceAll(COMBINING_MARKS, "");
 
-const filterTriggerClass =
-  "flex h-11 w-full items-center justify-between gap-3 rounded-xl border border-gray-100 bg-snow-50 px-3 text-left text-sm font-light text-gray-900 transition-colors outline-none hover:border-gray-200 focus:border-blue-500 data-[placeholder]:text-gray-400";
-const filterContentClass =
-  "z-30 max-h-64 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xl border border-gray-100 bg-snow-50 p-1 text-sm font-light text-gray-900 shadow-[0_18px_44px_-24px_rgba(17,24,39,0.35)]";
-const filterItemClass =
-  "relative flex h-9 cursor-pointer select-none items-center rounded-lg px-3 pr-9 outline-none transition-colors data-[highlighted]:bg-gray-100 data-[state=checked]:text-gray-900";
+const filterSelectClass =
+  "h-11 w-full appearance-none rounded-xl border border-gray-100 bg-snow-50 px-3 pr-10 text-left text-sm font-light text-gray-900 transition-colors outline-none hover:border-gray-200 focus:border-blue-500";
 const tagButtonBaseClass =
   "article-tag-pill relative isolate inline-flex cursor-pointer items-center gap-2 rounded-xl bg-transparent px-3.5 py-2 text-sm font-normal leading-none shadow-[0_16px_34px_-23px_rgba(34,42,55,0.58)] transition-[box-shadow,color] duration-300 ease-out before:absolute before:inset-0 before:-z-10 before:rounded-xl before:transition-transform before:duration-500 before:ease-out hover:shadow-[0_24px_48px_-26px_rgba(34,42,55,0.68)] hover:before:scale-[1.06] focus-visible:shadow-[0_24px_48px_-26px_rgba(34,42,55,0.68)] focus-visible:before:scale-[1.06] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500";
 const tagButtonActiveClass = "text-snow-50 before:bg-blue-500";
@@ -66,23 +61,6 @@ function ChevronIcon() {
       viewBox="0 0 24 24"
     >
       <path d="m6 9 6 6 6-6" />
-    </svg>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      className="size-4"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.8"
-      viewBox="0 0 24 24"
-    >
-      <path d="m5 13 4 4L19 7" />
     </svg>
   );
 }
@@ -231,45 +209,26 @@ function FilterSelect({
   options,
   value,
 }: FilterSelectProps) {
-  const selectedLabel =
-    options.find((option) => option.value === value)?.label ?? label;
-
   return (
-    <div>
+    <div className="relative">
       <label className="sr-only" htmlFor={id}>
         {label}
       </label>
-      <Select.Root onValueChange={onValueChange} value={value}>
-        <Select.Trigger className={filterTriggerClass} id={id}>
-          <span className="min-w-0 flex-1 truncate">{selectedLabel}</span>
-          <Select.Icon className="text-gray-400">
-            <ChevronIcon />
-          </Select.Icon>
-        </Select.Trigger>
-        <Select.Portal>
-          <Select.Content
-            align="start"
-            className={filterContentClass}
-            position="popper"
-            sideOffset={6}
-          >
-            <Select.Viewport>
-              {options.map((option) => (
-                <Select.Item
-                  className={filterItemClass}
-                  key={option.value}
-                  value={option.value}
-                >
-                  <Select.ItemText>{option.label}</Select.ItemText>
-                  <Select.ItemIndicator className="absolute right-3 text-blue-500">
-                    <CheckIcon />
-                  </Select.ItemIndicator>
-                </Select.Item>
-              ))}
-            </Select.Viewport>
-          </Select.Content>
-        </Select.Portal>
-      </Select.Root>
+      <select
+        className={filterSelectClass}
+        id={id}
+        onChange={(event) => onValueChange(event.currentTarget.value)}
+        value={value}
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <span className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-gray-400">
+        <ChevronIcon />
+      </span>
     </div>
   );
 }

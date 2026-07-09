@@ -1,0 +1,98 @@
+---
+import CalButton from "./CalButton.astro";
+import CheckIcon from "./icons/nucleo/check-2-outline.svg";
+import XMarkIcon from "./icons/nucleo/xmark-fill.svg";
+
+interface Props {
+    actionLabel?: string;
+    actionLocation?: string;
+    class?: string;
+    description: string;
+    negativeItems: readonly string[];
+    negativeTitle: string;
+    positiveItems: readonly string[];
+    positiveTitle: string;
+    title: string;
+}
+
+const {
+    actionLabel,
+    actionLocation,
+    class: className,
+    description,
+    negativeItems,
+    negativeTitle,
+    positiveItems,
+    positiveTitle,
+    title,
+} = Astro.props;
+---
+
+<section
+    class:list={[
+        "grid gap-6 rounded-4xl bg-gray-100 p-6 ring-1 ring-gray-200 md:grid-cols-[0.9fr_1.1fr] md:gap-12 md:p-8",
+        className,
+    ]}
+>
+    <div class="flex flex-col gap-4">
+        <h2 class="section-heading text-left">
+            {title}
+        </h2>
+        <p class="text-base font-normal leading-relaxed text-gray-600">
+            {description}
+        </p>
+        {
+            actionLabel && actionLocation && (
+                <CalButton
+                    class="w-fit rounded-xl text-base font-normal"
+                    label={actionLabel}
+                    location={actionLocation}
+                />
+            )
+        }
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+        <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
+            <h3 class="mb-4 text-lg font-normal leading-tight text-gray-900">
+                {negativeTitle}
+            </h3>
+            <ul class="flex flex-col gap-3">
+                {
+                    negativeItems.map((item) => (
+                        <li class="flex items-start gap-3 text-base font-normal leading-relaxed text-gray-600">
+                            <span
+                                class="mt-1 flex size-6 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-500"
+                                aria-hidden="true"
+                            >
+                                <XMarkIcon class="size-2.5" />
+                            </span>
+                            <span>{item}</span>
+                        </li>
+                    ))
+                }
+            </ul>
+        </article>
+
+        <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
+            <h3 class="mb-4 text-lg font-normal leading-tight text-gray-900">
+                {positiveTitle}
+            </h3>
+            <ul class="flex flex-col gap-3">
+                {
+                    positiveItems.map((item) => (
+                        <li class="flex items-start gap-3 text-base font-normal leading-relaxed text-gray-600">
+                            <span
+                                class="mt-1 flex size-6 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500"
+                                aria-hidden="true"
+                            >
+                                <CheckIcon class="size-3.5" />
+                            </span>
+                            <span>{item}</span>
+                        </li>
+                    ))
+                }
+            </ul>
+        </article>
+    </div>
+</section>

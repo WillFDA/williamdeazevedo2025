@@ -1,9 +1,12 @@
 ---
 import CalButton from "@/components/CalButton.astro";
+import CapabilitiesStrip from "@/components/CapabilitiesStrip.astro";
+import ComparisonPanel from "@/components/ComparisonPanel.astro";
+import ServiceTimelineScroll from "@/components/ServiceTimelineScroll.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro";
 import CheckIcon from "@/components/icons/nucleo/check-2-outline.svg";
-import XMarkIcon from "@/components/icons/nucleo/xmark-fill.svg";
+import type { ServiceTimelinePoint } from "@/data/services";
 import Layout from "@/layout/Layout.astro";
 
 export const prerender = true;
@@ -38,6 +41,45 @@ const steps = [
         text: "Search Console configurée, tableau de bord de mesure à votre nom, puis un point à 30 jours pour lire les premières données ensemble. Selon le projet : corrections, prise en main, maintenance ou évolutions.",
     },
 ];
+
+const stepPresentation = [
+    { icon: "form", tone: "sky" },
+    { icon: "conversion", tone: "indigo" },
+    { icon: "ux", tone: "violet" },
+    { icon: "refonte", tone: "cyan" },
+    { icon: "cms", tone: "slate" },
+    { icon: "deploy", tone: "orange" },
+    { icon: "performance", tone: "green" },
+] satisfies Pick<ServiceTimelinePoint, "icon" | "tone">[];
+
+const methodTimelineItems = steps.map((step, index) => ({
+    description: step.text,
+    icon: stepPresentation[index]?.icon ?? "web",
+    title: step.title,
+    tone: stepPresentation[index]?.tone ?? "blue",
+})) satisfies ServiceTimelinePoint[];
+
+const heroTitleParts = [
+    { text: "Une" },
+    { pill: true, text: "méthode" },
+    { text: "pour" },
+    { text: "transformer" },
+    { text: "le" },
+    { text: "flou" },
+    { text: "en" },
+    { pill: true, text: "parcours clair" },
+];
+
+const methodologyCapabilities = [
+    { icon: "search", label: "Diagnostic initial", tone: "sky" },
+    { icon: "form", label: "Cadrage clair", tone: "pink" },
+    { icon: "ux", label: "Structure des pages", tone: "violet" },
+    { icon: "refonte", label: "Design utile", tone: "cyan" },
+    { icon: "cms", label: "Développement propre", tone: "slate" },
+    { icon: "performance", label: "Recette & tests", tone: "green" },
+    { icon: "deploy", label: "Mise en ligne", tone: "orange" },
+    { icon: "conversion", label: "Suivi 30 jours", tone: "indigo" },
+] as const;
 
 const clientNeeds = [
     "un interlocuteur principal",
@@ -77,9 +119,18 @@ const aiUses = [
 >
     <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-12 md:gap-16 md:py-16">
         <FadeReveal delay={0.1}>
-            <section class="mx-auto flex max-w-4xl flex-col items-center gap-5 text-center">
-                <h1 class="page-heading">
-                    Une méthode pour transformer le flou en parcours clair
+            <section class="mx-auto flex w-full min-w-0 max-w-5xl flex-col items-center gap-6 text-center">
+                <h1
+                    class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
+                    aria-label="Une méthode pour transformer le flou en parcours clair"
+                >
+                    {
+                        heroTitleParts.map((part) => (
+                            <span class:list={[part.pill && "title-pill"]}>
+                                {part.text}
+                            </span>
+                        ))
+                    }
                 </h1>
                 <p class="page-subheading max-w-sm sm:max-w-lg">
                     Un bon site ne se résume pas à de beaux écrans. On part des
@@ -91,92 +142,35 @@ const aiUses = [
                     label="Planifier un appel de cadrage"
                     location="methode-hero"
                 />
+                <CapabilitiesStrip
+                    capabilities={methodologyCapabilities}
+                    class="mt-7 sm:mt-9"
+                    compact
+                    title="Les points clés de ma méthode"
+                />
             </section>
         </FadeReveal>
 
-        <ol class="grid gap-3" aria-label="Étapes de la méthode">
-            {
-                steps.map((step, index) => (
-                    <li>
-                        <FadeRevealOnScroll delay={Math.min(index * 0.05, 0.2)}>
-                            <div class="grid gap-4 rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600 md:grid-cols-[3rem_0.7fr_1.3fr] md:items-start">
-                                <span
-                                    aria-hidden="true"
-                                    class="flex size-10 items-center justify-center rounded-xl bg-blue-500 text-sm font-normal text-snow-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_24px_-14px_rgba(62,96,212,0.9)]"
-                                >
-                                    {index + 1}
-                                </span>
-                                <h2 class="text-xl font-normal leading-tight text-gray-900">
-                                    {step.title}
-                                </h2>
-                                <p class="text-base font-normal leading-relaxed text-gray-600">
-                                    {step.text}
-                                </p>
-                            </div>
-                        </FadeRevealOnScroll>
-                    </li>
-                ))
-            }
-        </ol>
+        <ServiceTimelineScroll
+            description="Du premier échange au suivi après livraison, chaque étape garde les décisions reliées au bon objectif."
+            id="methode-timeline"
+            items={methodTimelineItems}
+            layout="center"
+            showHeader={false}
+            title="Étapes de la méthode"
+        />
 
         <FadeRevealOnScroll>
-            <section class="grid gap-6 rounded-4xl bg-gray-100 p-6 ring-1 ring-gray-200 md:grid-cols-[0.9fr_1.1fr] md:gap-12 md:p-8">
-                <div class="flex flex-col gap-4">
-                    <h2 class="section-heading text-left">
-                        L'IA aide, mais elle ne remplace pas le regard
-                    </h2>
-                    <p class="text-base font-normal leading-relaxed text-gray-600">
-                        Faire un site uniquement avec une IA donne souvent une
-                        interface propre en apparence, mais trop générique : elle
-                        assemble des sections sans comprendre votre offre, vos
-                        prospects, vos preuves et les objections qui bloquent
-                        vraiment le contact.
-                    </p>
-                    <CalButton
-                        class="w-fit rounded-xl text-base font-normal"
-                        label="Cadrer mon projet avec vous"
-                        location="methode-ai"
-                    />
-                </div>
-                <div class="grid gap-4 md:grid-cols-2">
-                    <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
-                        <h3 class="mb-4 text-lg font-normal leading-tight text-gray-900">
-                            Quand l'IA décide seule
-                        </h3>
-                        <ul class="flex flex-col gap-3">
-                            {aiPitfalls.map((item) => (
-                                <li class="flex items-start gap-3 text-base font-normal leading-relaxed text-gray-600">
-                                    <span
-                                        class="mt-1 flex size-6 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-500"
-                                        aria-hidden="true"
-                                    >
-                                        <XMarkIcon class="size-2.5" />
-                                    </span>
-                                    <span>{item}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </article>
-                    <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
-                        <h3 class="mb-4 text-lg font-normal leading-tight text-gray-900">
-                            Comment je l'utilise
-                        </h3>
-                        <ul class="flex flex-col gap-3">
-                            {aiUses.map((item) => (
-                                <li class="flex items-start gap-3 text-base font-normal leading-relaxed text-gray-600">
-                                    <span
-                                        class="mt-1 flex size-6 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500"
-                                        aria-hidden="true"
-                                    >
-                                        <CheckIcon class="size-3.5" />
-                                    </span>
-                                    <span>{item}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </article>
-                </div>
-            </section>
+            <ComparisonPanel
+                actionLabel="Cadrer mon projet avec vous"
+                actionLocation="methode-ai"
+                description="Faire un site uniquement avec une IA donne souvent une interface propre en apparence, mais trop générique : elle assemble des sections sans comprendre votre offre, vos prospects, vos preuves et les objections qui bloquent vraiment le contact."
+                negativeItems={aiPitfalls}
+                negativeTitle="Quand l'IA décide seule"
+                positiveItems={aiUses}
+                positiveTitle="Comment je l'utilise"
+                title="L'IA aide, mais elle ne remplace pas le regard"
+            />
         </FadeRevealOnScroll>
 
         <section class="grid gap-4 md:grid-cols-2">

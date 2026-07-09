@@ -8,6 +8,7 @@ import RelatedServicesBento from "@/components/RelatedServicesBento.astro";
 import ServiceDiagnosticToggle from "@/components/ServiceDiagnosticToggle.astro";
 import ServiceTimelineScroll from "@/components/ServiceTimelineScroll.astro";
 import ProjectListItem from "@/components/realisations/ProjectListItem.astro";
+import WaveText from "@/components/ui/WaveText.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import { getProjectById } from "@/data/projects";
 import { type Service, getServiceBySlug } from "@/data/services";
@@ -230,10 +231,14 @@ const breadcrumbJsonLd = {
                     {
                         project && (
                             <a
-                                class="flex min-h-14 items-center justify-center rounded-xl px-8 py-3 text-base font-normal text-gray-900 ring-1 ring-gray-200 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                class="service-method-button flex min-h-14 w-full max-w-full items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:w-auto sm:px-10"
                                 href={`/realisations/${project.id}`}
                             >
-                                Voir une réalisation
+                                <WaveText
+                                    class="relative z-10"
+                                    text="Voir une réalisation"
+                                    trigger="parent"
+                                />
                             </a>
                         )
                     }
@@ -339,52 +344,13 @@ const breadcrumbJsonLd = {
             )
         }
 
-        <section class="grid gap-4 rounded-xl bg-gray-100 p-6 ring-1 ring-gray-200 md:grid-cols-[1fr_auto] md:items-center md:gap-6">
-            <div class="flex flex-col gap-4">
-                <h2 class="text-2xl font-normal leading-tight text-gray-900">
-                    Budget et périmètre
-                </h2>
-                <p class="text-base font-normal leading-relaxed text-gray-600">
-                    Le prix dépend surtout du nombre de freins à lever : contenu,
-                    design, performance, accessibilité, fonctionnalités et
-                    autonomie attendue après la mise en ligne.
-                </p>
-            </div>
-            <a
-                class="flex min-h-14 items-center justify-center rounded-xl bg-snow-50 px-8 py-3 text-base font-normal text-gray-900 ring-1 ring-snow-600 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                href="/tarif-creation-site-internet"
-            >
-                Comprendre le budget
-            </a>
-        </section>
-
-        {
-            service.formats && (
-                <section class="flex flex-col gap-6">
-                    <div class="flex max-w-lg flex-col gap-4">
-                        <h2 class="section-heading text-left">
-                            Un format adapté au besoin réel
-                        </h2>
-                        <p class="text-base font-normal leading-relaxed text-gray-600">
-                            Le bon périmètre dépend de votre offre, de vos contenus et
-                            du niveau d'autonomie attendu après la mise en ligne.
-                        </p>
-                    </div>
-                    <div class="grid gap-4 md:grid-cols-2">
-                        {service.formats.map((format) => (
-                            <article class="rounded-xl bg-gray-100 p-5 ring-1 ring-gray-200">
-                                <h3 class="mb-2 text-lg font-normal leading-tight text-gray-900">
-                                    {format.title}
-                                </h3>
-                                <p class="text-base font-normal leading-relaxed text-gray-600">
-                                    {format.description}
-                                </p>
-                            </article>
-                        ))}
-                    </div>
-                </section>
-            )
-        }
+        <DiagnosticCta
+            buttonLabel="Vérifier le bon service"
+            class="relative left-1/2 w-[calc(100dvw-1rem)] -translate-x-1/2 sm:w-[calc(100dvw-2rem)]"
+            copy="On regarde votre situation, ce qui bloque aujourd'hui et la prochaine étape réaliste avant de parler solution."
+            location={`service-${service.slug}-final`}
+            titleParts={finalCtaTitleParts}
+        />
 
         <section class="mx-auto mt-16 flex w-full max-w-5xl flex-col items-center gap-4 text-center sm:mt-20">
             <h2 class="section-heading">
@@ -394,10 +360,14 @@ const breadcrumbJsonLd = {
                 {methodSectionDescription}
             </p>
             <a
-                class="w-fit text-base font-normal text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                class="service-method-button inline-flex min-h-14 w-fit items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:px-10"
                 href="/methode"
             >
-                {methodSectionLinkLabel}
+                <WaveText
+                    class="relative z-10"
+                    text={methodSectionLinkLabel}
+                    trigger="parent"
+                />
             </a>
         </section>
 
@@ -421,14 +391,6 @@ const breadcrumbJsonLd = {
         />
 
         <RelatedServicesBento services={relatedServices} />
-
-        <DiagnosticCta
-            buttonLabel="Vérifier le bon service"
-            class="relative left-1/2 w-[calc(100dvw-1rem)] -translate-x-1/2 sm:w-[calc(100dvw-2rem)]"
-            copy="On regarde votre situation, ce qui bloque aujourd'hui et la prochaine étape réaliste avant de parler solution."
-            location={`service-${service.slug}-final`}
-            titleParts={finalCtaTitleParts}
-        />
     </div>
 </Layout>
 
@@ -473,6 +435,47 @@ const breadcrumbJsonLd = {
 <style>
     [data-service-animated-title-word] {
         display: inline-block;
+    }
+
+    .service-method-button {
+        --service-method-button-bg: var(--color-gray-100);
+        --service-method-button-border: transparent;
+        --service-method-button-color: var(--color-coffee-300);
+
+        color: var(--service-method-button-color);
+        isolation: isolate;
+        overflow: hidden;
+        position: relative;
+        text-decoration: none;
+        z-index: 0;
+    }
+
+    .service-method-button::before {
+        background: var(--service-method-button-bg);
+        border: 1px solid var(--service-method-button-border);
+        border-radius: inherit;
+        content: "";
+        inset: 0;
+        position: absolute;
+        transform: scale(1);
+        transition: transform 520ms
+            var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        z-index: 0;
+    }
+
+    .service-method-button:focus-visible {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 3px;
+    }
+
+    .service-method-button:focus-visible::before {
+        transform: scale(0.95);
+    }
+
+    @media (hover: hover) {
+        .service-method-button:hover::before {
+            transform: scale(0.95);
+        }
     }
 
     [data-service-animated-title]:not([data-animated-title-ready="true"])
