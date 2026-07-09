@@ -49,6 +49,16 @@ const visualClasses: Record<ServiceBentoVariant, string> = {
     wide: "h-32 sm:h-36",
 };
 
+const sceneScaleClasses: Record<ServiceBentoVariant, string> = {
+    feature: "",
+    related: "[--bento-scene-scale:0.78] sm:[--bento-scene-scale:0.85]",
+    relatedCompact: "[--bento-scene-scale:0.7] lg:[--bento-scene-scale:0.62]",
+    relatedFeature: "lg:[--bento-scene-scale:1.12]",
+    small: "",
+    support: "",
+    wide: "",
+};
+
 const descriptionClasses =
     variant === "support" || variant === "relatedFeature"
         ? "max-w-xl"
@@ -70,6 +80,7 @@ const descriptionClasses =
             class:list={[
                 "relative m-1 shrink-0 overflow-hidden rounded-3xl bg-[#F6F8FB] transition-all duration-300 ease-out",
                 visualClasses[variant],
+                sceneScaleClasses[variant],
             ]}
         >
             {item.visual === "artisan" && <BentoVisualArtisan />}
