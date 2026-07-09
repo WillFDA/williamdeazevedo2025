@@ -146,6 +146,17 @@ const personJsonLd = {
             set:html={JSON.stringify(personJsonLd)}
         />
         <title>{title}</title>
+        <script
+            is:inline
+            src="https://analytics.williamdeazevedo.fr/api/script.js"
+            data-site-id="9713c4825fc7"
+            defer
+        ></script>
+        <script
+            is:inline
+            referrerpolicy="origin"
+            src="/cdn-cgi/zaraz/i.js"
+        ></script>
     </head>
     <body class="min-h-screen min-w-0 flex flex-col">
         <a
@@ -171,8 +182,132 @@ const personJsonLd = {
             } from "../scripts/animations/fadeIn";
 
             const windowWithSectionReveal = window as Window & {
+                __wuiContactClickTrackingReady?: boolean;
                 __wuiSectionRevealReady?: boolean;
             };
+
+            type TrackingProperties = Record<string, string | number>;
+
+            const socialHosts = new Map([
+                ["github.com", "github"],
+                ["linkedin.com", "linkedin"],
+                ["malt.fr", "malt"],
+                ["x.com", "x"],
+            ]);
+
+            const normalizeTrackingValue = (
+                value: string | null | undefined,
+                maxLength = 120,
+            ) => value?.replaceAll(/\s+/g, " ").trim().slice(0, maxLength) ?? "";
+
+            const getTrackingLabel = (link: HTMLAnchorElement) =>
+                normalizeTrackingValue(
+                    link.dataset.analyticsLabel ||
+                        link.getAttribute("aria-label") ||
+                        link.textContent,
+                );
+
+            const getTrackingLocation = (link: HTMLAnchorElement) => {
+                const explicitLocation = normalizeTrackingValue(
+                    link.dataset.analyticsLocation,
+                );
+
+                if (explicitLocation) return explicitLocation;
+                if (link.closest("[data-site-header]")) return "header";
+                if (link.closest("footer")) return "footer";
+
+                const section = link.closest<HTMLElement>(
+                    "[data-analytics-section], section[id]",
+                );
+
+                return (
+                    normalizeTrackingValue(section?.dataset.analyticsSection) ||
+                    normalizeTrackingValue(section?.id) ||
+                    window.location.pathname ||
+                    "/"
+                );
+            };
+
+            const trackContactIntent = (
+                eventName: string,
+                properties: TrackingProperties,
+            ) => {
+                if (typeof window.zaraz?.track === "function") {
+                    void window.zaraz.track(eventName, properties);
+                }
+
+                if (typeof window.rybbit?.event === "function") {
+                    window.rybbit.event(eventName, properties);
+                }
+            };
+
+            const trackContactLinkClick = (event: MouseEvent) => {
+                const target = event.target;
+                if (!(target instanceof Element)) return;
+
+                const link = target.closest<HTMLAnchorElement>("a[href]");
+                if (!link || link.closest("[data-cal-open]")) return;
+
+                const href = link.getAttribute("href");
+                if (!href) return;
+
+                let url: URL;
+
+                try {
+                    url = new URL(href, window.location.href);
+                } catch {
+                    return;
+                }
+
+                const baseProperties = {
+                    label: getTrackingLabel(link),
+                    location: getTrackingLocation(link),
+                    path: window.location.pathname || "/",
+                };
+
+                if (url.protocol === "mailto:") {
+                    trackContactIntent("contact_email_click", {
+                        ...baseProperties,
+                        email: normalizeTrackingValue(url.pathname),
+                    });
+                    return;
+                }
+
+                if (url.protocol === "tel:") {
+                    trackContactIntent("contact_phone_click", {
+                        ...baseProperties,
+                        phone: normalizeTrackingValue(url.pathname),
+                    });
+                    return;
+                }
+
+                if (
+                    !["http:", "https:"].includes(url.protocol) ||
+                    url.origin === window.location.origin
+                ) {
+                    return;
+                }
+
+                const host = url.hostname.replace(/^www\./, "");
+                const platform = socialHosts.get(host);
+
+                trackContactIntent(
+                    platform ? "contact_social_click" : "outbound_link_click",
+                    {
+                        ...baseProperties,
+                        host,
+                        platform: platform ?? "external",
+                        url: normalizeTrackingValue(url.href, 240),
+                    },
+                );
+            };
+
+            if (!windowWithSectionReveal.__wuiContactClickTrackingReady) {
+                document.addEventListener("click", trackContactLinkClick, {
+                    capture: true,
+                });
+                windowWithSectionReveal.__wuiContactClickTrackingReady = true;
+            }
 
             const prepareSectionReveals = (root: Document) => {
                 root.querySelectorAll<HTMLElement>("#main-content section").forEach(
