@@ -1,5 +1,7 @@
 ---
 import CalButton from "@/components/CalButton.astro";
+import DiagnosticCta from "@/components/DiagnosticCta.astro";
+import FaqSection from "@/components/FaqSection.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import Check from "@/components/icons/nucleo/check-2-outline.svg";
 import Layout from "@/layout/Layout.astro";
@@ -138,6 +140,15 @@ const faq = [
         answer:
             "La base technique est comprise : structure HTML, métadonnées, performance, accessibilité, sitemap et indexation. Une stratégie SEO complète demande ensuite des contenus, de la recherche et un suivi continu.",
     },
+];
+
+const finalCtaTitleParts = [
+    { text: "Vous" },
+    { text: "voulez" },
+    { text: "situer" },
+    { text: "votre" },
+    { text: "projet" },
+    { pill: true, text: "avant de décider ?" },
 ];
 
 const offerCatalogJsonLd = {
@@ -440,48 +451,21 @@ const breadcrumbJsonLd = {
             </div>
         </section>
 
-        <section class="grid gap-6 md:grid-cols-[0.85fr_1.15fr] md:items-start md:gap-12">
-            <div class="flex flex-col gap-4">
-                <h2 class="section-heading text-left">
-                    FAQ
-                </h2>
-                <p class="text-base font-normal leading-relaxed text-gray-700">
-                    Quelques réponses pour cadrer vite avant un premier échange.
-                </p>
-            </div>
-            <div class="flex flex-col gap-3">
-                {
-                    faq.map((item) => (
-                        <details class="rounded-xl bg-gray-100 p-4 ring-1 ring-gray-200">
-                            <summary class="cursor-pointer rounded-xl text-base font-normal text-gray-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500">
-                                {item.question}
-                            </summary>
-                            <p class="mt-3 text-base font-normal leading-relaxed text-gray-700">
-                                {item.answer}
-                            </p>
-                        </details>
-                    ))
-                }
-            </div>
-        </section>
+        <FaqSection
+            id="tarif-creation-site-internet-faq"
+            items={faq}
+            title="Questions fréquentes"
+            description="Quelques réponses pour cadrer vite avant un premier échange."
+            padded={false}
+            showCta={false}
+        />
 
-        <section class="rounded-4xl bg-coffee-300 p-6 text-snow-50 sm:p-8">
-            <div class="flex max-w-3xl flex-col gap-4">
-                <h2 class="section-heading text-left text-snow-50">
-                    Vous voulez situer votre projet avant de décider ?
-                </h2>
-                <p class="text-base font-normal leading-relaxed text-snow-100">
-                    On regarde votre point de départ, ce qui existe déjà, ce qui
-                    manque et la prochaine étape réaliste : création, refonte ou
-                    interface produit.
-                </p>
-                <CalButton
-                    class="rounded-xl text-base font-normal"
-                    label="Demander un devis gratuit"
-                    location="tarif-creation-site-internet-final"
-                    variant="light"
-                />
-            </div>
-        </section>
+        <DiagnosticCta
+            buttonLabel="Demander un devis gratuit"
+            class="relative left-1/2 w-[calc(100dvw-1rem)] -translate-x-1/2 sm:w-[calc(100dvw-2rem)]"
+            copy="On regarde votre point de départ, ce qui existe déjà, ce qui manque et la prochaine étape réaliste : création, refonte ou interface produit."
+            location="tarif-creation-site-internet-final"
+            titleParts={finalCtaTitleParts}
+        />
     </div>
 </Layout>

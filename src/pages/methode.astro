@@ -6,6 +6,11 @@ import ServiceTimelineScroll from "@/components/ServiceTimelineScroll.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro";
 import CheckIcon from "@/components/icons/nucleo/check-2-outline.svg";
+import GlobeIcon from "@/components/icons/nucleo/globe-outline.svg";
+import MsgsIcon from "@/components/icons/nucleo/msgs-fill.svg";
+import SearchContentIcon from "@/components/icons/nucleo/search-content-2-fill.svg";
+import TargetIcon from "@/components/icons/nucleo/target-fill.svg";
+import WindowLayoutIcon from "@/components/icons/nucleo/window-layout-fill.svg";
 import type { ServiceTimelinePoint } from "@/data/services";
 import Layout from "@/layout/Layout.astro";
 
@@ -98,6 +103,55 @@ const delivered = [
     "une mesure en place : Search Console et tableau de bord des conversions",
 ];
 
+const collaborationFlow = [
+    {
+        description:
+            "Vous n'avez pas besoin de tout préparer parfaitement. Il faut surtout les bons éléments au bon moment.",
+        icon: "input",
+        items: [
+            "contenus et visuels",
+            "accès utiles",
+            "retours regroupés",
+        ],
+        title: "Vous apportez la matière",
+        tone: "blue",
+    },
+    {
+        description:
+            "Je transforme ces éléments en décisions lisibles : objectif, structure, priorités et validations.",
+        icon: "clarify",
+        items: ["objectif", "structure", "validation"],
+        title: "Je clarifie le cadre",
+        tone: "violet",
+    },
+    {
+        description:
+            "Vous repartez avec une base publiée, maintenable, mesurable et compréhensible après la mise en ligne.",
+        icon: "delivery",
+        items: ["site publié", "SEO technique", "mesure en place"],
+        title: "Vous récupérez une base utile",
+        tone: "green",
+    },
+] as const;
+
+const flowToneClasses = {
+    blue: {
+        icon: "bg-blue-500 text-snow-50",
+        marker: "bg-blue-500",
+        soft: "bg-blue-50 text-blue-700 ring-blue-100",
+    },
+    green: {
+        icon: "bg-emerald-500 text-snow-50",
+        marker: "bg-emerald-500",
+        soft: "bg-emerald-500/10 text-emerald-700 ring-emerald-500/15",
+    },
+    violet: {
+        icon: "bg-[#8b73e6] text-snow-50",
+        marker: "bg-[#8b73e6]",
+        soft: "bg-[#8b73e6]/10 text-gray-800 ring-[#8b73e6]/15",
+    },
+};
+
 const aiPitfalls = [
     "design neutre et sans âme",
     "messages qui ne disent pas assez clairement pourquoi vous choisir",
@@ -169,74 +223,99 @@ const aiUses = [
             />
         </FadeRevealOnScroll>
 
-        <section class="grid gap-4 md:grid-cols-2">
-            <FadeRevealOnScroll class="flex">
-                <article class="w-full rounded-xl bg-gray-100 p-6 ring-1 ring-gray-200">
-                    <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
-                        Ce dont j'ai besoin de votre côté
-                    </h2>
-                    <ul class="flex flex-col gap-3">
-                        {
-                            clientNeeds.map((item) => (
-                                <li class="flex items-start gap-3 text-base font-normal leading-relaxed text-gray-600">
-                                    <span
-                                        class="mt-1 flex size-6 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-500"
-                                        aria-hidden="true"
-                                    >
-                                        <CheckIcon class="size-3.5" />
-                                    </span>
-                                    <span>{item}</span>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                </article>
-            </FadeRevealOnScroll>
-            <FadeRevealOnScroll class="flex" delay={0.08}>
-                <article class="w-full rounded-xl bg-gray-100 p-6 ring-1 ring-gray-200">
-                    <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
-                        Ce que vous récupérez à la fin
-                    </h2>
-                    <ul class="flex flex-col gap-3">
-                        {
-                            delivered.map((item) => (
-                                <li class="flex items-start gap-3 text-base font-normal leading-relaxed text-gray-600">
-                                    <span
-                                        class="mt-1 flex size-6 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500"
-                                        aria-hidden="true"
-                                    >
-                                        <CheckIcon class="size-3.5" />
-                                    </span>
-                                    <span>{item}</span>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                </article>
-            </FadeRevealOnScroll>
-        </section>
-
         <FadeRevealOnScroll>
-            <section class="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:items-start md:gap-12">
-                <div class="flex flex-col gap-4">
-                    <h2 class="section-heading text-left">
-                        Comment éviter les retours dispersés ?
+            <section class="rounded-4xl bg-surface-100 p-6 ring-1 ring-gray-200/80 sm:p-8">
+                <div class="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
+                    <h2 class="section-heading">
+                        Ce qui rend le projet fluide
                     </h2>
-                    <p class="text-base font-normal leading-relaxed text-gray-600">
-                        Les retours sont plus efficaces lorsqu'ils sont regroupés,
-                        priorisés et rattachés à l'objectif de la page : clarté,
-                        confiance, performance ou conversion. Cela évite les
-                        ajustements isolés qui fragilisent le projet.
+                    <p class="section-subheading">
+                        On évite les retours dispersés en séparant clairement ce
+                        que vous apportez, ce que je clarifie et ce que vous
+                        récupérez à la fin.
                     </p>
                 </div>
-                <div class="rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
-                    <p class="text-base font-normal leading-relaxed text-gray-600">
-                        À chaque étape importante, je vous explique ce qui est
-                        attendu : validation de la structure, validation du design,
-                        recette du site puis mise en ligne. Une correction reste
-                        liée au périmètre validé ; une nouvelle demande peut devenir
-                        une évolution séparée.
-                    </p>
+
+                <div class="relative mt-8 grid gap-4 lg:grid-cols-3">
+                    <span
+                        class="pointer-events-none absolute top-16 right-[16%] left-[16%] hidden h-px bg-gray-200 lg:block"
+                        aria-hidden="true"
+                    >
+                        <span class="block h-full w-full bg-gradient-to-r from-blue-500 via-[#8b73e6] to-emerald-500"></span>
+                    </span>
+
+                    {
+                        collaborationFlow.map((step, index) => (
+                            <article class="relative z-10 flex min-h-full flex-col rounded-3xl bg-snow-50 p-5 ring-1 ring-gray-200/80 sm:p-6">
+                                <div class="flex items-start justify-between gap-4">
+                                    <span
+                                        class:list={[
+                                            "flex size-12 shrink-0 items-center justify-center rounded-2xl shadow-[0_18px_34px_-24px_rgba(34,42,55,0.65)]",
+                                            flowToneClasses[step.tone].icon,
+                                        ]}
+                                        aria-hidden="true"
+                                    >
+                                        {step.icon === "input" && (
+                                            <WindowLayoutIcon class="size-5" />
+                                        )}
+                                        {step.icon === "clarify" && (
+                                            <SearchContentIcon class="size-5" />
+                                        )}
+                                        {step.icon === "delivery" && (
+                                            <GlobeIcon class="size-5" />
+                                        )}
+                                    </span>
+                                    <span class="rounded-full bg-gray-100 px-3 py-1 text-sm font-normal leading-none text-gray-600">
+                                        {index + 1}
+                                    </span>
+                                </div>
+
+                                <h3 class="mt-5 text-2xl font-normal leading-tight text-gray-900">
+                                    {step.title}
+                                </h3>
+                                <p class="mt-3 text-base font-normal leading-relaxed text-gray-600">
+                                    {step.description}
+                                </p>
+
+                                <div class="mt-6 rounded-2xl bg-surface-100 p-3 ring-1 ring-gray-200/70">
+                                    <ul class="grid gap-2">
+                                        {step.items.map((item) => (
+                                            <li class="flex items-center gap-2.5 text-sm font-normal leading-tight text-gray-700">
+                                                <span
+                                                    class:list={[
+                                                        "size-2 rounded-full",
+                                                        flowToneClasses[step.tone].marker,
+                                                    ]}
+                                                    aria-hidden="true"
+                                                />
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </article>
+                        ))
+                    }
+                </div>
+
+                <div class="mt-5 flex flex-col gap-4 rounded-3xl bg-snow-50 p-5 ring-1 ring-gray-200/80 sm:flex-row sm:items-start sm:p-6">
+                    <span
+                        class="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-500 ring-1 ring-blue-100"
+                        aria-hidden="true"
+                    >
+                        <MsgsIcon class="size-5" />
+                    </span>
+                    <div class="min-w-0">
+                        <h3 class="text-xl font-normal leading-tight text-gray-900">
+                            Une règle simple pour les retours
+                        </h3>
+                        <p class="mt-2 text-base font-normal leading-relaxed text-gray-600">
+                            Les retours sont regroupés par étape et rattachés à un
+                            objectif : clarté, confiance, performance ou conversion.
+                            Une correction reste liée au périmètre validé ; une
+                            nouvelle demande peut devenir une évolution séparée.
+                        </p>
+                    </div>
                 </div>
             </section>
         </FadeRevealOnScroll>
