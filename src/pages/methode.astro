@@ -1,7 +1,7 @@
 ---
 import CalButton from "@/components/CalButton.astro";
 import CapabilitiesStrip from "@/components/CapabilitiesStrip.astro";
-import ComparisonPanel from "@/components/ComparisonPanel.astro";
+import ServiceDiagnosticToggle from "@/components/ServiceDiagnosticToggle.astro";
 import ServiceTimelineScroll from "@/components/ServiceTimelineScroll.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro";
@@ -99,7 +99,7 @@ const delivered = [
 ];
 
 const aiPitfalls = [
-    "sections jolies mais génériques",
+    "design neutre et sans âme",
     "messages qui ne disent pas assez clairement pourquoi vous choisir",
     "parcours pensé pour remplir une page plutôt que pour lever un doute",
     "design difficile à adapter à votre activité, vos contenus et vos vrais clients",
@@ -161,14 +161,10 @@ const aiUses = [
         />
 
         <FadeRevealOnScroll>
-            <ComparisonPanel
-                actionLabel="Cadrer mon projet avec vous"
-                actionLocation="methode-ai"
+            <ServiceDiagnosticToggle
+                afterItems={aiUses}
+                beforeItems={aiPitfalls}
                 description="Faire un site uniquement avec une IA donne souvent une interface propre en apparence, mais trop générique : elle assemble des sections sans comprendre votre offre, vos prospects, vos preuves et les objections qui bloquent vraiment le contact."
-                negativeItems={aiPitfalls}
-                negativeTitle="Quand l'IA décide seule"
-                positiveItems={aiUses}
-                positiveTitle="Comment je l'utilise"
                 title="L'IA aide, mais elle ne remplace pas le regard"
             />
         </FadeRevealOnScroll>
