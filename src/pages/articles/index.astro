@@ -1,0 +1,201 @@
+---
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import ArticleFilters from "@/components/articles/ArticleFilters";
+import BadgeDollar from "@/components/icons/nucleo/badge-dollar-fill.svg";
+import BoltSpeed from "@/components/icons/nucleo/bolt-speed-fill.svg";
+import Sparkle from "@/components/icons/nucleo/sparkle-3-fill.svg";
+import Star from "@/components/icons/nucleo/star-fill.svg";
+import Target from "@/components/icons/nucleo/target-fill.svg";
+import WindowPointer from "@/components/icons/nucleo/window-pointer-fill.svg";
+import Layout from "@/layout/Layout.astro";
+import { formatArticleDate, getVisibleArticles } from "@/lib/articles";
+
+const articles = await getVisibleArticles();
+const heroTitleParts = [
+    { text: "Ce" },
+    { text: "que" },
+    { pill: true, text: "j'apprends" },
+    { text: "en" },
+    { text: "créant" },
+    { text: "des" },
+    { text: "sites." },
+];
+const tags = [
+    ...new Set(articles.flatMap((article) => article.data.tags)),
+].toSorted((a, b) => a.localeCompare(b, "fr"));
+const years = [
+    ...new Set(
+        articles.map((article) => String(article.data.pubDate.getFullYear())),
+    ),
+].toSorted((a, b) => Number(b) - Number(a));
+
+const getTagIcon = (tag: string) => {
+    const normalizedTag = tag.toLowerCase();
+
+    if (normalizedTag.includes("pricing")) return BadgeDollar;
+    if (normalizedTag.includes("conversion")) return Target;
+    if (normalizedTag.includes("ia")) return Sparkle;
+    if (normalizedTag.includes("motivation")) return Star;
+    if (normalizedTag.includes("side")) return BoltSpeed;
+
+    return WindowPointer;
+};
+---
+
+<Layout
+    title="Conseils site web et front-end - William De Azevedo"
+    description="Conseils pour rendre un site plus clair, rapide, accessible et crédible : contenu, performance, SEO technique et retours d'expérience freelance."
+>
+    <div class="mx-auto w-full max-w-7xl px-4 py-12 sm:px-8 md:py-16">
+        <section class="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
+            <FadeReveal delay={0.1}>
+                <h1
+                    class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
+                    aria-label="Ce que j'apprends en créant des sites."
+                >
+                    {
+                        heroTitleParts.map((part) => (
+                            <span class:list={[part.pill && "title-pill"]}>
+                                {part.text}
+                            </span>
+                        ))
+                    }
+                </h1>
+            </FadeReveal>
+            <FadeReveal delay={0.2}>
+                <p class="page-subheading mt-6 max-w-sm sm:max-w-2xl">
+                    Des retours d'expérience concrets sur les messages flous, les
+                    parcours qui bloquent, la performance, le SEO et les choix
+                    d'interface qui rendent un site plus crédible.
+                </p>
+            </FadeReveal>
+        </section>
+
+        <div class="mx-auto mt-16 w-full max-w-6xl" data-articles-page>
+            {
+                articles.length === 0 ? (
+                    <FadeReveal delay={0.3}>
+                        <p class="rounded-xl bg-gray-100 p-6 text-center text-base font-normal text-gray-500 ring-1 ring-gray-200">
+                            Il n'y a rien pour l'instant, reviens bientôt !
+                        </p>
+                    </FadeReveal>
+                ) : (
+                    <div>
+                        <FadeReveal delay={0.3}>
+                            <ArticleFilters client:load tags={tags} years={years} />
+                        </FadeReveal>
+                        <ul class="grid gap-4 md:grid-cols-2" data-article-list>
+                            {articles.map((article, index) => (
+                                <li
+                                    class="article-list-item"
+                                    style={`--article-index: ${index}`}
+                                    data-article
+                                    data-title={article.data.title}
+                                    data-description={article.data.description}
+                                    data-tags={article.data.tags.join("|")}
+                                    data-year={article.data.pubDate.getFullYear()}
+                                >
+                                    <a
+                                        class="article-card group flex h-full flex-col text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                        href={`/articles/${article.id}`}
+                                    >
+                                        <span class="relative mb-5 block aspect-video w-full shrink-0 overflow-hidden rounded-lg bg-gray-200">
+                                            {article.data.image ? (
+                                                <img
+                                                    class="size-full object-cover"
+                                                    src={article.data.image.src}
+                                                    alt={article.data.image.alt}
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                />
+                                            ) : (
+                                                <span class="block size-full bg-gray-200"></span>
+                                            )}
+                                        </span>
+
+                                        <div class="flex min-w-0 flex-1 flex-col">
+                                            <h2 class="max-w-xl text-xl font-normal leading-[1.08] tracking-normal text-gray-900 sm:text-2xl">
+                                                {article.data.title}
+                                            </h2>
+                                            <time
+                                                class="mt-2 block text-xs font-normal leading-none text-gray-500"
+                                                datetime={article.data.pubDate.toISOString()}
+                                            >
+                                                {formatArticleDate(article.data.pubDate)}
+                                            </time>
+
+                                            <p class="mt-3 line-clamp-3 max-w-2xl text-sm font-normal leading-6 text-gray-600">
+                                                {article.data.description}
+                                            </p>
+
+                                            {article.data.tags.length > 0 && (
+                                                <div class="mt-5 flex flex-wrap gap-2">
+                                                    {article.data.tags.map((tag) => {
+                                                        const TagIcon = getTagIcon(tag);
+
+                                                        return (
+                                                            <span class="inline-flex items-center gap-2 rounded-xl bg-snow-50 px-3.5 py-2 text-sm font-normal leading-none text-gray-900 shadow-[0_10px_24px_-18px_rgba(34,42,55,0.45)]">
+                                                                <span class="inline-flex size-4 shrink-0 items-center justify-center text-blue-500">
+                                                                    <TagIcon
+                                                                        class="size-full"
+                                                                        aria-hidden="true"
+                                                                    />
+                                                                </span>
+                                                                {tag}
+                                                            </span>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                        <p
+                            class="hidden rounded-xl bg-gray-100 p-6 text-center text-base font-normal text-gray-500 ring-1 ring-gray-200"
+                            data-article-empty
+                        >
+                            Aucun article trouvé.
+                        </p>
+                    </div>
+                )
+            }
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .article-list-item {
+        animation: article-fade-in 520ms cubic-bezier(0.2, 0, 0, 1) backwards;
+        animation-delay: calc(var(--article-index, 0) * 70ms);
+    }
+
+    .article-list-item.is-filtered-in {
+        animation-duration: 380ms;
+        animation-delay: calc(var(--article-index, 0) * 45ms);
+    }
+
+    @keyframes article-fade-in {
+        from {
+            filter: blur(2px);
+            opacity: 0;
+            transform: translate3d(0, 0.75rem, 0);
+        }
+        to {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .article-list-item,
+        .article-list-item.is-filtered-in {
+            animation: none;
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+</style>

@@ -1,22 +1,9 @@
 ---
 import { Image } from "astro:assets";
 import Carousel from "./Carousel.astro";
-import { temoignages } from "../data/temoignage";
+import { getPublishedTestimonials } from "@/lib/testimonials";
 
-const testimonialImages = import.meta.glob<{ default: ImageMetadata }>(
-    "../assets/temoignages/*.{jpg,jpeg,png,webp}",
-    { eager: true },
-);
-
-const testimonials = temoignages
-    .filter((temoignage) => temoignage.published !== false)
-    .map((temoignage) => ({
-        ...temoignage,
-        image: temoignage.imageFile
-            ? testimonialImages[`../assets/temoignages/${temoignage.imageFile}`]
-                  ?.default
-            : undefined,
-    }));
+const testimonials = getPublishedTestimonials();
 ---
 
 {

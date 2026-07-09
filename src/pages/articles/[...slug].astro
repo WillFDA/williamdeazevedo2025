@@ -1,0 +1,350 @@
+---
+import { Image } from "astro:assets";
+import { render } from "astro:content";
+import BadgeDollar from "@/components/icons/nucleo/badge-dollar-fill.svg";
+import BoltSpeed from "@/components/icons/nucleo/bolt-speed-fill.svg";
+import ChevronLeft from "@/components/icons/nucleo/chevron-left-fill.svg";
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import ReadingProgress from "@/components/ReadingProgress.astro";
+import Sparkle from "@/components/icons/nucleo/sparkle-3-fill.svg";
+import Star from "@/components/icons/nucleo/star-fill.svg";
+import TableOfContents from "@/components/TableOfContents.astro";
+import Target from "@/components/icons/nucleo/target-fill.svg";
+import WindowPointer from "@/components/icons/nucleo/window-pointer-fill.svg";
+import williamPortrait from "@/assets/williamdeazevedo.webp";
+import Layout from "@/layout/Layout.astro";
+import { type Article, formatArticleDate, getVisibleArticles } from "@/lib/articles";
+
+export async function getStaticPaths() {
+    const articles = await getVisibleArticles();
+    return articles.map((article) => ({
+        params: { slug: article.id },
+        props: { article },
+    }));
+}
+
+interface Props {
+    article: Article;
+}
+
+const { article } = Astro.props;
+const { Content, headings } = await render(article);
+const { author, description, image, pubDate, tags, title, updatedDate } =
+    article.data;
+const tocItems = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
+
+const articleTitleBreak = "2 000 euros";
+const shouldSplitArticleTitle =
+    article.id === "site-600-euros-vs-site-2000-euros" &&
+    title.includes(articleTitleBreak);
+const [articleTitleStart, articleTitleEnd = ""] = shouldSplitArticleTitle
+    ? title.split(articleTitleBreak)
+    : [title, ""];
+
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = new URL(`/articles/${article.id}`, siteUrl);
+const ogImage = new URL(image?.src ?? "/pictures/william-low.png", siteUrl);
+
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description,
+    inLanguage: "fr-FR",
+    datePublished: pubDate.toISOString(),
+    dateModified: (updatedDate ?? pubDate).toISOString(),
+    image: ogImage.href,
+    url: canonicalUrl.href,
+    mainEntityOfPage: canonicalUrl.href,
+    keywords: tags,
+    author: {
+        "@type": "Person",
+        name: author,
+        url: siteUrl.href,
+    },
+    publisher: {
+        "@type": "Person",
+        name: author,
+        url: siteUrl.href,
+    },
+};
+
+const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+        {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: siteUrl.href,
+        },
+        {
+            "@type": "ListItem",
+            position: 2,
+            name: "Articles",
+            item: new URL("/articles", siteUrl).href,
+        },
+        {
+            "@type": "ListItem",
+            position: 3,
+            name: title,
+            item: canonicalUrl.href,
+        },
+    ],
+};
+
+const getTagIcon = (tag: string) => {
+    const normalizedTag = tag.toLowerCase();
+
+    if (normalizedTag.includes("pricing")) return BadgeDollar;
+    if (normalizedTag.includes("conversion")) return Target;
+    if (normalizedTag.includes("ia")) return Sparkle;
+    if (normalizedTag.includes("motivation")) return Star;
+    if (normalizedTag.includes("side")) return BoltSpeed;
+
+    return WindowPointer;
+};
+---
+
+<Layout
+    title={`${title} - William De Azevedo`}
+    description={description}
+    ogType="article"
+    article={{
+        publishedTime: pubDate.toISOString(),
+        modifiedTime: (updatedDate ?? pubDate).toISOString(),
+        author,
+        tags,
+    }}
+>
+    <ReadingProgress />
+
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(jsonLd)}
+    />
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(breadcrumbJsonLd)}
+    />
+
+    <article
+        class="mx-auto w-full max-w-6xl px-4 py-12 md:px-6 md:py-16"
+        data-reading-progress-root
+    >
+        <FadeReveal delay={0.1}>
+            <header class="mx-auto mb-12 max-w-5xl text-center">
+                <a
+                    class="mb-6 inline-flex items-center gap-2 text-sm font-normal text-gray-500 transition-colors hover:text-gray-900"
+                    href="/articles"
+                >
+                    <ChevronLeft aria-hidden="true" class="size-4" />
+                    Tous les articles
+                </a>
+                <h1 class="page-heading mb-4 text-pretty">
+                    {shouldSplitArticleTitle ? (
+                        <>
+                            {articleTitleStart.trim()}
+                            <br class="hidden sm:block" />{" "}
+                            <span>{articleTitleBreak + articleTitleEnd}</span>
+                        </>
+                    ) : (
+                        title
+                    )}
+                </h1>
+                <p class="page-subheading">{description}</p>
+                {tags.length > 0 && (
+                    <div class="mt-5 flex flex-wrap justify-center gap-2">
+                        {tags.map((tag) => {
+                            const TagIcon = getTagIcon(tag);
+
+                            return (
+                                <span class="inline-flex items-center gap-2 rounded-xl bg-snow-50 px-3.5 py-2 text-sm font-normal leading-none text-gray-900 shadow-[0_10px_24px_-18px_rgba(34,42,55,0.45)]">
+                                    <span class="inline-flex size-4 shrink-0 items-center justify-center text-blue-500">
+                                        <TagIcon
+                                            class="size-full"
+                                            aria-hidden="true"
+                                        />
+                                    </span>
+                                    {tag}
+                                </span>
+                            );
+                        })}
+                    </div>
+                )}
+                <div class="mt-6 flex items-center justify-center gap-3">
+                    <Image
+                        class="size-9 rounded-full"
+                        src={williamPortrait}
+                        alt={`Photo de ${author}`}
+                        width={36}
+                        height={36}
+                        loading="eager"
+                    />
+                    <div class="text-left text-sm">
+                        <p class="font-medium text-gray-900">{author}</p>
+                        <time
+                            class="font-normal text-gray-500"
+                            datetime={pubDate.toISOString()}
+                        >
+                            {formatArticleDate(pubDate)}
+                        </time>
+                    </div>
+                </div>
+            </header>
+        </FadeReveal>
+
+        <FadeReveal delay={0.2}>
+            <div class="mx-auto mb-14 aspect-video w-full max-w-5xl overflow-hidden rounded-lg bg-gray-200">
+                {image ? (
+                    <img
+                        class="size-full object-cover"
+                        src={image.src}
+                        alt={image.alt}
+                        loading="eager"
+                        decoding="async"
+                    />
+                ) : (
+                    <span class="block size-full bg-gray-200"></span>
+                )}
+            </div>
+        </FadeReveal>
+
+        <div class="article-body-shell mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,42rem)_minmax(13rem,16rem)] lg:gap-12">
+            <div class="hidden lg:block" aria-hidden="true"></div>
+
+            <FadeReveal delay={0.3}>
+                <div class="article-prose min-w-0">
+                    <Content />
+                </div>
+            </FadeReveal>
+
+            <aside class="article-toc-column order-first lg:order-none">
+                <TableOfContents items={tocItems} />
+            </aside>
+        </div>
+    </article>
+</Layout>
+
+<style is:global>
+    .article-toc-column {
+        align-self: start;
+    }
+
+    @media (min-width: 1024px) {
+        .article-toc-column {
+            position: sticky;
+            top: 7.5rem;
+        }
+    }
+
+    .article-prose {
+        color: var(--color-gray-600);
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.75;
+    }
+
+    .article-prose > * + * {
+        margin-top: 1.15rem;
+    }
+
+    .article-prose h2 {
+        color: var(--color-gray-900);
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.35;
+        margin-top: 2.75rem;
+        scroll-margin-top: 7rem;
+    }
+
+    .article-prose h3 {
+        color: var(--color-gray-900);
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.45;
+        margin-top: 2.25rem;
+        scroll-margin-top: 7rem;
+    }
+
+    .article-prose strong {
+        color: var(--color-gray-900);
+        font-weight: 500;
+    }
+
+    .article-prose a {
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-color: var(--color-gray-300);
+        text-underline-offset: 2px;
+        transition: color 200ms ease;
+    }
+
+    @media (hover: hover) {
+        .article-prose a:hover {
+            color: var(--color-gray-900);
+        }
+    }
+
+    .article-prose ul,
+    .article-prose ol {
+        padding-left: 1.25rem;
+    }
+
+    .article-prose ul {
+        list-style: disc;
+    }
+
+    .article-prose ol {
+        list-style: decimal;
+    }
+
+    .article-prose li + li {
+        margin-top: 0.35rem;
+    }
+
+    .article-prose blockquote {
+        border-left: 2px solid var(--color-gray-200);
+        color: var(--color-gray-500);
+        font-style: italic;
+        margin-block: 2rem;
+        padding-left: 1rem;
+    }
+
+    .article-prose blockquote p {
+        margin: 0;
+    }
+
+    .article-prose :not(pre) > code {
+        background: var(--color-gray-100);
+        border-radius: 0.25rem;
+        color: var(--color-gray-900);
+        font-size: 0.85em;
+        padding: 0.15em 0.4em;
+    }
+
+    .article-prose pre {
+        border-radius: 0.5rem;
+        font-size: 0.8125rem;
+        line-height: 1.6;
+        margin-block: 1.75rem;
+        overflow-x: auto;
+        padding: 1rem 1.15rem;
+    }
+
+    .article-prose img {
+        border-radius: 0.5rem;
+        height: auto;
+        margin-block: 1.75rem;
+        width: 100%;
+    }
+
+    .article-prose hr {
+        border: 0;
+        border-top: 1px solid var(--color-gray-200);
+        margin-block: 2.5rem;
+    }
+</style>

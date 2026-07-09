@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 @import "@fontsource-variable/geist";
 
 /* View transitions are driven by Astro's <ClientRouter /> (client-side, no
@@ -33,7 +32,7 @@
 ::view-transition-group(nav-label-services),
 ::view-transition-group(nav-label-realisations),
 ::view-transition-group(nav-label-articles),
-::view-transition-group(nav-label-tarifs),
+::view-transition-group(nav-label-offres),
 ::view-transition-group(nav-label-methode),
 ::view-transition-group(nav-label-about),
 ::view-transition-group(nav-label-contact) {
@@ -50,10 +49,7 @@
   }
 }
 
-@custom-variant dark (&:is(.dark *));
-
 body {
-  font-family: var(--geist-font);
   color: var(--color-gray-900);
   background-color: var(--color-snow-500);
 }
@@ -79,36 +75,7 @@ body {
   --color-gray-700: #404957;
   --color-gray-800: #2f3642;
   --color-gray-900: #1f2634;
-  --color-crayola-50: var(--color-blue-50);
-  --color-crayola-100: var(--color-blue-100);
-  --color-crayola-200: var(--color-blue-200);
-  --color-crayola-300: var(--color-blue-300);
-  --color-crayola-400: var(--color-blue-400);
-  --color-crayola-500: var(--color-blue-500);
-  --color-crayola-600: var(--color-blue-600);
-  --color-crayola-700: var(--color-blue-700);
-  --color-crayola-800: var(--color-blue-800);
-  --color-crayola-900: var(--color-blue-900);
-  --color-lemon-50: #fcfeef;
-  --color-lemon-100: #f4fccc;
-  --color-lemon-200: #effab4;
-  --color-lemon-300: #e8f891;
-  --color-lemon-400: #e4f67c;
-  --color-lemon-500: #ddf45b;
-  --color-lemon-600: #c9de53;
-  --color-lemon-700: #9dad41;
-  --color-lemon-800: #7a8632;
-  --color-lemon-900: #5d6626;
-  --color-fuschia-50: #ffebf0;
-  --color-fuschia-100: #ffc0d0;
-  --color-fuschia-200: #ffa1b9;
-  --color-fuschia-300: #ff7698;
-  --color-fuschia-400: #ff5c85;
-  --color-fuschia-500: #ff3366;
-  --color-fuschia-600: #e82e5d;
-  --color-fuschia-700: #b52448;
-  --color-fuschia-800: #8c1c38;
-  --color-fuschia-900: #6b152b;
+  --color-surface-100: #f2f5f8;
   --color-snow-50: #ffffff;
   --color-snow-100: #fbfcfe;
   --color-snow-200: #f8fafc;
@@ -134,103 +101,15 @@ body {
 :root {
   --background: #f8fafc;
   --foreground: #1f2634;
-  --card: #ffffff;
-  --card-foreground: #1f2634;
-  --popover: #ffffff;
-  --popover-foreground: #1f2634;
-  --primary: #222a37;
-  --primary-foreground: #ffffff;
-  --secondary: #eef1f5;
-  --secondary-foreground: #1f2634;
-  --muted: #eef1f5;
-  --muted-foreground: #5c626b;
-  --accent: #eef3ff;
-  --accent-foreground: #203682;
-  --destructive: oklch(0.577 0.245 27.325);
   --border: #d9dee6;
-  --input: #d9dee6;
   --ring: #3e60d4;
-  --chart-1: #8da5f7;
-  --chart-2: #5f7bea;
-  --chart-3: #3e60d4;
-  --chart-4: #3152c7;
-  --chart-5: #222a37;
   --radius: 0.625rem;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #1f2634;
-  --sidebar-primary: #222a37;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #eef3ff;
-  --sidebar-accent-foreground: #203682;
-  --sidebar-border: #d9dee6;
-  --sidebar-ring: #3e60d4;
-}
-
-.dark {
-  --background: #0e1420;
-  --foreground: #fbfcfe;
-  --card: #151c27;
-  --card-foreground: #fbfcfe;
-  --popover: #151c27;
-  --popover-foreground: #fbfcfe;
-  --primary: #fbfcfe;
-  --primary-foreground: #1f2634;
-  --secondary: #222a37;
-  --secondary-foreground: #fbfcfe;
-  --muted: #222a37;
-  --muted-foreground: #bcc4cf;
-  --accent: #203682;
-  --accent-foreground: #fbfcfe;
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: rgb(255 255 255 / 10%);
-  --input: rgb(255 255 255 / 15%);
-  --ring: #5f7bea;
-  --chart-1: #8da5f7;
-  --chart-2: #5f7bea;
-  --chart-3: #3e60d4;
-  --chart-4: #3152c7;
-  --chart-5: #adb7d4;
-  --sidebar: #151c27;
-  --sidebar-foreground: #fbfcfe;
-  --sidebar-primary: #5f7bea;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #222a37;
-  --sidebar-accent-foreground: #fbfcfe;
-  --sidebar-border: rgb(255 255 255 / 10%);
-  --sidebar-ring: #5f7bea;
 }
 
 @theme inline {
   --font-sans: "Geist Variable", sans-serif;
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
-  --color-input: var(--input);
   --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
   --radius-sm: calc(var(--radius) * 0.6);
@@ -329,24 +208,30 @@ body {
 }
 
 * {
-  scrollbar-width: none;
   box-sizing: border-box;
-}
-
-*::-webkit-scrollbar {
-  display: none;
-  height: 0;
-  width: 0;
 }
 
 html {
   overflow-x: clip;
-  overscroll-behavior-y: none;
 }
 
 body {
   overflow-x: clip;
-  overscroll-behavior-y: none;
+}
+
+@media (max-width: 767px) {
+  html {
+    /* Safari paints the root canvas during elastic scrolling. Matching it to
+       the footer avoids a white flash if WebKit briefly exposes that canvas. */
+    background-color: var(--color-coffee-300);
+  }
+}
+
+@media (min-width: 768px) {
+  html,
+  body {
+    overscroll-behavior-y: none;
+  }
 }
 
 button {

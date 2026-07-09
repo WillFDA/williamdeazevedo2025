@@ -1,0 +1,66 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+export type AnimatedHeadingPart = {
+    pill?: boolean;
+    text: string;
+};
+
+type Props = Omit<HTMLAttributes<"h1">, "class"> & {
+    class?: string;
+    parts: readonly AnimatedHeadingPart[];
+};
+
+const { class: className, parts, ...attributes } = Astro.props as Props;
+---
+
+<h1 {...attributes} class={className}>
+    {
+        parts.map((part, index) => (
+            <Fragment>
+                <span
+                    class:list={[
+                        "animated-heading__word",
+                        part.pill && "title-pill",
+                    ]}
+                    style={`--animated-heading-index: ${index}`}
+                >
+                    {part.text}
+                </span>
+                {index < parts.length - 1 && " "}
+            </Fragment>
+        ))
+    }
+</h1>
+
+<style>
+    .animated-heading__word {
+        animation: animated-heading-word 880ms cubic-bezier(0.16, 1, 0.3, 1)
+            backwards;
+        animation-delay: calc(var(--animated-heading-index, 0) * 48ms);
+        display: inline-block;
+    }
+
+    @keyframes animated-heading-word {
+        from {
+            filter: blur(3px);
+            opacity: 0;
+            transform: translateY(0.32em);
+        }
+
+        to {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .animated-heading__word {
+            animation: none;
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+</style>

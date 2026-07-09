@@ -1,0 +1,471 @@
+---
+import CalButton from "@/components/CalButton.astro";
+import DiagnosticCta from "@/components/DiagnosticCta.astro";
+import FaqSection from "@/components/FaqSection.astro";
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import Check from "@/components/icons/nucleo/check-2-outline.svg";
+import Layout from "@/layout/Layout.astro";
+
+export const prerender = true;
+
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const canonicalPath = "/tarif-creation-site-internet";
+const canonicalUrl = new URL(canonicalPath, siteUrl);
+
+const baseIncluded = [
+    "cadrage des objectifs, de l'offre et du parcours",
+    "structure des pages et hiérarchie des contenus",
+    "design responsive sur mesure",
+    "développement front-end propre et maintenable",
+    "SEO technique initial, performance et accessibilité",
+    "mise en ligne, Search Console et vérifications avant publication",
+];
+
+const measureIncluded = [
+    {
+        title: "Google Search Console",
+        text: "Votre site est déclaré et indexé proprement : sitemap soumis, couverture vérifiée, et un œil sur les recherches qui vous affichent.",
+    },
+    {
+        title: "Conversions mesurées",
+        text: "Un tableau de bord d'analytics à votre nom (Rybbit), respectueux du RGPD et sans bannière de cookies. Clic téléphone, formulaire, demande de devis : on sait ce que le site produit.",
+    },
+    {
+        title: "Point à 30 jours",
+        text: "Un mois après la mise en ligne, on lit les premières données ensemble : ce qui fonctionne, ce qui doit être ajusté, et la suite logique.",
+    },
+];
+
+const addOns = [
+    {
+        title: "Campagne Google Ads locale",
+        price: "Mise en place à partir de 600 €, suivi à partir de 300 €/mois",
+        text: "Pour être visible tout de suite sur vos recherches locales : annonces, page d'atterrissage dédiée et conversions suivies. Budget publicitaire versé directement à Google, en plus.",
+    },
+    {
+        title: "Suivi analytics mensuel",
+        price: "À partir de 90 €/mois",
+        text: "Un point chaque mois sur vos visites et vos demandes, avec des recommandations concrètes et priorisées.",
+    },
+    {
+        title: "Blog ou CMS administrable",
+        price: "À partir de 800 €",
+        text: "Pour publier vous-même articles, réalisations ou actualités, sans dépendre de personne.",
+    },
+    {
+        title: "Pages SEO additionnelles",
+        price: "À partir de 250 € par page",
+        text: "Des pages métier ou ville travaillées : recherche, rédaction et intégration, pour élargir vos points d'entrée sur Google.",
+    },
+];
+
+const priceFactors = [
+    {
+        title: "Nombre de pages",
+        text: "Une landing page, un site one-page et un site de services complet ne demandent pas le même niveau de structure, de contenu et de contrôle.",
+    },
+    {
+        title: "Contenus disponibles",
+        text: "Si les textes, preuves, photos et avis existent déjà, le projet avance plus vite. S'il faut clarifier l'offre, le cadrage prend plus de place.",
+    },
+    {
+        title: "Identité visuelle",
+        text: "Sans logo, charte ou direction claire, le site risque de manquer de cohérence. Dans ce cas, je peux vous orienter vers Persistance Studio avant ou pendant le projet.",
+    },
+    {
+        title: "CMS et autonomie",
+        text: "Un site administrable pour publier projets, articles ou pages demande un périmètre différent d'un site statique maintenu ponctuellement.",
+    },
+    {
+        title: "Fonctionnalités",
+        text: "Formulaire avancé, prise de rendez-vous, espace client, paiement, API ou automatisations changent naturellement le budget.",
+    },
+    {
+        title: "SEO et acquisition",
+        text: "La base technique est intégrée. Une stratégie SEO ou Ads continue demande un travail séparé : recherche, contenus, suivi et ajustements.",
+    },
+];
+
+const startingPoints = [
+    {
+        href: "/creation-site-vitrine",
+        label: "Site vitrine",
+        text: "Pour lancer une présence claire autour d'une offre, d'un service ou d'une activité.",
+    },
+    {
+        href: "/creation-site-internet-artisan",
+        label: "Site artisan",
+        text: "Pour présenter un savoir-faire, une zone d'intervention, des réalisations et faciliter les demandes de devis.",
+    },
+    {
+        href: "/creation-site-internet-professionnel",
+        label: "Site professionnel",
+        text: "Pour structurer une présence plus complète : services, preuves, pages, contenus et base durable.",
+    },
+    {
+        href: "/refonte-site-internet",
+        label: "Refonte",
+        text: "Pour repartir d'un site existant, garder ce qui fonctionne et corriger ce qui crée du doute.",
+    },
+];
+
+const faq = [
+    {
+        question: "Est-ce qu'un site à 2 000 € suffit toujours ?",
+        answer:
+            "Non. C'est une base pour lancer ou moderniser une présence web claire. Le budget évolue selon le nombre de pages, le contenu à produire, les animations, le formulaire, le CMS ou les besoins SEO plus poussés.",
+    },
+    {
+        question: "Comment je saurai si mon site fonctionne ?",
+        answer:
+            "C'est inclus : Search Console configurée, tableau de bord d'analytics à votre nom avec les conversions suivies (appel, formulaire, demande de devis), et un point ensemble 30 jours après la mise en ligne pour lire les données et ajuster.",
+    },
+    {
+        question: "Pourquoi un site à 600 € peut coûter plus cher ensuite ?",
+        answer:
+            "Un site très peu cher peut être présentable, mais générique, mal structuré ou difficile à faire évoluer. Le vrai coût arrive souvent après : reprendre le contenu, corriger le mobile, retravailler le SEO, refaire le design ou réparer une base technique fragile.",
+    },
+    {
+        question: "Et si je n'ai pas de logo ou de charte graphique ?",
+        answer:
+            "On peut cadrer le besoin, mais un site a besoin d'une base visuelle cohérente pour inspirer confiance. Si vous partez de zéro, je peux vous orienter vers Persistance Studio pour travailler logo, charte, supports ou photos, puis construire le site sur une base solide.",
+    },
+    {
+        question: "Peut-on découper le paiement ?",
+        answer:
+            "Oui, selon le projet. L'objectif est de garder un cadre clair : acompte, étapes de validation, livraison et solde, sans flou sur ce qui est inclus.",
+    },
+    {
+        question: "Le SEO est-il compris ?",
+        answer:
+            "La base technique est comprise : structure HTML, métadonnées, performance, accessibilité, sitemap et indexation. Une stratégie SEO complète demande ensuite des contenus, de la recherche et un suivi continu.",
+    },
+];
+
+const finalCtaTitleParts = [
+    { text: "Vous" },
+    { text: "voulez" },
+    { text: "situer" },
+    { text: "votre" },
+    { text: "projet" },
+    { pill: true, text: "avant de décider ?" },
+];
+
+const offerCatalogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "OfferCatalog",
+    name: "Tarifs création site internet",
+    url: canonicalUrl.href,
+    itemListElement: [
+        {
+            "@type": "Offer",
+            name: "Création de site internet",
+            priceSpecification: {
+                "@type": "PriceSpecification",
+                price: 2000,
+                priceCurrency: "EUR",
+                valueAddedTaxIncluded: false,
+            },
+            itemOffered: {
+                "@type": "Service",
+                name: "Création de site internet",
+                provider: {
+                    "@type": "Person",
+                    name: "William De Azevedo",
+                },
+            },
+        },
+        {
+            "@type": "Offer",
+            name: "Campagne Google Ads locale (mise en place)",
+            priceSpecification: {
+                "@type": "PriceSpecification",
+                price: 600,
+                priceCurrency: "EUR",
+                valueAddedTaxIncluded: false,
+            },
+            itemOffered: {
+                "@type": "Service",
+                name: "Campagne Google Ads locale (mise en place)",
+                provider: {
+                    "@type": "Person",
+                    name: "William De Azevedo",
+                },
+            },
+        },
+        {
+            "@type": "Offer",
+            name: "Blog ou CMS administrable",
+            priceSpecification: {
+                "@type": "PriceSpecification",
+                price: 800,
+                priceCurrency: "EUR",
+                valueAddedTaxIncluded: false,
+            },
+            itemOffered: {
+                "@type": "Service",
+                name: "Blog ou CMS administrable",
+                provider: {
+                    "@type": "Person",
+                    name: "William De Azevedo",
+                },
+            },
+        },
+        {
+            "@type": "Offer",
+            name: "Page SEO additionnelle",
+            priceSpecification: {
+                "@type": "PriceSpecification",
+                price: 250,
+                priceCurrency: "EUR",
+                valueAddedTaxIncluded: false,
+            },
+            itemOffered: {
+                "@type": "Service",
+                name: "Page SEO additionnelle",
+                provider: {
+                    "@type": "Person",
+                    name: "William De Azevedo",
+                },
+            },
+        },
+    ],
+};
+
+const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+        },
+    })),
+};
+
+const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+        {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: new URL("/", siteUrl).href,
+        },
+        {
+            "@type": "ListItem",
+            position: 2,
+            name: "Tarif création site internet",
+            item: canonicalUrl.href,
+        },
+    ],
+};
+---
+
+<Layout
+    title="Tarif création site internet - comprendre le budget"
+    description="Repères de tarif pour une création de site internet : base à partir de 2 000 € HT, options, CMS, formulaire, SEO technique, refonte et interface produit."
+    canonicalPath={canonicalPath}
+>
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(offerCatalogJsonLd)}
+    />
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(faqJsonLd)}
+    />
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(breadcrumbJsonLd)}
+    />
+
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-12 md:gap-16 md:py-16">
+        <FadeReveal delay={0.1}>
+            <section class="flex max-w-4xl flex-col items-start gap-5 text-left">
+                <h1 class="page-heading text-left">
+                    Tarif création site internet : comprendre ce qui fait varier
+                    le budget
+                </h1>
+                <p class="page-subheading max-w-3xl text-left">
+                    Un prix juste dépend du nombre de pages, du contenu
+                    disponible, du niveau de design, des fonctionnalités et de
+                    l'autonomie attendue après la mise en ligne.
+                </p>
+                <div class="flex flex-col gap-3 sm:flex-row">
+                    <CalButton
+                        class="rounded-xl text-base font-normal"
+                        label="Estimer mon budget"
+                        location="tarif-creation-site-internet-hero"
+                    />
+                    <a
+                        class="flex min-h-14 items-center justify-center rounded-xl bg-snow-50 px-8 py-3 text-base font-normal text-gray-900 ring-1 ring-snow-600 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                        href="/creation-site-vitrine"
+                    >
+                        Voir le service vitrine
+                    </a>
+                </div>
+            </section>
+        </FadeReveal>
+
+        <section class="grid gap-6 rounded-4xl bg-blue-500 p-6 text-snow-50 shadow-[0_28px_70px_-48px_rgba(62,96,212,0.95)] md:grid-cols-[0.9fr_1.1fr] md:p-8">
+            <div class="flex flex-col gap-3">
+                <p class="text-base font-normal text-snow-50/80">
+                    Base de départ
+                </p>
+                <h2 class="text-5xl font-medium leading-none sm:text-6xl">
+                    À partir de 2 000 € HT
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-snow-50">
+                    Pour une présence web claire, responsive, rapide et mise en
+                    ligne proprement.
+                </p>
+            </div>
+            <ul class="grid gap-3">
+                {
+                    baseIncluded.map((item) => (
+                        <li class="flex items-start gap-3 text-base font-normal leading-relaxed text-snow-50">
+                            <Check class="mt-1 size-4 shrink-0" aria-hidden="true" />
+                            <span>{item}</span>
+                        </li>
+                    ))
+                }
+            </ul>
+        </section>
+
+        <section class="grid gap-4">
+            <div class="flex max-w-3xl flex-col gap-4">
+                <h2 class="section-heading text-left">
+                    Inclus dès la mise en ligne
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-gray-700">
+                    Un site sans mesure est un site muet. Le socle comprend de
+                    quoi savoir ce qu'il produit, dès le premier mois.
+                </p>
+            </div>
+            <div class="grid gap-4 md:grid-cols-3">
+                {
+                    measureIncluded.map((item) => (
+                        <article class="rounded-xl bg-gray-100 p-5 ring-1 ring-gray-200">
+                            <h3 class="mb-2 text-lg font-normal leading-tight text-gray-900">
+                                {item.title}
+                            </h3>
+                            <p class="text-base font-normal leading-relaxed text-gray-700">
+                                {item.text}
+                            </p>
+                        </article>
+                    ))
+                }
+            </div>
+        </section>
+
+        <section class="grid gap-6 md:grid-cols-[0.75fr_1.25fr] md:items-start md:gap-12">
+            <div class="flex flex-col gap-4">
+                <h2 class="section-heading text-left">
+                    Ce qui fait varier le devis
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-gray-700">
+                    Le budget ne dépend pas seulement d'un nombre de pages. Il
+                    dépend surtout du niveau de clarté, de preuves, de technique
+                    et d'autonomie nécessaire pour que le site inspire confiance.
+                </p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+                {
+                    priceFactors.map((factor) => (
+                        <article class="rounded-xl bg-gray-100 p-5 ring-1 ring-gray-200">
+                            <h3 class="mb-2 text-lg font-normal leading-tight text-gray-900">
+                                {factor.title}
+                            </h3>
+                            <p class="text-base font-normal leading-relaxed text-gray-700">
+                                {factor.text}
+                            </p>
+                        </article>
+                    ))
+                }
+            </div>
+        </section>
+
+        <section class="grid gap-4">
+            <div class="flex max-w-3xl flex-col gap-4">
+                <h2 class="section-heading text-left">
+                    Pour aller plus loin
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-gray-700">
+                    Des modules chiffrés « à partir de », à ajouter quand ils
+                    servent votre objectif — pas avant.
+                </p>
+            </div>
+            <div class="grid gap-4 md:grid-cols-2">
+                {
+                    addOns.map((item) => (
+                        <article class="rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600">
+                            <h3 class="text-xl font-normal leading-tight text-gray-900">
+                                {item.title}
+                            </h3>
+                            <p class="mt-1 text-sm font-medium text-blue-600">
+                                {item.price}
+                            </p>
+                            <p class="mt-2 text-base font-normal leading-relaxed text-gray-700">
+                                {item.text}
+                            </p>
+                        </article>
+                    ))
+                }
+            </div>
+        </section>
+
+        <section class="grid gap-4">
+            <div class="flex max-w-3xl flex-col gap-4">
+                <h2 class="section-heading text-left">
+                    Choisir le bon point de départ
+                </h2>
+                <p class="text-base font-normal leading-relaxed text-gray-700">
+                    Le même budget ne raconte pas la même histoire selon votre
+                    situation : lancement, artisan, présence professionnelle ou
+                    refonte d'un site existant.
+                </p>
+            </div>
+            <div class="grid gap-4 md:grid-cols-2">
+                {
+                    startingPoints.map((item) => (
+                        <a
+                            class="group rounded-xl bg-snow-50 p-5 ring-1 ring-snow-600 transition-colors hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                            href={item.href}
+                        >
+                            <h3 class="text-xl font-normal leading-tight text-gray-900 transition-colors group-hover:text-blue-500">
+                                {item.label}
+                            </h3>
+                            <p class="mt-2 text-base font-normal leading-relaxed text-gray-700">
+                                {item.text}
+                            </p>
+                        </a>
+                    ))
+                }
+            </div>
+        </section>
+
+        <FaqSection
+            id="tarif-creation-site-internet-faq"
+            items={faq}
+            title="Questions fréquentes"
+            description="Quelques réponses pour cadrer vite avant un premier échange."
+            padded={false}
+            showCta={false}
+        />
+
+        <DiagnosticCta
+            buttonLabel="Demander un devis gratuit"
+            class="relative left-1/2 w-[calc(100dvw-1rem)] -translate-x-1/2 sm:w-[calc(100dvw-2rem)]"
+            copy="On regarde votre point de départ, ce qui existe déjà, ce qui manque et la prochaine étape réaliste : création, refonte ou interface produit."
+            location="tarif-creation-site-internet-final"
+            titleParts={finalCtaTitleParts}
+        />
+    </div>
+</Layout>

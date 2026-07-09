@@ -1,0 +1,424 @@
+---
+import CalButton from "@/components/CalButton.astro";
+import CapabilitiesStrip from "@/components/CapabilitiesStrip.astro";
+import DiagnosticCta from "@/components/DiagnosticCta.astro";
+import FaqSection from "@/components/FaqSection.astro";
+import Marquee from "@/components/Marquee.astro";
+import RelatedServicesBento from "@/components/RelatedServicesBento.astro";
+import ServiceDiagnosticToggle from "@/components/ServiceDiagnosticToggle.astro";
+import ServiceTimelineScroll from "@/components/ServiceTimelineScroll.astro";
+import ProjectListItem from "@/components/realisations/ProjectListItem.astro";
+import AnimatedHeading from "@/components/ui/AnimatedHeading.astro";
+import WaveText from "@/components/ui/WaveText.astro";
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import { getProjectById } from "@/data/projects";
+import { type Service, getServiceBySlug } from "@/data/services";
+import Layout from "@/layout/Layout.astro";
+
+interface Props {
+    service: Service;
+    canonicalPath?: string;
+}
+
+const { service, canonicalPath = service.rootPath ?? `/services/${service.slug}` } =
+    Astro.props;
+const relatedServices = service.relatedServices
+    .map((slug) => getServiceBySlug(slug))
+    .filter((item): item is Service => item !== undefined);
+const project = getProjectById(service.proof.projectId);
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = new URL(canonicalPath, siteUrl);
+type HeroTitlePart = {
+    pill?: boolean;
+    text: string;
+};
+
+const appendTitleWords = (parts: HeroTitlePart[], value: string) => {
+    value
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .forEach((word) => parts.push({ text: word }));
+};
+
+const buildHeroTitleParts = (title: string, pillPhrases: string[]) => {
+    const parts: HeroTitlePart[] = [];
+    let remainingTitle = title;
+
+    while (remainingTitle.trim()) {
+        const lowerTitle = remainingTitle.toLowerCase();
+        const match = pillPhrases
+            .map((phrase) => ({
+                index: lowerTitle.indexOf(phrase.toLowerCase()),
+                phrase,
+            }))
+            .filter((item) => item.index >= 0)
+            .toSorted((first, second) => first.index - second.index)[0];
+
+        if (!match) {
+            appendTitleWords(parts, remainingTitle);
+            break;
+        }
+
+        appendTitleWords(parts, remainingTitle.slice(0, match.index));
+        parts.push({
+            pill: true,
+            text: remainingTitle.slice(
+                match.index,
+                match.index + match.phrase.length,
+            ),
+        });
+        remainingTitle = remainingTitle.slice(match.index + match.phrase.length);
+    }
+
+    return parts;
+};
+
+const heroTitleParts = buildHeroTitleParts(
+    service.h1,
+    service.heroPillPhrases ?? [],
+);
+const finalCtaTitleParts = [
+    { text: "Vous" },
+    { text: "voulez" },
+    { text: "vérifier" },
+    { text: "si" },
+    { text: "ce" },
+    { text: "service" },
+    { text: "répond" },
+    { text: "au" },
+    { pill: true, text: "vrai problème ?" },
+];
+const methodIconCycle = [
+    "search",
+    "ux",
+    "refonte",
+    "performance",
+    "deploy",
+] as const;
+const methodToneCycle = ["sky", "violet", "cyan", "green", "orange"] as const;
+const methodTitles = [
+    "Comprendre",
+    "Structurer",
+    "Concevoir",
+    "Développer",
+    "Mettre en ligne",
+    "Transmettre",
+] as const;
+const methodSectionTitle = "Une méthode pour éviter le flou";
+const methodSectionDescription =
+    "Un cadre clair évite les allers-retours dispersés et garde les décisions reliées à un objectif : mieux faire comprendre, rassurer et déclencher la bonne action.";
+const methodSectionLinkLabel = "Comprendre ma méthode";
+const methodTimelineItems = service.steps.map((step, index) => ({
+    description: step,
+    icon: methodIconCycle[index % methodIconCycle.length],
+    title: methodTitles[index] ?? `Étape ${index + 1}`,
+    tone: methodToneCycle[index % methodToneCycle.length],
+}));
+
+const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    serviceType: service.serviceType,
+    description: service.description,
+    areaServed: "France",
+    url: canonicalUrl.href,
+    provider: {
+        "@type": "Person",
+        name: "William De Azevedo",
+        url: new URL("/", siteUrl).href,
+    },
+};
+
+const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: service.faq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+        },
+    })),
+};
+
+const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+        {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: new URL("/", siteUrl).href,
+        },
+        {
+            "@type": "ListItem",
+            position: 2,
+            name: "Services",
+            item: new URL("/services", siteUrl).href,
+        },
+        {
+            "@type": "ListItem",
+            position: 3,
+            name: service.title,
+            item: canonicalUrl.href,
+        },
+    ],
+};
+---
+
+<Layout
+    title={service.seoTitle}
+    description={service.description}
+    canonicalPath={canonicalPath}
+>
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(serviceJsonLd)}
+    />
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(faqJsonLd)}
+    />
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(breadcrumbJsonLd)}
+    />
+
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-20 px-4 pt-10 pb-20 sm:gap-28 sm:pt-14 sm:pb-28 lg:gap-32 lg:pt-16 lg:pb-32">
+        <section
+            class="mx-auto flex w-full min-w-0 max-w-5xl flex-col items-center gap-6 text-center"
+            data-section-reveal="false"
+        >
+            <AnimatedHeading
+                class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
+                parts={heroTitleParts}
+            />
+            <FadeReveal delay={0.32}>
+                <p class="page-subheading max-w-sm sm:max-w-lg">
+                    {service.intro}
+                </p>
+            </FadeReveal>
+            <FadeReveal class="w-full sm:w-auto" delay={0.44}>
+                <div class="mt-3 flex w-full flex-col items-center gap-3 sm:mt-4 sm:w-auto sm:flex-row">
+                    <CalButton
+                        class="w-full rounded-xl text-base font-normal sm:w-auto"
+                        label="Échanger sur ce besoin"
+                        location={`service-${service.slug}-hero`}
+                    />
+                    {
+                        project && (
+                            <a
+                                class="service-method-button flex min-h-14 w-full max-w-full items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:w-auto sm:px-10"
+                                href={`/realisations/${project.id}`}
+                            >
+                                <WaveText
+                                    class="relative z-10"
+                                    text="Voir une réalisation"
+                                    trigger="parent"
+                                />
+                            </a>
+                        )
+                    }
+                </div>
+            </FadeReveal>
+            {
+                service.capabilities && (
+                    <CapabilitiesStrip
+                        capabilities={service.capabilities}
+                        class="mt-8 sm:mt-10"
+                        compact
+                        title="Ce que ce service peut corriger"
+                    />
+                )
+            }
+            {
+                service.diagnostic && (
+                    <ServiceDiagnosticToggle
+                        afterItems={service.diagnostic.afterItems}
+                        afterLabel={service.diagnostic.afterLabel}
+                        beforeItems={service.diagnostic.beforeItems}
+                        beforeLabel={service.diagnostic.beforeLabel}
+                        description={service.diagnostic.description}
+                        title={service.diagnostic.title}
+                    />
+                )
+            }
+        </section>
+
+        {
+            service.slug === "developpeur-web-freelance" && (
+                <FadeReveal delay={0.18}>
+                    <Marquee />
+                </FadeReveal>
+            )
+        }
+
+        {
+            !service.diagnostic && (
+                <section class="grid gap-6 md:grid-cols-[0.95fr_1.05fr] md:items-start md:gap-12">
+                    <div class="flex flex-col gap-4">
+                        <h2 class="section-heading text-left">
+                            {service.problem.title}
+                        </h2>
+                        <p class="text-base font-normal leading-relaxed text-gray-600">
+                            Avant de parler design ou technologie, il faut
+                            comprendre ce qui crée du doute et rend la décision
+                            plus difficile pour votre visiteur.
+                        </p>
+                    </div>
+                    <ul class="grid gap-3">
+                        {service.problem.items.map((item) => (
+                            <li class="rounded-xl bg-gray-100 px-4 py-3 text-base font-normal leading-relaxed text-gray-800 ring-1 ring-gray-200">
+                                {item}
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )
+        }
+
+        {
+            !service.diagnostic && (
+                <section class="grid gap-4 md:grid-cols-2">
+                    <article class="rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
+                        <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
+                            Cette prestation est faite pour vous si...
+                        </h2>
+                        <ul class="flex flex-col gap-3">
+                            {service.fit.map((item) => (
+                                <li class="text-base font-normal leading-relaxed text-gray-600">
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </article>
+                    <article class="rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
+                        <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
+                            Ce que je prends en charge
+                        </h2>
+                        <ul class="flex flex-col gap-3">
+                            {service.included.map((item) => (
+                                <li class="text-base font-normal leading-relaxed text-gray-600">
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </article>
+                </section>
+            )
+        }
+
+        {
+            project && (
+                <section>
+                    <ProjectListItem
+                        project={project}
+                        description={service.proof.text}
+                        detailsLabel="Lire l'étude de cas"
+                        siteLabel="Voir le site"
+                    />
+                </section>
+            )
+        }
+
+        <DiagnosticCta
+            buttonLabel="Vérifier le bon service"
+            class="relative left-1/2 w-[calc(100dvw-1rem)] -translate-x-1/2 sm:w-[calc(100dvw-2rem)]"
+            copy="On regarde votre situation, ce qui bloque aujourd'hui et la prochaine étape réaliste avant de parler solution."
+            location={`service-${service.slug}-final`}
+            titleParts={finalCtaTitleParts}
+        />
+
+        <div class="flex flex-col gap-8 sm:gap-10">
+            <section class="mx-auto flex w-full max-w-5xl flex-col items-center gap-4 text-center">
+                <h2 class="section-heading">
+                    {methodSectionTitle}
+                </h2>
+                <p class="section-subheading">
+                    {methodSectionDescription}
+                </p>
+                <a
+                    class="service-method-button inline-flex min-h-14 w-fit items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:px-10"
+                    href="/methode"
+                >
+                    <WaveText
+                        class="relative z-10"
+                        text={methodSectionLinkLabel}
+                        trigger="parent"
+                    />
+                </a>
+            </section>
+
+            <ServiceTimelineScroll
+                description={methodSectionDescription}
+                id={`${service.slug}-method-timeline`}
+                items={methodTimelineItems}
+                layout="center"
+                showHeader={false}
+                title={methodSectionTitle}
+            />
+        </div>
+
+        <FaqSection
+            id={`${service.slug}-faq`}
+            items={service.faq}
+            title="Questions fréquentes"
+            description="Les détails dépendent toujours du projet, mais ces réponses donnent un premier cadre avant l'appel découverte."
+            padded={false}
+            showCta={false}
+        />
+
+        <RelatedServicesBento services={relatedServices} />
+    </div>
+</Layout>
+
+<style>
+    .service-method-button {
+        --service-method-button-bg: var(--color-gray-100);
+        --service-method-button-border: transparent;
+        --service-method-button-color: var(--color-coffee-300);
+
+        color: var(--service-method-button-color);
+        isolation: isolate;
+        overflow: hidden;
+        position: relative;
+        text-decoration: none;
+        z-index: 0;
+    }
+
+    .service-method-button::before {
+        background: var(--service-method-button-bg);
+        border: 1px solid var(--service-method-button-border);
+        border-radius: inherit;
+        content: "";
+        inset: 0;
+        position: absolute;
+        transform: scale(1);
+        transition: transform 520ms
+            var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        z-index: 0;
+    }
+
+    .service-method-button:focus-visible {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 3px;
+    }
+
+    .service-method-button:focus-visible::before {
+        transform: scale(0.95);
+    }
+
+    @media (hover: hover) {
+        .service-method-button:hover::before {
+            transform: scale(0.95);
+        }
+    }
+
+</style>

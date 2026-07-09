@@ -2,6 +2,8 @@
 import Linkedin from "./icons/nucleo/linkedin-fill.svg";
 import XTwitter from "./icons/nucleo/x-twitter-fill.svg";
 import WaveText from "./ui/WaveText.astro";
+import BrandMark from "./ui/BrandMark.astro";
+import { projects } from "@/data/projects";
 
 const year = new Date().getFullYear();
 const socialLinks = [
@@ -16,25 +18,57 @@ const socialLinks = [
         label: "X",
     },
 ];
+const linkGroups = [
+    {
+        title: "Services",
+        links: [
+            { href: "/creation-site-vitrine", label: "Création site vitrine" },
+            { href: "/refonte-site-internet", label: "Refonte site internet" },
+            {
+                href: "/creation-site-internet-artisan",
+                label: "Site internet artisan",
+            },
+            {
+                href: "/creation-site-internet-professionnel",
+                label: "Site professionnel",
+            },
+            {
+                href: "/services/developpeur-web-freelance",
+                label: "Développeur freelance",
+            },
+        ],
+    },
+    {
+        title: "Réalisations",
+        links: projects.map((project) => ({
+            href: `/realisations/${project.id}`,
+            label: project.title,
+        })),
+    },
+    {
+        title: "Ressources",
+        links: [
+            {
+                href: "/offres",
+                label: "Offres site internet",
+            },
+            { href: "/methode", label: "Méthode" },
+            { href: "/articles", label: "Conseils" },
+            { href: "/mentions-legales", label: "Mentions légales" },
+        ],
+    },
+];
 ---
 
 <footer
-    class="relative left-1/2 mt-24 w-[calc(100dvw-1rem)] -translate-x-1/2 rounded-t-3xl bg-blue-500 px-4 py-14 text-sm text-snow-50 sm:w-[calc(100dvw-2rem)] sm:px-8 sm:py-16 md:mt-32 md:rounded-t-4xl md:py-20"
+    class="relative left-1/2 mt-24 w-[calc(100dvw-1rem)] -translate-x-1/2 rounded-t-3xl bg-coffee-300 px-4 py-14 text-sm text-snow-50 sm:w-[calc(100dvw-2rem)] sm:px-8 sm:py-16 md:mt-32 md:rounded-t-4xl md:py-20"
+    data-site-footer
 >
     <div class="mx-auto flex max-w-5xl flex-col gap-12">
         <div class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
             <div class="max-w-xl">
                 <p class="flex flex-col items-start gap-4 text-base font-medium text-snow-50">
-                    <svg
-                        class="h-7 w-auto"
-                        viewBox="0 0 53 30"
-                        fill="currentColor"
-                        aria-hidden="true"
-                    >
-                        <path d="M53 0L44.985 13.8765L37.0616 0H53Z"></path>
-                        <path d="M35.6656 30L40.8419 21.0452L28.8221 0H18.5282L23.1758 8.12843L23.1724 8.13363L28.302 17.1144L28.3037 17.1109L35.6656 30Z"></path>
-                        <path d="M17.1391 30L22.3137 21.0452L10.2938 0H0L4.64761 8.12843L4.64415 8.13363L9.7738 17.1144L9.77553 17.1109L17.1391 30Z"></path>
-                    </svg>
+                    <BrandMark class="h-7 w-auto" />
                     <span>William De Azevedo</span>
                 </p>
                 <p class="mt-2 max-w-lg text-base font-light leading-relaxed text-snow-50/75">
@@ -68,15 +102,42 @@ const socialLinks = [
                 </div>
             </div>
             <button
+                aria-controls="cal-drawer"
+                aria-haspopup="dialog"
                 class="footer-cta relative isolate inline-flex min-h-14 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border-0 bg-transparent px-8 py-3 text-sm font-medium text-coffee-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-snow-50 sm:w-auto"
                 data-cal-location="footer"
                 data-cal-open
                 data-wui-wave-parent
                 type="button"
             >
-                <WaveText text="Parlons de votre projet" trigger="parent" />
+                <WaveText text="Réserver 15 min" trigger="parent" />
             </button>
         </div>
+        <nav aria-label="Navigation pied de page">
+            <div class="grid gap-8 border-t border-snow-50/15 pt-10 sm:grid-cols-3">
+                {
+                    linkGroups.map((group) => (
+                        <div>
+                            <h2 class="mb-3 text-xs font-medium uppercase tracking-widest text-snow-50/55">
+                                {group.title}
+                            </h2>
+                            <ul class="flex flex-col gap-2">
+                                {group.links.map((link) => (
+                                    <li>
+                                        <a
+                                            class="text-snow-50/80 transition-colors hover:text-snow-50 focus-visible:text-snow-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-snow-50"
+                                            href={link.href}
+                                        >
+                                            {link.label}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))
+                }
+            </div>
+        </nav>
         <p class="border-t border-snow-50/15 pt-6 text-xs text-snow-50/60">
             © {year} William De Azevedo
         </p>

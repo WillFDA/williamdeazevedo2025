@@ -50,39 +50,44 @@ const aboutPoints = [
                             normalizedWord === "design";
 
                         return (
-                            <span
-                                class:list={[
-                                    "about-callout-title-word",
-                                    isPill && "title-pill",
-                                    isWilliam &&
-                                        "about-callout-title-word--with-avatar",
-                                    isWilliam ? "inline-flex items-center" : "inline-block",
-                                    "text-snow-50",
-                                ]}
-                                style={`--about-callout-word-index: ${index}`}
-                            >
-                                {isWilliam ? (
-                                    <>
-                                        William
-                                        <span
-                                            class="about-callout-avatar"
-                                            aria-hidden="true"
-                                        >
-                                            <Image
-                                                class="block size-full object-contain"
-                                                src={williamPortrait}
-                                                alt=""
-                                                width={72}
-                                                height={72}
-                                                loading="eager"
-                                            />
-                                        </span>
-                                        ,
-                                    </>
-                                ) : (
-                                    cleanWord
-                                )}
-                            </span>
+                            <Fragment>
+                                <span
+                                    class:list={[
+                                        "about-callout-title-word",
+                                        isPill && "title-pill",
+                                        isWilliam &&
+                                            "about-callout-title-word--with-avatar",
+                                        isWilliam
+                                            ? "inline-flex items-center"
+                                            : "inline-block",
+                                        "text-snow-50",
+                                    ]}
+                                    style={`--about-callout-word-index: ${index}`}
+                                >
+                                    {isWilliam ? (
+                                        <>
+                                            William
+                                            <span
+                                                class="about-callout-avatar"
+                                                aria-hidden="true"
+                                            >
+                                                <Image
+                                                    class="block size-full object-contain"
+                                                    src={williamPortrait}
+                                                    alt=""
+                                                    width={72}
+                                                    height={72}
+                                                    loading="eager"
+                                                />
+                                            </span>
+                                            ,
+                                        </>
+                                    ) : (
+                                        cleanWord
+                                    )}
+                                </span>
+                                {index < titleWords.length - 1 && " "}
+                            </Fragment>
                         );
                     })
                 }
@@ -130,6 +135,8 @@ const aboutPoints = [
             }
         </ul>
         <button
+            aria-controls="cal-drawer"
+            aria-haspopup="dialog"
             class="about-callout-cta mx-auto inline-flex min-h-14 w-fit max-w-full items-center justify-center gap-5 rounded-xl px-8 py-3 text-base font-normal focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
             data-cal-location="about"
             data-cal-open

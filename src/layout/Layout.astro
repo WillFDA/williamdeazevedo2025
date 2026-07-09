@@ -10,6 +10,7 @@ interface Props {
     description?: string;
     image?: string;
     imageAlt?: string;
+    canonicalPath?: string;
     ogType?: "website" | "article" | "profile";
     article?: {
         publishedTime?: string;
@@ -24,13 +25,14 @@ const {
     description = "Développeur front-end freelance orienté design et produit, je rends les sites plus clairs, rapides, accessibles et crédibles.",
     image = "/pictures/william-low.png",
     imageAlt = "William De Azevedo, développeur front-end freelance",
+    canonicalPath,
     ogType = "website",
     article,
 } = Astro.props;
 
 const siteName = "William De Azevedo";
 const siteUrl = Astro.site ?? Astro.url;
-const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
+const canonicalUrl = new URL(canonicalPath ?? Astro.url.pathname, siteUrl);
 const imageUrl = new URL(image, siteUrl);
 
 const personJsonLd = {
@@ -178,6 +180,7 @@ const personJsonLd = {
                 initFadeInAnimations,
                 resetFadeInAnimations,
             } from "../scripts/animations/fadeIn";
+            import { initMobileFooterBoundary } from "../scripts/mobileFooterBoundary";
 
             const windowWithSectionReveal = window as Window & {
                 __wuiContactClickTrackingReady?: boolean;
@@ -310,6 +313,10 @@ const personJsonLd = {
             const prepareSectionReveals = (root: Document) => {
                 root.querySelectorAll<HTMLElement>("#main-content section").forEach(
                     (section, index) => {
+                        if (section.dataset.sectionReveal === "false") {
+                            return;
+                        }
+
                         if (section.dataset.revealOnScroll === "") {
                             return;
                         }
@@ -327,6 +334,7 @@ const personJsonLd = {
             };
 
             prepareSectionReveals(document);
+            initMobileFooterBoundary();
 
             if (!windowWithSectionReveal.__wuiSectionRevealReady) {
                 document.addEventListener("astro:page-load", () =>

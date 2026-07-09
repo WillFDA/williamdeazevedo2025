@@ -267,6 +267,10 @@ const calLink = String(
         width: min(720px, calc(100dvw - 2rem));
     }
 
+    .cal-drawer:not([open]) {
+        display: none;
+    }
+
     .cal-drawer::backdrop {
         backdrop-filter: blur(5px);
         background: rgb(232 229 232 / 0.48);
@@ -298,11 +302,6 @@ const calLink = String(
 
     .cal-drawer__embed {
         max-width: 640px;
-        scrollbar-width: none;
-    }
-
-    .cal-drawer__embed::-webkit-scrollbar {
-        display: none;
     }
 
     .cal-drawer__embed :global(iframe) {

@@ -1,0 +1,77 @@
+---
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro";
+import DiagnosticCta from "@/components/DiagnosticCta.astro";
+import ProjectListItem from "@/components/realisations/ProjectListItem.astro";
+import { projects } from "@/data/projects";
+import Layout from "@/layout/Layout.astro";
+
+export const prerender = true;
+
+const [featuredProject, ...secondaryProjects] = projects;
+
+const realisationsDiagnosticTitleParts = [
+    { text: "Vous" },
+    { text: "ne" },
+    { text: "savez" },
+    { text: "pas" },
+    { text: "encore" },
+    { text: "quelle" },
+    { text: "réalisation" },
+    { text: "peut" },
+    { text: "servir" },
+    { text: "de" },
+    { text: "repère ?" },
+] as const;
+
+---
+
+<Layout
+    title="Réalisations web - William De Azevedo"
+    description="Études de cas de sites vitrines, refontes et interfaces produit conçus pour clarifier une offre, rassurer et faciliter le passage à l'action."
+>
+    <div class="flex w-full flex-col gap-16 py-12 md:gap-20 md:py-16">
+        <section class="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 md:gap-20">
+            <FadeReveal delay={0.1}>
+                <div class="mx-auto flex max-w-5xl flex-col items-center gap-5 text-center">
+                    <h1 class="page-heading">
+                        Des projets pensés pour inspirer confiance
+                    </h1>
+                    <p class="page-subheading max-w-sm sm:max-w-2xl">
+                        Chaque réalisation part d'un doute concret : clarifier une
+                        offre, moderniser une expérience et guider plus naturellement
+                        vers le contact.
+                    </p>
+                </div>
+            </FadeReveal>
+
+            {
+                featuredProject && (
+                    <FadeReveal delay={0.15}>
+                        <ProjectListItem project={featuredProject} eager />
+                    </FadeReveal>
+                )
+            }
+        </section>
+
+        <DiagnosticCta
+            class="px-4 sm:px-6 lg:px-8"
+            titleParts={realisationsDiagnosticTitleParts}
+            copy="Chaque réalisation aide à situer le besoin : créer une présence claire, refaire un site qui bloque ou renforcer une base déjà en ligne."
+            buttonLabel="Faire le point en 15 min"
+            location="realisations-diagnostic"
+        />
+
+        {
+            secondaryProjects.length > 0 && (
+                <section class="mx-auto grid w-full max-w-6xl gap-16 px-4 md:gap-20">
+                    {secondaryProjects.map((project) => (
+                        <FadeRevealOnScroll>
+                            <ProjectListItem project={project} />
+                        </FadeRevealOnScroll>
+                    ))}
+                </section>
+            )
+        }
+    </div>
+</Layout>

@@ -9,7 +9,33 @@ import TouchClick from "./icons/nucleo/touch-click-fill.svg";
 import ViewAll from "./icons/nucleo/view-all-fill.svg";
 import XMark from "./icons/nucleo/xmark-fill.svg";
 
-const messyItems = [
+type MessyItem = {
+    className: string;
+    icon: "accessibility" | "ai" | "content" | "performance";
+    label: string;
+    note: string;
+    score?: string;
+    tone: "gray" | "orange" | "red";
+};
+
+type WorkingPoint = {
+    icon: "gauge" | "sparkle" | "target";
+    text: string;
+};
+
+type Props = {
+    clearItems?: readonly string[];
+    contentText?: string;
+    contentTitle?: string;
+    description?: string;
+    headingLines?: readonly string[];
+    leftLabel?: string;
+    messyItems?: readonly MessyItem[];
+    rightLabel?: string;
+    workingPoints?: readonly WorkingPoint[];
+};
+
+const defaultMessyItems = [
     {
         label: "Performance",
         note: "Page lente, images lourdes",
@@ -29,20 +55,20 @@ const messyItems = [
     {
         label: "Trop de texte",
         note: "La page explique, mais ne guide pas",
-        tone: "gray",
+        tone: "red",
         icon: "content",
         className: "messy-card--text",
     },
     {
         label: "Génération IA basique",
         note: "Un template propre, mais interchangeable",
-        tone: "gray",
+        tone: "red",
         icon: "ai",
         className: "messy-card--ai",
     },
-] as const;
+] satisfies readonly MessyItem[];
 
-const clearItems = [
+const defaultClearItems = [
     "Offre clarifiée",
     "Parcours priorisé",
     "Texte plus utile",
@@ -51,7 +77,7 @@ const clearItems = [
     "Mise en ligne propre",
 ] as const;
 
-const workingPoints = [
+const defaultWorkingPoints = [
     {
         icon: "target",
         text: "Je commence par comprendre votre offre, vos clients et les doutes qui empêchent de passer à l'action.",
@@ -64,7 +90,22 @@ const workingPoints = [
         icon: "gauge",
         text: "Le résultat doit être clair, rapide, accessible et crédible, pas seulement joli dans une capture.",
     },
-] as const;
+] satisfies readonly WorkingPoint[];
+
+const {
+    clearItems = defaultClearItems,
+    contentText = "Un bon site ne sort pas d'un prompt. Il vient d'une lecture claire de votre offre, d'un tri dans ce qui compte vraiment et de choix visuels assumés.",
+    contentTitle = "Ce n'est pas seulement une question d'outil.",
+    description = "Demander un site à l'IA ou à quelqu'un qui applique un template peut produire quelque chose de présentable. Le vrai risque, c'est de publier une page qui ne clarifie rien.",
+    headingLines = [
+        "Un site peut être généré vite.",
+        "La confiance, elle, se construit.",
+    ],
+    leftLabel = "Sans cadrage",
+    messyItems = defaultMessyItems,
+    rightLabel = "Avec moi",
+    workingPoints = defaultWorkingPoints,
+} = Astro.props as Props;
 ---
 
 <section
@@ -73,13 +114,14 @@ const workingPoints = [
 >
     <div class="flex max-w-4xl flex-col items-start gap-4 text-left">
         <h2 id="problem-comparison-title" class="section-heading problem-comparison-heading">
-            <span>Un site peut être généré vite.</span>
-            <span class="block">La confiance, elle, se construit.</span>
+            {
+                headingLines.map((line, index) => (
+                    <span class:list={[index > 0 && "block"]}>{line}</span>
+                ))
+            }
         </h2>
         <p class="section-subheading mx-0 text-left text-gray-700">
-            Demander un site à l'IA ou à quelqu'un qui applique un template peut
-            produire quelque chose de présentable. Le vrai risque, c'est de
-            publier une page qui ne clarifie rien.
+            {description}
         </p>
     </div>
 
@@ -88,7 +130,7 @@ const workingPoints = [
             <div class="comparison-visual comparison-visual--messy">
                 <span class="comparison-label">
                     <XMark class="comparison-label__x" />
-                    Sans cadrage
+                    {leftLabel}
                 </span>
                 <div class="comparison-stage comparison-stage--messy">
                     {
@@ -97,6 +139,8 @@ const workingPoints = [
                                 class:list={[
                                     "messy-card",
                                     `messy-card--${item.tone}`,
+                                    !("score" in item) &&
+                                        "messy-card--no-score",
                                     item.className,
                                 ]}
                             >
@@ -132,7 +176,7 @@ const workingPoints = [
             <div class="comparison-visual comparison-visual--clear">
                 <span class="comparison-label comparison-label--clear">
                     <Check2 class="comparison-label__check" />
-                    Avec moi
+                    {rightLabel}
                 </span>
                 <div class="comparison-stage comparison-stage--clear">
                     {
@@ -151,12 +195,10 @@ const workingPoints = [
 
         <div class="flex flex-col gap-6">
             <h3 class="m-0 text-balance text-3xl font-medium leading-none tracking-tight text-gray-900 sm:text-4xl">
-                Ce n'est pas seulement une question d'outil.
+                {contentTitle}
             </h3>
             <p class="m-0 text-lg font-light leading-normal text-gray-600">
-                Un bon site ne sort pas d'un prompt. Il vient d'une lecture
-                claire de votre offre, d'un tri dans ce qui compte vraiment et
-                de choix visuels assumés.
+                {contentText}
             </p>
             <ul class="working-points-panel flex flex-col gap-4 lg:gap-5">
                 {
@@ -190,7 +232,7 @@ const workingPoints = [
     }
 
     .comparison-visual {
-        background: color-mix(in srgb, var(--color-gray-100) 74%, white);
+        background: var(--color-surface-100);
         border-radius: 2rem;
         min-height: 27rem;
         overflow: hidden;
@@ -265,6 +307,10 @@ const workingPoints = [
         padding: 0.85rem;
         position: absolute;
         width: 86%;
+    }
+
+    .messy-card--no-score {
+        grid-template-columns: auto 1fr;
     }
 
     .messy-card__icon {
