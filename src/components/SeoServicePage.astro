@@ -108,7 +108,6 @@ const methodTitles = [
 const methodSectionTitle = "Une méthode pour éviter le flou";
 const methodSectionDescription =
     "Un cadre clair évite les allers-retours dispersés et garde les décisions reliées à un objectif : mieux faire comprendre, rassurer et déclencher la bonne action.";
-const methodSectionLinkLabel = "Comprendre ma méthode";
 const methodTimelineItems = service.steps.map((step, index) => ({
     description: step,
     icon: methodIconCycle[index % methodIconCycle.length],
@@ -346,11 +345,11 @@ const breadcrumbJsonLd = {
                 </p>
                 <a
                     class="service-method-button inline-flex min-h-14 w-fit items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:px-10"
-                    href="/methode"
+                    href="/services"
                 >
                     <WaveText
                         class="relative z-10"
-                        text={methodSectionLinkLabel}
+                        text="Voir tous les services"
                         trigger="parent"
                     />
                 </a>

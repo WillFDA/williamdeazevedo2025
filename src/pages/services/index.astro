@@ -8,7 +8,6 @@ import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro
 import CheckIcon from "@/components/icons/nucleo/check-2-outline.svg";
 import ProjectShowcase from "@/components/ProjectShowcase.astro";
 import AnimatedHeading from "@/components/ui/AnimatedHeading.astro";
-import WaveText from "@/components/ui/WaveText.astro";
 import Layout from "@/layout/Layout.astro";
 
 export const prerender = true;
@@ -131,12 +130,6 @@ const servicesDiagnosticTitleParts = [
                         label="Réserver un appel gratuit"
                         location="services-hero"
                     />
-                    <a
-                        class="services-hero-button services-hero-button--secondary flex min-h-14 w-full max-w-full items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:w-auto sm:px-10"
-                        href="/offres"
-                    >
-                        <WaveText text="Voir les offres" trigger="parent" />
-                    </a>
                 </div>
             </FadeReveal>
         </section>
@@ -212,55 +205,3 @@ const servicesDiagnosticTitleParts = [
 
     <ProjectShowcase id="services-projects" class="mt-16 sm:mt-20" />
 </Layout>
-
-<style>
-    .services-hero-button {
-        --services-hero-button-bg: var(--color-snow-600);
-        --services-hero-button-border: transparent;
-        --services-hero-button-color: var(--color-coffee-300);
-
-        color: var(--services-hero-button-color);
-        isolation: isolate;
-        position: relative;
-        text-decoration: none;
-    }
-
-    .services-hero-button::before {
-        background: var(--services-hero-button-bg);
-        border: 1px solid var(--services-hero-button-border);
-        border-radius: inherit;
-        content: "";
-        inset: 0;
-        position: absolute;
-        transform: scale(1);
-        transition: transform 520ms
-            var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
-        z-index: -1;
-    }
-
-    .services-hero-button:focus-visible::before {
-        transform: scale(0.95);
-    }
-
-    @media (hover: hover) {
-        .services-hero-button:hover::before {
-            transform: scale(0.95);
-        }
-    }
-
-    .services-hero-button:focus-visible {
-        outline: 2px solid var(--color-blue-500);
-        outline-offset: 3px;
-    }
-
-    .services-hero-button--secondary {
-        --services-hero-button-bg: var(--color-gray-100);
-    }
-
-    @media (scripting: none), (prefers-reduced-motion: reduce) {
-        .services-hero-button::before {
-            transition: none;
-        }
-
-    }
-</style>
