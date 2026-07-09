@@ -219,6 +219,14 @@ body {
   overflow-x: clip;
 }
 
+@media (max-width: 767px) {
+  html {
+    /* Safari paints the root canvas during elastic scrolling. Matching it to
+       the footer avoids a white flash if WebKit briefly exposes that canvas. */
+    background-color: var(--color-coffee-300);
+  }
+}
+
 @media (min-width: 768px) {
   html,
   body {

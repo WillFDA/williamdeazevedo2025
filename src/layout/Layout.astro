@@ -180,6 +180,7 @@ const personJsonLd = {
                 initFadeInAnimations,
                 resetFadeInAnimations,
             } from "../scripts/animations/fadeIn";
+            import { initMobileFooterBoundary } from "../scripts/mobileFooterBoundary";
 
             const windowWithSectionReveal = window as Window & {
                 __wuiContactClickTrackingReady?: boolean;
@@ -333,6 +334,7 @@ const personJsonLd = {
             };
 
             prepareSectionReveals(document);
+            initMobileFooterBoundary();
 
             if (!windowWithSectionReveal.__wuiSectionRevealReady) {
                 document.addEventListener("astro:page-load", () =>
