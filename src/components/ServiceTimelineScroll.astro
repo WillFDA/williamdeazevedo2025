@@ -1,15 +1,5 @@
 ---
-import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
-import Gauge from "./icons/nucleo/gauge-3-fill.svg";
-import Globe from "./icons/nucleo/globe-outline.svg";
-import Msgs from "./icons/nucleo/msgs-fill.svg";
-import SearchContent from "./icons/nucleo/search-content-2-fill.svg";
-import Sparkle from "./icons/nucleo/sparkle-3-fill.svg";
-import Target from "./icons/nucleo/target-fill.svg";
-import TouchClick from "./icons/nucleo/touch-click-fill.svg";
-import WindowLayout from "./icons/nucleo/window-layout-fill.svg";
-import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
-import WindowPointer from "./icons/nucleo/window-pointer-fill.svg";
+import CapabilityIcon from "./ui/CapabilityIcon.astro";
 import WaveText from "@/components/ui/WaveText.astro";
 import type {
     ServiceCapabilityTone,
@@ -115,9 +105,9 @@ const toneClasses: Record<ServiceCapabilityTone, string> = {
         )
     }
 
-    <ol
+    <div
         class:list={[
-            "service-timeline__list relative max-w-3xl list-none px-0",
+            "service-timeline__list relative max-w-3xl",
             layout === "center"
                 ? showHeader
                     ? "mx-auto mt-12 sm:mt-14"
@@ -135,48 +125,36 @@ const toneClasses: Record<ServiceCapabilityTone, string> = {
             ></span>
         </span>
 
-        {
-            items.map((item) => (
-                <li
-                    class="service-timeline__item relative grid grid-cols-[2.75rem_minmax(0,1fr)] gap-4 pb-8 text-left last:pb-0 sm:grid-cols-[3.25rem_minmax(0,1fr)] sm:gap-5 sm:pb-10"
-                    data-service-timeline-item
-                >
-                    <span
-                        class:list={[
-                            "service-timeline__icon relative z-10 flex size-10 items-center justify-center rounded-xl ring-4 ring-snow-50 sm:size-12",
-                            toneClasses[item.tone],
-                        ]}
-                        aria-hidden="true"
+        <ol class="m-0 list-none p-0">
+            {
+                items.map((item) => (
+                    <li
+                        class="service-timeline__item relative grid grid-cols-[2.75rem_minmax(0,1fr)] gap-4 pb-8 text-left last:pb-0 sm:grid-cols-[3.25rem_minmax(0,1fr)] sm:gap-5 sm:pb-10"
+                        data-service-timeline-item
                     >
-                        {item.icon === "cms" && <CodeEditor class="size-5" />}
-                        {item.icon === "conversion" && <Target class="size-5" />}
-                        {item.icon === "deploy" && <Globe class="size-5" />}
-                        {item.icon === "form" && <Msgs class="size-5" />}
-                        {item.icon === "ia" && <Sparkle class="size-5" />}
-                        {item.icon === "performance" && <Gauge class="size-5" />}
-                        {item.icon === "refonte" && (
-                            <WindowPaintbrush class="size-5" />
-                        )}
-                        {item.icon === "search" && (
-                            <SearchContent class="size-5" />
-                        )}
-                        {item.icon === "touch" && <TouchClick class="size-5" />}
-                        {item.icon === "ux" && <WindowLayout class="size-5" />}
-                        {item.icon === "web" && <WindowPointer class="size-5" />}
-                    </span>
+                        <span
+                            class:list={[
+                                "service-timeline__icon relative z-10 flex size-10 items-center justify-center rounded-xl ring-4 ring-snow-50 sm:size-12",
+                                toneClasses[item.tone],
+                            ]}
+                            aria-hidden="true"
+                        >
+                            <CapabilityIcon icon={item.icon} />
+                        </span>
 
-                    <span class="service-timeline__content relative z-10 block min-w-0 pt-1">
-                        <span class="block text-lg font-normal leading-tight text-gray-900 sm:text-xl">
-                            {item.title}
-                        </span>
-                        <span class="mt-1.5 block text-sm font-normal leading-relaxed text-gray-600 sm:text-base">
-                            {item.description}
-                        </span>
-                    </span>
-                </li>
-            ))
-        }
-    </ol>
+                        <div class="service-timeline__content relative z-10 min-w-0 pt-1">
+                            <h3 class="text-lg font-normal leading-tight text-gray-900 sm:text-xl">
+                                {item.title}
+                            </h3>
+                            <p class="mt-1.5 text-sm font-normal leading-relaxed text-gray-600 sm:text-base">
+                                {item.description}
+                            </p>
+                        </div>
+                    </li>
+                ))
+            }
+        </ol>
+    </div>
 </section>
 
 <script>

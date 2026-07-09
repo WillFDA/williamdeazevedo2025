@@ -8,7 +8,6 @@ type CarouselState = {
 };
 
 const windowWithCarousel = window as Window & {
-  __wuiCarouselLifecycleReady?: boolean;
   __wuiCarouselStates?: Set<CarouselState>;
 };
 const activeCarouselStates =
@@ -91,6 +90,24 @@ export function initCarousel(wrapperNode: HTMLElement) {
   let scheduleAutoplay = () => {};
   let cancelAutoplay = () => {};
 
+  const syncSlideAccessibility = () => {
+    const activeIndex = emblaApi.selectedScrollSnap();
+
+    slides.forEach((slide, index) => {
+      const isActive = index === activeIndex;
+      slide.setAttribute("aria-hidden", String(!isActive));
+      slide.toggleAttribute("inert", !isActive);
+    });
+  };
+
+  syncSlideAccessibility();
+  state.cleanup.push(() => {
+    slides.forEach((slide) => {
+      slide.removeAttribute("aria-hidden");
+      slide.removeAttribute("inert");
+    });
+  });
+
   const playVideo = (video: HTMLVideoElement) => {
     video.dataset.carouselActive = "true";
     video.preload = "auto";
@@ -151,6 +168,7 @@ export function initCarousel(wrapperNode: HTMLElement) {
 
   emblaApi.on("select", () => {
     isSettled = false;
+    syncSlideAccessibility();
     dispatchSlideChange();
   });
   emblaApi.on("settle", () => {
@@ -195,12 +213,27 @@ export function initCarousel(wrapperNode: HTMLElement) {
     cancelAutoplay();
     emblaApi.scrollNext();
   };
+  const pauseForFocus = () => cancelAutoplay();
+  const resumeAfterFocus = (event: FocusEvent) => {
+    if (
+      event.relatedTarget instanceof Node &&
+      wrapperNode.contains(event.relatedTarget)
+    ) {
+      return;
+    }
+
+    scheduleAutoplay();
+  };
 
   prevButtonNode.addEventListener("click", scrollPrev);
   nextButtonNode.addEventListener("click", scrollNext);
+  wrapperNode.addEventListener("focusin", pauseForFocus);
+  wrapperNode.addEventListener("focusout", resumeAfterFocus);
   state.cleanup.push(() => {
     prevButtonNode.removeEventListener("click", scrollPrev);
     nextButtonNode.removeEventListener("click", scrollNext);
+    wrapperNode.removeEventListener("focusin", pauseForFocus);
+    wrapperNode.removeEventListener("focusout", resumeAfterFocus);
   });
 
   if (shouldAutoplay) {
@@ -323,9 +356,4 @@ export function initCarousel(wrapperNode: HTMLElement) {
       autoplayButtonNode?.removeEventListener("click", toggleUserPaused);
     });
   }
-}
-
-if (windowWithCarousel.__wuiCarouselLifecycleReady !== true) {
-  windowWithCarousel.__wuiCarouselLifecycleReady = true;
-  document.addEventListener("astro:before-swap", resetCarousels);
 }

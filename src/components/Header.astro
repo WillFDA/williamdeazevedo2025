@@ -8,6 +8,7 @@ import WindowPointer from "./icons/nucleo/window-pointer-fill.svg";
 import { services } from "../data/services";
 import WaveIcon from "./ui/WaveIcon.astro";
 import WaveText from "./ui/WaveText.astro";
+import BrandMark from "./ui/BrandMark.astro";
 
 interface Props {
     pathName: string;
@@ -86,16 +87,7 @@ const items = navItems.map((item) => {
                 href="/"
                 aria-label="William De Azevedo - Accueil"
             >
-                <svg
-                    class="h-5 w-auto"
-                    viewBox="0 0 53 30"
-                    fill="currentColor"
-                    aria-hidden="true"
-                >
-                    <path d="M53 0L44.985 13.8765L37.0616 0H53Z"></path>
-                    <path d="M35.6656 30L40.8419 21.0452L28.8221 0H18.5282L23.1758 8.12843L23.1724 8.13363L28.302 17.1144L28.3037 17.1109L35.6656 30Z"></path>
-                    <path d="M17.1391 30L22.3137 21.0452L10.2938 0H0L4.64761 8.12843L4.64415 8.13363L9.7738 17.1144L9.77553 17.1109L17.1391 30Z"></path>
-                </svg>
+                <BrandMark class="h-5 w-auto" />
             </a>
             <button
                 class="mobile-menu-button"
@@ -114,16 +106,7 @@ const items = navItems.map((item) => {
             href="/"
             aria-label="William De Azevedo - Accueil"
         >
-            <svg
-                class="h-5 w-auto"
-                viewBox="0 0 53 30"
-                fill="currentColor"
-                aria-hidden="true"
-            >
-                <path d="M53 0L44.985 13.8765L37.0616 0H53Z"></path>
-                <path d="M35.6656 30L40.8419 21.0452L28.8221 0H18.5282L23.1758 8.12843L23.1724 8.13363L28.302 17.1144L28.3037 17.1109L35.6656 30Z"></path>
-                <path d="M17.1391 30L22.3137 21.0452L10.2938 0H0L4.64761 8.12843L4.64415 8.13363L9.7738 17.1144L9.77553 17.1109L17.1391 30Z"></path>
-            </svg>
+            <BrandMark class="h-5 w-auto" />
         </a>
         <ul
             class="relative hidden flex-nowrap items-center justify-center gap-1 text-xs font-light lg:flex lg:justify-self-center lg:gap-3"
@@ -132,7 +115,7 @@ const items = navItems.map((item) => {
                 items.map((item) => (
                     <li class:list={[item.id === "services" && "nav-dropdown"]}>
                         <a
-                            aria-current={item.active ? "page" : undefined}
+                            aria-current={currentPath === item.href ? "page" : undefined}
                             class:list={[
                                 "nav-link relative flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5",
                                 item.id === "services" && "nav-link--dropdown",
@@ -303,7 +286,7 @@ const items = navItems.map((item) => {
                     data-cal-open
                     href="mailto:william.deazevedopro@gmail.com"
                 >
-                    <WaveText text="Me contacter" trigger="parent" />
+                    <span>Me contacter</span>
                     <WaveIcon
                         style="--wui-wave-icon-size: 0.8rem;"
                         direction="right"
@@ -652,10 +635,14 @@ const items = navItems.map((item) => {
 
     .mobile-contact-cta {
         border-radius: 0.625rem;
+        display: flex;
         font-size: 0.9rem;
         font-weight: 400;
-        min-height: 3rem;
+        height: 3.5rem;
+        line-height: 1;
+        min-height: 3.5rem;
         padding: 0 0.95rem;
+        width: 100%;
     }
 
     .nav-contact-cta::before,
@@ -838,7 +825,8 @@ const items = navItems.map((item) => {
     .nav-dropdown__overview:focus-visible,
     .nav-dropdown__link:focus-visible {
         background: var(--color-snow-200);
-        outline: none;
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 2px;
     }
 
     @media (hover: hover) {
@@ -1009,6 +997,21 @@ const items = navItems.map((item) => {
                     setMobileMenuOpen(header, false);
                 }
             }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key !== "Escape") return;
+
+            document.querySelectorAll<HTMLElement>("[data-site-header]").forEach((header) => {
+                const button = header.querySelector<HTMLButtonElement>(
+                    "[data-mobile-menu-button]",
+                );
+
+                if (button?.getAttribute("aria-expanded") !== "true") return;
+
+                setMobileMenuOpen(header, false);
+                button.focus();
+            });
         });
 
         window.addEventListener("resize", () => {

@@ -2,6 +2,7 @@
 import Linkedin from "./icons/nucleo/linkedin-fill.svg";
 import XTwitter from "./icons/nucleo/x-twitter-fill.svg";
 import WaveText from "./ui/WaveText.astro";
+import BrandMark from "./ui/BrandMark.astro";
 import { projects } from "@/data/projects";
 
 const year = new Date().getFullYear();
@@ -66,16 +67,7 @@ const linkGroups = [
         <div class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
             <div class="max-w-xl">
                 <p class="flex flex-col items-start gap-4 text-base font-medium text-snow-50">
-                    <svg
-                        class="h-7 w-auto"
-                        viewBox="0 0 53 30"
-                        fill="currentColor"
-                        aria-hidden="true"
-                    >
-                        <path d="M53 0L44.985 13.8765L37.0616 0H53Z"></path>
-                        <path d="M35.6656 30L40.8419 21.0452L28.8221 0H18.5282L23.1758 8.12843L23.1724 8.13363L28.302 17.1144L28.3037 17.1109L35.6656 30Z"></path>
-                        <path d="M17.1391 30L22.3137 21.0452L10.2938 0H0L4.64761 8.12843L4.64415 8.13363L9.7738 17.1144L9.77553 17.1109L17.1391 30Z"></path>
-                    </svg>
+                    <BrandMark class="h-7 w-auto" />
                     <span>William De Azevedo</span>
                 </p>
                 <p class="mt-2 max-w-lg text-base font-light leading-relaxed text-snow-50/75">
@@ -109,6 +101,8 @@ const linkGroups = [
                 </div>
             </div>
             <button
+                aria-controls="cal-drawer"
+                aria-haspopup="dialog"
                 class="footer-cta relative isolate inline-flex min-h-14 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border-0 bg-transparent px-8 py-3 text-sm font-medium text-coffee-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-snow-50 sm:w-auto"
                 data-cal-location="footer"
                 data-cal-open

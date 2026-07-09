@@ -71,7 +71,7 @@ const descriptionClasses =
 <FadeReveal class={["flex", className].filter(Boolean).join(" ")} delay={delay}>
     <a
         class:list={[
-            "group relative flex w-full flex-col overflow-hidden rounded-[26px] border-[0.5px] border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500",
+            "group relative flex w-full flex-col overflow-hidden rounded-4xl border-[0.5px] border-[#ECEDF1] bg-white text-gray-900 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500",
             cardClasses[variant],
         ]}
         href={item.href}
@@ -79,7 +79,7 @@ const descriptionClasses =
     >
         <div
             class:list={[
-                "relative m-1 shrink-0 overflow-hidden rounded-3xl bg-[#F6F8FB] transition-all duration-300 ease-out",
+                "relative m-1 shrink-0 overflow-hidden rounded-3xl bg-[#F6F8FB]",
                 visualClasses[variant],
                 sceneScaleClasses[variant],
             ]}

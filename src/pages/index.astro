@@ -9,15 +9,14 @@ import PricingPreview from "../components/PricingPreview.astro";
 import ProblemComparison from "../components/ProblemComparison.astro";
 import ProjectShowcase from "../components/ProjectShowcase.astro";
 import TestimonialsSection from "../components/TestimonialsSection.astro";
-import Differenciates from "@/sections/Differenciates.astro";
 import ArrowRight from "../components/icons/nucleo/arrow-right-fill.svg";
 import SearchContent from "../components/icons/nucleo/search-content-2-fill.svg";
 import Star from "../components/icons/nucleo/star-fill.svg";
 import { Image } from "astro:assets";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
-import { temoignages } from "../data/temoignage";
-import { getProjectById } from "@/data/projects";
+import AnimatedHeading from "../components/ui/AnimatedHeading.astro";
+import { getPublishedTestimonials } from "@/lib/testimonials";
 
 export const prerender = true;
 
@@ -138,33 +137,14 @@ const expertiseItems = [
     },
 ] as const;
 
-const testimonialImages = import.meta.glob<{ default: ImageMetadata }>(
-    "../assets/temoignages/*.{jpg,jpeg,png,webp}",
-    { eager: true },
-);
-const displayedTestimonials = temoignages
-    .filter((temoignage) => temoignage.published !== false)
-    .map((temoignage) => {
-        const project = getProjectById(temoignage.projectId);
-
-        if (!project) {
-            throw new Error(`Projet introuvable pour ${temoignage.id}`);
-        }
-
-        return {
-            ...temoignage,
-            href: project.href,
-            image: temoignage.imageFile
-                ? testimonialImages[
-                      `../assets/temoignages/${temoignage.imageFile}`
-                  ]?.default
-                : undefined,
-        };
-    });
+const displayedTestimonials = getPublishedTestimonials();
 ---
 
 <Layout>
-    <section class="mx-auto flex w-full min-w-0 max-w-5xl flex-col gap-6 px-2 sm:px-4">
+    <section
+        class="mx-auto flex w-full min-w-0 max-w-5xl flex-col gap-6 px-2 sm:px-4"
+        data-section-reveal="false"
+    >
         <a
             aria-label="Avis Google : 5 étoiles sur 5"
             class="mx-auto inline-flex max-w-full items-center gap-2 rounded-xl bg-snow-50 px-3.5 py-2 text-sm font-normal leading-tight text-gray-900 no-underline shadow-[0_10px_22px_-16px_rgba(34,42,55,0.45)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 sm:text-base"
@@ -179,24 +159,10 @@ const displayedTestimonials = temoignages
                 <span>5.0</span>
             </span>
         </a>
-        <h1
+        <AnimatedHeading
             class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
-            data-animated-title
-        >
-            {
-                heroTitleParts.map((part, index) => (
-                    <span
-                        class:list={[
-                            part.pill && "title-pill",
-                        ]}
-                        style={`--animated-word-index: ${index}`}
-                        data-animated-title-word
-                    >
-                        {part.text}
-                    </span>
-                ))
-            }
-        </h1>
+            parts={heroTitleParts}
+        />
         <FadeReveal delay={0.32}>
             <p
                 class="page-subheading max-w-sm sm:max-w-lg"
@@ -209,6 +175,8 @@ const displayedTestimonials = temoignages
         <FadeReveal delay={0.44}>
             <div class="mx-auto mt-5 flex w-full max-w-sm flex-col items-center justify-center gap-3 sm:mt-7 sm:max-w-none sm:flex-row sm:gap-8">
                 <button
+                    aria-controls="cal-drawer"
+                    aria-haspopup="dialog"
                     class="hero-button hero-button--primary flex min-h-14 w-full max-w-full items-center justify-center gap-5 rounded-xl px-8 py-3 text-base font-normal sm:w-auto sm:px-10"
                     data-cal-location="hero"
                     data-cal-open
@@ -301,6 +269,8 @@ const displayedTestimonials = temoignages
         />
         <div class="mt-12 flex justify-center">
             <button
+                aria-controls="cal-drawer"
+                aria-haspopup="dialog"
                 class="expertise-cta inline-flex min-h-14 items-center justify-center gap-5 rounded-xl px-8 py-3 text-base font-normal focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
                 data-cal-location="expertise"
                 data-cal-open
@@ -321,7 +291,6 @@ const displayedTestimonials = temoignages
     <FaqSection title="Questions fréquentes" />
     <TestimonialsSection />
     <ProjectShowcase />
-    <Differenciates />
 </Layout>
 
 <script>
@@ -358,44 +327,6 @@ const displayedTestimonials = temoignages
         );
     }
 
-    const revealTitle = (title: HTMLElement) => {
-        if (title.dataset.animatedTitleReady === "true") return;
-        title.dataset.animatedTitleReady = "true";
-    };
-
-    const initTitleAnimations = () => {
-        let observedCount = 0;
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (!entry.isIntersecting) return;
-
-                    const title = entry.target as HTMLElement;
-
-                    observer.unobserve(title);
-                    revealTitle(title);
-                });
-            },
-            { rootMargin: "0px 0px -10% 0px", threshold: 0.2 },
-        );
-
-        document
-            .querySelectorAll<HTMLElement>("[data-animated-title]")
-            .forEach((title) => {
-                if (title.dataset.animatedTitleReady) return;
-
-                title.dataset.animatedTitleReady = "pending";
-                observer.observe(title);
-                observedCount += 1;
-            });
-
-        if (observedCount > 0) {
-            registerHomeInteractionCleanup(() => observer.disconnect());
-        } else {
-            observer.disconnect();
-        }
-    };
-
     const initTestimonialRotators = () => {
         document
             .querySelectorAll<HTMLElement>("[data-testimonial-rotator]")
@@ -410,6 +341,18 @@ const displayedTestimonials = temoignages
 
                 if (items.length < 2) return;
 
+                if (
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+                ) {
+                    items.forEach((item, index) => {
+                        const isActive = index === 0;
+                        item.classList.toggle("is-active", isActive);
+                        item.setAttribute("aria-hidden", String(!isActive));
+                        item.toggleAttribute("inert", !isActive);
+                    });
+                    return;
+                }
+
                 const interval = Math.max(
                     1200,
                     Number.parseInt(root.dataset.testimonialInterval ?? "", 10) ||
@@ -418,6 +361,7 @@ const displayedTestimonials = temoignages
                 let activeIndex = items.findIndex((item) =>
                     item.classList.contains("is-active"),
                 );
+                let isPausedByInteraction = false;
                 let timeout: number | undefined;
 
                 if (activeIndex < 0) activeIndex = 0;
@@ -438,6 +382,8 @@ const displayedTestimonials = temoignages
 
                 const schedule = () => {
                     window.clearTimeout(timeout);
+                    if (isPausedByInteraction) return;
+
                     timeout = window.setTimeout(() => {
                         if (!document.hidden) {
                             setActiveItem((activeIndex + 1) % items.length);
@@ -447,23 +393,48 @@ const displayedTestimonials = temoignages
                     }, interval);
                 };
 
+                const pause = () => {
+                    isPausedByInteraction = true;
+                    window.clearTimeout(timeout);
+                };
+                const resume = () => {
+                    isPausedByInteraction = false;
+                    schedule();
+                };
+                const resumeAfterFocus = (event: FocusEvent) => {
+                    if (
+                        event.relatedTarget instanceof Node &&
+                        root.contains(event.relatedTarget)
+                    ) {
+                        return;
+                    }
+
+                    resume();
+                };
+
                 root.dataset.testimonialRotatorReady = "true";
                 setActiveItem(activeIndex);
+                root.addEventListener("focusin", pause);
+                root.addEventListener("focusout", resumeAfterFocus);
+                root.addEventListener("mouseenter", pause);
+                root.addEventListener("mouseleave", resume);
                 schedule();
                 registerHomeInteractionCleanup(() => {
                     window.clearTimeout(timeout);
+                    root.removeEventListener("focusin", pause);
+                    root.removeEventListener("focusout", resumeAfterFocus);
+                    root.removeEventListener("mouseenter", pause);
+                    root.removeEventListener("mouseleave", resume);
                     delete root.dataset.testimonialRotatorReady;
                 });
             });
     };
 
-    initTitleAnimations();
     initTestimonialRotators();
 
     if (windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady !== true) {
         windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady = true;
         document.addEventListener("astro:before-swap", resetHomeInteractions);
-        document.addEventListener("astro:page-load", initTitleAnimations);
         document.addEventListener("astro:page-load", initTestimonialRotators);
     }
 </script>
@@ -484,10 +455,6 @@ const displayedTestimonials = temoignages
             filter: none;
             opacity: 1;
         }
-    }
-
-    [data-animated-title-word] {
-        display: inline-block;
     }
 
     .testimonial-rotator {
@@ -549,44 +516,9 @@ const displayedTestimonials = temoignages
         }
     }
 
-    [data-animated-title]:not([data-animated-title-ready="true"])
-        [data-animated-title-word] {
-        filter: blur(10px);
-        opacity: 0;
-        transform: translateY(-0.65em);
-    }
-
-    [data-animated-title][data-animated-title-ready="true"]
-        [data-animated-title-word] {
-        animation: animated-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
-            backwards;
-        animation-delay: calc(var(--animated-word-index, 0) * 65ms);
-    }
-
-    @keyframes animated-title-word {
-        from {
-            filter: blur(10px);
-            opacity: 0;
-            transform: translateY(-0.65em);
-        }
-
-        to {
-            filter: none;
-            opacity: 1;
-            transform: none;
-        }
-    }
-
     @media (scripting: none), (prefers-reduced-motion: reduce) {
         [data-hero-eyebrow] {
             animation: none;
-        }
-
-        [data-animated-title] [data-animated-title-word] {
-            animation: none;
-            filter: none;
-            opacity: 1;
-            transform: none;
         }
 
         .testimonial-rotator__item {

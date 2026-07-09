@@ -8,6 +8,7 @@ import RelatedServicesBento from "@/components/RelatedServicesBento.astro";
 import ServiceDiagnosticToggle from "@/components/ServiceDiagnosticToggle.astro";
 import ServiceTimelineScroll from "@/components/ServiceTimelineScroll.astro";
 import ProjectListItem from "@/components/realisations/ProjectListItem.astro";
+import AnimatedHeading from "@/components/ui/AnimatedHeading.astro";
 import WaveText from "@/components/ui/WaveText.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import { getProjectById } from "@/data/projects";
@@ -190,41 +191,24 @@ const breadcrumbJsonLd = {
         set:html={JSON.stringify(breadcrumbJsonLd)}
     />
 
-    <div
-        class:list={[
-            "mx-auto flex w-full max-w-5xl flex-col gap-12 px-4",
-            "pt-7 pb-12 md:pt-10 md:pb-16",
-        ]}
-    >
-        <FadeReveal delay={0.1}>
-            <section class="mx-auto flex w-full min-w-0 max-w-5xl flex-col items-center gap-6 text-center">
-                <h1
-                    class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
-                    data-service-animated-title
-                >
-                    {
-                        heroTitleParts.map((part, index) => (
-                            <span
-                                class:list={[part.pill && "title-pill"]}
-                                style={`--animated-word-index: ${index}`}
-                                data-service-animated-title-word
-                            >
-                                {part.text}
-                            </span>
-                        ))
-                    }
-                </h1>
+    <div class="mx-auto flex w-full max-w-5xl flex-col gap-20 px-4 pt-10 pb-20 sm:gap-28 sm:pt-14 sm:pb-28 lg:gap-32 lg:pt-16 lg:pb-32">
+        <section
+            class="mx-auto flex w-full min-w-0 max-w-5xl flex-col items-center gap-6 text-center"
+            data-section-reveal="false"
+        >
+            <AnimatedHeading
+                class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
+                parts={heroTitleParts}
+            />
+            <FadeReveal delay={0.32}>
                 <p class="page-subheading max-w-sm sm:max-w-lg">
                     {service.intro}
                 </p>
-                <div
-                    class:list={[
-                        "flex flex-col items-center gap-3 sm:flex-row",
-                        "mt-3 sm:mt-4",
-                    ]}
-                >
+            </FadeReveal>
+            <FadeReveal class="w-full sm:w-auto" delay={0.44}>
+                <div class="mt-3 flex w-full flex-col items-center gap-3 sm:mt-4 sm:w-auto sm:flex-row">
                     <CalButton
-                        class="rounded-xl text-base font-normal"
+                        class="w-full rounded-xl text-base font-normal sm:w-auto"
                         label="Échanger sur ce besoin"
                         location={`service-${service.slug}-hero`}
                     />
@@ -243,30 +227,30 @@ const breadcrumbJsonLd = {
                         )
                     }
                 </div>
-                {
-                    service.capabilities && (
-                        <CapabilitiesStrip
-                            capabilities={service.capabilities}
-                            class="mt-8 sm:mt-10"
-                            compact
-                            title="Ce que ce service peut corriger"
-                        />
-                    )
-                }
-                {
-                    service.diagnostic && (
-                        <ServiceDiagnosticToggle
-                            afterItems={service.diagnostic.afterItems}
-                            afterLabel={service.diagnostic.afterLabel}
-                            beforeItems={service.diagnostic.beforeItems}
-                            beforeLabel={service.diagnostic.beforeLabel}
-                            description={service.diagnostic.description}
-                            title={service.diagnostic.title}
-                        />
-                    )
-                }
-            </section>
-        </FadeReveal>
+            </FadeReveal>
+            {
+                service.capabilities && (
+                    <CapabilitiesStrip
+                        capabilities={service.capabilities}
+                        class="mt-8 sm:mt-10"
+                        compact
+                        title="Ce que ce service peut corriger"
+                    />
+                )
+            }
+            {
+                service.diagnostic && (
+                    <ServiceDiagnosticToggle
+                        afterItems={service.diagnostic.afterItems}
+                        afterLabel={service.diagnostic.afterLabel}
+                        beforeItems={service.diagnostic.beforeItems}
+                        beforeLabel={service.diagnostic.beforeLabel}
+                        description={service.diagnostic.description}
+                        title={service.diagnostic.title}
+                    />
+                )
+            }
+        </section>
 
         {
             service.slug === "developpeur-web-freelance" && (
@@ -352,34 +336,35 @@ const breadcrumbJsonLd = {
             titleParts={finalCtaTitleParts}
         />
 
-        <section class="mx-auto mt-16 flex w-full max-w-5xl flex-col items-center gap-4 text-center sm:mt-20">
-            <h2 class="section-heading">
-                {methodSectionTitle}
-            </h2>
-            <p class="section-subheading">
-                {methodSectionDescription}
-            </p>
-            <a
-                class="service-method-button inline-flex min-h-14 w-fit items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:px-10"
-                href="/methode"
-            >
-                <WaveText
-                    class="relative z-10"
-                    text={methodSectionLinkLabel}
-                    trigger="parent"
-                />
-            </a>
-        </section>
+        <div class="flex flex-col gap-8 sm:gap-10">
+            <section class="mx-auto flex w-full max-w-5xl flex-col items-center gap-4 text-center">
+                <h2 class="section-heading">
+                    {methodSectionTitle}
+                </h2>
+                <p class="section-subheading">
+                    {methodSectionDescription}
+                </p>
+                <a
+                    class="service-method-button inline-flex min-h-14 w-fit items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:px-10"
+                    href="/methode"
+                >
+                    <WaveText
+                        class="relative z-10"
+                        text={methodSectionLinkLabel}
+                        trigger="parent"
+                    />
+                </a>
+            </section>
 
-        <ServiceTimelineScroll
-            class="mt-8 sm:mt-10"
-            description={methodSectionDescription}
-            id={`${service.slug}-method-timeline`}
-            items={methodTimelineItems}
-            layout="center"
-            showHeader={false}
-            title={methodSectionTitle}
-        />
+            <ServiceTimelineScroll
+                description={methodSectionDescription}
+                id={`${service.slug}-method-timeline`}
+                items={methodTimelineItems}
+                layout="center"
+                showHeader={false}
+                title={methodSectionTitle}
+            />
+        </div>
 
         <FaqSection
             id={`${service.slug}-faq`}
@@ -394,49 +379,7 @@ const breadcrumbJsonLd = {
     </div>
 </Layout>
 
-<script>
-    const revealServiceTitle = (title: HTMLElement) => {
-        if (title.dataset.animatedTitleReady === "true") return;
-        title.dataset.animatedTitleReady = "true";
-    };
-
-    const initServiceTitle = () => {
-        const title = document.querySelector<HTMLElement>(
-            "[data-service-animated-title]",
-        );
-
-        if (!title || title.dataset.animatedTitleReady) return;
-
-        if (
-            window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-            !("IntersectionObserver" in window)
-        ) {
-            revealServiceTitle(title);
-            return;
-        }
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (!entry?.isIntersecting) return;
-                revealServiceTitle(title);
-                observer.disconnect();
-            },
-            { rootMargin: "0px 0px -10% 0px", threshold: 0.2 },
-        );
-
-        observer.observe(title);
-    };
-
-    initServiceTitle();
-
-    document.addEventListener("astro:page-load", initServiceTitle);
-</script>
-
 <style>
-    [data-service-animated-title-word] {
-        display: inline-block;
-    }
-
     .service-method-button {
         --service-method-button-bg: var(--color-gray-100);
         --service-method-button-border: transparent;
@@ -478,40 +421,4 @@ const breadcrumbJsonLd = {
         }
     }
 
-    [data-service-animated-title]:not([data-animated-title-ready="true"])
-        [data-service-animated-title-word] {
-        filter: blur(10px);
-        opacity: 0;
-        transform: translateY(-0.65em);
-    }
-
-    [data-service-animated-title][data-animated-title-ready="true"]
-        [data-service-animated-title-word] {
-        animation: service-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
-            backwards;
-        animation-delay: calc(var(--animated-word-index, 0) * 65ms);
-    }
-
-    @keyframes service-title-word {
-        from {
-            filter: blur(10px);
-            opacity: 0;
-            transform: translateY(-0.65em);
-        }
-
-        to {
-            filter: none;
-            opacity: 1;
-            transform: none;
-        }
-    }
-
-    @media (scripting: none), (prefers-reduced-motion: reduce) {
-        [data-service-animated-title] [data-service-animated-title-word] {
-            animation: none;
-            filter: none;
-            opacity: 1;
-            transform: none;
-        }
-    }
 </style>

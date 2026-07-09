@@ -1,35 +1,16 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import { buildRevealStyle, joinClasses } from "@/lib/reveal";
 
-type StyleValue = HTMLAttributes<"div">["style"];
 type Props = Omit<HTMLAttributes<"div">, "class"> & {
     animate?: boolean;
     class?: string;
-    className?: string;
     delay?: number | string;
-};
-
-const joinClasses = (...classes: Array<string | undefined>) =>
-    classes.filter(Boolean).join(" ");
-const formatDelay = (delay: number | string) =>
-    typeof delay === "number" ? `${delay}s` : delay;
-const buildStyle = (
-    delay: number | string,
-    style: StyleValue,
-    shouldAnimate: boolean,
-) => {
-    if (!shouldAnimate) return style;
-    const baseStyle = { "--fade-delay": formatDelay(delay) };
-    if (typeof style === "string") {
-        return `--fade-delay: ${formatDelay(delay)}; ${style}`;
-    }
-    return { ...baseStyle, ...style };
 };
 
 const {
     animate = true,
     class: classAttribute,
-    className,
     delay = 0,
     style,
     ...restProps
@@ -38,8 +19,8 @@ const {
 
 <div
     {...restProps}
-    class={joinClasses(animate ? "fade-reveal" : undefined, className, classAttribute)}
-    style={buildStyle(delay, style, animate)}
+    class={joinClasses(animate && "fade-reveal", classAttribute)}
+    style={buildRevealStyle(delay, style, animate)}
 >
     <slot />
 </div>

@@ -177,6 +177,10 @@ const personJsonLd = {
             const prepareSectionReveals = (root: Document) => {
                 root.querySelectorAll<HTMLElement>("#main-content section").forEach(
                     (section, index) => {
+                        if (section.dataset.sectionReveal === "false") {
+                            return;
+                        }
+
                         if (section.dataset.revealOnScroll === "") {
                             return;
                         }

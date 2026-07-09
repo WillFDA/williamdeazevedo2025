@@ -1,35 +1,16 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import { buildRevealStyle, joinClasses } from "@/lib/reveal";
 
-type StyleValue = HTMLAttributes<"div">["style"];
 type Props = Omit<HTMLAttributes<"div">, "class"> & {
     animate?: boolean;
     class?: string;
-    className?: string;
     delay?: number | string;
-};
-
-const joinClasses = (...classes: Array<string | undefined>) =>
-    classes.filter(Boolean).join(" ");
-const formatDelay = (delay: number | string) =>
-    typeof delay === "number" ? `${delay}s` : delay;
-const buildStyle = (
-    delay: number | string,
-    style: StyleValue,
-    shouldAnimate: boolean,
-) => {
-    if (!shouldAnimate) return style;
-    const baseStyle = { "--fade-delay": formatDelay(delay) };
-    if (typeof style === "string") {
-        return `--fade-delay: ${formatDelay(delay)}; ${style}`;
-    }
-    return { ...baseStyle, ...style };
 };
 
 const {
     animate = true,
     class: classAttribute,
-    className,
     delay = 0,
     style,
     ...restProps
@@ -39,12 +20,11 @@ const {
 <div
     {...restProps}
     class={joinClasses(
-        animate ? "fade-reveal-on-scroll is-reveal-ready" : undefined,
-        className,
+        animate && "fade-reveal-on-scroll is-reveal-ready",
         classAttribute,
     )}
     data-reveal-on-scroll={animate ? "" : undefined}
-    style={buildStyle(delay, style, animate)}
+    style={buildRevealStyle(delay, style, animate)}
 >
     <slot />
 </div>
@@ -93,30 +73,3 @@ const {
         }
     }
 </style>
-
-<script>
-    import {
-        initFadeInAnimations,
-        resetFadeInAnimations,
-    } from "../../scripts/animations/fadeIn";
-
-    // Bundled module scripts run only once, so this direct call covers the
-    // first page load. Under <ClientRouter /> the DOM is swapped in place and
-    // this module is not re-executed, so we also (re)observe the freshly
-    // rendered reveal targets on every navigation via astro:page-load, and
-    // drop the previous page's observer on astro:before-swap.
-    initFadeInAnimations(document);
-
-    const windowWithRevealFlag = window as unknown as {
-        __revealOnScrollBound?: boolean;
-    };
-    if (!windowWithRevealFlag.__revealOnScrollBound) {
-        windowWithRevealFlag.__revealOnScrollBound = true;
-        document.addEventListener("astro:page-load", () =>
-            initFadeInAnimations(document),
-        );
-        document.addEventListener("astro:before-swap", () =>
-            resetFadeInAnimations(document),
-        );
-    }
-</script>

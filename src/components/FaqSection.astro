@@ -26,13 +26,14 @@ interface Props {
     title?: string;
 }
 
-const persistanceProject = getProjectById("persistance");
+const getDefaultFaqItems = () => {
+    const persistanceProject = getProjectById("persistance");
 
-if (!persistanceProject) {
-    throw new Error("Projet Persistance introuvable pour la FAQ.");
-}
+    if (!persistanceProject) {
+        throw new Error("Projet Persistance introuvable pour la FAQ.");
+    }
 
-const defaultFaqItems = [
+    return [
     {
         question: "Est-ce qu'un site à 2 000 € suffit toujours ?",
         answer:
@@ -92,7 +93,8 @@ const defaultFaqItems = [
         answer:
             "Oui. Pour une interface produit, je cadre d'abord les écrans, les rôles, les états, les données et les intégrations. Le devis dépend surtout de cette complexité, pas seulement du nombre de pages.",
     },
-] as const;
+    ] as const;
+};
 
 const {
     class: className,
@@ -100,12 +102,12 @@ const {
     ctaLocation = "faq",
     description,
     id = "faq",
-    items = defaultFaqItems,
+    items,
     padded = true,
     showCta = true,
     title = "FAQ",
 } = Astro.props;
-const faqItems = Array.from(items);
+const faqItems = Array.from(items ?? getDefaultFaqItems());
 
 const accordionClasses = {
     content:
@@ -150,6 +152,8 @@ const accordionClasses = {
         showCta && (
             <div class="mt-10 flex justify-center">
                 <button
+                    aria-controls="cal-drawer"
+                    aria-haspopup="dialog"
                     class="faq-cta inline-flex min-h-14 items-center justify-center gap-5 rounded-xl bg-coffee-300 px-8 py-3 text-base font-normal text-snow-50 shadow-lg transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
                     data-cal-location={ctaLocation}
                     data-cal-open

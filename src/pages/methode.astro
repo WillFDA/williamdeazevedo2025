@@ -5,11 +5,9 @@ import ServiceDiagnosticToggle from "@/components/ServiceDiagnosticToggle.astro"
 import ServiceTimelineScroll from "@/components/ServiceTimelineScroll.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro";
-import CheckIcon from "@/components/icons/nucleo/check-2-outline.svg";
 import GlobeIcon from "@/components/icons/nucleo/globe-outline.svg";
 import MsgsIcon from "@/components/icons/nucleo/msgs-fill.svg";
 import SearchContentIcon from "@/components/icons/nucleo/search-content-2-fill.svg";
-import TargetIcon from "@/components/icons/nucleo/target-fill.svg";
 import WindowLayoutIcon from "@/components/icons/nucleo/window-layout-fill.svg";
 import type { ServiceTimelinePoint } from "@/data/services";
 import Layout from "@/layout/Layout.astro";
@@ -85,23 +83,6 @@ const methodologyCapabilities = [
     { icon: "deploy", label: "Mise en ligne", tone: "orange" },
     { icon: "conversion", label: "Suivi 30 jours", tone: "indigo" },
 ] as const;
-
-const clientNeeds = [
-    "un interlocuteur principal",
-    "les contenus et visuels disponibles",
-    "les accès utiles au domaine, hébergement ou outils",
-    "des retours regroupés à chaque étape",
-    "une validation claire avant de passer à l'étape suivante",
-];
-
-const delivered = [
-    "un site ou une interface publiée",
-    "les accès nécessaires",
-    "une base technique maintenable",
-    "les éléments SEO techniques prévus au périmètre",
-    "un point de transmission ou de prise en main",
-    "une mesure en place : Search Console et tableau de bord des conversions",
-];
 
 const collaborationFlow = [
     {

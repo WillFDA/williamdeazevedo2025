@@ -1,0 +1,33 @@
+---
+import type { ServiceCapabilityIcon } from "@/data/services";
+import CodeEditor from "@/components/icons/nucleo/code-editor-fill.svg";
+import Gauge from "@/components/icons/nucleo/gauge-3-fill.svg";
+import Globe from "@/components/icons/nucleo/globe-outline.svg";
+import Msgs from "@/components/icons/nucleo/msgs-fill.svg";
+import SearchContent from "@/components/icons/nucleo/search-content-2-fill.svg";
+import Sparkle from "@/components/icons/nucleo/sparkle-3-fill.svg";
+import Target from "@/components/icons/nucleo/target-fill.svg";
+import TouchClick from "@/components/icons/nucleo/touch-click-fill.svg";
+import WindowLayout from "@/components/icons/nucleo/window-layout-fill.svg";
+import WindowPaintbrush from "@/components/icons/nucleo/window-paintbrush-fill.svg";
+import WindowPointer from "@/components/icons/nucleo/window-pointer-fill.svg";
+
+interface Props {
+    class?: string;
+    icon: ServiceCapabilityIcon;
+}
+
+const { class: className = "size-5", icon } = Astro.props;
+---
+
+{icon === "cms" && <CodeEditor class={className} />}
+{icon === "conversion" && <Target class={className} />}
+{icon === "deploy" && <Globe class={className} />}
+{icon === "form" && <Msgs class={className} />}
+{icon === "ia" && <Sparkle class={className} />}
+{icon === "performance" && <Gauge class={className} />}
+{icon === "refonte" && <WindowPaintbrush class={className} />}
+{icon === "search" && <SearchContent class={className} />}
+{icon === "touch" && <TouchClick class={className} />}
+{icon === "ux" && <WindowLayout class={className} />}
+{icon === "web" && <WindowPointer class={className} />}
