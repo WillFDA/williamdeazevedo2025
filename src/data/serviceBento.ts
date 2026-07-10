@@ -101,8 +101,8 @@ export const servicesOverviewBentoItems = [
   {
     description:
       "Structure, vitesse, métadonnées, formulaires et mise en ligne : je pose une base propre pour être trouvé, compris et contacté.",
-    href: "/tarif-creation-site-internet",
-    linkLabel: "Découvrir SEO et mise en ligne",
+    href: "/tarifs",
+    linkLabel: "Voir les tarifs et options",
     title: "SEO & mise en ligne",
     variant: "small",
     visual: "seo",
