@@ -17,9 +17,9 @@ interface Props {
 const { pathName } = Astro.props;
 const navItems = [
     { href: "/", id: "home", label: "Accueil" },
-    { href: "/services", id: "services", label: "Services" },
-    { href: "/realisations", id: "realisations", label: "Réalisations" },
-    { href: "/articles", id: "articles", label: "Articles" },
+    { href: "/services/", id: "services", label: "Services" },
+    { href: "/realisations/", id: "realisations", label: "Réalisations" },
+    { href: "/articles/", id: "articles", label: "Articles" },
 ];
 type ServiceIconKind = "code" | "paintbrush" | "pointer";
 
@@ -36,7 +36,7 @@ const getServiceIconKind = (href: string): ServiceIconKind => {
 };
 
 const serviceLinks = services.map((service) => {
-    const href = service.rootPath ?? `/services/${service.slug}`;
+    const href = service.rootPath ?? `/services/${service.slug}/`;
 
     return {
         href,
@@ -113,7 +113,11 @@ const items = navItems.map((item) => {
                 items.map((item) => (
                     <li class:list={[item.id === "services" && "nav-dropdown"]}>
                         <a
-                            aria-current={currentPath === item.href ? "page" : undefined}
+                            aria-current={
+                                currentPath === normalizePath(item.href)
+                                    ? "page"
+                                    : undefined
+                            }
                             class:list={[
                                 "nav-link relative flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5",
                                 item.id === "services" && "nav-link--dropdown",
@@ -149,7 +153,7 @@ const items = navItems.map((item) => {
                                     <div class="nav-dropdown__list">
                                         <a
                                             class="nav-dropdown__overview"
-                                            href="/services"
+                                            href="/services/"
                                         >
                                             <span
                                                 class="nav-dropdown__icon"
@@ -228,7 +232,7 @@ const items = navItems.map((item) => {
                                     <a
                                         aria-current={item.active ? "page" : undefined}
                                         class="mobile-service-link"
-                                        href="/services"
+                                        href="/services/"
                                     >
                                         <span
                                             class="nav-dropdown__icon"

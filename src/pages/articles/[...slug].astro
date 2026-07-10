@@ -42,7 +42,7 @@ const [articleTitleStart, articleTitleEnd = ""] = shouldSplitArticleTitle
     : [title, ""];
 
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
-const canonicalUrl = new URL(`/articles/${article.id}`, siteUrl);
+const canonicalUrl = new URL(`/articles/${article.id}/`, siteUrl);
 const ogImage = new URL(image?.src ?? "/pictures/william-low.png", siteUrl);
 
 const jsonLd = {
@@ -83,7 +83,7 @@ const breadcrumbJsonLd = {
             "@type": "ListItem",
             position: 2,
             name: "Articles",
-            item: new URL("/articles", siteUrl).href,
+            item: new URL("/articles/", siteUrl).href,
         },
         {
             "@type": "ListItem",
@@ -139,7 +139,7 @@ const getTagIcon = (tag: string) => {
             <header class="mx-auto mb-12 max-w-5xl text-center">
                 <a
                     class="mb-6 inline-flex items-center gap-2 text-sm font-normal text-gray-500 transition-colors hover:text-gray-900"
-                    href="/articles"
+                    href="/articles/"
                 >
                     <ChevronLeft aria-hidden="true" class="size-4" />
                     Tous les articles

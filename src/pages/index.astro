@@ -195,7 +195,7 @@ const displayedTestimonials = getPublishedTestimonials();
                 </button>
                 <a
                     class="hero-button hero-button--secondary flex min-h-14 w-full max-w-full items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:w-auto sm:px-10"
-                    href="/services"
+                    href="/services/"
                     ><WaveText
                         text="Découvrir mes services"
                         trigger="parent"
@@ -203,7 +203,7 @@ const displayedTestimonials = getPublishedTestimonials();
                 >
             </div>
         </FadeReveal>
-        <FadeReveal delay={0.56}>
+        <FadeReveal animate={false}>
             <div
                 class="testimonial-rotator mx-auto mb-4 mt-0 text-center text-xs"
                 data-testimonial-rotator
@@ -217,6 +217,9 @@ const displayedTestimonials = getPublishedTestimonials();
                                 index === 0 && "is-active",
                             ]}
                             data-testimonial-item
+                            data-testimonial-initial={
+                                index === 0 ? true : undefined
+                            }
                             aria-hidden={index === 0 ? undefined : "true"}
                             inert={index === 0 ? undefined : true}
                         >
@@ -361,12 +364,20 @@ const displayedTestimonials = getPublishedTestimonials();
                 let activeIndex = items.findIndex((item) =>
                     item.classList.contains("is-active"),
                 );
+                let hasAutoplayStarted = false;
                 let isPausedByInteraction = false;
                 let timeout: number | undefined;
 
                 if (activeIndex < 0) activeIndex = 0;
 
                 const setActiveItem = (nextIndex: number) => {
+                    if (nextIndex !== 0) {
+                        const initialItem = items[0];
+                        if (initialItem) {
+                            delete initialItem.dataset.testimonialInitial;
+                        }
+                    }
+
                     activeIndex = nextIndex;
                     items.forEach((item, index) => {
                         const isActive = index === activeIndex;
@@ -399,7 +410,7 @@ const displayedTestimonials = getPublishedTestimonials();
                 };
                 const resume = () => {
                     isPausedByInteraction = false;
-                    schedule();
+                    if (hasAutoplayStarted) schedule();
                 };
                 const resumeAfterFocus = (event: FocusEvent) => {
                     if (
@@ -411,6 +422,18 @@ const displayedTestimonials = getPublishedTestimonials();
 
                     resume();
                 };
+                const stopWaitingForInteraction = () => {
+                    window.removeEventListener("click", startAutoplay);
+                    window.removeEventListener("keydown", startAutoplay);
+                    window.removeEventListener("scroll", startAutoplay);
+                };
+                const startAutoplay = () => {
+                    if (hasAutoplayStarted) return;
+
+                    hasAutoplayStarted = true;
+                    stopWaitingForInteraction();
+                    schedule();
+                };
 
                 root.dataset.testimonialRotatorReady = "true";
                 setActiveItem(activeIndex);
@@ -418,9 +441,14 @@ const displayedTestimonials = getPublishedTestimonials();
                 root.addEventListener("focusout", resumeAfterFocus);
                 root.addEventListener("mouseenter", pause);
                 root.addEventListener("mouseleave", resume);
-                schedule();
+                window.addEventListener("click", startAutoplay);
+                window.addEventListener("keydown", startAutoplay);
+                window.addEventListener("scroll", startAutoplay, {
+                    passive: true,
+                });
                 registerHomeInteractionCleanup(() => {
                     window.clearTimeout(timeout);
+                    stopWaitingForInteraction();
                     root.removeEventListener("focusin", pause);
                     root.removeEventListener("focusout", resumeAfterFocus);
                     root.removeEventListener("mouseenter", pause);
@@ -500,6 +528,12 @@ const displayedTestimonials = getPublishedTestimonials();
 
     .testimonial-rotator__item.is-active .testimonial-rotator__person {
         animation-delay: 360ms;
+    }
+
+    .testimonial-rotator__item[data-testimonial-initial] blockquote,
+    .testimonial-rotator__item[data-testimonial-initial]
+        .testimonial-rotator__person {
+        animation: none;
     }
 
     @keyframes testimonial-content-in {
