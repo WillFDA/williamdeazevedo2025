@@ -1,0 +1,206 @@
+---
+import CalButton from "@/components/CalButton.astro";
+import DiagnosticCta from "@/components/DiagnosticCta.astro";
+import ProblemComparison from "@/components/ProblemComparison.astro";
+import ServicesBentoGrid from "@/components/ServicesBentoGrid.astro";
+import FadeReveal from "@/components/animations/FadeReveal.astro";
+import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro";
+import CheckIcon from "@/components/icons/nucleo/check-2-outline.svg";
+import ProjectShowcase from "@/components/ProjectShowcase.astro";
+import AnimatedHeading from "@/components/ui/AnimatedHeading.astro";
+import Layout from "@/layout/Layout.astro";
+
+export const prerender = true;
+
+const servicesHeroTitleParts = [
+    { text: "Votre" },
+    { pill: true, text: "site existe." },
+    { text: "Est-ce" },
+    { text: "qu'il" },
+    { text: "inspire" },
+    { pill: true, text: "confiance" },
+    { text: "assez" },
+    { text: "vite ?" },
+];
+
+const commonBaseItems = [
+    "Cadrage des objectifs",
+    "Structure des pages",
+    "Design responsive",
+    "Développement front-end",
+    "Accessibilité et performance",
+    "SEO technique initial",
+    "Mise en ligne",
+    "Suivi des conversions",
+] as const;
+
+const servicesComparisonMessyItems = [
+    {
+        className: "messy-card--performance",
+        icon: "content",
+        label: "Offre floue",
+        note: "On ne sait pas quoi choisir",
+        tone: "red",
+    },
+    {
+        className: "messy-card--accessibility",
+        icon: "accessibility",
+        label: "Parcours fragile",
+        note: "Trop d'étapes, CTA discret",
+        tone: "orange",
+    },
+    {
+        className: "messy-card--text",
+        icon: "ai",
+        label: "Design daté",
+        note: "Ça rassure moins vite",
+        tone: "red",
+    },
+    {
+        className: "messy-card--ai",
+        icon: "performance",
+        label: "Technique dispersée",
+        note: "Mobile, SEO, vitesse oubliés",
+        tone: "red",
+    },
+] as const;
+
+const servicesComparisonClearItems = [
+    "Priorité définie",
+    "Service adapté",
+    "Parcours clarifié",
+    "Interface crédible",
+    "Technique propre",
+    "Mise en ligne suivie",
+] as const;
+
+const servicesComparisonWorkingPoints = [
+    {
+        icon: "target",
+        text: "On identifie le frein principal : message, parcours, design, technique, SEO ou mise en ligne.",
+    },
+    {
+        icon: "sparkle",
+        text: "Je choisis le format utile : création complète, refonte ciblée, renfort front-end ou socle SEO.",
+    },
+    {
+        icon: "gauge",
+        text: "Le résultat doit aider à comprendre, décider et vous contacter, avec une base rapide et crédible.",
+    },
+] as const;
+
+const servicesDiagnosticTitleParts = [
+    { text: "Vous" },
+    { text: "ne" },
+    { text: "savez" },
+    { text: "pas" },
+    { text: "encore" },
+    { text: "quel" },
+    { media: true, text: "frein" },
+    { text: "traiter" },
+    { text: "en" },
+    { pill: true, text: "premier ?" },
+] as const;
+---
+
+<Layout
+    title="Services web - création, refonte et SEO - William De Azevedo"
+    description="Création de site vitrine, refonte et développement front-end pour corriger les sites flous, lents ou datés et construire des interfaces claires, rapides et crédibles."
+>
+    <div class="mx-auto flex w-full max-w-5xl flex-col px-4 py-14 sm:py-20 lg:py-24">
+        <section
+            class="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center"
+            data-section-reveal="false"
+        >
+            <AnimatedHeading
+                class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
+                parts={servicesHeroTitleParts}
+            />
+            <FadeReveal delay={0.32}>
+                <p class="page-subheading">
+                    J'aide les indépendants, petites structures et équipes produit
+                    à corriger ce qui fait hésiter : offre floue, design daté,
+                    lenteur, mobile inconfortable ou parcours de contact fragile.
+                </p>
+            </FadeReveal>
+            <FadeReveal class="w-full sm:w-auto" delay={0.44}>
+                <div class="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
+                    <CalButton
+                        class="w-full rounded-xl text-base font-normal sm:w-auto"
+                        label="Réserver un appel gratuit"
+                        location="services-hero"
+                    />
+                </div>
+            </FadeReveal>
+        </section>
+    </div>
+
+    <ServicesBentoGrid />
+
+    <ProblemComparison
+        headingLines={[
+            "Tout peut sembler prioritaire.",
+            "Le bon service commence par le bon diagnostic.",
+        ]}
+        description="Création, refonte, front-end ou SEO : je commence par identifier ce qui bloque vraiment votre site pour intervenir au bon endroit, sans empiler des prestations."
+        leftLabel="Sans priorité"
+        rightLabel="Service cadré"
+        messyItems={servicesComparisonMessyItems}
+        clearItems={servicesComparisonClearItems}
+        contentTitle="Ce n'est pas une simple liste de prestations."
+        contentText="Chaque service répond à une situation précise : lancer une présence claire, remettre un site à niveau, renforcer une interface ou poser une base technique plus saine."
+        workingPoints={servicesComparisonWorkingPoints}
+    />
+
+    <div class="mx-auto flex w-full max-w-5xl flex-col px-4 py-20 md:py-28">
+        <section class="flex flex-col items-center text-center">
+            <FadeRevealOnScroll>
+                <div class="mx-auto flex max-w-4xl flex-col items-center gap-4">
+                    <h2 class="section-heading">
+                        Le socle commun : enlever les freins visibles
+                    </h2>
+                    <p class="section-subheading">
+                        Le format change selon votre situation, mais le socle reste
+                        le même : clarifier le message, structurer le parcours,
+                        soigner l'interface, puis vérifier vitesse, accessibilité
+                        et contact.
+                    </p>
+                </div>
+            </FadeRevealOnScroll>
+            <ul class="mx-auto mt-8 grid w-full max-w-sm gap-4 sm:mt-10 sm:max-w-2xl sm:grid-cols-2 md:gap-6 lg:max-w-5xl lg:grid-cols-4">
+                {
+                    commonBaseItems.map((item, index) => (
+                        <li class="flex">
+                            <FadeRevealOnScroll
+                                class="flex"
+                                delay={0.05 + (index % 4) * 0.05}
+                            >
+                                <span class="flex items-center gap-3 text-left">
+                                    <span class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-snow-50 text-emerald-500 shadow-[0_14px_32px_-24px_rgba(34,42,55,0.55)] ring-1 ring-gray-200/70">
+                                        <CheckIcon
+                                            aria-hidden="true"
+                                            class="size-4"
+                                        />
+                                    </span>
+                                    <span class="text-base font-normal leading-snug text-gray-900">
+                                        {item}
+                                    </span>
+                                </span>
+                            </FadeRevealOnScroll>
+                        </li>
+                    ))
+                }
+            </ul>
+        </section>
+
+    </div>
+
+    <DiagnosticCta
+        titleParts={servicesDiagnosticTitleParts}
+        copy="Un échange de 15 minutes suffit souvent à distinguer une création, une refonte ou une simple amélioration ciblée."
+        buttonLabel="Faire le point en 15 min"
+        location="services-final"
+    />
+
+    <ProjectShowcase id="services-projects" class="mt-16 sm:mt-20" />
+</Layout>

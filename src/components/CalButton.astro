@@ -1,0 +1,89 @@
+---
+import ArrowRight from "./icons/nucleo/arrow-right-fill.svg";
+import WaveIcon from "./ui/WaveIcon.astro";
+import WaveText from "./ui/WaveText.astro";
+
+interface Props {
+    class?: string;
+    label?: string;
+    location: string;
+    variant?: "dark" | "light";
+}
+
+const {
+    class: className = "",
+    label = "Parlons de votre projet",
+    location,
+    variant = "dark",
+} = Astro.props;
+---
+
+<a
+    aria-controls="cal-drawer"
+    aria-haspopup="dialog"
+    class:list={[
+        "cal-button relative isolate inline-flex min-h-14 items-center justify-center gap-5 bg-transparent px-8 py-3 no-underline",
+        `cal-button--${variant}`,
+        className,
+    ]}
+    data-cal-location={location}
+    data-cal-open
+    href="mailto:william.deazevedopro@gmail.com"
+>
+    <WaveText text={label} trigger="parent" />
+    <WaveIcon style="--wui-wave-icon-size: 1rem;" direction="right" trigger="parent">
+        <ArrowRight class="size-full" aria-hidden="true" />
+    </WaveIcon>
+</a>
+
+<style>
+    .cal-button {
+        color: var(--cal-button-color);
+    }
+
+    .cal-button::before {
+        background: var(--cal-button-bg);
+        border: 1px solid var(--cal-button-border);
+        border-radius: inherit;
+        content: "";
+        inset: 0;
+        position: absolute;
+        transform: scale(1);
+        transition: transform 520ms
+            var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        z-index: -1;
+    }
+
+    .cal-button:focus-visible::before {
+        transform: scale(0.95);
+    }
+
+    @media (hover: hover) {
+        .cal-button:hover::before {
+            transform: scale(0.95);
+        }
+    }
+
+    .cal-button:focus-visible {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 3px;
+    }
+
+    .cal-button--dark {
+        --cal-button-bg: var(--color-coffee-300);
+        --cal-button-border: var(--color-coffee-300);
+        --cal-button-color: var(--color-snow-50);
+    }
+
+    .cal-button--light {
+        --cal-button-bg: var(--color-snow-50);
+        --cal-button-border: var(--color-snow-50);
+        --cal-button-color: var(--color-coffee-300);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .cal-button::before {
+            transition: none;
+        }
+    }
+</style>

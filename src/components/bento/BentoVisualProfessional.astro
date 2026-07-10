@@ -1,0 +1,357 @@
+---
+/**
+ * Scène "Site internet professionnel" : de la page seule au site complet.
+ * Une page Accueil isolée se démultiplie en Services, Preuves et Contact,
+ * les connexions se dessinent jusqu'à une base technique, un signal
+ * s'allume sur Contact puis le badge "Présence complète" valide le tout.
+ * Chorégraphie pilotée par src/scripts/animations/bento/professional.ts.
+ * Sans JS : plan de site complet, connexions posées, badge affiché.
+ */
+---
+
+<div
+	class="pro-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden px-4 py-4"
+	data-bento-visual="professional"
+	aria-hidden="true"
+>
+	<div class="pro-stage relative w-[300px] scale-[var(--bento-scene-scale,1)] transition-transform duration-500 ease-out group-hover:scale-[calc(var(--bento-scene-scale,1)*1.03)] sm:w-[420px]">
+		<span class="pro-glow" data-bento-pro-glow></span>
+
+		<span class="pro-link pro-link--trunk" data-bento-pro-trunk></span>
+		<span class="pro-link pro-link--rail" data-bento-pro-rail></span>
+		<span class="pro-link pro-link--drop pro-link--drop-1" data-bento-pro-drop></span>
+		<span class="pro-link pro-link--drop pro-link--drop-2" data-bento-pro-drop></span>
+		<span class="pro-link pro-link--drop pro-link--drop-3" data-bento-pro-drop></span>
+
+		<div class="pro-page pro-page--home" data-bento-pro-home>
+			<span class="pro-page__bar">
+				<span class="pro-page__dot" style="background: #3e60d4;"></span>
+				<span class="pro-page__pill"></span>
+			</span>
+			<span class="pro-page__line pro-page__line--w1"></span>
+			<span class="pro-page__line pro-page__line--w2"></span>
+			<span class="pro-page__line pro-page__line--w3"></span>
+		</div>
+
+		<div
+			class="pro-page pro-page--services"
+			data-bento-pro-child
+		>
+			<span class="pro-page__bar">
+				<span class="pro-page__dot" style="background: #3e60d4;"></span>
+				<span class="pro-page__pill"></span>
+			</span>
+			<span class="pro-page__line pro-page__line--w1"></span>
+			<span class="pro-page__line pro-page__line--w2"></span>
+		</div>
+
+		<div class="pro-page pro-page--proof" data-bento-pro-child>
+			<span class="pro-page__bar">
+				<span class="pro-page__dot" style="background: #22c55e;"></span>
+				<span class="pro-page__pill"></span>
+			</span>
+			<span class="pro-page__line pro-page__line--w1"></span>
+			<span class="pro-page__line pro-page__line--w2"></span>
+		</div>
+
+		<div class="pro-page pro-page--contact" data-bento-pro-child>
+			<span class="pro-page__bar">
+				<span class="pro-page__dot" style="background: rgba(255, 255, 255, 0.45);"></span>
+				<span class="pro-page__pill"></span>
+			</span>
+			<span class="pro-page__line pro-page__line--w1"></span>
+			<span class="pro-page__line pro-page__line--w2"></span>
+			<span class="pro-signal" data-bento-pro-signal>
+				<span class="pro-signal__ping" data-bento-pro-signal-ping></span>
+				<span class="pro-signal__dot"></span>
+			</span>
+		</div>
+
+		<span class="pro-label-slot" style="left: calc(50% - 138px);">
+			<span class="pro-label" data-bento-pro-label>Services</span>
+		</span>
+		<span class="pro-label-slot" style="left: calc(50% - 28px);">
+			<span class="pro-label" data-bento-pro-label>Preuves</span>
+		</span>
+		<span class="pro-label-slot" style="left: calc(50% + 82px);">
+			<span class="pro-label pro-label--contact" data-bento-pro-label>Contact</span>
+		</span>
+
+		<div class="pro-base" data-bento-pro-base>Base technique</div>
+
+		<span class="pro-badge" data-bento-pro-badge>
+			<span class="pro-badge__check">
+				<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<path d="M3.5 8.5l3 3 6-7"></path>
+				</svg>
+			</span>
+			Présence complète
+		</span>
+	</div>
+</div>
+
+<style>
+	.pro-stage {
+		height: 12rem;
+	}
+
+	.pro-glow {
+		background: radial-gradient(
+			closest-side,
+			rgba(62, 96, 212, 0.12),
+			transparent 72%
+		);
+		height: 150px;
+		left: calc(50% - 130px);
+		position: absolute;
+		top: 20px;
+		width: 260px;
+		will-change: opacity, transform;
+	}
+
+	.pro-link {
+		background: rgba(148, 163, 184, 0.55);
+		border-radius: 999em;
+		position: absolute;
+	}
+
+	.pro-link--trunk {
+		height: 22px;
+		left: calc(50% - 1px);
+		top: 50px;
+		transform-origin: top center;
+		width: 2px;
+	}
+
+	.pro-link--rail {
+		height: 2px;
+		left: calc(50% - 110px);
+		top: 71px;
+		transform-origin: left center;
+		width: 220px;
+	}
+
+	.pro-link--drop {
+		height: 11px;
+		top: 73px;
+		transform-origin: top center;
+		width: 2px;
+	}
+
+	.pro-link--drop-1 {
+		left: calc(50% - 111px);
+	}
+
+	.pro-link--drop-2 {
+		left: calc(50% - 1px);
+	}
+
+	.pro-link--drop-3 {
+		left: calc(50% + 109px);
+	}
+
+	.pro-page {
+		background: #ffffff;
+		border: 1px solid rgba(226, 232, 240, 0.95);
+		border-radius: 8px;
+		box-shadow: 0 14px 26px -18px rgba(34, 42, 55, 0.42);
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+		padding: 6px;
+		position: absolute;
+		will-change: transform, opacity;
+	}
+
+	.pro-page__bar {
+		align-items: center;
+		display: flex;
+		gap: 3px;
+	}
+
+	.pro-page__dot {
+		border-radius: 999em;
+		height: 4px;
+		width: 4px;
+	}
+
+	.pro-page__pill {
+		background: var(--color-gray-200);
+		border-radius: 999em;
+		flex: 1;
+		height: 3px;
+	}
+
+	.pro-page__line {
+		background: var(--color-gray-100);
+		border-radius: 999em;
+		height: 3px;
+	}
+
+	.pro-page__line--w1 {
+		width: 85%;
+	}
+
+	.pro-page__line--w2 {
+		width: 62%;
+	}
+
+	.pro-page__line--w3 {
+		width: 44%;
+	}
+
+	.pro-page--home {
+		height: 46px;
+		left: calc(50% - 32px);
+		top: 4px;
+		width: 64px;
+	}
+
+	.pro-page--services {
+		height: 40px;
+		left: calc(50% - 138px);
+		top: 84px;
+		width: 56px;
+	}
+
+	.pro-page--proof {
+		height: 40px;
+		left: calc(50% - 28px);
+		top: 84px;
+		width: 56px;
+	}
+
+	.pro-page--contact {
+		background: var(--color-blue-500);
+		border-color: color-mix(in srgb, var(--color-blue-500) 82%, white);
+		box-shadow: 0 16px 30px -18px
+			color-mix(in srgb, var(--color-blue-500) 72%, black);
+		height: 40px;
+		left: calc(50% + 82px);
+		top: 84px;
+		width: 56px;
+	}
+
+	.pro-page--contact .pro-page__pill,
+	.pro-page--contact .pro-page__line {
+		background: rgba(255, 255, 255, 0.25);
+	}
+
+	.pro-signal {
+		height: 8px;
+		position: absolute;
+		right: -3px;
+		top: -3px;
+		width: 8px;
+		will-change: opacity;
+	}
+
+	.pro-signal__ping {
+		background: color-mix(in srgb, var(--color-blue-500) 45%, white);
+		border-radius: 999em;
+		inset: 0;
+		position: absolute;
+		will-change: opacity, transform;
+	}
+
+	.pro-signal__dot {
+		background: var(--color-blue-500);
+		border: 1.5px solid #ffffff;
+		border-radius: 999em;
+		inset: 0;
+		position: absolute;
+	}
+
+	.pro-label-slot {
+		display: flex;
+		justify-content: center;
+		position: absolute;
+		top: 128px;
+		width: 56px;
+	}
+
+	.pro-label {
+		background: #ffffff;
+		border: 1px solid rgba(226, 232, 240, 0.9);
+		border-radius: 999em;
+		color: var(--color-gray-600);
+		font-size: 0.5rem;
+		font-weight: 500;
+		line-height: 1;
+		padding: 0.28rem 0.42rem;
+		white-space: nowrap;
+		will-change: opacity, transform;
+	}
+
+	.pro-label--contact {
+		background: var(--color-blue-500);
+		border-color: color-mix(in srgb, var(--color-blue-500) 82%, white);
+		color: var(--color-snow-50);
+	}
+
+	.pro-base {
+		align-items: center;
+		background:
+			repeating-linear-gradient(
+				45deg,
+				rgba(148, 163, 184, 0.1) 0,
+				rgba(148, 163, 184, 0.1) 4px,
+				transparent 4px,
+				transparent 9px
+			),
+			#ffffff;
+		border: 1px solid rgba(226, 232, 240, 0.95);
+		border-radius: 6px;
+		box-shadow: 0 12px 24px -18px rgba(34, 42, 55, 0.4);
+		color: var(--color-gray-500);
+		display: flex;
+		font-size: 0.5rem;
+		font-weight: 500;
+		height: 16px;
+		justify-content: center;
+		left: calc(50% - 130px);
+		position: absolute;
+		top: 148px;
+		width: 260px;
+		will-change: opacity, transform;
+	}
+
+	.pro-badge {
+		align-items: center;
+		background: #ffffff;
+		border: 1px solid rgba(226, 232, 240, 0.95);
+		border-radius: 999em;
+		bottom: 0;
+		box-shadow: 0 14px 26px -18px rgba(34, 42, 55, 0.6);
+		color: var(--color-gray-700);
+		display: flex;
+		font-size: 0.56rem;
+		font-weight: 500;
+		gap: 0.3rem;
+		left: 0;
+		line-height: 1;
+		margin-inline: auto;
+		padding: 0.4rem 0.6rem;
+		position: absolute;
+		right: 0;
+		white-space: nowrap;
+		width: fit-content;
+		will-change: opacity, transform;
+	}
+
+	.pro-badge__check {
+		align-items: center;
+		background: #22c55e;
+		border-radius: 999em;
+		color: #ffffff;
+		display: inline-flex;
+		height: 0.8rem;
+		justify-content: center;
+		width: 0.8rem;
+	}
+
+	.pro-badge__check svg {
+		height: 0.5rem;
+		width: 0.5rem;
+	}
+</style>

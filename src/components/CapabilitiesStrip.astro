@@ -1,0 +1,74 @@
+---
+import FadeReveal from "./animations/FadeReveal.astro";
+import CapabilityIcon from "./ui/CapabilityIcon.astro";
+import type { ServiceCapability } from "@/data/services";
+import { iconToneClasses } from "@/lib/iconTones";
+
+interface Props {
+    capabilities?: ServiceCapability[];
+    class?: string;
+    compact?: boolean;
+    title?: string;
+}
+
+const defaultCapabilities: ServiceCapability[] = [
+    { icon: "web", label: "Site web", tone: "blue" },
+    { icon: "refonte", label: "Refonte web", tone: "cyan" },
+    { icon: "ux", label: "UX/UI", tone: "violet" },
+    { icon: "performance", label: "Performance", tone: "green" },
+    { icon: "search", label: "SEO technique", tone: "sky" },
+    { icon: "touch", label: "Accessibilité", tone: "teal" },
+    { icon: "cms", label: "CMS", tone: "slate" },
+    { icon: "form", label: "Formulaire", tone: "pink" },
+    { icon: "deploy", label: "Mise en ligne", tone: "orange" },
+    { icon: "ia", label: "IA utile", tone: "indigo" },
+];
+
+const {
+    capabilities = defaultCapabilities,
+    class: className,
+    compact = false,
+    title = "Ce que je peux prendre en charge",
+} = Astro.props;
+---
+
+<section
+    class:list={[
+        compact
+            ? "mx-auto w-full max-w-6xl px-0 pt-1 pb-0"
+            : "mx-auto w-full max-w-6xl px-4 pt-4 pb-12 sm:px-8 md:pt-2 md:pb-16",
+        className,
+    ]}
+    aria-labelledby="capabilities-strip-title"
+>
+    <h2 id="capabilities-strip-title" class="sr-only">
+        {title}
+    </h2>
+    <ul class="grid w-full grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-center sm:gap-3 md:gap-4">
+        {
+            capabilities.map((capability, index) => (
+                <li class="flex min-w-0">
+                    <FadeReveal
+                        class="flex min-w-0 w-full"
+                        delay={0.08 + index * 0.05}
+                    >
+                        <span class="inline-flex w-full min-w-0 items-center justify-start gap-2 rounded-xl bg-snow-50 p-2 text-gray-900 shadow-lg sm:w-auto sm:shrink-0 sm:justify-center sm:gap-3 sm:whitespace-nowrap sm:py-1.5 sm:pr-4 sm:pl-2">
+                            <span
+                                class:list={[
+                                    "inline-flex size-8 shrink-0 items-center justify-center rounded-lg text-snow-50",
+                                    iconToneClasses[capability.tone],
+                                ]}
+                                aria-hidden="true"
+                            >
+                                <CapabilityIcon icon={capability.icon} />
+                            </span>
+                            <span class="min-w-0 text-left text-sm font-medium leading-tight sm:whitespace-nowrap sm:text-base sm:leading-none">
+                                {capability.label}
+                            </span>
+                        </span>
+                    </FadeReveal>
+                </li>
+            ))
+        }
+    </ul>
+</section>

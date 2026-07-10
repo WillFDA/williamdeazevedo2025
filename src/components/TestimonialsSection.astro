@@ -1,0 +1,89 @@
+---
+import { Image } from "astro:assets";
+import Carousel from "./Carousel.astro";
+import { getPublishedTestimonials } from "@/lib/testimonials";
+
+const testimonials = getPublishedTestimonials();
+---
+
+{
+    testimonials.length > 0 && (
+        <section
+            class="client-testimonials mx-auto w-full max-w-7xl px-4 py-12 sm:px-8 md:py-16"
+            aria-label="Témoignages clients"
+        >
+            <div>
+                <Carousel
+                    class="testimonial-carousel"
+                    autoplay
+                    autoplayDelay={6500}
+                    compactControls
+                    showAutoplayInterface={false}
+                >
+                    {testimonials.map((testimonial, index) => (
+                        <article class="embla__slide">
+                            <figure class="testimonial-card mx-auto grid w-full max-w-5xl items-center gap-8 rounded-3xl p-0 text-center md:grid-cols-[18rem_1fr] md:p-6 md:text-left lg:p-8">
+                                <div class="testimonial-card__media mx-auto w-full max-w-56 overflow-hidden rounded-3xl bg-snow-600 shadow-lg md:max-w-none">
+                                    {testimonial.image ? (
+                                        <Image
+                                            class="block size-full object-cover"
+                                            src={testimonial.image}
+                                            alt={testimonial.imageAlt ?? ""}
+                                            width={384}
+                                            height={480}
+                                            loading={
+                                                index === 0 ? "eager" : "lazy"
+                                            }
+                                        />
+                                    ) : (
+                                        <div class="flex size-full items-center justify-center text-4xl font-medium text-gray-900">
+                                            {testimonial.initials}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <figcaption class="flex flex-col items-center gap-4 md:items-start">
+                                    <a
+                                        class="text-2xl font-medium leading-tight text-gray-900 no-underline underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                        href={testimonial.href}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        {testimonial.name}
+                                    </a>
+                                    <blockquote class="m-0 text-lg font-light leading-normal text-gray-700 sm:text-xl">
+                                        “{testimonial.text}”
+                                    </blockquote>
+                                </figcaption>
+                            </figure>
+                        </article>
+                    ))}
+                </Carousel>
+            </div>
+        </section>
+    )
+}
+
+<style>
+    .client-testimonials :global(.embla) {
+        --slide-size: min(100%, 72rem);
+    }
+
+    .client-testimonials :global(.embla__slide) {
+        aspect-ratio: auto;
+    }
+
+    .testimonial-card__media {
+        aspect-ratio: 4 / 5;
+    }
+
+    .client-testimonials :global(.testimonial-carousel .embla__controls) {
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+        .testimonial-card__media {
+            aspect-ratio: 3 / 4;
+        }
+    }
+</style>

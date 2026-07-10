@@ -1,81 +1,109 @@
 ---
+import FadeReveal from "@/components/animations/FadeReveal.astro";
 import Layout from "../layout/Layout.astro";
 
 const sections = [
     {
+        id: "editeur",
         title: "Éditeur",
-        content:
+        paragraphs: [
             "Ce site est édité par William Ferreira De Azevedo, entrepreneur individuel (EI) exerçant sous le régime de la micro-entreprise, dont le siège est situé au 62 rue Michel Giraux, 78670 Villennes-sur-Seine, France.",
+        ],
     },
     {
+        id: "immatriculation",
         title: "Immatriculation",
-        content:
+        paragraphs: [
             "Entreprise individuelle immatriculée au Registre National des Entreprises (RNE) depuis le 11 décembre 2025. SIREN : 995 010 873. SIRET du siège : 995 010 873 00017. Code APE/NAF : 6201Z (Programmation informatique).",
+        ],
     },
     {
+        id: "responsable-publication",
         title: "Responsable de publication",
-        content: "William Ferreira De Azevedo.",
+        paragraphs: ["William Ferreira De Azevedo."],
     },
     {
+        id: "contact",
         title: "Contact",
-        content:
+        paragraphs: [
             "Pour toute demande, vous pouvez écrire à william.deazevedopro@gmail.com.",
+        ],
     },
     {
+        id: "tva",
         title: "TVA",
-        content:
+        paragraphs: [
             "TVA non applicable, article 293 B du Code général des impôts (franchise en base de TVA).",
+        ],
     },
     {
+        id: "hebergement",
         title: "Hébergement",
-        content:
+        paragraphs: [
             "Le site est hébergé par Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, États-Unis.",
+        ],
     },
     {
+        id: "propriete-intellectuelle",
         title: "Propriété intellectuelle",
-        content:
+        paragraphs: [
             "Les contenus, textes, images et éléments graphiques présents sur ce site restent la propriété de William De Azevedo ou de leurs auteurs respectifs, sauf mention contraire. Toute reproduction sans autorisation est interdite.",
+        ],
     },
     {
+        id: "confidentialite",
         title: "Données personnelles",
-        content:
-            "Les informations envoyées par email sont utilisées uniquement pour répondre à votre demande et ne font l'objet d'aucune cession. Conformément au RGPD, vous pouvez demander leur accès, leur rectification ou leur suppression à tout moment via l'adresse de contact ci-dessus.",
+        paragraphs: [
+            "Les informations envoyées par email sont utilisées uniquement pour répondre à votre demande et ne font l'objet d'aucune cession.",
+            "Des données techniques de navigation peuvent être collectées afin de comprendre l'utilisation du site, améliorer les contenus, détecter des erreurs et mesurer les demandes de contact.",
+            "Conformément au RGPD, vous pouvez demander l'accès, la rectification, l'effacement, la limitation ou l'opposition au traitement de vos données à tout moment via l'adresse de contact ci-dessus. Vous pouvez également introduire une réclamation auprès de la CNIL.",
+        ],
     },
     {
-        title: "Cookies et mesure d'audience",
-        content:
-            "Le site utilise Cloudflare Zaraz pour gérer les outils de mesure d'audience et de conversion, notamment Google Analytics ou Google Ads selon la configuration active. Lorsqu'un consentement est requis, ces outils sont déclenchés selon les préférences exprimées via le module de consentement du site. Les données collectées servent à produire des statistiques de fréquentation et à mesurer les demandes de contact.",
+        id: "mesure-audience",
+        title: "Mesure d'audience",
+        paragraphs: [
+            "Le site utilise Rybbit Analytics, via le domaine analytics.williamdeazevedo.fr, pour mesurer la fréquentation et comprendre les parcours de navigation.",
+            "Cloudflare Zaraz peut également transmettre des événements de mesure, par exemple l'ouverture d'un module de réservation ou la réussite d'une demande de rendez-vous.",
+        ],
     },
 ];
 ---
 
 <Layout
-    title="Mentions légales - William De Azevedo"
-    description="Mentions légales du site de William De Azevedo, développeur front-end freelance."
+    title="Mentions légales et confidentialité - William De Azevedo"
+    description="Mentions légales, données personnelles et mesure d'audience du site de William De Azevedo."
 >
-    <section class="mx-auto flex max-w-3xl flex-col gap-10 px-2 py-4 sm:px-4">
-        <div class="flex flex-col gap-4">
-            <p class="text-sm font-light text-blue-500">Informations légales</p>
-            <h1
-                class="text-4xl font-medium leading-tight text-gray-900 sm:text-5xl"
-            >
-                Mentions légales
-            </h1>
-            <p class="max-w-2xl font-light leading-relaxed text-gray-600">
-                Cette page rassemble les informations essentielles liées à
-                l'édition, l'hébergement et l'utilisation du site.
-            </p>
-        </div>
+    <section class="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-12 md:py-16">
+        <FadeReveal delay={0.1}>
+            <div class="flex flex-col gap-4 text-center">
+                <p class="text-sm font-light text-blue-500">Informations légales</p>
+                <h1 class="page-heading">
+                    Mentions légales et confidentialité
+                </h1>
+                <p class="page-subheading max-w-sm sm:max-w-lg">
+                    Cette page rassemble les informations essentielles liées à
+                    l'édition, l'hébergement et l'utilisation du site.
+                </p>
+            </div>
+        </FadeReveal>
         <div class="flex flex-col divide-y divide-snow-600/80">
             {
                 sections.map((section) => (
-                    <section class="grid gap-3 py-6 sm:grid-cols-[12rem_1fr]">
+                    <section
+                        class="grid gap-3 py-6 sm:grid-cols-[12rem_1fr]"
+                        id={section.id}
+                    >
                         <h2 class="text-base font-medium text-gray-900">
                             {section.title}
                         </h2>
-                        <p class="font-light leading-relaxed text-gray-600">
-                            {section.content}
-                        </p>
+                        <div class="flex flex-col gap-4">
+                            {section.paragraphs.map((paragraph) => (
+                                <p class="font-light leading-relaxed text-gray-600">
+                                    {paragraph}
+                                </p>
+                            ))}
+                        </div>
                     </section>
                 ))
             }

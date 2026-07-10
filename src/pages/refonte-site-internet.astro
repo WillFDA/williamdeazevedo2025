@@ -1,0 +1,14 @@
+---
+import SeoServicePage from "@/components/SeoServicePage.astro";
+import { getServiceBySlug } from "@/data/services";
+
+export const prerender = true;
+
+const service = getServiceBySlug("refonte-site-internet");
+
+if (!service) {
+    throw new Error("Service not found: refonte-site-internet");
+}
+---
+
+<SeoServicePage service={service} canonicalPath="/refonte-site-internet" />

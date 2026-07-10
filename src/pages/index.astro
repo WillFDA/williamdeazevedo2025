@@ -1,140 +1,233 @@
 ---
 import Layout from "../layout/Layout.astro";
 import FadeReveal from "../components/animations/FadeReveal.astro";
-import Carousel from "../components/Carousel.astro";
 import AboutCallout from "../components/AboutCallout.astro";
-import ProjectIntro from "../components/ProjectIntro.astro";
-import Differenciates from "@/sections/Differenciates.astro";
-import ArrowRight from "../components/icons/ArrowRight.svg";
+import CapabilitiesStrip from "../components/CapabilitiesStrip.astro";
+import ExpertiseShowcase from "../components/ExpertiseShowcase.astro";
+import FaqSection from "../components/FaqSection.astro";
+import PricingPreview from "../components/PricingPreview.astro";
+import ProblemComparison from "../components/ProblemComparison.astro";
+import ProjectShowcase from "../components/ProjectShowcase.astro";
+import TestimonialsSection from "../components/TestimonialsSection.astro";
+import ArrowRight from "../components/icons/nucleo/arrow-right-fill.svg";
+import SearchContent from "../components/icons/nucleo/search-content-2-fill.svg";
+import Star from "../components/icons/nucleo/star-fill.svg";
 import { Image } from "astro:assets";
 import WaveIcon from "../components/ui/WaveIcon.astro";
 import WaveText from "../components/ui/WaveText.astro";
-import { homeProjects } from "../data/projects";
-import { temoignages } from "../data/temoignage";
+import AnimatedHeading from "../components/ui/AnimatedHeading.astro";
+import { getPublishedTestimonials } from "@/lib/testimonials";
 
 export const prerender = true;
 
-const heroTitleWords = [
-    "Je",
-    "crée",
-    "des",
-    "sites",
-    "web",
-    "et",
-    "des",
-    "interfaces",
-    "rapides,",
-    "soignés",
-    "et",
-    "pensés",
-    "pour",
-    "convertir.",
+const heroTitleParts = [
+    { text: "Je" },
+    { text: "crée" },
+    { text: "des" },
+    { pill: true, text: "sites web" },
+    { text: "et" },
+    { text: "des" },
+    { pill: true, text: "interfaces" },
+    { text: "rapides," },
+    { text: "accessibles" },
+    { text: "et" },
+    { text: "pensés" },
+    { text: "pour" },
+    { text: "inspirer" },
+    { text: "confiance." },
 ];
 
-const highlightedHeroWords = new Set(["rapides,", "soignés", "convertir."]);
+const expertiseItems = [
+    {
+        id: "creation",
+        label: "Création site vitrine",
+        icon: "site",
+        title: "Construire une présence claire et crédible",
+        description: [
+            "Je pars de votre offre, de vos contenus et des objections de vos prospects pour créer un site qui se comprend vite.",
+            "L'objectif : transformer une première impression fragile en parcours rassurant, rapide et orienté contact.",
+        ],
+        pills: [
+            "Architecture des pages",
+            "Design responsive",
+            "SEO technique",
+            "Mise en ligne",
+        ],
+    },
+    {
+        id: "refonte",
+        label: "Refonte web",
+        icon: "refresh",
+        title: "Repenser ce qui freine votre site actuel",
+        description: [
+            "Je vous aide à repérer ce qui crée du doute : message confus, hiérarchie faible, mobile pénible, lenteur ou design daté.",
+            "On garde ce qui fonctionne, on retire ce qui brouille le parcours et on reconstruit une base plus lisible.",
+        ],
+        pills: [
+            "Audit rapide",
+            "UX mobile",
+            "Performance",
+            "Redirections utiles",
+        ],
+    },
+    {
+        id: "front-end",
+        label: "Renfort front-end",
+        icon: "code",
+        title: "Intégrer et faire évoluer vos interfaces",
+        description: [
+            "J'interviens comme renfort autonome pour transformer des maquettes ou écrans existants en interfaces propres et maintenables.",
+            "Le regard reste autant front-end que produit : responsive, accessibilité, performance, états d'interface et détails visuels.",
+        ],
+        pills: [
+            "Intégration Figma",
+            "React / Next.js",
+            "Accessibilité",
+            "Développement IA",
+            "DevOps mise en ligne",
+        ],
+    },
+    {
+        id: "audit-ux",
+        label: "Audit UX",
+        icon: "ux",
+        title: "Clarifier les points de friction avant de construire",
+        description: [
+            "Je relis votre parcours, vos pages clés et vos messages pour voir où un visiteur hésite, décroche ou ne comprend pas la suite.",
+            "Vous repartez avec des priorités concrètes : quoi clarifier, quoi supprimer, quoi améliorer en premier.",
+        ],
+        pills: [
+            "Parcours utilisateur",
+            "Clarté de l'offre",
+            "Hiérarchie visuelle",
+            "Actions prioritaires",
+        ],
+    },
+    {
+        id: "performance",
+        label: "Performance web",
+        icon: "performance",
+        title: "Rendre votre site plus rapide et plus stable",
+        description: [
+            "J'optimise les pages qui comptent : poids des assets, structure front-end, rendu mobile et points bloquants côté expérience.",
+            "Un site plus rapide est aussi un site plus rassurant : il donne moins de raisons de partir avant d'avoir compris l'offre.",
+        ],
+        pills: [
+            "Core Web Vitals",
+            "Images optimisées",
+            "Chargement rapide",
+            "Mobile first",
+        ],
+    },
+    {
+        id: "produit",
+        label: "Accompagnement produit",
+        icon: "site",
+        title: "Faire évoluer l'interface avec une logique produit",
+        description: [
+            "Je vous aide à prioriser les évolutions utiles, à transformer les retours terrain en écrans concrets et à garder une interface cohérente.",
+            "C'est un accompagnement pensé pour avancer vite sans accumuler des rustines qui rendent le produit moins clair.",
+        ],
+        pills: [
+            "Priorisation",
+            "Design produit",
+            "Itérations rapides",
+            "Base maintenable",
+        ],
+    },
+] as const;
 
-const testimonialImages = import.meta.glob<{ default: ImageMetadata }>(
-    "../assets/temoignages/*.{jpg,jpeg,png,webp}",
-    { eager: true },
-);
-const displayedTestimonials = temoignages
-    .filter((temoignage) => temoignage.published !== false)
-    .map((temoignage) => ({
-        ...temoignage,
-        image: temoignage.imageFile
-            ? testimonialImages[`../assets/temoignages/${temoignage.imageFile}`]
-                  ?.default
-            : undefined,
-    }));
+const displayedTestimonials = getPublishedTestimonials();
 ---
 
 <Layout>
-    <section class="mx-auto w-full max-w-[calc(100vw-1rem)] px-2 sm:max-w-5xl sm:px-4">
-        <div class="flex min-w-0 flex-col gap-6">
+    <section
+        class="mx-auto flex w-full min-w-0 max-w-5xl flex-col gap-6 px-2 sm:px-4"
+        data-section-reveal="false"
+    >
+        <a
+            aria-label="Avis Google : 5 étoiles sur 5"
+            class="mx-auto inline-flex max-w-full items-center gap-2 rounded-xl bg-snow-50 px-3.5 py-2 text-sm font-normal leading-tight text-gray-900 no-underline shadow-[0_10px_22px_-16px_rgba(34,42,55,0.45)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 sm:text-base"
+            data-hero-eyebrow
+            href="https://share.google/LlCN4Hr5IlatyVSl2"
+            rel="noreferrer"
+            target="_blank"
+        >
+            <span>Avis Google</span>
+            <span class="inline-flex items-center gap-1.5 rounded-xl bg-blue-500 px-2.5 py-1 font-medium text-snow-50">
+                <Star aria-hidden="true" class="size-4 text-snow-50" />
+                <span>5.0</span>
+            </span>
+        </a>
+        <AnimatedHeading
+            class="page-heading flex w-full max-w-sm flex-wrap justify-center gap-x-[0.18em] px-2 sm:max-w-4xl md:max-w-5xl"
+            parts={heroTitleParts}
+        />
+        <FadeReveal delay={0.32}>
             <p
-                class="mx-auto w-fit max-w-[calc(100vw-1rem)] overflow-hidden text-ellipsis whitespace-nowrap rounded-xl bg-blue-500 px-3 py-1.5 text-center text-xs font-light leading-tight text-snow-50 shadow-[0_10px_18px_-8px_rgba(37,99,235,0.85)] ring-1 ring-blue-400/70 sm:px-4 sm:text-sm md:text-base"
-                data-hero-eyebrow
+                class="page-subheading max-w-sm sm:max-w-lg"
             >
-                Freelance front-end orienté design et produit
+                J’aide les petites structures et les équipes produit à lancer
+                des interfaces & sites performants, soignés et pensés pour le
+                référencement naturel.
             </p>
-            <h1
-                class="mx-auto flex w-full max-w-[22rem] flex-wrap justify-center gap-x-[0.18em] px-2 text-center text-4xl font-medium leading-tighter tracking-normal text-gray-900 sm:max-w-4xl sm:text-5xl md:max-w-5xl md:text-7xl"
-                data-animated-title
+        </FadeReveal>
+        <FadeReveal delay={0.44}>
+            <div class="mx-auto mt-5 flex w-full max-w-sm flex-col items-center justify-center gap-3 sm:mt-7 sm:max-w-none sm:flex-row sm:gap-8">
+                <button
+                    aria-controls="cal-drawer"
+                    aria-haspopup="dialog"
+                    class="hero-button hero-button--primary flex min-h-14 w-full max-w-full items-center justify-center gap-5 rounded-xl px-8 py-3 text-base font-normal sm:w-auto sm:px-10"
+                    data-cal-location="hero"
+                    data-cal-open
+                    type="button"
+                    ><WaveText
+                        text="Parlons de votre projet"
+                        trigger="parent"
+                    />
+                    <WaveIcon
+                        style="--wui-wave-icon-size: 1rem;"
+                        direction="right"
+                        trigger="parent"
+                    >
+                        <ArrowRight class="size-full" aria-hidden="true" />
+                    </WaveIcon>
+                </button>
+                <a
+                    class="hero-button hero-button--secondary flex min-h-14 w-full max-w-full items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:w-auto sm:px-10"
+                    href="/services"
+                    ><WaveText
+                        text="Découvrir mes services"
+                        trigger="parent"
+                    /></a
+                >
+            </div>
+        </FadeReveal>
+        <FadeReveal delay={0.56}>
+            <div
+                class="testimonial-rotator mx-auto mb-4 mt-0 text-center text-xs"
+                data-testimonial-rotator
+                data-testimonial-interval="5500"
             >
                 {
-                    heroTitleWords.map((word, index) => (
-                        <span
+                    displayedTestimonials.map((temoignage, index) => (
+                        <figure
                             class:list={[
-                                highlightedHeroWords.has(word) &&
-                                    "text-blue-500",
+                                "testimonial-rotator__item",
+                                index === 0 && "is-active",
                             ]}
-                            style={`--animated-word-index: ${index}`}
-                            data-animated-title-word
+                            data-testimonial-item
+                            aria-hidden={index === 0 ? undefined : "true"}
+                            inert={index === 0 ? undefined : true}
                         >
-                            {word}
-                        </span>
-                    ))
-                }
-            </h1>
-            <FadeReveal delay={0.32}>
-                <p
-                    class="mx-auto max-w-[22rem] text-center text-md font-light leading-tight tracking-normal text-coffee-300 sm:max-w-120"
-                >
-                    J’aide les petites structures et les équipes produit à lancer
-                    des interfaces & sites performants, accessibles et
-                    SEO-friendly.
-                </p>
-            </FadeReveal>
-            <FadeReveal delay={0.44}>
-                <div class="mx-auto flex w-full max-w-[22rem] flex-col items-center justify-center gap-3 sm:max-w-none sm:flex-row sm:gap-8">
-                    <button
-                        class="hero-button hero-button--primary font-regular flex h-12 w-full max-w-full items-center justify-center rounded-xl px-5 py-1.5 text-md sm:w-auto sm:px-6"
-                        data-cal-location="hero"
-                        data-cal-open
-                        type="button"
-                        ><WaveText
-                            text="Parlons de votre projet"
-                            trigger="parent"
-                        />
-                        <WaveIcon
-                            style="--wui-wave-icon-size: 1rem;"
-                            direction="right"
-                            trigger="parent"
-                        >
-                            <ArrowRight class="size-full" aria-hidden="true" />
-                        </WaveIcon>
-                    </button>
-                    <a
-                        class="hero-button hero-button--secondary font-regular flex h-12 w-full max-w-full items-center justify-center rounded-xl px-5 py-1.5 text-md sm:w-auto sm:px-6"
-                        href="#projects"
-                        ><WaveText
-                            text="Voir mes réalisations"
-                            trigger="parent"
-                        /></a
-                    >
-                </div>
-            </FadeReveal>
-            <FadeReveal delay={0.56}>
-                <div
-                    class="testimonial-rotator mx-auto my-4 text-center text-xs"
-                    data-testimonial-rotator
-                    data-testimonial-interval="5500"
-                >
-                    {
-                        displayedTestimonials.map((temoignage, index) => (
-                            <figure
-                                class:list={[
-                                    "testimonial-rotator__item",
-                                    index === 0 && "is-active",
-                                ]}
-                                data-testimonial-item
-                                aria-hidden={index === 0 ? undefined : "true"}
-                                inert={index === 0 ? undefined : true}
-                            >
-                                <div class="testimonial-avatar">
+                            <blockquote class="mx-auto max-w-md text-base font-normal leading-normal text-gray-900">
+                                “{temoignage.excerpt ?? temoignage.text}”
+                            </blockquote>
+                            <div class="testimonial-rotator__person flex items-center justify-center gap-3">
+                                <div class="inline-flex size-10 items-center justify-center overflow-hidden rounded-full bg-snow-600 text-xs font-medium text-gray-900">
                                     {temoignage.image ? (
                                         <Image
-                                            class="testimonial-avatar__image"
+                                            class="block size-full object-cover"
                                             src={temoignage.image}
                                             alt={temoignage.imageAlt ?? ""}
                                             width={64}
@@ -147,9 +240,9 @@ const displayedTestimonials = temoignages
                                         <span>{temoignage.initials}</span>
                                     )}
                                 </div>
-                                <figcaption>
+                                <figcaption class="text-left text-sm font-medium leading-tight text-gray-900">
                                     <a
-                                        class="testimonial-rotator__link"
+                                        class="text-inherit no-underline underline-offset-2 focus-visible:underline"
                                         href={temoignage.href}
                                         target="_blank"
                                         rel="noreferrer"
@@ -158,73 +251,46 @@ const displayedTestimonials = temoignages
                                         {temoignage.name}
                                     </a>
                                 </figcaption>
-                                <blockquote>
-                                    “{temoignage.excerpt ?? temoignage.text}”
-                                </blockquote>
-                            </figure>
-                        ))
-                    }
-                </div>
-            </FadeReveal>
-        </div>
-    </section>
-    <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !" />
-    <section id="projects" class="project-showcase md:mt-20" data-project-showcase>
-        <div class="project-copy mx-auto max-w-5xl px-2 pb-10 sm:px-4">
-            {
-                homeProjects.map((project, index) => (
-                    <article
-                        class:list={[
-                            "project-copy__panel",
-                            index === 0 && "is-active",
-                        ]}
-                        data-project-panel
-                        data-project-index={index}
-                        aria-hidden={index === 0 ? undefined : "true"}
-                        inert={index === 0 ? undefined : true}
-                    >
-                        <ProjectIntro
-                            href={project.href}
-                            title={project.title}
-                        >
-                            {project.summary}
-                        </ProjectIntro>
-                    </article>
-                ))
-            }
-        </div>
-
-        <Carousel autoplay autoplayDelay={6500}>
-            {
-                homeProjects.map((project, index) => (
-                    <div class="embla__slide">
-                        {project.media.type === "video" ? (
-                            <video
-                                muted
-                                playsinline
-                                loop
-                                preload={index === 0 ? "metadata" : "none"}
-                                tabindex="-1"
-                                poster={project.media.poster}
-                                aria-hidden="true"
-                                class="h-full w-full object-cover rounded-md"
-                            >
-                                <source src={project.media.src} type="video/mp4" />
-                            </video>
-                        ) : (
-                            <div
-                                class="project-placeholder rounded-md"
-                                data-project-name={project.title}
-                            >
-                                <span>{project.media.label}</span>
                             </div>
-                        )}
-                    </div>
-                ))
-            }
-        </Carousel>
+                        </figure>
+                    ))
+                }
+            </div>
+        </FadeReveal>
     </section>
-    <Differenciates />
+    <CapabilitiesStrip />
+    <ProblemComparison />
+    <AboutCallout title="Hello moi c'est William, un développeur à la frontière du design !" />
+    <div class="mx-auto w-full max-w-7xl px-4 py-12 sm:px-8 md:py-16">
+        <ExpertiseShowcase
+            title="Ce que je corrige pour rendre un site plus convaincant"
+            description="Chaque accompagnement part d'un frein concret : manque de clarté, expérience lente, design qui ne rassure plus ou interface difficile à faire évoluer."
+            items={expertiseItems}
+        />
+        <div class="mt-12 flex justify-center">
+            <button
+                aria-controls="cal-drawer"
+                aria-haspopup="dialog"
+                class="expertise-cta inline-flex min-h-14 items-center justify-center gap-5 rounded-xl px-8 py-3 text-base font-normal focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
+                data-cal-location="expertise"
+                data-cal-open
+                type="button"
+            >
+                <span>Trouver ce qui bloque</span>
+                <WaveIcon
+                    class="expertise-cta__icon"
+                    direction="up"
+                    trigger="parent"
+                >
+                    <SearchContent aria-hidden="true" />
+                </WaveIcon>
+            </button>
+        </div>
+    </div>
+    <PricingPreview />
+    <FaqSection title="Questions fréquentes" />
+    <TestimonialsSection />
+    <ProjectShowcase />
 </Layout>
 
 <script>
@@ -261,52 +327,6 @@ const displayedTestimonials = temoignages
         );
     }
 
-    const revealTitle = (title: HTMLElement) => {
-        if (title.dataset.animatedTitleReady === "true") return;
-        title.dataset.animatedTitleReady = "true";
-    };
-
-    const initTitleAnimations = () => {
-        let observedCount = 0;
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (!entry.isIntersecting) return;
-
-                    const title = entry.target as HTMLElement;
-
-                    observer.unobserve(title);
-                    revealTitle(title);
-                });
-            },
-            { rootMargin: "0px 0px -10% 0px", threshold: 0.2 },
-        );
-
-        document
-            .querySelectorAll<HTMLElement>("[data-animated-title]")
-            .forEach((title) => {
-                if (title.dataset.animatedTitleReady) return;
-
-                title.dataset.animatedTitleReady = "pending";
-                observer.observe(title);
-                observedCount += 1;
-            });
-
-        if (observedCount > 0) {
-            registerHomeInteractionCleanup(() => observer.disconnect());
-        } else {
-            observer.disconnect();
-        }
-    };
-
-    const replayProjectPanelAnimation = (panel: HTMLElement) => {
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-        delete panel.dataset.projectPanelAnimate;
-        void panel.offsetWidth;
-        panel.dataset.projectPanelAnimate = "true";
-    };
-
     const initTestimonialRotators = () => {
         document
             .querySelectorAll<HTMLElement>("[data-testimonial-rotator]")
@@ -321,6 +341,18 @@ const displayedTestimonials = temoignages
 
                 if (items.length < 2) return;
 
+                if (
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+                ) {
+                    items.forEach((item, index) => {
+                        const isActive = index === 0;
+                        item.classList.toggle("is-active", isActive);
+                        item.setAttribute("aria-hidden", String(!isActive));
+                        item.toggleAttribute("inert", !isActive);
+                    });
+                    return;
+                }
+
                 const interval = Math.max(
                     1200,
                     Number.parseInt(root.dataset.testimonialInterval ?? "", 10) ||
@@ -329,6 +361,7 @@ const displayedTestimonials = temoignages
                 let activeIndex = items.findIndex((item) =>
                     item.classList.contains("is-active"),
                 );
+                let isPausedByInteraction = false;
                 let timeout: number | undefined;
 
                 if (activeIndex < 0) activeIndex = 0;
@@ -349,6 +382,8 @@ const displayedTestimonials = temoignages
 
                 const schedule = () => {
                     window.clearTimeout(timeout);
+                    if (isPausedByInteraction) return;
+
                     timeout = window.setTimeout(() => {
                         if (!document.hidden) {
                             setActiveItem((activeIndex + 1) % items.length);
@@ -358,86 +393,49 @@ const displayedTestimonials = temoignages
                     }, interval);
                 };
 
+                const pause = () => {
+                    isPausedByInteraction = true;
+                    window.clearTimeout(timeout);
+                };
+                const resume = () => {
+                    isPausedByInteraction = false;
+                    schedule();
+                };
+                const resumeAfterFocus = (event: FocusEvent) => {
+                    if (
+                        event.relatedTarget instanceof Node &&
+                        root.contains(event.relatedTarget)
+                    ) {
+                        return;
+                    }
+
+                    resume();
+                };
+
                 root.dataset.testimonialRotatorReady = "true";
                 setActiveItem(activeIndex);
+                root.addEventListener("focusin", pause);
+                root.addEventListener("focusout", resumeAfterFocus);
+                root.addEventListener("mouseenter", pause);
+                root.addEventListener("mouseleave", resume);
                 schedule();
                 registerHomeInteractionCleanup(() => {
                     window.clearTimeout(timeout);
+                    root.removeEventListener("focusin", pause);
+                    root.removeEventListener("focusout", resumeAfterFocus);
+                    root.removeEventListener("mouseenter", pause);
+                    root.removeEventListener("mouseleave", resume);
                     delete root.dataset.testimonialRotatorReady;
                 });
             });
     };
 
-    const initProjectShowcases = () => {
-        document
-            .querySelectorAll<HTMLElement>("[data-project-showcase]")
-            .forEach((root) => {
-                if (root.dataset.projectShowcaseReady === "true") return;
-
-                const panels =
-                    root.querySelectorAll<HTMLElement>("[data-project-panel]");
-
-                const setActivePanel = (
-                    index: number,
-                    direction = "next",
-                    shouldAnimate = true,
-                ) => {
-                    root.dataset.projectDirection = direction;
-                    let activePanel: HTMLElement | undefined;
-
-                    panels.forEach((panel) => {
-                        const isActive =
-                            Number(panel.dataset.projectIndex) === index;
-
-                        delete panel.dataset.projectPanelAnimate;
-                        panel.classList.toggle("is-active", isActive);
-                        panel.setAttribute("aria-hidden", String(!isActive));
-                        panel.toggleAttribute("inert", !isActive);
-                        if (isActive) activePanel = panel;
-                    });
-
-                    if (shouldAnimate && activePanel) {
-                        replayProjectPanelAnimation(activePanel);
-                    }
-                };
-
-                root.dataset.projectShowcaseReady = "true";
-                setActivePanel(0, "next", false);
-                const handleCarouselSelect = (event: Event) => {
-                    const { direction, index } = (
-                        event as CustomEvent<{
-                            direction?: string;
-                            index: number;
-                        }>
-                    ).detail;
-
-                    setActivePanel(index, direction);
-                };
-
-                root.addEventListener("carousel:select", handleCarouselSelect);
-                registerHomeInteractionCleanup(() => {
-                    root.removeEventListener(
-                        "carousel:select",
-                        handleCarouselSelect,
-                    );
-                    panels.forEach((panel) => {
-                        delete panel.dataset.projectPanelAnimate;
-                    });
-                    delete root.dataset.projectShowcaseReady;
-                });
-            });
-    };
-
-    initTitleAnimations();
     initTestimonialRotators();
-    initProjectShowcases();
 
     if (windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady !== true) {
         windowWithHomeInteractions.__wuiHomeInteractionLifecycleReady = true;
         document.addEventListener("astro:before-swap", resetHomeInteractions);
-        document.addEventListener("astro:page-load", initTitleAnimations);
         document.addEventListener("astro:page-load", initTestimonialRotators);
-        document.addEventListener("astro:page-load", initProjectShowcases);
     }
 </script>
 
@@ -459,15 +457,11 @@ const displayedTestimonials = temoignages
         }
     }
 
-    [data-animated-title-word] {
-        display: inline-block;
-    }
-
     .testimonial-rotator {
         display: grid;
-        min-height: 10rem;
+        min-height: 8.5rem;
         place-items: center;
-        width: min(100%, 24rem);
+        width: min(100%, 30rem);
     }
 
     .testimonial-rotator__item {
@@ -475,7 +469,7 @@ const displayedTestimonials = temoignages
         display: flex;
         filter: blur(6px);
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 1rem;
         grid-area: 1 / 1;
         opacity: 0;
         pointer-events: none;
@@ -494,23 +488,18 @@ const displayedTestimonials = temoignages
         transform: none;
     }
 
-    .testimonial-rotator__item.is-active .testimonial-avatar,
-    .testimonial-rotator__item.is-active figcaption,
-    .testimonial-rotator__item.is-active blockquote {
+    .testimonial-rotator__item.is-active blockquote,
+    .testimonial-rotator__item.is-active .testimonial-rotator__person {
         animation: testimonial-content-in 920ms cubic-bezier(0.22, 1.16, 0.36, 1)
             backwards;
     }
 
-    .testimonial-rotator__item.is-active .testimonial-avatar {
+    .testimonial-rotator__item.is-active blockquote {
         animation-delay: 120ms;
     }
 
-    .testimonial-rotator__item.is-active figcaption {
+    .testimonial-rotator__item.is-active .testimonial-rotator__person {
         animation-delay: 360ms;
-    }
-
-    .testimonial-rotator__item.is-active blockquote {
-        animation-delay: 660ms;
     }
 
     @keyframes testimonial-content-in {
@@ -527,187 +516,27 @@ const displayedTestimonials = temoignages
         }
     }
 
-    .testimonial-avatar {
-        align-items: center;
-        aspect-ratio: 1;
-        background: #e8e5e8;
-        border-radius: 9999px;
-        color: #141016;
-        display: inline-flex;
-        font-size: 0.8rem;
-        font-weight: 500;
-        height: 3.25rem;
-        justify-content: center;
-        overflow: hidden;
-        width: 3.25rem;
-    }
-
-    .testimonial-avatar__image {
-        display: block;
-        height: 100%;
-        object-fit: cover;
-        width: 100%;
-    }
-
-    .testimonial-rotator figcaption {
-        color: #141016;
-        font-size: 0.875rem;
-        font-weight: 500;
-        line-height: 1.2;
-    }
-
-    .testimonial-rotator__link {
-        color: inherit;
-        text-decoration: none;
-        text-underline-offset: 0.2em;
-    }
-
-    .testimonial-rotator__link:focus-visible {
-        text-decoration: underline;
-    }
-
-    .testimonial-rotator blockquote {
-        color: #141016;
-        font-size: 0.875rem;
-        font-weight: 300;
-        line-height: 1.35;
-        margin: 0 auto;
-        max-width: 18rem;
-    }
-
-    [data-animated-title]:not([data-animated-title-ready="true"])
-        [data-animated-title-word] {
-        filter: blur(10px);
-        opacity: 0;
-        transform: translateY(-0.65em);
-    }
-
-    [data-animated-title][data-animated-title-ready="true"]
-        [data-animated-title-word] {
-        animation: animated-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
-            backwards;
-        animation-delay: calc(var(--animated-word-index, 0) * 65ms);
-    }
-
-    @keyframes animated-title-word {
-        from {
-            filter: blur(10px);
-            opacity: 0;
-            transform: translateY(-0.65em);
-        }
-
-        to {
-            filter: none;
-            opacity: 1;
-            transform: none;
-        }
-    }
-
     @media (scripting: none), (prefers-reduced-motion: reduce) {
         [data-hero-eyebrow] {
             animation: none;
-        }
-
-        [data-animated-title] [data-animated-title-word] {
-            animation: none;
-            filter: none;
-            opacity: 1;
-            transform: none;
         }
 
         .testimonial-rotator__item {
             transition: none;
         }
 
-        .testimonial-avatar,
-        .testimonial-rotator figcaption,
+        .testimonial-rotator__person,
         .testimonial-rotator blockquote {
             animation: none;
         }
+
     }
-
-    .project-copy {
-        display: grid;
-    }
-
-    .project-copy__panel {
-        filter: blur(6px);
-        grid-area: 1 / 1;
-        opacity: 0;
-        pointer-events: none;
-        transition:
-            opacity 320ms cubic-bezier(0.2, 0, 0, 1),
-            filter 420ms cubic-bezier(0.2, 0, 0, 1);
-    }
-
-    .project-copy__panel.is-active {
-        filter: none;
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    .project-showcase {
-        --project-panel-from-y: -1.15rem;
-    }
-
-    .project-showcase[data-project-direction="prev"] {
-        --project-panel-from-y: 1.15rem;
-    }
-
-    .project-copy__panel[data-project-panel-animate="true"]
-        :global(.project-intro__title),
-    .project-copy__panel[data-project-panel-animate="true"]
-        :global(.project-intro__description),
-    .project-copy__panel[data-project-panel-animate="true"]
-        :global(.project-intro__button) {
-        animation: project-panel-copy-reveal 760ms
-            cubic-bezier(0.34, 1.2, 0.64, 1) backwards;
-    }
-
-    .project-copy__panel[data-project-panel-animate="true"]
-        :global(.project-intro__description) {
-        animation-delay: 130ms;
-    }
-
-    .project-copy__panel[data-project-panel-animate="true"]
-        :global(.project-intro__button) {
-        animation-delay: 260ms;
-    }
-
-    @keyframes project-panel-copy-reveal {
-        from {
-            filter: blur(8px);
-            opacity: 0;
-            transform: translateY(var(--project-panel-from-y));
-        }
-
-        to {
-            filter: none;
-            opacity: 1;
-            transform: none;
-        }
-    }
-
-    .project-placeholder {
-        align-items: center;
-        aspect-ratio: 16 / 9;
-        background: #e8e5e8;
-        color: rgb(63 63 70);
-        display: flex;
-        font-size: clamp(2rem, 6vw, 5rem);
-        font-weight: 500;
-        height: 100%;
-        justify-content: center;
-        width: 100%;
-    }
-
     .hero-button {
-        --hero-button-bg: #e8e5e8;
+        --hero-button-bg: var(--color-snow-600);
         --hero-button-border: transparent;
         --hero-button-color: var(--color-coffee-300);
 
         color: var(--hero-button-color);
-        gap: 0.75rem;
         isolation: isolate;
         position: relative;
         text-decoration: none;
@@ -726,9 +555,14 @@ const displayedTestimonials = temoignages
         z-index: -1;
     }
 
-    .hero-button:hover::before,
     .hero-button:focus-visible::before {
         transform: scale(0.95);
+    }
+
+    @media (hover: hover) {
+        .hero-button:hover::before {
+            transform: scale(0.95);
+        }
     }
 
     .hero-button:focus-visible {
@@ -739,15 +573,56 @@ const displayedTestimonials = temoignages
     .hero-button--primary {
         --hero-button-bg: var(--color-coffee-300);
         --hero-button-border: var(--color-coffee-300);
-        --hero-button-color: #eef5ff;
+        --hero-button-color: var(--color-snow-50);
     }
 
     .hero-button--secondary {
-        --hero-button-bg: #e8e5e8;
+        --hero-button-bg: var(--color-gray-100);
+    }
+
+    .expertise-cta {
+        background: transparent;
+        border: 0;
+        color: var(--color-snow-50);
+        isolation: isolate;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .expertise-cta::before {
+        background: var(--color-blue-500);
+        border: 1px solid
+            color-mix(in srgb, var(--color-blue-500) 70%, var(--color-blue-600));
+        border-radius: inherit;
+        box-shadow: inset 0 2px rgba(184, 200, 255, 0.18);
+        content: "";
+        inset: 0;
+        position: absolute;
+        transform: scale(1);
+        transition: transform 520ms
+            var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        z-index: -1;
+    }
+
+    .expertise-cta:focus-visible::before {
+        transform: scale(0.95);
+    }
+
+    @media (hover: hover) {
+        .expertise-cta:hover::before {
+            transform: scale(0.95);
+        }
+    }
+
+    .expertise-cta__icon {
+        --wui-wave-icon-size: 1.25rem;
+
+        color: var(--color-blue-100);
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .hero-button::before {
+        .hero-button::before,
+        .expertise-cta::before {
             transition: none;
         }
     }

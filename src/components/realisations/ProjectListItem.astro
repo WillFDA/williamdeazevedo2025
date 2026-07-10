@@ -1,0 +1,138 @@
+---
+import ArrowRight from "@/components/icons/nucleo/arrow-right-fill.svg";
+import GlobeIcon from "@/components/icons/nucleo/globe-outline.svg";
+import SparkleIcon from "@/components/icons/nucleo/sparkle-3-fill.svg";
+import WindowLayoutIcon from "@/components/icons/nucleo/window-layout-fill.svg";
+import WindowPaintbrushIcon from "@/components/icons/nucleo/window-paintbrush-fill.svg";
+import WindowPointerIcon from "@/components/icons/nucleo/window-pointer-fill.svg";
+import WaveIcon from "@/components/ui/WaveIcon.astro";
+import WaveText from "@/components/ui/WaveText.astro";
+import type { Project } from "@/data/projects";
+
+interface Props {
+    description?: string;
+    detailsLabel?: string;
+    eager?: boolean;
+    project: Project;
+    siteLabel?: string;
+}
+
+const {
+    description,
+    detailsLabel = "Détails du projet",
+    eager = false,
+    project,
+    siteLabel = "Voir le site",
+} = Astro.props;
+
+const projectTagIcons = {
+    globe: GlobeIcon,
+    sparkle: SparkleIcon,
+    "window-layout": WindowLayoutIcon,
+    "window-paintbrush": WindowPaintbrushIcon,
+    "window-pointer": WindowPointerIcon,
+} as const;
+---
+
+<article class="grid gap-7">
+    {
+        project.media.type === "video" && (
+            <a
+                aria-label={`Voir l'étude de cas ${project.title}`}
+                class="group block overflow-hidden rounded-3xl bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                href={`/realisations/${project.id}`}
+            >
+                <img
+                    src={project.media.poster}
+                    alt={`Aperçu du projet ${project.title}`}
+                    class="aspect-video w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                    loading={eager ? "eager" : "lazy"}
+                    fetchpriority={eager ? "high" : undefined}
+                    decoding="async"
+                />
+            </a>
+        )
+    }
+
+    <div class="grid gap-7 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-10">
+        <div class="flex flex-col gap-6">
+            <div class="flex max-w-3xl flex-col gap-5">
+                <div class="flex items-center gap-4">
+                    <span class="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-snow-50 p-2.5 text-xl font-medium text-gray-900 shadow-[0_18px_42px_-28px_rgba(34,42,55,0.55)] ring-1 ring-gray-200/70">
+                        <img
+                            src={project.brand.logo.src}
+                            alt=""
+                            class:list={[
+                                "block max-h-full max-w-full object-contain",
+                                project.brand.logo.className,
+                            ]}
+                            loading={eager ? "eager" : "lazy"}
+                            decoding="async"
+                        />
+                    </span>
+                    <h2 class="text-4xl font-medium leading-none tracking-normal text-gray-900 md:text-5xl">
+                        {project.title}
+                    </h2>
+                </div>
+
+                {
+                    description && (
+                        <p class="max-w-2xl text-lg font-normal leading-relaxed text-gray-600">
+                            {description}
+                        </p>
+                    )
+                }
+            </div>
+
+            <div class="flex flex-wrap gap-3">
+                {
+                    project.tags.map(({ icon, label }) => {
+                        const Icon = projectTagIcons[icon];
+
+                        return (
+                            <span class="inline-flex items-center gap-2 rounded-xl bg-snow-50 px-4 py-2 text-sm font-normal leading-none text-blue-500 shadow-[0_12px_30px_-24px_rgba(34,42,55,0.45)]">
+                                <Icon class="size-4" aria-hidden="true" />
+                                <span>{label}</span>
+                            </span>
+                        );
+                    })
+                }
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-3 sm:flex-row md:justify-end md:pt-2">
+            <a
+                class="group relative isolate inline-flex min-h-14 items-center justify-center gap-4 overflow-hidden rounded-xl bg-snow-50 px-8 py-3 text-base font-normal text-gray-900 no-underline shadow-[0_12px_30px_-24px_rgba(34,42,55,0.5)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                href={`/realisations/${project.id}`}
+            >
+                <WaveText text={detailsLabel} trigger="parent" />
+                <WaveIcon
+                    style="--wui-wave-icon-size: 1rem;"
+                    direction="right"
+                    trigger="parent"
+                >
+                    <ArrowRight class="size-full" aria-hidden="true" />
+                </WaveIcon>
+            </a>
+            {
+                project.href && (
+                    <a
+                        class="group relative isolate inline-flex min-h-14 items-center justify-center gap-4 overflow-hidden rounded-xl px-8 py-3 text-base font-normal text-gray-900 no-underline ring-1 ring-gray-200 transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                        href={project.href}
+                        rel="noreferrer"
+                        target="_blank"
+                    >
+                        <WaveText text={siteLabel} trigger="parent" />
+                        <WaveIcon
+                            style="--wui-wave-icon-size: 1rem;"
+                            direction="up"
+                            trigger="parent"
+                        >
+                            <GlobeIcon class="size-full" aria-hidden="true" />
+                        </WaveIcon>
+                    </a>
+                )
+            }
+        </div>
+    </div>
+</article>

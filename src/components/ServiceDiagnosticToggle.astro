@@ -1,0 +1,321 @@
+---
+import CheckIcon from "./icons/nucleo/check-2-outline.svg";
+import XMark from "./icons/nucleo/xmark-fill.svg";
+
+interface Props {
+    afterItems: readonly string[];
+    afterLabel?: string;
+    beforeItems: readonly string[];
+    beforeLabel?: string;
+    description?: string;
+    title?: string;
+}
+
+const {
+    afterItems,
+    afterLabel = "Après",
+    beforeItems,
+    beforeLabel = "Avant",
+    description = "On part de ce qui crée de l'hésitation, puis on remet de l'ordre dans le message, le parcours et la base technique.",
+    title = "Ce qu'on clarifie avec la refonte",
+} = Astro.props;
+
+const componentId = `service-diagnostic-${Math.random().toString(36).slice(2)}`;
+const staggerMs = 75;
+const getPanelStyle = (items: readonly string[]) =>
+    `--diagnostic-row-count: ${Math.ceil(items.length / 2)}`;
+const getItemStyle = (index: number) =>
+    `--diagnostic-item-delay: ${index * staggerMs}ms`;
+---
+
+<section
+    class="service-diagnostic mx-auto mt-12 w-full max-w-4xl sm:mt-14"
+    aria-labelledby={`${componentId}-title`}
+>
+    <div class="mx-auto flex max-w-3xl flex-col items-center gap-3 text-center">
+        <h2
+            id={`${componentId}-title`}
+            class="text-3xl font-medium leading-none tracking-normal text-gray-900 sm:text-4xl"
+        >
+            {title}
+        </h2>
+        <p class="max-w-2xl text-base font-normal leading-relaxed text-gray-600 sm:text-lg">
+            {description}
+        </p>
+    </div>
+
+    <fieldset class="service-diagnostic__toggle mx-auto mt-6 min-w-0 border-0 p-0">
+        <legend class="sr-only">Changer de vue</legend>
+        <input
+            class="service-diagnostic__input"
+            type="radio"
+            name={`${componentId}-mode`}
+            id={`${componentId}-before`}
+            checked
+        />
+        <input
+            class="service-diagnostic__input"
+            type="radio"
+            name={`${componentId}-mode`}
+            id={`${componentId}-after`}
+        />
+
+        <div class="service-diagnostic__controls">
+            <span class="service-diagnostic__thumb" aria-hidden="true"></span>
+            <label
+                class="service-diagnostic__control service-diagnostic__control--before"
+                for={`${componentId}-before`}
+            >
+                <XMark class="size-3.5" aria-hidden="true" />
+                {beforeLabel}
+            </label>
+            <label
+                class="service-diagnostic__control service-diagnostic__control--after"
+                for={`${componentId}-after`}
+            >
+                <CheckIcon class="size-4" aria-hidden="true" />
+                {afterLabel}
+            </label>
+        </div>
+
+        <div class="service-diagnostic__panels">
+            <ul
+                class="service-diagnostic__panel service-diagnostic__panel--before"
+                style={getPanelStyle(beforeItems)}
+            >
+                {
+                    beforeItems.map((item, index) => (
+                        <li
+                            class="service-diagnostic__item"
+                            style={getItemStyle(index)}
+                        >
+                            <span class="service-diagnostic__icon service-diagnostic__icon--before">
+                                <XMark class="size-3.5" aria-hidden="true" />
+                            </span>
+                            <span>{item}</span>
+                        </li>
+                    ))
+                }
+            </ul>
+            <ul
+                class="service-diagnostic__panel service-diagnostic__panel--after"
+                style={getPanelStyle(afterItems)}
+            >
+                {
+                    afterItems.map((item, index) => (
+                        <li
+                            class="service-diagnostic__item"
+                            style={getItemStyle(index)}
+                        >
+                            <span class="service-diagnostic__icon service-diagnostic__icon--after">
+                                <CheckIcon class="size-4" aria-hidden="true" />
+                            </span>
+                            <span>{item}</span>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </fieldset>
+</section>
+
+<style>
+    .service-diagnostic__toggle {
+        display: grid;
+        gap: 1.5rem;
+        max-width: 52rem;
+    }
+
+    .service-diagnostic__input {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+    }
+
+    .service-diagnostic__controls {
+        align-items: center;
+        background: var(--color-gray-100);
+        border-radius: 0.875rem;
+        display: flex;
+        gap: 0.25rem;
+        justify-self: center;
+        padding: 0.25rem;
+        position: relative;
+    }
+
+    .service-diagnostic__control {
+        align-items: center;
+        border-radius: 0.65rem;
+        color: var(--color-gray-700);
+        cursor: pointer;
+        display: inline-flex;
+        gap: 0.45rem;
+        min-height: 2.45rem;
+        padding: 0 0.9rem;
+        position: relative;
+        transition:
+            color 180ms cubic-bezier(0.2, 0, 0, 1);
+        width: 7.25rem;
+        z-index: 1;
+    }
+
+    .service-diagnostic__thumb {
+        background: var(--color-snow-50);
+        border-radius: 0.65rem;
+        box-shadow: 0 12px 28px -24px rgba(34, 42, 55, 0.55);
+        inset: 0.25rem auto 0.25rem 0.25rem;
+        position: absolute;
+        transform: translateX(0);
+        transition: transform 360ms
+            var(--wui-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+        width: 7.25rem;
+        z-index: 0;
+    }
+
+    .service-diagnostic__control--before svg {
+        color: rgb(239 68 68);
+    }
+
+    .service-diagnostic__control--after svg {
+        color: rgb(34 197 94);
+    }
+
+    .service-diagnostic__input:first-of-type:focus-visible
+        ~ .service-diagnostic__controls
+        .service-diagnostic__control--before,
+    .service-diagnostic__input:nth-of-type(2):focus-visible
+        ~ .service-diagnostic__controls
+        .service-diagnostic__control--after {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 2px;
+    }
+
+    .service-diagnostic__panels {
+        display: grid;
+    }
+
+    .service-diagnostic__panel {
+        display: grid;
+        gap: 1rem 2rem;
+        grid-area: 1 / 1;
+        grid-template-columns: 1fr;
+        list-style: none;
+        margin: 0;
+        opacity: 0;
+        padding: 0;
+        pointer-events: none;
+        visibility: hidden;
+    }
+
+    .service-diagnostic__item {
+        align-items: center;
+        display: flex;
+        filter: blur(8px);
+        gap: 0.85rem;
+        min-width: 0;
+        opacity: 0;
+        text-align: left;
+        transform: translate3d(0, 0.75rem, 0);
+    }
+
+    .service-diagnostic__item span:last-child {
+        color: var(--color-gray-900);
+        font-size: 1.04rem;
+        font-weight: 400;
+        line-height: 1.32;
+    }
+
+    .service-diagnostic__icon {
+        align-items: center;
+        background: var(--color-snow-50);
+        border: 1px solid var(--color-gray-200);
+        border-radius: 0.75rem;
+        display: inline-flex;
+        flex: none;
+        height: 2.6rem;
+        justify-content: center;
+        width: 2.6rem;
+    }
+
+    .service-diagnostic__icon--before {
+        color: rgb(239 68 68);
+    }
+
+    .service-diagnostic__icon--after {
+        color: rgb(34 197 94);
+    }
+
+    .service-diagnostic__input:first-of-type:checked
+        ~ .service-diagnostic__controls
+        .service-diagnostic__control--before,
+    .service-diagnostic__input:nth-of-type(2):checked
+        ~ .service-diagnostic__controls
+        .service-diagnostic__control--after {
+        color: var(--color-gray-900);
+    }
+
+    .service-diagnostic__input:nth-of-type(2):checked
+        ~ .service-diagnostic__controls
+        .service-diagnostic__thumb {
+        transform: translateX(calc(100% + 0.25rem));
+    }
+
+    .service-diagnostic__input:first-of-type:checked
+        ~ .service-diagnostic__panels
+        .service-diagnostic__panel--before,
+    .service-diagnostic__input:nth-of-type(2):checked
+        ~ .service-diagnostic__panels
+        .service-diagnostic__panel--after {
+        opacity: 1;
+        pointer-events: auto;
+        visibility: visible;
+    }
+
+    .service-diagnostic__input:first-of-type:checked
+        ~ .service-diagnostic__panels
+        .service-diagnostic__panel--before
+        .service-diagnostic__item,
+    .service-diagnostic__input:nth-of-type(2):checked
+        ~ .service-diagnostic__panels
+        .service-diagnostic__panel--after
+        .service-diagnostic__item {
+        animation: service-diagnostic-item-in 640ms
+            cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation-delay: var(--diagnostic-item-delay, 0ms);
+    }
+
+    @keyframes service-diagnostic-item-in {
+        to {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .service-diagnostic__panel {
+            grid-auto-flow: column;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-rows: repeat(var(--diagnostic-row-count), auto);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .service-diagnostic__control,
+        .service-diagnostic__thumb,
+        .service-diagnostic__item {
+            animation: none;
+            transition: none;
+        }
+
+        .service-diagnostic__item {
+            filter: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
+</style>

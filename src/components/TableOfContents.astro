@@ -1,0 +1,192 @@
+---
+export type TableOfContentsItem = {
+    depth: number;
+    slug: string;
+    text: string;
+};
+
+interface Props {
+    class?: string;
+    items: TableOfContentsItem[];
+    title?: string;
+}
+
+const {
+    class: className = "",
+    items,
+    title = "Table des matières",
+} = Astro.props;
+const visibleItems = items.filter((item) => item.slug && item.text);
+---
+
+{
+    visibleItems.length > 0 && (
+        <nav
+            aria-label={title}
+            class:list={["page-toc", className]}
+            data-page-toc
+        >
+            <p class="page-toc__title">{title}</p>
+            <ol class="page-toc__list">
+                {visibleItems.map((item) => (
+                    <li
+                        class:list={[
+                            "page-toc__item",
+                            item.depth > 2 && "page-toc__item--nested",
+                        ]}
+                    >
+                        <a
+                            class="page-toc__link"
+                            href={`#${item.slug}`}
+                            data-page-toc-link
+                            data-page-toc-target={item.slug}
+                        >
+                            {item.text}
+                        </a>
+                    </li>
+                ))}
+            </ol>
+        </nav>
+    )
+}
+
+<script>
+    const pageTocWindow = window as Window & {
+        __wuiPageTocReady?: boolean;
+    };
+
+    const updatePageTocs = () => {
+        document.querySelectorAll<HTMLElement>("[data-page-toc]").forEach((toc) => {
+            const links = Array.from(
+                toc.querySelectorAll<HTMLAnchorElement>("[data-page-toc-link]"),
+            );
+
+            if (links.length === 0) return;
+
+            const sections: {
+                id: string;
+                link: HTMLAnchorElement;
+                section: HTMLElement;
+            }[] = [];
+
+            links.forEach((link) => {
+                const id = link.dataset.pageTocTarget;
+                const section = id ? document.getElementById(id) : null;
+
+                if (id && section) {
+                    sections.push({ id, link, section });
+                }
+            });
+
+            if (sections.length === 0) return;
+
+            const activationY = Math.min(window.innerHeight * 0.36, 240);
+            let activeId = sections[0]?.id;
+
+            for (const item of sections) {
+                if (item.section.getBoundingClientRect().top <= activationY) {
+                    activeId = item.id;
+                } else {
+                    break;
+                }
+            }
+
+            links.forEach((link) => {
+                const isActive = link.dataset.pageTocTarget === activeId;
+                link.toggleAttribute("aria-current", isActive);
+            });
+        });
+    };
+
+    if (!pageTocWindow.__wuiPageTocReady) {
+        pageTocWindow.__wuiPageTocReady = true;
+        window.addEventListener("scroll", updatePageTocs, { passive: true });
+        window.addEventListener("resize", updatePageTocs);
+        document.addEventListener("astro:page-load", updatePageTocs);
+    }
+
+    updatePageTocs();
+</script>
+
+<style>
+    .page-toc {
+        color: var(--color-gray-500);
+        font-size: 0.9rem;
+    }
+
+    .page-toc__title {
+        color: var(--color-gray-500);
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        margin: 0 0 1.25rem;
+        text-transform: uppercase;
+    }
+
+    .page-toc__list {
+        border-left: 1px solid var(--color-gray-200);
+        display: grid;
+        gap: 0.72rem;
+        list-style: none;
+        margin: 0;
+        padding: 0 0 0 1.1rem;
+    }
+
+    .page-toc__item {
+        margin: 0;
+        position: relative;
+    }
+
+    .page-toc__item::before {
+        background: var(--color-gray-200);
+        content: "";
+        height: 1px;
+        left: -1.1rem;
+        position: absolute;
+        top: 0.72em;
+        transition: background-color 180ms ease;
+        width: 0.72rem;
+    }
+
+    .page-toc__item:has(.page-toc__link[aria-current])::before {
+        background: var(--color-blue-500);
+    }
+
+    .page-toc__item--nested {
+        padding-left: 0.8rem;
+    }
+
+    .page-toc__link {
+        color: inherit;
+        display: inline-flex;
+        font-weight: 400;
+        line-height: 1.35;
+        max-width: 13rem;
+        text-decoration: none;
+        transition:
+            color 180ms ease,
+            transform 180ms ease;
+    }
+
+    .page-toc__item--nested .page-toc__link {
+        font-size: 0.82rem;
+    }
+
+    .page-toc__link[aria-current] {
+        color: var(--color-blue-500);
+        transform: translateX(0.18rem);
+    }
+
+    @media (hover: hover) {
+        .page-toc__link:hover {
+            color: var(--color-gray-900);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .page-toc__link,
+        .page-toc__item::before {
+            transition: none;
+        }
+    }
+</style>

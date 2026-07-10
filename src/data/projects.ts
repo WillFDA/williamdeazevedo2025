@@ -1,13 +1,26 @@
 import leFellicHomePoster from "../assets/projects/lefellic-home.webp";
+import motivaiLandingHero from "../assets/projects/motivai-landing-hero.webp";
+import motivaiLandingPreset from "../assets/projects/motivai-landing-preset.webp";
 import motivaiLandingPoster from "../assets/projects/motivai-landing.webp";
 import persistanceHomePoster from "../assets/projects/persistance-home.webp";
 
 export type Project = {
+  brand: {
+    logo: {
+      alt: string;
+      className?: string;
+      src: string;
+    };
+  };
   caseStudy: {
     need: string;
     overview: string;
     solution: string;
   };
+  gallery?: {
+    alt: string;
+    src: string;
+  }[];
   href: string;
   id: string;
   media:
@@ -21,17 +34,38 @@ export type Project = {
         type: "placeholder";
       };
   stack: string[];
+  tags: {
+    icon:
+      | "globe"
+      | "sparkle"
+      | "window-layout"
+      | "window-paintbrush"
+      | "window-pointer";
+    label: string;
+  }[];
   summary: string;
   title: string;
 };
 
-export const homeProjects: Project[] = [
+export const projects: Project[] = [
   {
     id: "le-fellic",
     title: "SARL LE FELLIC",
     href: "https://lefellic.fr/",
+    brand: {
+      logo: {
+        alt: "Logo SARL LE FELLIC",
+        className: "scale-[1.42]",
+        src: "/projects/le-fellic/logo.png",
+      },
+    },
     summary:
-      "Site vitrine one-page pour une entreprise de maîtrise d'oeuvre à Rennes, pensé pour clarifier l'offre, rassurer une cible B2B et générer des demandes qualifiées via un formulaire sécurisé.",
+      "Site vitrine one-page pour une entreprise de maîtrise d'oeuvre à Rennes, pensé pour clarifier l'offre, rassurer une cible B2B et faciliter la prise de contact via un formulaire sécurisé.",
+    tags: [
+      { icon: "window-layout", label: "One-page" },
+      { icon: "globe", label: "B2B local" },
+      { icon: "window-pointer", label: "Contact clair" },
+    ],
     stack: [
       "Astro 6",
       "TypeScript",
@@ -58,8 +92,20 @@ export const homeProjects: Project[] = [
     id: "persistance",
     title: "Persistance",
     href: "https://persistance-studio.fr/",
+    brand: {
+      logo: {
+        alt: "Logo Persistance",
+        className: "scale-[1.24]",
+        src: "/projects/persistance/logo.png",
+      },
+    },
     summary:
       "Site vitrine administrable pour un studio d'accompagnement graphique, avec portfolio, articles, témoignages, pages prestations, SEO technique et formulaire de contact sécurisé.",
+    tags: [
+      { icon: "window-paintbrush", label: "Identité forte" },
+      { icon: "window-layout", label: "CMS" },
+      { icon: "globe", label: "SEO technique" },
+    ],
     stack: [
       "Astro 6",
       "TypeScript",
@@ -86,8 +132,20 @@ export const homeProjects: Project[] = [
     id: "motivai",
     title: "Motivai",
     href: "https://www.motivai.fr/",
+    brand: {
+      logo: {
+        alt: "Logo Motivai",
+        className: "scale-[1.18]",
+        src: "/projects/motivai/logo.svg",
+      },
+    },
     summary:
       "SaaS de génération de lettres de motivation par IA, développé en solo avec une architecture produit complète, authentification, base de données et intégration multi-modèles.",
+    tags: [
+      { icon: "sparkle", label: "Produit IA" },
+      { icon: "window-pointer", label: "SaaS" },
+      { icon: "window-layout", label: "Interface complète" },
+    ],
     stack: [
       "Next.js",
       "Drizzle ORM",
@@ -101,6 +159,16 @@ export const homeProjects: Project[] = [
       poster: motivaiLandingPoster.src,
       src: "/motivai/motivai-landing.mp4",
     },
+    gallery: [
+      {
+        src: motivaiLandingHero.src,
+        alt: "Interface de génération de lettre de motivation dans Motivai",
+      },
+      {
+        src: motivaiLandingPreset.src,
+        alt: "Sélection du mode de génération dans Motivai",
+      },
+    ],
     caseStudy: {
       overview:
         "SaaS de génération de lettres de motivation par IA développé en solo depuis 2024.",
@@ -110,3 +178,6 @@ export const homeProjects: Project[] = [
     },
   },
 ];
+
+export const getProjectById = (id: string) =>
+  projects.find((project) => project.id === id);

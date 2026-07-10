@@ -1,0 +1,54 @@
+---
+import type { Service } from "@/data/services";
+import { createServiceBentoItem } from "@/data/serviceBento";
+import ServiceBentoCard from "./bento/ServiceBentoCard.astro";
+import ServicesBentoAnimations from "./bento/ServicesBentoAnimations.astro";
+
+type Props = {
+    services: Service[];
+};
+
+const { services } = Astro.props as Props;
+const relatedItems = services.map(createServiceBentoItem);
+const [featureItem] = relatedItems;
+const sideItems = relatedItems.slice(1, 3);
+const extraItems = relatedItems.slice(3);
+---
+
+{
+    relatedItems.length > 0 && (
+        <section
+            class="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]"
+            aria-labelledby="related-services-title"
+            data-services-bento
+        >
+            <h2 id="related-services-title" class="sr-only">Services liés</h2>
+            {
+                featureItem && (
+                    <ServiceBentoCard
+                        delay={0.08}
+                        item={featureItem}
+                        variant="relatedFeature"
+                    />
+                )
+            }
+            <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-1">
+                {sideItems.map((item, index) => (
+                    <ServiceBentoCard
+                        delay={0.16 + index * 0.08}
+                        item={item}
+                        variant="relatedCompact"
+                    />
+                ))}
+            </div>
+            {extraItems.map((item, index) => (
+                <ServiceBentoCard
+                    delay={0.32 + index * 0.08}
+                    item={item}
+                    variant="related"
+                />
+            ))}
+            <ServicesBentoAnimations />
+        </section>
+    )
+}

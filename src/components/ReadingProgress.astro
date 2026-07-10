@@ -1,0 +1,82 @@
+---
+interface Props {
+    label?: string;
+}
+
+const { label = "Progression de lecture" } = Astro.props;
+---
+
+<div
+    class="reading-progress"
+    role="progressbar"
+    aria-label={label}
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="0"
+    data-reading-progress
+>
+    <span class="reading-progress__bar" data-reading-progress-bar></span>
+</div>
+
+<script>
+    const readingProgressWindow = window as Window & {
+        __wuiReadingProgressReady?: boolean;
+    };
+
+    const clampReadingProgress = (value: number) =>
+        Math.min(1, Math.max(0, value));
+
+    const updateReadingProgress = () => {
+        const root =
+            document.querySelector<HTMLElement>("[data-reading-progress-root]") ??
+            document.documentElement;
+        const rootTop = root.getBoundingClientRect().top + window.scrollY;
+        const rootHeight = root.offsetHeight;
+        const scrollable = Math.max(1, rootHeight - window.innerHeight);
+        const progress = clampReadingProgress((window.scrollY - rootTop) / scrollable);
+        const value = String(Math.round(progress * 100));
+
+        document
+            .querySelectorAll<HTMLElement>("[data-reading-progress]")
+            .forEach((progressRoot) => {
+                progressRoot.style.setProperty("--reading-progress", String(progress));
+                progressRoot.setAttribute("aria-valuenow", value);
+            });
+    };
+
+    if (!readingProgressWindow.__wuiReadingProgressReady) {
+        readingProgressWindow.__wuiReadingProgressReady = true;
+        window.addEventListener("scroll", updateReadingProgress, { passive: true });
+        window.addEventListener("resize", updateReadingProgress);
+        document.addEventListener("astro:page-load", updateReadingProgress);
+    }
+
+    updateReadingProgress();
+</script>
+
+<style>
+    .reading-progress {
+        background: rgba(65, 105, 225, 0.08);
+        height: 0.1875rem;
+        inset: 0 0 auto;
+        pointer-events: none;
+        position: fixed;
+        z-index: 80;
+    }
+
+    .reading-progress__bar {
+        background: var(--color-blue-500);
+        box-shadow: 0 0.45rem 1.25rem -0.65rem rgba(65, 105, 225, 0.72);
+        display: block;
+        height: 100%;
+        transform: scaleX(var(--reading-progress, 0));
+        transform-origin: left center;
+        width: 100%;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .reading-progress__bar {
+            box-shadow: none;
+        }
+    }
+</style>

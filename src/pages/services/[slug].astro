@@ -1,0 +1,26 @@
+---
+import SeoServicePage from "@/components/SeoServicePage.astro";
+import { type Service, services } from "@/data/services";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+    return services
+        .filter((service) => !service.rootPath)
+        .map((service) => ({
+            params: { slug: service.slug },
+            props: { service },
+        }));
+}
+
+interface Props {
+    service: Service;
+}
+
+const { service } = Astro.props;
+---
+
+<SeoServicePage
+    service={service}
+    canonicalPath={service.rootPath ?? `/services/${service.slug}`}
+/>

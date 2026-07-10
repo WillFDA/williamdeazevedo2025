@@ -1,0 +1,115 @@
+<script>
+    import { animateArtisan } from "@/scripts/animations/bento/artisan";
+    import { animateFrontend } from "@/scripts/animations/bento/frontend";
+    import { animateProfessional } from "@/scripts/animations/bento/professional";
+    import { animateRefonte } from "@/scripts/animations/bento/refonte";
+    import { animateSeo } from "@/scripts/animations/bento/seo";
+    import type { BentoPlayer } from "@/scripts/animations/bento/shared";
+    import { animateVitrine } from "@/scripts/animations/bento/vitrine";
+
+    const visualAnimators: Record<
+        string,
+        (root: HTMLElement, players: BentoPlayer[]) => void
+    > = {
+        artisan: animateArtisan,
+        frontend: animateFrontend,
+        professional: animateProfessional,
+        refonte: animateRefonte,
+        seo: animateSeo,
+        vitrine: animateVitrine,
+    };
+
+    const activeBentoControllers = new WeakMap<HTMLElement, () => void>();
+    const prefersReducedMotion = () =>
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const cleanupPlayer = (player: BentoPlayer) => {
+        if (player.revert) {
+            player.revert();
+            return;
+        }
+
+        player.cancel?.();
+    };
+
+    const cleanupServicesBentoAnimations = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-services-bento]")
+            .forEach((bento) => {
+                activeBentoControllers.get(bento)?.();
+                activeBentoControllers.delete(bento);
+                delete bento.dataset.bentoAnimationsReady;
+            });
+    };
+
+    const initServicesBentoAnimations = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-services-bento]")
+            .forEach((bento) => {
+                if (bento.dataset.bentoAnimationsReady === "true") return;
+
+                const players: BentoPlayer[] = [];
+
+                if (!prefersReducedMotion()) {
+                    for (const [name, animator] of Object.entries(
+                        visualAnimators,
+                    )) {
+                        bento
+                            .querySelectorAll<HTMLElement>(
+                                `[data-bento-visual="${name}"]`,
+                            )
+                            .forEach((visual) => animator(visual, players));
+                    }
+                }
+
+                let observer: IntersectionObserver | undefined;
+                if ("IntersectionObserver" in window && players.length) {
+                    observer = new IntersectionObserver(
+                        ([entry]) => {
+                            const play = entry?.isIntersecting ?? true;
+                            players.forEach((player) => {
+                                if (play) player.play?.();
+                                else player.pause?.();
+                            });
+                        },
+                        { rootMargin: "96px 0px" },
+                    );
+                    observer.observe(bento);
+                }
+
+                bento.dataset.bentoAnimationsReady = "true";
+                activeBentoControllers.set(bento, () => {
+                    observer?.disconnect();
+                    players.forEach(cleanupPlayer);
+                });
+            });
+    };
+
+    const servicesBentoWindow = window as Window & {
+        __wuiServicesBentoReady?: boolean;
+    };
+
+    initServicesBentoAnimations();
+
+    if (!servicesBentoWindow.__wuiServicesBentoReady) {
+        servicesBentoWindow.__wuiServicesBentoReady = true;
+        document.addEventListener(
+            "astro:before-swap",
+            cleanupServicesBentoAnimations,
+        );
+        document.addEventListener(
+            "astro:page-load",
+            initServicesBentoAnimations,
+        );
+
+        // Les scènes à trajectoires mesurées se recalent après un resize.
+        let resizeTimer: ReturnType<typeof setTimeout> | undefined;
+        window.addEventListener("resize", () => {
+            if (resizeTimer) clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                cleanupServicesBentoAnimations();
+                initServicesBentoAnimations();
+            }, 320);
+        });
+    }
+</script>

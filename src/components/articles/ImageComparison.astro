@@ -1,0 +1,144 @@
+---
+import motivaiLandingHero from "@/assets/projects/motivai-landing-hero.webp";
+
+// Accessible image comparison slider (no framework, ~25 lines of JS).
+// Driven by a native range input so it works with keyboard and touch for free.
+interface Props {
+    afterAlt?: string;
+    afterLabel?: string;
+    afterSrc?: string;
+    ariaLabel?: string;
+    aspectRatio?: string;
+    beforeAlt?: string;
+    beforeLabel?: string;
+    beforeSrc?: string;
+    caption?: string;
+    helperText?: string;
+}
+
+const {
+    afterAlt = "Nouvelle interface de Motivai",
+    afterLabel = "Après",
+    afterSrc = motivaiLandingHero.src,
+    ariaLabel = "Comparer l'ancienne et la nouvelle interface de Motivai",
+    aspectRatio = "16 / 9",
+    beforeAlt = "Ancienne interface de Motivai",
+    beforeLabel = "Avant",
+    beforeSrc = "https://igpmag5dwziffdrn.public.blob.vercel-storage.com/blog/motivia_old_ui.jpeg",
+    caption = "L'ancienne interface vs la nouvelle.",
+    helperText = "Glisse pour comparer",
+} = Astro.props;
+---
+
+<figure class="mx-auto my-8 max-w-2xl" data-ui-compare>
+    <figcaption class="mb-4 text-center text-sm text-gray-600">
+        {caption}
+        <span class="text-gray-400">{helperText}</span>
+    </figcaption>
+
+    <div
+        class="ui-compare__frame relative overflow-hidden rounded-lg border border-gray-100 select-none"
+        style={`--pos: 50%; aspect-ratio: ${aspectRatio};`}
+    >
+        <img
+            class="absolute inset-0 m-0 block size-full max-w-none rounded-none object-cover object-top"
+            src={afterSrc}
+            alt={afterAlt}
+            loading="lazy"
+            decoding="async"
+            draggable="false"
+        />
+        <div class="ui-compare__clip absolute inset-0 overflow-hidden">
+            <img
+                class="absolute inset-0 m-0 block size-full max-w-none rounded-none object-cover object-top"
+                src={beforeSrc}
+                alt={beforeAlt}
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+            />
+        </div>
+
+        <div
+            class="ui-compare__line absolute top-0 bottom-0 w-0.5 -translate-x-1/2 bg-white/90"
+            aria-hidden="true"
+        >
+            <span class="ui-compare__handle absolute top-1/2 left-1/2 flex size-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-[0_1px_6px_rgb(17_24_39_/_0.18)]">
+                <svg
+                    class="size-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                </svg>
+            </span>
+        </div>
+
+        <span class="absolute bottom-3 left-3 rounded bg-white/90 px-2 py-0.5 text-xs font-medium text-gray-600 backdrop-blur-sm">
+            {beforeLabel}
+        </span>
+        <span class="absolute right-3 bottom-3 rounded bg-gray-900/80 px-2 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
+            {afterLabel}
+        </span>
+
+        <input
+            class="ui-compare__range absolute inset-0 m-0 size-full cursor-ew-resize opacity-0"
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+            step="0.1"
+            aria-label={ariaLabel}
+        />
+    </div>
+</figure>
+
+<script>
+    const setup = (root: HTMLElement) => {
+        if (root.dataset.uiCompareReady === "true") return;
+        root.dataset.uiCompareReady = "true";
+
+        const frame = root.querySelector<HTMLElement>(".ui-compare__frame");
+        const range = root.querySelector<HTMLInputElement>(".ui-compare__range");
+        if (!frame || !range) return;
+
+        const update = () => {
+            frame.style.setProperty("--pos", `${range.value}%`);
+        };
+
+        range.addEventListener("input", update);
+        update();
+    };
+
+    const init = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-ui-compare]")
+            .forEach(setup);
+    };
+
+    init();
+    document.addEventListener("astro:page-load", init);
+</script>
+
+<style>
+    .ui-compare__clip {
+        clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+    }
+
+    .ui-compare__line {
+        left: var(--pos);
+    }
+
+    .ui-compare__range:focus-visible {
+        opacity: 1;
+    }
+
+    .ui-compare__range:focus-visible ~ .ui-compare__line .ui-compare__handle {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 2px;
+    }
+</style>

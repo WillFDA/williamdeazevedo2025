@@ -1,0 +1,124 @@
+---
+import ChevronUp from "../icons/nucleo/chevron-up-fill.svg";
+
+type AccordionItem = {
+    answer?: string;
+    content?: string;
+    id?: string;
+    link?: {
+        href: string;
+        label: string;
+    };
+    open?: boolean;
+    question?: string;
+    title?: string;
+};
+
+interface Props {
+    class?: string;
+    contentClass?: string;
+    iconClass?: string;
+    itemClass?: string;
+    items: AccordionItem[];
+    summaryClass?: string;
+}
+
+const {
+    class: className,
+    contentClass = "px-5 pb-5 pr-14 text-base font-light leading-normal text-gray-600",
+    iconClass = "text-gray-900",
+    itemClass = "bg-gray-100 shadow-sm ring-1 ring-gray-200",
+    items,
+    summaryClass = "px-5 py-4 text-base font-normal leading-tight text-gray-900",
+} = Astro.props;
+
+const getTitle = (item: AccordionItem) => item.title ?? item.question ?? "";
+const getContent = (item: AccordionItem) => item.content ?? item.answer ?? "";
+---
+
+<div class:list={["accordion grid gap-3", className]}>
+    {
+        items.map((item) => (
+            <details
+                id={item.id}
+                class:list={[
+                    "accordion__item group overflow-hidden rounded-xl",
+                    itemClass,
+                ]}
+                open={item.open ? true : undefined}
+            >
+                <summary
+                    class:list={[
+                        "accordion__summary flex cursor-pointer list-none items-center justify-between gap-4 text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500",
+                        summaryClass,
+                    ]}
+                >
+                    <span class="min-w-0 flex-1">{getTitle(item)}</span>
+                    <span
+                        class:list={[
+                            "accordion__icon inline-flex size-5 flex-none items-center justify-center transition-transform duration-300 ease-out",
+                            iconClass,
+                        ]}
+                        aria-hidden="true"
+                    >
+                        <ChevronUp class="size-3" />
+                    </span>
+                </summary>
+                <div class:list={["accordion__content", contentClass]}>
+                    <p class="m-0">{getContent(item)}</p>
+                    {
+                        item.link && (
+                            <a
+                                class="mt-4 inline-flex text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:decoration-gray-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                href={item.link.href}
+                                rel="noreferrer"
+                                target="_blank"
+                            >
+                                {item.link.label}
+                            </a>
+                        )
+                    }
+                </div>
+            </details>
+        ))
+    }
+</div>
+
+<style>
+    .accordion__summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .accordion__icon {
+        transform: rotate(180deg);
+    }
+
+    .accordion__item[open] .accordion__icon {
+        transform: rotate(0deg);
+    }
+
+    @supports selector(::details-content) {
+        @media (prefers-reduced-motion: no-preference) {
+            .accordion {
+                interpolate-size: allow-keywords;
+            }
+
+            .accordion__item::details-content {
+                block-size: 0;
+                content-visibility: hidden;
+                opacity: 0;
+                overflow: clip;
+                transition:
+                    block-size 420ms cubic-bezier(0.16, 1, 0.3, 1),
+                    opacity 260ms ease,
+                    content-visibility 420ms allow-discrete;
+            }
+
+            .accordion__item[open]::details-content {
+                block-size: auto;
+                content-visibility: visible;
+                opacity: 1;
+            }
+        }
+    }
+</style>

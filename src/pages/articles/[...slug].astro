@@ -1,7 +1,16 @@
 ---
 import { Image } from "astro:assets";
 import { render } from "astro:content";
+import BadgeDollar from "@/components/icons/nucleo/badge-dollar-fill.svg";
+import BoltSpeed from "@/components/icons/nucleo/bolt-speed-fill.svg";
+import ChevronLeft from "@/components/icons/nucleo/chevron-left-fill.svg";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
+import ReadingProgress from "@/components/ReadingProgress.astro";
+import Sparkle from "@/components/icons/nucleo/sparkle-3-fill.svg";
+import Star from "@/components/icons/nucleo/star-fill.svg";
+import TableOfContents from "@/components/TableOfContents.astro";
+import Target from "@/components/icons/nucleo/target-fill.svg";
+import WindowPointer from "@/components/icons/nucleo/window-pointer-fill.svg";
 import williamPortrait from "@/assets/williamdeazevedo.webp";
 import Layout from "@/layout/Layout.astro";
 import { type Article, formatArticleDate, getVisibleArticles } from "@/lib/articles";
@@ -19,12 +28,22 @@ interface Props {
 }
 
 const { article } = Astro.props;
-const { Content } = await render(article);
-const { author, description, pubDate, tags, title, updatedDate } = article.data;
+const { Content, headings } = await render(article);
+const { author, description, image, pubDate, tags, title, updatedDate } =
+    article.data;
+const tocItems = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
+
+const articleTitleBreak = "2 000 euros";
+const shouldSplitArticleTitle =
+    article.id === "site-600-euros-vs-site-2000-euros" &&
+    title.includes(articleTitleBreak);
+const [articleTitleStart, articleTitleEnd = ""] = shouldSplitArticleTitle
+    ? title.split(articleTitleBreak)
+    : [title, ""];
 
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
 const canonicalUrl = new URL(`/articles/${article.id}`, siteUrl);
-const ogImage = new URL("/pictures/william-low.png", siteUrl);
+const ogImage = new URL(image?.src ?? "/pictures/william-low.png", siteUrl);
 
 const jsonLd = {
     "@context": "https://schema.org",
@@ -74,6 +93,18 @@ const breadcrumbJsonLd = {
         },
     ],
 };
+
+const getTagIcon = (tag: string) => {
+    const normalizedTag = tag.toLowerCase();
+
+    if (normalizedTag.includes("pricing")) return BadgeDollar;
+    if (normalizedTag.includes("conversion")) return Target;
+    if (normalizedTag.includes("ia")) return Sparkle;
+    if (normalizedTag.includes("motivation")) return Star;
+    if (normalizedTag.includes("side")) return BoltSpeed;
+
+    return WindowPointer;
+};
 ---
 
 <Layout
@@ -87,6 +118,8 @@ const breadcrumbJsonLd = {
         tags,
     }}
 >
+    <ReadingProgress />
+
     <script
         type="application/ld+json"
         is:inline
@@ -98,42 +131,51 @@ const breadcrumbJsonLd = {
         set:html={JSON.stringify(breadcrumbJsonLd)}
     />
 
-    <article class="mx-auto w-full max-w-2xl px-2 pb-20 sm:px-4">
+    <article
+        class="mx-auto w-full max-w-6xl px-4 py-12 md:px-6 md:py-16"
+        data-reading-progress-root
+    >
         <FadeReveal delay={0.1}>
-            <header class="mb-12">
+            <header class="mx-auto mb-12 max-w-5xl text-center">
                 <a
-                    class="mb-6 inline-flex items-center gap-1.5 text-sm font-light text-gray-500 transition-colors hover:text-gray-900"
+                    class="mb-6 inline-flex items-center gap-2 text-sm font-normal text-gray-500 transition-colors hover:text-gray-900"
                     href="/articles"
                 >
-                    <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                    >
-                        <path d="m15 18-6-6 6-6"></path>
-                    </svg>
+                    <ChevronLeft aria-hidden="true" class="size-4" />
                     Tous les articles
                 </a>
-                <h1 class="mb-4 text-3xl font-medium leading-tight text-gray-900 md:text-4xl">
-                    {title}
+                <h1 class="page-heading mb-4 text-pretty">
+                    {shouldSplitArticleTitle ? (
+                        <>
+                            {articleTitleStart.trim()}
+                            <br class="hidden sm:block" />{" "}
+                            <span>{articleTitleBreak + articleTitleEnd}</span>
+                        </>
+                    ) : (
+                        title
+                    )}
                 </h1>
-                <p class="text-sm font-light leading-6 text-gray-600">{description}</p>
+                <p class="page-subheading">{description}</p>
                 {tags.length > 0 && (
-                    <div class="mt-5 flex flex-wrap gap-2">
-                        {tags.map((tag) => (
-                            <span class="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 text-xs font-normal text-gray-700">
-                                {tag}
-                            </span>
-                        ))}
+                    <div class="mt-5 flex flex-wrap justify-center gap-2">
+                        {tags.map((tag) => {
+                            const TagIcon = getTagIcon(tag);
+
+                            return (
+                                <span class="inline-flex items-center gap-2 rounded-xl bg-snow-50 px-3.5 py-2 text-sm font-normal leading-none text-gray-900 shadow-[0_10px_24px_-18px_rgba(34,42,55,0.45)]">
+                                    <span class="inline-flex size-4 shrink-0 items-center justify-center text-blue-500">
+                                        <TagIcon
+                                            class="size-full"
+                                            aria-hidden="true"
+                                        />
+                                    </span>
+                                    {tag}
+                                </span>
+                            );
+                        })}
                     </div>
                 )}
-                <div class="mt-6 flex items-center gap-3">
+                <div class="mt-6 flex items-center justify-center gap-3">
                     <Image
                         class="size-9 rounded-full"
                         src={williamPortrait}
@@ -142,10 +184,10 @@ const breadcrumbJsonLd = {
                         height={36}
                         loading="eager"
                     />
-                    <div class="text-sm">
+                    <div class="text-left text-sm">
                         <p class="font-medium text-gray-900">{author}</p>
                         <time
-                            class="font-light text-gray-500"
+                            class="font-normal text-gray-500"
                             datetime={pubDate.toISOString()}
                         >
                             {formatArticleDate(pubDate)}
@@ -155,19 +197,54 @@ const breadcrumbJsonLd = {
             </header>
         </FadeReveal>
 
-        <FadeReveal delay={0.25}>
-            <div class="article-prose">
-                <Content />
+        <FadeReveal delay={0.2}>
+            <div class="mx-auto mb-14 aspect-video w-full max-w-5xl overflow-hidden rounded-lg bg-gray-200">
+                {image ? (
+                    <img
+                        class="size-full object-cover"
+                        src={image.src}
+                        alt={image.alt}
+                        loading="eager"
+                        decoding="async"
+                    />
+                ) : (
+                    <span class="block size-full bg-gray-200"></span>
+                )}
             </div>
         </FadeReveal>
+
+        <div class="article-body-shell mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,42rem)_minmax(13rem,16rem)] lg:gap-12">
+            <div class="hidden lg:block" aria-hidden="true"></div>
+
+            <FadeReveal delay={0.3}>
+                <div class="article-prose min-w-0">
+                    <Content />
+                </div>
+            </FadeReveal>
+
+            <aside class="article-toc-column order-first lg:order-none">
+                <TableOfContents items={tocItems} />
+            </aside>
+        </div>
     </article>
 </Layout>
 
 <style is:global>
+    .article-toc-column {
+        align-self: start;
+    }
+
+    @media (min-width: 1024px) {
+        .article-toc-column {
+            position: sticky;
+            top: 7.5rem;
+        }
+    }
+
     .article-prose {
         color: var(--color-gray-600);
-        font-size: 0.9375rem;
-        font-weight: 300;
+        font-size: 1rem;
+        font-weight: 400;
         line-height: 1.75;
     }
 
@@ -181,6 +258,7 @@ const breadcrumbJsonLd = {
         font-weight: 500;
         line-height: 1.35;
         margin-top: 2.75rem;
+        scroll-margin-top: 7rem;
     }
 
     .article-prose h3 {
@@ -189,6 +267,7 @@ const breadcrumbJsonLd = {
         font-weight: 500;
         line-height: 1.45;
         margin-top: 2.25rem;
+        scroll-margin-top: 7rem;
     }
 
     .article-prose strong {
@@ -204,8 +283,10 @@ const breadcrumbJsonLd = {
         transition: color 200ms ease;
     }
 
-    .article-prose a:hover {
-        color: var(--color-gray-900);
+    @media (hover: hover) {
+        .article-prose a:hover {
+            color: var(--color-gray-900);
+        }
     }
 
     .article-prose ul,

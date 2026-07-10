@@ -8,7 +8,6 @@ type CarouselState = {
 };
 
 const windowWithCarousel = window as Window & {
-  __wuiCarouselLifecycleReady?: boolean;
   __wuiCarouselStates?: Set<CarouselState>;
 };
 const activeCarouselStates =
@@ -91,6 +90,24 @@ export function initCarousel(wrapperNode: HTMLElement) {
   let scheduleAutoplay = () => {};
   let cancelAutoplay = () => {};
 
+  const syncSlideAccessibility = () => {
+    const activeIndex = emblaApi.selectedScrollSnap();
+
+    slides.forEach((slide, index) => {
+      const isActive = index === activeIndex;
+      slide.setAttribute("aria-hidden", String(!isActive));
+      slide.toggleAttribute("inert", !isActive);
+    });
+  };
+
+  syncSlideAccessibility();
+  state.cleanup.push(() => {
+    slides.forEach((slide) => {
+      slide.removeAttribute("aria-hidden");
+      slide.removeAttribute("inert");
+    });
+  });
+
   const playVideo = (video: HTMLVideoElement) => {
     video.dataset.carouselActive = "true";
     video.preload = "auto";
@@ -151,6 +168,7 @@ export function initCarousel(wrapperNode: HTMLElement) {
 
   emblaApi.on("select", () => {
     isSettled = false;
+    syncSlideAccessibility();
     dispatchSlideChange();
   });
   emblaApi.on("settle", () => {
@@ -195,12 +213,27 @@ export function initCarousel(wrapperNode: HTMLElement) {
     cancelAutoplay();
     emblaApi.scrollNext();
   };
+  const pauseForFocus = () => cancelAutoplay();
+  const resumeAfterFocus = (event: FocusEvent) => {
+    if (
+      event.relatedTarget instanceof Node &&
+      wrapperNode.contains(event.relatedTarget)
+    ) {
+      return;
+    }
+
+    scheduleAutoplay();
+  };
 
   prevButtonNode.addEventListener("click", scrollPrev);
   nextButtonNode.addEventListener("click", scrollNext);
+  wrapperNode.addEventListener("focusin", pauseForFocus);
+  wrapperNode.addEventListener("focusout", resumeAfterFocus);
   state.cleanup.push(() => {
     prevButtonNode.removeEventListener("click", scrollPrev);
     nextButtonNode.removeEventListener("click", scrollNext);
+    wrapperNode.removeEventListener("focusin", pauseForFocus);
+    wrapperNode.removeEventListener("focusout", resumeAfterFocus);
   });
 
   if (shouldAutoplay) {
@@ -208,20 +241,43 @@ export function initCarousel(wrapperNode: HTMLElement) {
     let isPaused = false;
     let progressAnimation: Animation | undefined;
     let progressRun = 0;
+    let autoplayTimeout: number | undefined;
     const delay = Number(wrapperNode.dataset.carouselAutoplayDelay) || 4500;
 
     const resetProgress = () => {
       progressRun += 1;
+      window.clearTimeout(autoplayTimeout);
+      autoplayTimeout = undefined;
       progressAnimation?.cancel();
       progressAnimation = undefined;
       if (progressNode) progressNode.style.transform = "scaleX(0)";
     };
 
     const startProgress = () => {
-      if (!progressNode || !isInAutoplayZone || isPaused) return;
+      if (!isInAutoplayZone || isPaused) return;
 
       resetProgress();
       const currentRun = progressRun;
+
+      const scrollIfCurrent = () => {
+        if (
+          state.destroyed ||
+          currentRun !== progressRun ||
+          !document.contains(wrapperNode) ||
+          !isInAutoplayZone ||
+          isPaused
+        ) {
+          return;
+        }
+
+        if (progressNode) progressNode.style.transform = "scaleX(1)";
+        emblaApi.scrollNext();
+      };
+
+      if (!progressNode) {
+        autoplayTimeout = window.setTimeout(scrollIfCurrent, delay);
+        return;
+      }
 
       progressAnimation = progressNode.animate(
         [
@@ -236,22 +292,7 @@ export function initCarousel(wrapperNode: HTMLElement) {
         }
       );
 
-      progressAnimation.finished
-        .then(() => {
-          if (
-            state.destroyed ||
-            currentRun !== progressRun ||
-            !document.contains(wrapperNode) ||
-            !isInAutoplayZone ||
-            isPaused
-          ) {
-            return;
-          }
-
-          progressNode.style.transform = "scaleX(1)";
-          emblaApi.scrollNext();
-        })
-        .catch(() => {});
+      progressAnimation.finished.then(scrollIfCurrent).catch(() => {});
     };
 
     const syncPausedUi = () => {
@@ -280,6 +321,7 @@ export function initCarousel(wrapperNode: HTMLElement) {
       startProgress();
     };
     cancelAutoplay = clearAutoplay;
+    emblaApi.on("pointerDown", cancelAutoplay);
 
     const autoplayObserver = new IntersectionObserver(
       (entries) => {
@@ -314,9 +356,4 @@ export function initCarousel(wrapperNode: HTMLElement) {
       autoplayButtonNode?.removeEventListener("click", toggleUserPaused);
     });
   }
-}
-
-if (windowWithCarousel.__wuiCarouselLifecycleReady !== true) {
-  windowWithCarousel.__wuiCarouselLifecycleReady = true;
-  document.addEventListener("astro:before-swap", resetCarousels);
 }
