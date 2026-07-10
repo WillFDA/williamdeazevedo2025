@@ -227,7 +227,7 @@ const displayedTestimonials = getPublishedTestimonials();
                                 “{temoignage.excerpt ?? temoignage.text}”
                             </blockquote>
                             <div class="testimonial-rotator__person flex items-center justify-center gap-3">
-                                <div class="inline-flex size-10 items-center justify-center overflow-hidden rounded-full bg-snow-600 text-xs font-medium text-gray-900">
+                                <div class="testimonial-rotator__avatar inline-flex size-10 items-center justify-center overflow-hidden rounded-full bg-snow-600 text-xs font-medium text-gray-900">
                                     {temoignage.image ? (
                                         <Image
                                             class="block size-full object-cover"
@@ -243,7 +243,7 @@ const displayedTestimonials = getPublishedTestimonials();
                                         <span>{temoignage.initials}</span>
                                     )}
                                 </div>
-                                <figcaption class="text-left text-sm font-medium leading-tight text-gray-900">
+                                <figcaption class="testimonial-rotator__author text-left text-sm font-medium leading-tight text-gray-900">
                                     <a
                                         class="text-inherit no-underline underline-offset-2 focus-visible:underline"
                                         href={temoignage.href}
@@ -530,10 +530,91 @@ const displayedTestimonials = getPublishedTestimonials();
         animation-delay: 360ms;
     }
 
-    .testimonial-rotator__item[data-testimonial-initial] blockquote,
+    .testimonial-rotator__item[data-testimonial-initial] {
+        animation: testimonial-initial-card-in 440ms
+            cubic-bezier(0.16, 1, 0.3, 1) both;
+        transform-origin: 50% 35%;
+    }
+
+    .testimonial-rotator__item[data-testimonial-initial] blockquote {
+        animation: testimonial-initial-copy-in 420ms
+            cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
     .testimonial-rotator__item[data-testimonial-initial]
         .testimonial-rotator__person {
-        animation: none;
+        animation: testimonial-initial-person-in 480ms
+            cubic-bezier(0.16, 1, 0.3, 1) 60ms both;
+    }
+
+    .testimonial-rotator__item[data-testimonial-initial]
+        .testimonial-rotator__avatar {
+        animation: testimonial-initial-avatar-in 520ms
+            cubic-bezier(0.22, 1.24, 0.36, 1) 90ms both;
+    }
+
+    .testimonial-rotator__item[data-testimonial-initial]
+        .testimonial-rotator__author {
+        animation: testimonial-initial-author-in 460ms
+            cubic-bezier(0.16, 1, 0.3, 1) 130ms both;
+    }
+
+    @keyframes testimonial-initial-card-in {
+        from {
+            opacity: 0.78;
+            transform: translateY(0.55rem) scale(0.992);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes testimonial-initial-copy-in {
+        from {
+            transform: translateY(0.4rem);
+        }
+
+        to {
+            transform: none;
+        }
+    }
+
+    @keyframes testimonial-initial-person-in {
+        from {
+            opacity: 0.68;
+            transform: translateY(0.5rem);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes testimonial-initial-avatar-in {
+        from {
+            opacity: 0.72;
+            transform: scale(0.84);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes testimonial-initial-author-in {
+        from {
+            opacity: 0.72;
+            transform: translateX(-0.35rem);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
     }
 
     @keyframes testimonial-content-in {
@@ -556,9 +637,12 @@ const displayedTestimonials = getPublishedTestimonials();
         }
 
         .testimonial-rotator__item {
+            animation: none;
             transition: none;
         }
 
+        .testimonial-rotator__avatar,
+        .testimonial-rotator__author,
         .testimonial-rotator__person,
         .testimonial-rotator blockquote {
             animation: none;
