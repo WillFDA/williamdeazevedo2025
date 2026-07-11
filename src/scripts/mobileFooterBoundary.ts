@@ -16,7 +16,8 @@ const isOverlayInteraction = (target: EventTarget | null) =>
   target instanceof Element &&
   Boolean(
     target.closest("dialog[open]") ||
-    target.closest("[data-mobile-menu]:not([hidden])")
+    target.closest("[data-mobile-menu]:not([hidden])") ||
+    target.closest("[data-floating-contact-panel][aria-hidden='false']")
   );
 
 const getViewportMetrics = () => {
