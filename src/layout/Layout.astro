@@ -1,8 +1,9 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import CalDrawer from "../components/CalDrawer.astro";
+import FloatingContact from "../components/FloatingContact.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
-import CalDrawer from "../components/CalDrawer.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -163,6 +164,7 @@ const personJsonLd = {
             <slot />
         </main>
         <Footer />
+        <FloatingContact />
         <CalDrawer />
         <script>
             import {
