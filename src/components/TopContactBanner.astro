@@ -1,0 +1,188 @@
+---
+import ArrowRight from "./icons/nucleo/arrow-right-fill.svg";
+
+interface Props {
+    phoneDisplay?: string;
+    phoneHref?: string;
+}
+
+const { phoneDisplay = "", phoneHref = "" } = Astro.props;
+const hasPhone = Boolean(phoneDisplay && phoneHref);
+---
+
+<aside
+    class:list={[
+        "contact-banner",
+        !hasPhone && "contact-banner--no-phone",
+    ]}
+    aria-label="Contact et estimation"
+>
+    <div class="contact-banner__inner">
+        <p
+            class:list={[
+                "contact-banner__message",
+                hasPhone && "contact-banner__message--has-phone",
+            ]}
+        >
+            <span class="contact-banner__eyebrow">Conseil & estimation</span>
+            <span class="contact-banner__separator" aria-hidden="true"></span>
+            {
+                hasPhone && (
+                    <a class="contact-banner__phone" href={phoneHref}>
+                        {phoneDisplay}
+                    </a>
+                )
+            }
+            <span class="contact-banner__detail">
+                Une première estimation de votre projet, sans engagement.
+            </span>
+        </p>
+        <a
+            aria-controls="cal-drawer"
+            aria-haspopup="dialog"
+            class="contact-banner__cta"
+            data-cal-location="top-banner"
+            data-cal-open
+            href="mailto:william.deazevedopro@gmail.com"
+        >
+            <span>Demander un devis</span>
+            <ArrowRight aria-hidden="true" class="size-3" />
+        </a>
+    </div>
+</aside>
+
+<style>
+    .contact-banner {
+        background: var(--color-blue-500);
+        border-bottom: 1px solid var(--color-blue-600);
+        color: var(--color-snow-50);
+        min-height: 2.25rem;
+        position: relative;
+        z-index: 60;
+    }
+
+    .contact-banner__inner {
+        align-items: center;
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        margin-inline: auto;
+        max-width: 72rem;
+        min-height: 2.25rem;
+        padding: 0.4rem 1rem;
+    }
+
+    .contact-banner__message {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 0.72rem;
+        gap: 0.42rem;
+        justify-content: center;
+        line-height: 1.25;
+        margin: 0;
+        min-width: 0;
+    }
+
+    .contact-banner__eyebrow {
+        font-size: 0.62rem;
+        font-weight: 550;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    .contact-banner__separator {
+        background: currentColor;
+        height: 1px;
+        opacity: 0.4;
+        width: 1rem;
+    }
+
+    .contact-banner__phone,
+    .contact-banner__cta {
+        color: inherit;
+        font-weight: 650;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.18em;
+    }
+
+    .contact-banner__phone:focus-visible,
+    .contact-banner__cta:focus-visible {
+        border-radius: 0.2rem;
+        outline: 2px solid var(--color-snow-50);
+        outline-offset: 2px;
+    }
+
+    .contact-banner__detail {
+        font-weight: 350;
+    }
+
+    .contact-banner__cta {
+        align-items: center;
+        display: inline-flex;
+        flex: 0 0 auto;
+        font-size: 0.7rem;
+        gap: 0.35rem;
+        line-height: 1;
+        white-space: nowrap;
+    }
+
+    .contact-banner__cta :global(svg) {
+        transition: transform 240ms cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    @media (hover: hover) {
+        .contact-banner__phone:hover,
+        .contact-banner__cta:hover {
+            text-decoration-line: underline;
+        }
+
+        .contact-banner__cta:hover :global(svg) {
+            transform: translateX(0.15rem);
+        }
+    }
+
+    @media (max-width: 720px) {
+        .contact-banner__inner {
+            gap: 0.75rem;
+            justify-content: space-between;
+            padding-inline: 0.75rem;
+        }
+
+        .contact-banner__message {
+            justify-content: flex-start;
+        }
+
+        .contact-banner__eyebrow,
+        .contact-banner__separator,
+        .contact-banner__detail {
+            display: none;
+        }
+
+        .contact-banner__phone,
+        .contact-banner__cta {
+            font-size: 0.68rem;
+        }
+
+        .contact-banner--no-phone .contact-banner__inner {
+            justify-content: center;
+        }
+
+        .contact-banner__message:not(.contact-banner__message--has-phone) {
+            display: none;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .contact-banner__cta span {
+            max-width: 7.5rem;
+            white-space: normal;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .contact-banner__cta :global(svg) {
+            transition: none;
+        }
+    }
+</style>
