@@ -1,0 +1,21 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"section">;
+
+const { class: className, ...attributes } = Astro.props;
+---
+
+<section
+    {...attributes}
+    class:list={[
+        "relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-3xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-4xl md:py-28",
+        className,
+    ]}
+>
+    <div
+        class="relative z-10 mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 sm:gap-10 sm:px-8 md:gap-12"
+    >
+        <slot />
+    </div>
+</section>

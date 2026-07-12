@@ -4,6 +4,7 @@ import Msgs from "./icons/nucleo/msgs-fill.svg";
 import UserHeart from "./icons/nucleo/user-heart-fill.svg";
 import ViewAll from "./icons/nucleo/view-all-fill.svg";
 import WindowLayout from "./icons/nucleo/window-layout-fill.svg";
+import DarkCalloutShell from "./ui/DarkCalloutShell.astro";
 import williamPortrait from "../assets/williamdeazevedo.webp";
 
 interface Props {
@@ -34,8 +35,11 @@ const aboutPoints = [
 ];
 ---
 
-<section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-3xl bg-coffee-300 py-14 sm:w-[calc(100dvw-2rem)] sm:py-24 md:rounded-4xl md:py-28">
-    <div class="relative z-10 mx-auto flex max-w-5xl flex-col gap-8 px-4 sm:gap-10 sm:px-8 md:gap-12">
+<DarkCalloutShell
+    class="about-callout"
+    data-about-callout
+    data-section-reveal="false"
+>
         <div class="mx-auto flex max-w-4xl flex-col items-center gap-6 text-center md:gap-7">
             <h2 class="section-heading section-heading--inverse flex flex-wrap justify-center gap-x-[0.18em]">
                 {
@@ -62,7 +66,7 @@ const aboutPoints = [
                                             : "inline-block",
                                         "text-snow-50",
                                     ]}
-                                    style={`--about-callout-word-index: ${index}`}
+                                    data-about-callout-word
                                 >
                                     {isWilliam ? (
                                         <>
@@ -92,7 +96,10 @@ const aboutPoints = [
                     })
                 }
             </h2>
-            <p class="section-subheading section-subheading--inverse">
+            <p
+                class="section-subheading section-subheading--inverse"
+                data-about-callout-copy
+            >
                 J'aide à transformer un site daté, une première présence ou une
                 idée produit en interface claire, accessible et crédible, avec un
                 accompagnement qui relie design, front-end et logique métier.
@@ -101,7 +108,10 @@ const aboutPoints = [
         <ul class="mx-auto grid w-full max-w-5xl gap-4 sm:grid-cols-3">
             {
                 aboutPoints.map((point) => (
-                    <li class="flex flex-col gap-4 rounded-xl bg-gray-800 p-4 text-snow-50 shadow-[0_18px_44px_-30px_rgba(14,20,32,0.55)]">
+                    <li
+                        class="flex flex-col gap-4 rounded-xl bg-gray-800 p-4 text-snow-50 shadow-[0_18px_44px_-30px_rgba(14,20,32,0.55)]"
+                        data-about-callout-card
+                    >
                         <div class="flex items-center gap-3">
                             <span class="about-callout-proof-card__icon inline-flex size-8 shrink-0 items-center justify-center rounded-lg bg-blue-500 text-snow-50">
                                 {point.icon === "window-layout" && (
@@ -138,6 +148,7 @@ const aboutPoints = [
             aria-controls="cal-drawer"
             aria-haspopup="dialog"
             class="about-callout-cta mx-auto inline-flex min-h-14 w-fit max-w-full items-center justify-center gap-5 rounded-xl px-8 py-3 text-base font-normal focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
+            data-about-callout-cta
             data-cal-location="about"
             data-cal-open
             type="button"
@@ -149,16 +160,143 @@ const aboutPoints = [
             <span>Me contacter</span>
         </button>
         <slot />
-    </div>
-</section>
+</DarkCalloutShell>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const activeAboutCalloutMotion = new WeakMap<HTMLElement, () => void>();
+
+    const cleanupAboutCallouts = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-about-callout]")
+            .forEach((callout) => {
+                activeAboutCalloutMotion.get(callout)?.();
+                activeAboutCalloutMotion.delete(callout);
+                delete callout.dataset.aboutCalloutReady;
+            });
+    };
+
+    const initAboutCallouts = () => {
+        let didCreateMotion = false;
+
+        document
+            .querySelectorAll<HTMLElement>("[data-about-callout]")
+            .forEach((callout) => {
+                if (callout.dataset.aboutCalloutReady === "true") return;
+                callout.dataset.aboutCalloutReady = "true";
+
+                if (
+                    window.matchMedia("(prefers-reduced-motion: reduce)")
+                        .matches
+                ) {
+                    return;
+                }
+
+                const context = gsap.context(() => {
+                    const words = gsap.utils.toArray<HTMLElement>(
+                        "[data-about-callout-word]",
+                        callout,
+                    );
+                    const copy = callout.querySelector<HTMLElement>(
+                        "[data-about-callout-copy]",
+                    );
+                    const cards = gsap.utils.toArray<HTMLElement>(
+                        "[data-about-callout-card]",
+                        callout,
+                    );
+                    const cta = callout.querySelector<HTMLElement>(
+                        "[data-about-callout-cta]",
+                    );
+                    const animatedElements = [
+                        ...words,
+                        ...(copy ? [copy] : []),
+                        ...cards,
+                        ...(cta ? [cta] : []),
+                    ];
+
+                    const timeline = gsap.timeline({
+                        defaults: { ease: "power3.out" },
+                        scrollTrigger: {
+                            trigger: callout,
+                            start: "top 80%",
+                            once: true,
+                            toggleActions: "play none none none",
+                        },
+                        onComplete: () => {
+                            gsap.set(animatedElements, {
+                                clearProps: "opacity,transform,visibility",
+                            });
+                        },
+                    });
+
+                    timeline.fromTo(
+                        words,
+                        { autoAlpha: 0, y: 18, scale: 0.985 },
+                        {
+                            autoAlpha: 1,
+                            y: 0,
+                            scale: 1,
+                            duration: 0.5,
+                            stagger: 0.025,
+                        },
+                        0,
+                    );
+
+                    if (copy) {
+                        timeline.fromTo(
+                            copy,
+                            { autoAlpha: 0, y: 14 },
+                            { autoAlpha: 1, y: 0, duration: 0.44 },
+                            0.1,
+                        );
+                    }
+
+                    timeline.fromTo(
+                        cards,
+                        { autoAlpha: 0, y: 22, scale: 0.985 },
+                        {
+                            autoAlpha: 1,
+                            y: 0,
+                            scale: 1,
+                            duration: 0.52,
+                            stagger: 0.07,
+                        },
+                        0.16,
+                    );
+
+                    if (cta) {
+                        timeline.fromTo(
+                            cta,
+                            { autoAlpha: 0, y: 14, scale: 0.985 },
+                            {
+                                autoAlpha: 1,
+                                y: 0,
+                                scale: 1,
+                                duration: 0.46,
+                            },
+                            0.24,
+                        );
+                    }
+                }, callout);
+
+                activeAboutCalloutMotion.set(callout, () => context.revert());
+                didCreateMotion = true;
+            });
+
+        if (didCreateMotion) ScrollTrigger.refresh();
+    };
+
+    initAboutCallouts();
+
+    document.addEventListener("astro:before-swap", cleanupAboutCallouts);
+    document.addEventListener("astro:page-load", initAboutCallouts);
+</script>
 
 <style>
-    .about-callout-title-word {
-        animation: about-callout-title-word 1100ms cubic-bezier(0.16, 1, 0.3, 1)
-            backwards;
-        animation-delay: calc(var(--about-callout-word-index, 0) * 65ms);
-    }
-
     .about-callout-avatar {
         align-self: center;
         aspect-ratio: 1;
@@ -237,20 +375,6 @@ const aboutPoints = [
         }
     }
 
-    @keyframes about-callout-title-word {
-        from {
-            filter: blur(10px);
-            opacity: 0;
-            transform: translateY(-0.65em);
-        }
-
-        to {
-            filter: none;
-            opacity: 1;
-            transform: none;
-        }
-    }
-
     @keyframes phone-ring {
         0%,
         100% {
@@ -279,11 +403,8 @@ const aboutPoints = [
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .about-callout-title-word,
         .about-callout-cta__icon {
             animation: none !important;
-            filter: none;
-            opacity: 1;
             transform: none;
         }
 

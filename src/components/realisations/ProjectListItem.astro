@@ -40,7 +40,7 @@ const projectTagIcons = {
             <a
                 aria-label={`Voir l'étude de cas ${project.title}`}
                 class="group block overflow-hidden rounded-3xl bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                href={`/realisations/${project.id}`}
+                href={`/realisations/${project.id}/`}
             >
                 <img
                     src={project.media.poster}
@@ -103,7 +103,7 @@ const projectTagIcons = {
         <div class="flex flex-col gap-3 sm:flex-row md:justify-end md:pt-2">
             <a
                 class="group relative isolate inline-flex min-h-14 items-center justify-center gap-4 overflow-hidden rounded-xl bg-snow-50 px-8 py-3 text-base font-normal text-gray-900 no-underline shadow-[0_12px_30px_-24px_rgba(34,42,55,0.5)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
-                href={`/realisations/${project.id}`}
+                href={`/realisations/${project.id}/`}
             >
                 <WaveText text={detailsLabel} trigger="parent" />
                 <WaveIcon

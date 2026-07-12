@@ -133,7 +133,7 @@ const servicesDiagnosticTitleParts = [
                     />
                     <a
                         class="services-hero-button services-hero-button--secondary flex min-h-14 w-full max-w-full items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:w-auto sm:px-10"
-                        href="/offres"
+                        href="/offres/"
                     >
                         <WaveText text="Voir les offres" trigger="parent" />
                     </a>
@@ -203,7 +203,6 @@ const servicesDiagnosticTitleParts = [
     </div>
 
     <DiagnosticCta
-        class="relative left-1/2 w-[calc(100dvw-1rem)] -translate-x-1/2 py-16 sm:w-[calc(100dvw-2rem)] md:py-24"
         titleParts={servicesDiagnosticTitleParts}
         copy="Un échange de 15 minutes suffit souvent à distinguer une création, une refonte ou une simple amélioration ciblée."
         buttonLabel="Faire le point en 15 min"
@@ -216,7 +215,6 @@ const servicesDiagnosticTitleParts = [
 <style>
     .services-hero-button {
         --services-hero-button-bg: var(--color-snow-600);
-        --services-hero-button-border: transparent;
         --services-hero-button-color: var(--color-coffee-300);
 
         color: var(--services-hero-button-color);
@@ -227,7 +225,6 @@ const servicesDiagnosticTitleParts = [
 
     .services-hero-button::before {
         background: var(--services-hero-button-bg);
-        border: 1px solid var(--services-hero-button-border);
         border-radius: inherit;
         content: "";
         inset: 0;
@@ -261,6 +258,5 @@ const servicesDiagnosticTitleParts = [
         .services-hero-button::before {
             transition: none;
         }
-
     }
 </style>

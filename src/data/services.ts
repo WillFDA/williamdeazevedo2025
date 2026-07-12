@@ -84,7 +84,7 @@ export type Service = {
 export const services: Service[] = [
   {
     slug: "creation-site-vitrine",
-    rootPath: "/creation-site-vitrine",
+    rootPath: "/creation-site-vitrine/",
     navLabel: "Création site vitrine",
     title: "Création de site vitrine",
     seoTitle: "Création de site vitrine freelance - William De Azevedo",
@@ -219,7 +219,7 @@ export const services: Service[] = [
   },
   {
     slug: "refonte-site-internet",
-    rootPath: "/refonte-site-internet",
+    rootPath: "/refonte-site-internet/",
     navLabel: "Refonte site internet",
     title: "Refonte de site internet",
     seoTitle: "Refonte de site internet rapide et soignée - William De Azevedo",
@@ -460,7 +460,7 @@ export const services: Service[] = [
   },
   {
     slug: "creation-site-internet-artisan",
-    rootPath: "/creation-site-internet-artisan",
+    rootPath: "/creation-site-internet-artisan/",
     navLabel: "Site artisan",
     title: "Création de site internet artisan",
     seoTitle: "Création de site internet artisan - William De Azevedo",
@@ -591,7 +591,7 @@ export const services: Service[] = [
   },
   {
     slug: "creation-site-internet-professionnel",
-    rootPath: "/creation-site-internet-professionnel",
+    rootPath: "/creation-site-internet-professionnel/",
     navLabel: "Site professionnel",
     title: "Création de site internet professionnel",
     seoTitle: "Création de site internet professionnel - William De Azevedo",

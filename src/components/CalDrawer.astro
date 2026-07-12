@@ -46,6 +46,8 @@ const calLink = String(
 </dialog>
 
 <script>
+    import { trackAnalytics } from "../scripts/analytics";
+
     const drawer = document.querySelector("[data-cal-drawer]");
     const inlineEmbed = document.querySelector("[data-cal-inline]");
     const root = document.documentElement;
@@ -53,16 +55,6 @@ const calLink = String(
     let isCalEmbedded = false;
     let isCalConfigured = false;
     let closeTimer;
-
-    function trackAnalytics(eventName, eventProperties = {}) {
-        if (typeof window.zaraz?.track === "function") {
-            void window.zaraz.track(eventName, eventProperties);
-        }
-
-        if (typeof window.rybbit?.event === "function") {
-            window.rybbit.event(eventName, eventProperties);
-        }
-    }
 
     function loadCalEmbed() {
         if ("Cal" in window) return;

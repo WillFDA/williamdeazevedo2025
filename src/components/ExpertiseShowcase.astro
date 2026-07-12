@@ -22,20 +22,41 @@ interface Props {
 
 const { description, items, title } = Astro.props;
 const firstId = items[0]?.id ?? "";
+const titleWords = title.split(" ");
 ---
 
 <section
   class="expertise-showcase flex w-full flex-col gap-14 lg:gap-16"
   data-expertise-showcase
+  data-section-reveal="false"
 >
   <div class="expertise-showcase__intro mx-auto flex max-w-4xl flex-col items-center gap-4 text-center">
-    <h2 class="section-heading">{title}</h2>
-    <p class="section-subheading">{description}</p>
+    <h2
+      aria-label={title}
+      class="section-heading flex flex-wrap justify-center gap-x-[0.18em]"
+    >
+      {
+        titleWords.map((word, index) => (
+          <Fragment>
+            <span
+              aria-hidden="true"
+              class="expertise-showcase__heading-word"
+              data-expertise-heading-word
+            >
+              {word}
+            </span>
+            {index < titleWords.length - 1 && " "}
+          </Fragment>
+        ))
+      }
+    </h2>
+    <p class="section-subheading" data-expertise-description>{description}</p>
   </div>
   <div class="expertise-showcase__body grid gap-10">
     <div
       aria-label="Expertises"
       class="expertise-showcase__tabs"
+      data-expertise-tabs
       role="tablist"
     >
       <span
@@ -94,7 +115,11 @@ const firstId = items[0]?.id ?? "";
             id={`expertise-panel-${item.id}`}
             role="tabpanel"
           >
-            <div class="expertise-showcase__visual" aria-hidden="true">
+            <div
+              class="expertise-showcase__visual"
+              aria-hidden="true"
+              data-expertise-visual
+            >
               <div class="expertise-showcase__browser">
                 <div class="expertise-showcase__browser-dots">
                   <span />
@@ -130,6 +155,7 @@ const firstId = items[0]?.id ?? "";
             <div class="expertise-showcase__content order-first flex min-w-0 flex-col gap-5 self-center lg:order-none">
               <h3
                 class="m-0 text-balance text-[clamp(1.9rem,2.9vw,3rem)] leading-[1.02] font-medium text-gray-900"
+                data-expertise-content-title
                 style="--reveal-delay: 320ms"
               >
                 {item.title}
@@ -139,6 +165,7 @@ const firstId = items[0]?.id ?? "";
                   item.description.map((paragraph, paragraphIndex) => (
                     <p
                       class="m-0 text-[0.95rem] leading-[1.55] font-light text-coffee-300"
+                      data-expertise-content-copy
                       style={`--reveal-delay: ${460 + paragraphIndex * 120}ms`}
                     >
                       {paragraph}
@@ -151,6 +178,7 @@ const firstId = items[0]?.id ?? "";
                   item.pills.map((pill, pillIndex) => (
                     <span
                       class="inline-flex min-h-9 items-center rounded-full border px-3.5 py-[0.45rem] text-[0.8rem] leading-[1.2] font-normal text-coffee-300"
+                      data-expertise-content-pill
                       style={`--reveal-delay: ${720 + pillIndex * 70}ms`}
                     >
                       {pill}
@@ -167,6 +195,11 @@ const firstId = items[0]?.id ?? "";
 </section>
 
 <script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
   function initExpertiseShowcase(root) {
     if (!(root instanceof HTMLElement) || root.dataset.expertiseReady) return;
 
@@ -185,24 +218,10 @@ const firstId = items[0]?.id ?? "";
     ];
     const visualStackTimers = new WeakMap();
     const visualSwitchTimers = new WeakMap();
-    const reveal = () => {
-      root.dataset.expertiseRevealed = "true";
-    };
-
-    if (reducedMotion.matches || !("IntersectionObserver" in window)) {
-      reveal();
-    } else {
-      const revealObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry?.isIntersecting) return;
-          reveal();
-          revealObserver.disconnect();
-        },
-        { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
-      );
-
-      revealObserver.observe(root);
-    }
+    let activePanel;
+    let canRunVisualStack = reducedMotion.matches;
+    let hasEnteredViewport = reducedMotion.matches;
+    let motionContext;
 
     const getVisualItems = (panel) =>
       Array.from(panel.querySelectorAll(".expertise-showcase__visual-item"))
@@ -312,9 +331,9 @@ const firstId = items[0]?.id ?? "";
       indicator.style.setProperty("--indicator-h", `${tab.offsetHeight}px`);
     };
 
-    const activate = (id) => {
+    const activate = (id, animateSwitch = hasEnteredViewport) => {
       let activeTab;
-      let activePanel;
+      activePanel = undefined;
 
       tabs.forEach((tab) => {
         const isActive = tab.dataset.expertiseTab === id;
@@ -336,8 +355,17 @@ const firstId = items[0]?.id ?? "";
         }
       });
 
-      if (activePanel) startVisualStack(activePanel);
-      if (activePanel) playVisualSwitch(activePanel);
+      if (activePanel) {
+        if (canRunVisualStack) {
+          startVisualStack(activePanel);
+        } else {
+          renderVisualStack(activePanel);
+        }
+
+        if (animateSwitch && hasEnteredViewport) {
+          playVisualSwitch(activePanel);
+        }
+      }
       moveIndicator(activeTab);
     };
 
@@ -363,9 +391,149 @@ const firstId = items[0]?.id ?? "";
 
     const initialId = tabs.find((tab) => tab.classList.contains("is-active"))
       ?.dataset.expertiseTab;
-    if (initialId) activate(initialId);
+    if (initialId) activate(initialId, false);
     root.dataset.expertiseReady = "true";
-    document.addEventListener("astro:before-swap", stopAllVisualStacks, {
+
+    if (!reducedMotion.matches) {
+      motionContext = gsap.context(() => {
+        const headingWords = gsap.utils.toArray(
+          "[data-expertise-heading-word]",
+          root,
+        );
+        const introDescription = root.querySelector(
+          "[data-expertise-description]",
+        );
+        const tabsContainer = root.querySelector("[data-expertise-tabs]");
+        const initialVisual = activePanel?.querySelector(
+          "[data-expertise-visual]",
+        );
+        const contentTitle = activePanel?.querySelector(
+          "[data-expertise-content-title]",
+        );
+        const contentCopy = activePanel
+          ? gsap.utils.toArray(
+              "[data-expertise-content-copy]",
+              activePanel,
+            )
+          : [];
+        const contentPills = activePanel
+          ? gsap.utils.toArray(
+              "[data-expertise-content-pill]",
+              activePanel,
+            )
+          : [];
+        const animatedElements = [
+          ...headingWords,
+          ...(introDescription ? [introDescription] : []),
+          ...(tabsContainer ? [tabsContainer] : []),
+          ...(initialVisual ? [initialVisual] : []),
+          ...(contentTitle ? [contentTitle] : []),
+          ...contentCopy,
+          ...contentPills,
+        ];
+
+        const timeline = gsap.timeline({
+          defaults: { ease: "power3.out" },
+          scrollTrigger: {
+            trigger: root,
+            start: "top 80%",
+            once: true,
+            toggleActions: "play none none none",
+          },
+          onStart: () => {
+            hasEnteredViewport = true;
+          },
+          onComplete: () => {
+            canRunVisualStack = true;
+            if (activePanel) startVisualStack(activePanel);
+            gsap.set(animatedElements, {
+              clearProps: "opacity,transform,visibility",
+            });
+          },
+        });
+
+        timeline.from(
+          headingWords,
+          {
+            autoAlpha: 0,
+            y: 18,
+            scale: 0.985,
+            duration: 0.5,
+            stagger: 0.025,
+          },
+          0,
+        );
+
+        if (introDescription) {
+          timeline.from(
+            introDescription,
+            { autoAlpha: 0, y: 14, duration: 0.44 },
+            0.1,
+          );
+        }
+
+        if (tabsContainer) {
+          timeline.from(
+            tabsContainer,
+            {
+              autoAlpha: 0,
+              x: -12,
+              duration: 0.44,
+            },
+            0.14,
+          );
+        }
+
+        if (initialVisual) {
+          timeline.from(
+            initialVisual,
+            { autoAlpha: 0, y: 20, scale: 0.985, duration: 0.52 },
+            0.16,
+          );
+        }
+
+        if (contentTitle) {
+          timeline.from(
+            contentTitle,
+            { autoAlpha: 0, x: 16, duration: 0.5 },
+            0.18,
+          );
+        }
+
+        timeline.from(
+          contentCopy,
+          {
+            autoAlpha: 0,
+            x: 14,
+            duration: 0.46,
+            stagger: 0.06,
+          },
+          0.22,
+        );
+
+        timeline.from(
+          contentPills,
+          {
+            autoAlpha: 0,
+            y: 10,
+            scale: 0.97,
+            duration: 0.42,
+            stagger: 0.05,
+          },
+          0.28,
+        );
+      }, root);
+
+      ScrollTrigger.refresh();
+    }
+
+    const cleanupShowcase = () => {
+      motionContext?.revert();
+      stopAllVisualStacks();
+      delete root.dataset.expertiseReady;
+    };
+
+    document.addEventListener("astro:before-swap", cleanupShowcase, {
       once: true,
     });
   }
@@ -381,55 +549,8 @@ const firstId = items[0]?.id ?? "";
 </script>
 
 <style>
-  .expertise-showcase[data-expertise-ready]:not([data-expertise-revealed])
-    .expertise-showcase__intro
-    > *,
-  .expertise-showcase[data-expertise-ready]:not([data-expertise-revealed])
-    .expertise-showcase__tabs,
-  .expertise-showcase[data-expertise-ready]:not([data-expertise-revealed])
-    .expertise-showcase__visual,
-  .expertise-showcase[data-expertise-ready]:not([data-expertise-revealed])
-    .expertise-showcase__content
-    h3,
-  .expertise-showcase[data-expertise-ready]:not([data-expertise-revealed])
-    .expertise-showcase__copy
-    p,
-  .expertise-showcase[data-expertise-ready]:not([data-expertise-revealed])
-    .expertise-showcase__pills
-    span {
-    filter: blur(8px);
-    opacity: 0;
-    transform: translate3d(0, 1.2rem, 0);
-  }
-
-  .expertise-showcase[data-expertise-revealed]
-    .expertise-showcase__intro
-    > *,
-  .expertise-showcase[data-expertise-revealed] .expertise-showcase__tabs,
-  .expertise-showcase[data-expertise-revealed] .expertise-showcase__visual {
-    animation: expertise-section-reveal 1050ms cubic-bezier(0.16, 1, 0.3, 1)
-      both;
-    animation-delay: var(--expertise-section-delay, 0ms);
-  }
-
-  .expertise-showcase__intro > :nth-child(2) {
-    --expertise-section-delay: 140ms;
-  }
-
-  .expertise-showcase__tabs {
-    --expertise-section-delay: 280ms;
-  }
-
-  .expertise-showcase__visual {
-    --expertise-section-delay: 420ms;
-  }
-
-  @keyframes expertise-section-reveal {
-    to {
-      filter: none;
-      opacity: 1;
-      transform: none;
-    }
+  .expertise-showcase__heading-word {
+    display: inline-block;
   }
 
   .expertise-showcase__tabs {
@@ -755,16 +876,13 @@ const firstId = items[0]?.id ?? "";
     width: 100%;
   }
 
-  .expertise-showcase[data-expertise-revealed]
-    .expertise-showcase__panel.is-active
+  .expertise-showcase__panel.is-switching
     .expertise-showcase__content
     h3,
-  .expertise-showcase[data-expertise-revealed]
-    .expertise-showcase__panel.is-active
+  .expertise-showcase__panel.is-switching
     .expertise-showcase__copy
     p,
-  .expertise-showcase[data-expertise-revealed]
-    .expertise-showcase__panel.is-active
+  .expertise-showcase__panel.is-switching
     .expertise-showcase__pills
     span {
     animation: expertise-content-in 920ms cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -773,13 +891,11 @@ const firstId = items[0]?.id ?? "";
 
   @keyframes expertise-content-in {
     from {
-      filter: blur(10px);
       opacity: 0;
       transform: translateY(0.55rem);
     }
 
     to {
-      filter: none;
       opacity: 1;
       transform: none;
     }
@@ -836,20 +952,6 @@ const firstId = items[0]?.id ?? "";
     .expertise-showcase__panel.is-active .expertise-showcase__content h3,
     .expertise-showcase__panel.is-active .expertise-showcase__copy p,
     .expertise-showcase__panel.is-active .expertise-showcase__pills span,
-    .expertise-showcase[data-expertise-revealed]
-      .expertise-showcase__intro
-      > *,
-    .expertise-showcase[data-expertise-revealed] .expertise-showcase__tabs,
-    .expertise-showcase[data-expertise-revealed] .expertise-showcase__visual,
-    .expertise-showcase[data-expertise-ready]:not([data-expertise-revealed])
-      .expertise-showcase__content
-      h3,
-    .expertise-showcase[data-expertise-ready]:not([data-expertise-revealed])
-      .expertise-showcase__copy
-      p,
-    .expertise-showcase[data-expertise-ready]:not([data-expertise-revealed])
-      .expertise-showcase__pills
-      span,
     .expertise-showcase__panel.is-active .expertise-showcase__visual-list,
     .expertise-showcase__panel.is-active .expertise-showcase__visual-item {
       animation: none;

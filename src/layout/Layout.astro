@@ -146,17 +146,6 @@ const personJsonLd = {
             set:html={JSON.stringify(personJsonLd)}
         />
         <title>{title}</title>
-        <script
-            is:inline
-            src="https://analytics.williamdeazevedo.fr/api/script.js"
-            data-site-id="9713c4825fc7"
-            defer
-        ></script>
-        <script
-            is:inline
-            referrerpolicy="origin"
-            src="/cdn-cgi/zaraz/i.js"
-        ></script>
     </head>
     <body class="min-h-screen min-w-0 flex flex-col">
         <a
@@ -180,14 +169,19 @@ const personJsonLd = {
                 initFadeInAnimations,
                 resetFadeInAnimations,
             } from "../scripts/animations/fadeIn";
+            import {
+                initAnalytics,
+                trackAnalytics,
+                type TrackingProperties,
+            } from "../scripts/analytics";
             import { initMobileFooterBoundary } from "../scripts/mobileFooterBoundary";
+
+            initAnalytics();
 
             const windowWithSectionReveal = window as Window & {
                 __wuiContactClickTrackingReady?: boolean;
                 __wuiSectionRevealReady?: boolean;
             };
-
-            type TrackingProperties = Record<string, string | number>;
 
             const socialHosts = new Map([
                 ["github.com", "github"],
@@ -233,13 +227,7 @@ const personJsonLd = {
                 eventName: string,
                 properties: TrackingProperties,
             ) => {
-                if (typeof window.zaraz?.track === "function") {
-                    void window.zaraz.track(eventName, properties);
-                }
-
-                if (typeof window.rybbit?.event === "function") {
-                    window.rybbit.event(eventName, properties);
-                }
+                trackAnalytics(eventName, properties);
             };
 
             const trackContactLinkClick = (event: MouseEvent) => {

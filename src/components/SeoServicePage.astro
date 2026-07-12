@@ -20,7 +20,7 @@ interface Props {
     canonicalPath?: string;
 }
 
-const { service, canonicalPath = service.rootPath ?? `/services/${service.slug}` } =
+const { service, canonicalPath = service.rootPath ?? `/services/${service.slug}/` } =
     Astro.props;
 const relatedServices = service.relatedServices
     .map((slug) => getServiceBySlug(slug))
@@ -158,7 +158,7 @@ const breadcrumbJsonLd = {
             "@type": "ListItem",
             position: 2,
             name: "Services",
-            item: new URL("/services", siteUrl).href,
+            item: new URL("/services/", siteUrl).href,
         },
         {
             "@type": "ListItem",
@@ -216,7 +216,7 @@ const breadcrumbJsonLd = {
                         project && (
                             <a
                                 class="service-method-button flex min-h-14 w-full max-w-full items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:w-auto sm:px-10"
-                                href={`/realisations/${project.id}`}
+                                href={`/realisations/${project.id}/`}
                             >
                                 <WaveText
                                     class="relative z-10"
@@ -330,7 +330,6 @@ const breadcrumbJsonLd = {
 
         <DiagnosticCta
             buttonLabel="Vérifier le bon service"
-            class="relative left-1/2 w-[calc(100dvw-1rem)] -translate-x-1/2 sm:w-[calc(100dvw-2rem)]"
             copy="On regarde votre situation, ce qui bloque aujourd'hui et la prochaine étape réaliste avant de parler solution."
             location={`service-${service.slug}-final`}
             titleParts={finalCtaTitleParts}
@@ -346,7 +345,7 @@ const breadcrumbJsonLd = {
                 </p>
                 <a
                     class="service-method-button inline-flex min-h-14 w-fit items-center justify-center rounded-xl px-8 py-3 text-base font-normal sm:px-10"
-                    href="/methode"
+                    href="/methode/"
                 >
                     <WaveText
                         class="relative z-10"

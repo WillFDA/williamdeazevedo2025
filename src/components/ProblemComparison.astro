@@ -111,24 +111,37 @@ const {
 <section
     class="mx-auto w-full max-w-7xl px-4 pt-12 pb-5 sm:px-8 md:py-16"
     aria-labelledby="problem-comparison-title"
+    data-problem-comparison
+    data-section-reveal="false"
 >
     <div class="flex max-w-4xl flex-col items-start gap-4 text-left">
         <h2 id="problem-comparison-title" class="section-heading problem-comparison-heading">
             {
                 headingLines.map((line, index) => (
-                    <span class:list={[index > 0 && "block"]}>{line}</span>
+                    <span
+                        class:list={[index > 0 && "block"]}
+                        data-problem-heading-line
+                    >
+                        {line}
+                    </span>
                 ))
             }
         </h2>
-        <p class="section-subheading mx-0 text-left text-gray-700">
+        <p
+            class="section-subheading mx-0 text-left text-gray-700"
+            data-problem-subheading
+        >
             {description}
         </p>
     </div>
 
     <div class="mt-12 grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
         <div class="grid gap-4 sm:grid-cols-2" aria-hidden="true">
-            <div class="comparison-visual comparison-visual--messy">
-                <span class="comparison-label">
+            <div
+                class="comparison-visual comparison-visual--messy"
+                data-problem-visual="messy"
+            >
+                <span class="comparison-label" data-problem-label>
                     <XMark class="comparison-label__x" />
                     {leftLabel}
                 </span>
@@ -143,6 +156,7 @@ const {
                                         "messy-card--no-score",
                                     item.className,
                                 ]}
+                                data-problem-messy-card
                             >
                                 <span class="messy-card__icon">
                                     {item.icon === "performance" && (
@@ -163,7 +177,12 @@ const {
                                     <span>{item.note}</span>
                                 </span>
                                 {"score" in item && (
-                                    <span class="messy-card__score">
+                                    <span
+                                        class="messy-card__score"
+                                        data-final-score={item.score}
+                                        data-problem-score
+                                        style={`--score-value: ${item.score ?? "0"}%`}
+                                    >
                                         {item.score}
                                     </span>
                                 )}
@@ -173,15 +192,21 @@ const {
                 </div>
             </div>
 
-            <div class="comparison-visual comparison-visual--clear">
-                <span class="comparison-label comparison-label--clear">
+            <div
+                class="comparison-visual comparison-visual--clear"
+                data-problem-visual="clear"
+            >
+                <span
+                    class="comparison-label comparison-label--clear"
+                    data-problem-label
+                >
                     <Check2 class="comparison-label__check" />
                     {rightLabel}
                 </span>
                 <div class="comparison-stage comparison-stage--clear">
                     {
                         clearItems.map((item) => (
-                            <span class="clear-pill">
+                            <span class="clear-pill" data-problem-clear-item>
                                 <span class="clear-pill__icon">
                                     <Check2 class="clear-pill__check" />
                                 </span>
@@ -193,17 +218,26 @@ const {
             </div>
         </div>
 
-        <div class="flex flex-col gap-6">
-            <h3 class="m-0 text-balance text-3xl font-medium leading-none tracking-tight text-gray-900 sm:text-4xl">
+        <div class="flex flex-col gap-6" data-problem-content>
+            <h3
+                class="m-0 text-balance text-3xl font-medium leading-none tracking-tight text-gray-900 sm:text-4xl"
+                data-problem-content-heading
+            >
                 {contentTitle}
             </h3>
-            <p class="m-0 text-lg font-light leading-normal text-gray-600">
+            <p
+                class="m-0 text-lg font-light leading-normal text-gray-600"
+                data-problem-content-copy
+            >
                 {contentText}
             </p>
             <ul class="working-points-panel flex flex-col gap-4 lg:gap-5">
                 {
                     workingPoints.map((point) => (
-                        <li class="flex flex-col items-start gap-4 rounded-2xl bg-gray-100 p-5 text-base font-normal leading-normal text-gray-900 sm:p-6 lg:flex-row lg:bg-transparent lg:p-0">
+                        <li
+                            class="flex flex-col items-start gap-4 rounded-2xl bg-gray-100 p-5 text-base font-normal leading-normal text-gray-900 sm:p-6 lg:flex-row lg:bg-transparent lg:p-0"
+                            data-problem-working-point
+                        >
                             <span class="working-point-icon">
                                 {point.icon === "target" && (
                                     <Target class="size-5" />
@@ -224,11 +258,336 @@ const {
     </div>
 </section>
 
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const activeProblemComparisonControllers = new WeakMap<
+        HTMLElement,
+        () => void
+    >();
+
+    const getFinalScore = (score: HTMLElement) => {
+        const parsedScore = Number.parseFloat(score.dataset.finalScore ?? "0");
+        return Number.isFinite(parsedScore)
+            ? Math.min(100, Math.max(0, parsedScore))
+            : 0;
+    };
+
+    const restoreScores = (scores: readonly HTMLElement[]) => {
+        scores.forEach((score) => {
+            score.textContent = String(Math.round(getFinalScore(score)));
+            score.style.removeProperty("--score-progress");
+        });
+    };
+
+    const cleanupProblemComparisons = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-problem-comparison]")
+            .forEach((section) => {
+                activeProblemComparisonControllers.get(section)?.();
+                activeProblemComparisonControllers.delete(section);
+                delete section.dataset.problemComparisonReady;
+            });
+    };
+
+    const initProblemComparisons = () => {
+        document
+            .querySelectorAll<HTMLElement>("[data-problem-comparison]")
+            .forEach((section) => {
+                if (section.dataset.problemComparisonReady === "true") return;
+                section.dataset.problemComparisonReady = "true";
+
+                const scores = gsap.utils.toArray<HTMLElement>(
+                    "[data-problem-score]",
+                    section,
+                );
+
+                if (
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+                ) {
+                    restoreScores(scores);
+                    return;
+                }
+
+                const context = gsap.context(() => {
+                    const headingLines = gsap.utils.toArray<HTMLElement>(
+                        "[data-problem-heading-line]",
+                        section,
+                    );
+                    const subheading = section.querySelector<HTMLElement>(
+                        "[data-problem-subheading]",
+                    );
+                    const messyVisual = section.querySelector<HTMLElement>(
+                        '[data-problem-visual="messy"]',
+                    );
+                    const clearVisual = section.querySelector<HTMLElement>(
+                        '[data-problem-visual="clear"]',
+                    );
+                    const messyLabel = messyVisual?.querySelector<HTMLElement>(
+                        "[data-problem-label]",
+                    );
+                    const clearLabel = clearVisual?.querySelector<HTMLElement>(
+                        "[data-problem-label]",
+                    );
+                    const messyCards = gsap.utils.toArray<HTMLElement>(
+                        "[data-problem-messy-card]",
+                        section,
+                    );
+                    const clearItems = gsap.utils.toArray<HTMLElement>(
+                        "[data-problem-clear-item]",
+                        section,
+                    );
+                    const contentHeading = section.querySelector<HTMLElement>(
+                        "[data-problem-content-heading]",
+                    );
+                    const contentCopy = section.querySelector<HTMLElement>(
+                        "[data-problem-content-copy]",
+                    );
+                    const workingPoints = gsap.utils.toArray<HTMLElement>(
+                        "[data-problem-working-point]",
+                        section,
+                    );
+                    const animatedElements = [
+                        ...headingLines,
+                        subheading,
+                        messyVisual,
+                        clearVisual,
+                        messyLabel,
+                        clearLabel,
+                        ...messyCards,
+                        ...clearItems,
+                        contentHeading,
+                        contentCopy,
+                        ...workingPoints,
+                    ].filter(Boolean) as HTMLElement[];
+
+                    scores.forEach((score) => {
+                        score.textContent = "0";
+                        gsap.set(score, { "--score-progress": "0%" });
+                    });
+
+                    const timeline = gsap.timeline({
+                        defaults: {
+                            duration: 0.52,
+                            ease: "power3.out",
+                        },
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 80%",
+                            once: true,
+                        },
+                        onStart: () => {
+                            gsap.set(animatedElements, {
+                                willChange: "opacity, transform",
+                            });
+                        },
+                    });
+
+                    timeline
+                        .addLabel("intro")
+                        .fromTo(
+                            headingLines,
+                            { autoAlpha: 0, y: 20 },
+                            {
+                                autoAlpha: 1,
+                                duration: 0.5,
+                                stagger: 0.04,
+                                y: 0,
+                            },
+                            "intro",
+                        );
+
+                    if (subheading) {
+                        timeline.fromTo(
+                            subheading,
+                            { autoAlpha: 0, y: 14 },
+                            { autoAlpha: 1, duration: 0.42, y: 0 },
+                            "intro+=0.12",
+                        );
+                    }
+
+                    timeline.addLabel("layout", "intro+=0.24");
+
+                    if (messyVisual) {
+                        timeline.fromTo(
+                            messyVisual,
+                            { autoAlpha: 0, scale: 0.985, y: 26 },
+                            {
+                                autoAlpha: 1,
+                                duration: 0.5,
+                                scale: 1,
+                                y: 0,
+                            },
+                            "layout",
+                        );
+                    }
+
+                    if (clearVisual) {
+                        timeline.fromTo(
+                            clearVisual,
+                            { autoAlpha: 0, scale: 0.985, y: 26 },
+                            {
+                                autoAlpha: 1,
+                                duration: 0.5,
+                                scale: 1,
+                                y: 0,
+                            },
+                            "layout",
+                        );
+                    }
+
+                    if (messyLabel) {
+                        timeline.fromTo(
+                            messyLabel,
+                            { autoAlpha: 0, scale: 0.94, y: 10 },
+                            {
+                                autoAlpha: 1,
+                                duration: 0.5,
+                                scale: 1,
+                                y: 0,
+                            },
+                            "layout+=0.05",
+                        );
+                    }
+
+                    if (clearLabel) {
+                        timeline.fromTo(
+                            clearLabel,
+                            { autoAlpha: 0, scale: 0.94, y: 10 },
+                            {
+                                autoAlpha: 1,
+                                duration: 0.44,
+                                scale: 1,
+                                y: 0,
+                            },
+                            "layout+=0.05",
+                        );
+                    }
+
+                    timeline
+                        .addLabel("items", "layout+=0.05")
+                        .fromTo(
+                            messyCards,
+                            { autoAlpha: 0, scale: 0.95, y: 18 },
+                            {
+                                autoAlpha: 1,
+                                duration: 0.46,
+                                scale: 1,
+                                stagger: 0.06,
+                                y: 0,
+                            },
+                            "items",
+                        )
+                        .fromTo(
+                            clearItems,
+                            { autoAlpha: 0, scale: 0.97, y: 14 },
+                            {
+                                autoAlpha: 1,
+                                duration: 0.44,
+                                scale: 1,
+                                stagger: 0.06,
+                                y: 0,
+                            },
+                            "items",
+                        );
+
+                    scores.forEach((score) => {
+                        const finalScore = getFinalScore(score);
+                        const cardIndex = Math.max(
+                            0,
+                            messyCards.findIndex((card) => card.contains(score)),
+                        );
+                        const scoreState = { value: 0 };
+                        let lastRenderedScore = -1;
+
+                        timeline.to(
+                            scoreState,
+                            {
+                                duration: 0.95,
+                                ease: "power2.out",
+                                onUpdate: () => {
+                                    const nextScore = Math.round(scoreState.value);
+                                    if (nextScore === lastRenderedScore) return;
+
+                                    lastRenderedScore = nextScore;
+                                    score.textContent = String(nextScore);
+                                    score.style.setProperty(
+                                        "--score-progress",
+                                        `${nextScore}%`,
+                                    );
+                                },
+                                value: finalScore,
+                            },
+                            `items+=${0.08 + cardIndex * 0.06}`,
+                        );
+                    });
+
+                    timeline.addLabel("content", "layout+=0.05");
+
+                    if (contentHeading) {
+                        timeline.fromTo(
+                            contentHeading,
+                            { autoAlpha: 0, y: 18 },
+                            { autoAlpha: 1, duration: 0.5, y: 0 },
+                            "content",
+                        );
+                    }
+
+                    if (contentCopy) {
+                        timeline.fromTo(
+                            contentCopy,
+                            { autoAlpha: 0, y: 14 },
+                            { autoAlpha: 1, duration: 0.44, y: 0 },
+                            "content+=0.06",
+                        );
+                    }
+
+                    timeline
+                        .fromTo(
+                            workingPoints,
+                            { autoAlpha: 0, x: 12, y: 12 },
+                            {
+                                autoAlpha: 1,
+                                duration: 0.46,
+                                stagger: 0.07,
+                                x: 0,
+                                y: 0,
+                            },
+                            "content+=0.1",
+                        )
+                        .set(animatedElements, {
+                            clearProps: "opacity,transform,visibility,willChange",
+                        })
+                        .call(() => restoreScores(scores));
+                }, section);
+
+                activeProblemComparisonControllers.set(section, () => {
+                    context.revert();
+                    restoreScores(scores);
+                });
+            });
+
+        ScrollTrigger.refresh();
+    };
+
+    initProblemComparisons();
+
+    document.addEventListener("astro:before-swap", cleanupProblemComparisons);
+    document.addEventListener("astro:page-load", initProblemComparisons);
+</script>
+
 <style>
     .problem-comparison-heading {
         font-size: clamp(2.35rem, 3.9vw, 3.45rem);
         max-width: 54rem;
         text-align: left;
+    }
+
+    .problem-comparison-heading [data-problem-heading-line] {
+        display: block;
     }
 
     .comparison-visual {
@@ -361,7 +720,10 @@ const {
     .messy-card--red .messy-card__score {
         background:
             radial-gradient(circle, #fff 48%, transparent 50%),
-            conic-gradient(rgb(239 68 68) 46%, rgba(239, 68, 68, 0.16) 0);
+            conic-gradient(
+                rgb(239 68 68) var(--score-progress, var(--score-value)),
+                rgba(239, 68, 68, 0.16) 0
+            );
     }
 
     .messy-card--orange .messy-card__icon,
@@ -373,7 +735,10 @@ const {
     .messy-card--orange .messy-card__score {
         background:
             radial-gradient(circle, #fff 48%, transparent 50%),
-            conic-gradient(rgb(249 115 22) 69%, rgba(249, 115, 22, 0.16) 0);
+            conic-gradient(
+                rgb(249 115 22) var(--score-progress, var(--score-value)),
+                rgba(249, 115, 22, 0.16) 0
+            );
     }
 
     .messy-card--gray .messy-card__icon {

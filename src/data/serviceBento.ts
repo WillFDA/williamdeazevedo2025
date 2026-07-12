@@ -74,7 +74,7 @@ export const createServiceBentoItem = (service: Service): ServiceBentoItem => {
 
   return {
     ...copy,
-    href: service.rootPath ?? `/services/${service.slug}`,
+    href: service.rootPath ?? `/services/${service.slug}/`,
     linkLabel: `Découvrir ${copy.title}`,
   };
 };
@@ -82,40 +82,40 @@ export const createServiceBentoItem = (service: Service): ServiceBentoItem => {
 export const servicesOverviewBentoItems = [
   {
     ...serviceBentoCopy["creation-site-vitrine"],
-    href: "/creation-site-vitrine",
+    href: "/creation-site-vitrine/",
     linkLabel: "Découvrir création de site vitrine",
     variant: "feature",
   },
   {
     ...serviceBentoCopy["refonte-site-internet"],
-    href: "/refonte-site-internet",
+    href: "/refonte-site-internet/",
     linkLabel: "Découvrir refonte de site internet",
     variant: "wide",
   },
   {
     ...serviceBentoCopy["developpeur-web-freelance"],
-    href: "/services/developpeur-web-freelance",
+    href: "/services/developpeur-web-freelance/",
     linkLabel: "Découvrir renfort front-end",
     variant: "small",
   },
   {
     description:
       "Structure, vitesse, métadonnées, formulaires et mise en ligne : je pose une base propre pour être trouvé, compris et contacté.",
-    href: "/tarif-creation-site-internet",
-    linkLabel: "Découvrir SEO et mise en ligne",
+    href: "/tarifs/",
+    linkLabel: "Voir les tarifs et options",
     title: "SEO & mise en ligne",
     variant: "small",
     visual: "seo",
   },
   {
     ...serviceBentoCopy["creation-site-internet-artisan"],
-    href: "/creation-site-internet-artisan",
+    href: "/creation-site-internet-artisan/",
     linkLabel: "Découvrir création de site internet artisan",
     variant: "support",
   },
   {
     ...serviceBentoCopy["creation-site-internet-professionnel"],
-    href: "/creation-site-internet-professionnel",
+    href: "/creation-site-internet-professionnel/",
     linkLabel: "Découvrir création de site internet professionnel",
     variant: "support",
   },
