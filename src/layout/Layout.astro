@@ -3,6 +3,7 @@ import { ClientRouter } from "astro:transitions";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import CalDrawer from "../components/CalDrawer.astro";
+import TopContactBanner from "../components/TopContactBanner.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -34,6 +35,11 @@ const siteName = "William De Azevedo";
 const siteUrl = Astro.site ?? Astro.url;
 const canonicalUrl = new URL(canonicalPath ?? Astro.url.pathname, siteUrl);
 const imageUrl = new URL(image, siteUrl);
+const phoneDisplay = String(import.meta.env.PUBLIC_PHONE_DISPLAY ?? "").trim();
+const phoneValue = String(import.meta.env.PUBLIC_PHONE_HREF ?? phoneDisplay)
+    .replace(/^tel:/, "")
+    .replaceAll(/[^\d+]/g, "");
+const phoneHref = phoneValue ? `tel:${phoneValue}` : "";
 
 const personJsonLd = {
     "@context": "https://schema.org",
@@ -154,6 +160,7 @@ const personJsonLd = {
         >
             Aller au contenu principal
         </a>
+        <TopContactBanner phoneDisplay={phoneDisplay} phoneHref={phoneHref} />
         <Header pathName={Astro.url.pathname} />
         <main
             id="main-content"
