@@ -10,6 +10,7 @@ interface Props {
     class?: string;
     compactControls?: boolean;
     controlsPlacement?: "bottom" | "top";
+    showControls?: boolean;
     showAutoplayInterface?: boolean;
 }
 
@@ -19,6 +20,7 @@ const {
     class: className,
     compactControls = false,
     controlsPlacement = "bottom",
+    showControls = true,
     showAutoplayInterface = true,
 } = Astro.props;
 ---
@@ -39,57 +41,59 @@ const {
             <slot />
         </div>
     </div>
-    <div class="embla__controls">
-        <button
-            class="embla__control-button embla__prev inline-flex size-12 items-center justify-center rounded-full bg-gray-100 text-gray-900 transition-transform"
-            type="button"
-            aria-label="Slide précédente"
-        >
-            <ChevronLeft aria-hidden="true" class="size-5" />
-        </button>
-        {
-            autoplay && showAutoplayInterface && (
-                <div class="embla__autoplay flex items-center justify-center gap-2">
-                    <button
-                        type="button"
-                        class="embla__autoplay-toggle embla__control-button inline-flex size-12 items-center justify-center rounded-full bg-gray-100 text-gray-900 transition-transform"
-                        data-carousel-autoplay-toggle
-                        aria-label="Mettre le carousel en pause"
-                        aria-pressed="false"
-                    >
-                        <MediaPause
-                            data-carousel-pause-icon
-                            aria-hidden="true"
-                            class="size-4"
-                        />
-                        <MediaPlay
-                            data-carousel-play-icon
-                            aria-hidden="true"
-                            class="size-4"
-                        />
-                    </button>
-                    <div
-                        class="embla__timeline flex h-9 w-32 items-center rounded-full bg-gray-100 px-3"
-                        aria-hidden="true"
-                    >
-                        <span class="embla__progress-track relative block h-1.5 w-full rounded-full bg-white/70">
-                            <span
-                                class="embla__progress-fill block h-full w-full origin-left scale-x-0 rounded-full bg-gray-900"
-                                data-carousel-progress
+    {
+        showControls && (
+            <div class="embla__controls">
+                <button
+                    class="embla__control-button embla__prev inline-flex size-12 items-center justify-center rounded-full bg-gray-100 text-gray-900 transition-transform"
+                    type="button"
+                    aria-label="Slide précédente"
+                >
+                    <ChevronLeft aria-hidden="true" class="size-5" />
+                </button>
+                {autoplay && showAutoplayInterface && (
+                    <div class="embla__autoplay flex items-center justify-center gap-2">
+                        <button
+                            type="button"
+                            class="embla__autoplay-toggle embla__control-button inline-flex size-12 items-center justify-center rounded-full bg-gray-100 text-gray-900 transition-transform"
+                            data-carousel-autoplay-toggle
+                            aria-label="Mettre le carousel en pause"
+                            aria-pressed="false"
+                        >
+                            <MediaPause
+                                data-carousel-pause-icon
+                                aria-hidden="true"
+                                class="size-4"
                             />
-                        </span>
+                            <MediaPlay
+                                data-carousel-play-icon
+                                aria-hidden="true"
+                                class="size-4"
+                            />
+                        </button>
+                        <div
+                            class="embla__timeline flex h-9 w-32 items-center rounded-full bg-gray-100 px-3"
+                            aria-hidden="true"
+                        >
+                            <span class="embla__progress-track relative block h-1.5 w-full rounded-full bg-white/70">
+                                <span
+                                    class="embla__progress-fill block h-full w-full origin-left scale-x-0 rounded-full bg-gray-900"
+                                    data-carousel-progress
+                                />
+                            </span>
+                        </div>
                     </div>
-                </div>
-            )
-        }
-        <button
-            class="embla__control-button embla__next inline-flex size-12 items-center justify-center rounded-full bg-gray-100 text-gray-900 transition-transform"
-            type="button"
-            aria-label="Slide suivante"
-        >
-            <ChevronRight aria-hidden="true" class="size-5" />
-        </button>
-    </div>
+                )}
+                <button
+                    class="embla__control-button embla__next inline-flex size-12 items-center justify-center rounded-full bg-gray-100 text-gray-900 transition-transform"
+                    type="button"
+                    aria-label="Slide suivante"
+                >
+                    <ChevronRight aria-hidden="true" class="size-5" />
+                </button>
+            </div>
+        )
+    }
 </div>
 
 <script>

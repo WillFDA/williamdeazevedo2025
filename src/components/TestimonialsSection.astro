@@ -18,6 +18,7 @@ const testimonials = getPublishedTestimonials();
                     autoplay
                     autoplayDelay={6500}
                     compactControls
+                    showControls={false}
                     showAutoplayInterface={false}
                 >
                     {testimonials.map((testimonial, index) => (
@@ -75,10 +76,6 @@ const testimonials = getPublishedTestimonials();
 
     .testimonial-card__media {
         aspect-ratio: 4 / 5;
-    }
-
-    .client-testimonials :global(.testimonial-carousel .embla__controls) {
-        display: none;
     }
 
     @media (min-width: 768px) {

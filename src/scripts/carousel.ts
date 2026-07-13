@@ -63,7 +63,7 @@ export function initCarousel(wrapperNode: HTMLElement) {
     "[data-carousel-progress]"
   );
 
-  if (!viewportNode || !prevButtonNode || !nextButtonNode) return;
+  if (!viewportNode) return;
 
   const slides = wrapperNode.querySelectorAll<HTMLElement>(".embla__slide");
   const videos = wrapperNode.querySelectorAll<HTMLVideoElement>("video");
@@ -225,13 +225,13 @@ export function initCarousel(wrapperNode: HTMLElement) {
     scheduleAutoplay();
   };
 
-  prevButtonNode.addEventListener("click", scrollPrev);
-  nextButtonNode.addEventListener("click", scrollNext);
+  prevButtonNode?.addEventListener("click", scrollPrev);
+  nextButtonNode?.addEventListener("click", scrollNext);
   wrapperNode.addEventListener("focusin", pauseForFocus);
   wrapperNode.addEventListener("focusout", resumeAfterFocus);
   state.cleanup.push(() => {
-    prevButtonNode.removeEventListener("click", scrollPrev);
-    nextButtonNode.removeEventListener("click", scrollNext);
+    prevButtonNode?.removeEventListener("click", scrollPrev);
+    nextButtonNode?.removeEventListener("click", scrollNext);
     wrapperNode.removeEventListener("focusin", pauseForFocus);
     wrapperNode.removeEventListener("focusout", resumeAfterFocus);
   });

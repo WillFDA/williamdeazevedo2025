@@ -35,11 +35,6 @@ const siteName = "William De Azevedo";
 const siteUrl = Astro.site ?? Astro.url;
 const canonicalUrl = new URL(canonicalPath ?? Astro.url.pathname, siteUrl);
 const imageUrl = new URL(image, siteUrl);
-const phoneDisplay = String(import.meta.env.PUBLIC_PHONE_DISPLAY ?? "").trim();
-const phoneValue = String(import.meta.env.PUBLIC_PHONE_HREF ?? phoneDisplay)
-    .replace(/^tel:/, "")
-    .replaceAll(/[^\d+]/g, "");
-const phoneHref = phoneValue ? `tel:${phoneValue}` : "";
 
 const personJsonLd = {
     "@context": "https://schema.org",
@@ -160,7 +155,7 @@ const personJsonLd = {
         >
             Aller au contenu principal
         </a>
-        <TopContactBanner phoneDisplay={phoneDisplay} phoneHref={phoneHref} />
+        <TopContactBanner />
         <Header pathName={Astro.url.pathname} />
         <main
             id="main-content"

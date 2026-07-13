@@ -231,6 +231,14 @@ body {
   html,
   body {
     overscroll-behavior-y: none;
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+    height: 0;
+    width: 0;
   }
 }
 

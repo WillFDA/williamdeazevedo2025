@@ -1,38 +1,18 @@
 ---
 import ArrowRight from "./icons/nucleo/arrow-right-fill.svg";
 
-interface Props {
-    phoneDisplay?: string;
-    phoneHref?: string;
-}
-
-const { phoneDisplay = "", phoneHref = "" } = Astro.props;
-const hasPhone = Boolean(phoneDisplay && phoneHref);
+const phoneDisplay = "07 62 74 60 21";
+const phoneHref = "tel:+33762746021";
 ---
 
-<aside
-    class:list={[
-        "contact-banner",
-        !hasPhone && "contact-banner--no-phone",
-    ]}
-    aria-label="Contact et estimation"
->
+<aside class="contact-banner" aria-label="Contact et estimation">
     <div class="contact-banner__inner">
-        <p
-            class:list={[
-                "contact-banner__message",
-                hasPhone && "contact-banner__message--has-phone",
-            ]}
-        >
+        <p class="contact-banner__message">
             <span class="contact-banner__eyebrow">Conseil & estimation</span>
             <span class="contact-banner__separator" aria-hidden="true"></span>
-            {
-                hasPhone && (
-                    <a class="contact-banner__phone" href={phoneHref}>
-                        {phoneDisplay}
-                    </a>
-                )
-            }
+            <a class="contact-banner__phone" href={phoneHref}>
+                {phoneDisplay}
+            </a>
             <span class="contact-banner__detail">
                 Une première estimation de votre projet, sans engagement.
             </span>
@@ -164,13 +144,6 @@ const hasPhone = Boolean(phoneDisplay && phoneHref);
             font-size: 0.68rem;
         }
 
-        .contact-banner--no-phone .contact-banner__inner {
-            justify-content: center;
-        }
-
-        .contact-banner__message:not(.contact-banner__message--has-phone) {
-            display: none;
-        }
     }
 
     @media (max-width: 360px) {
