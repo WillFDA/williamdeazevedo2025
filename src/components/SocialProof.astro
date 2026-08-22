@@ -1,0 +1,97 @@
+---
+import { Image } from "astro:assets";
+import Star from "./icons/nucleo/star-fill.svg";
+import FadeRevealOnScroll from "./animations/FadeRevealOnScroll.astro";
+import { getPublishedTestimonials } from "@/lib/testimonials";
+
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const {
+    title = "Ils m'ont fait confiance",
+    description = "Des projets livrés et des clients qui en parlent mieux que moi.",
+} = Astro.props;
+
+const testimonials = getPublishedTestimonials().slice(0, 3);
+---
+
+<section
+    class="social-proof mx-auto w-full max-w-7xl px-4 py-12 sm:px-8 md:py-16"
+    aria-label="Avis clients"
+>
+    <FadeRevealOnScroll>
+        <div class="flex flex-col items-center gap-4 text-center">
+            <a
+                aria-label="Avis Google : 5 étoiles sur 5"
+                class="inline-flex items-center gap-2 rounded-xl bg-snow-50 px-3.5 py-2 text-sm font-normal leading-tight text-gray-900 no-underline shadow-[0_10px_22px_-16px_rgba(34,42,55,0.45)] transition-transform hover:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 sm:text-base"
+                href="https://share.google/LlCN4Hr5IlatyVSl2"
+                rel="noreferrer"
+                target="_blank"
+            >
+                <span>Avis Google</span>
+                <span
+                    class="inline-flex items-center gap-1.5 rounded-xl bg-blue-500 px-2.5 py-1 font-medium text-snow-50"
+                >
+                    <Star aria-hidden="true" class="size-4 text-snow-50" />
+                    <span>5.0</span>
+                </span>
+            </a>
+            <h2 class="section-heading">{title}</h2>
+            <p class="section-subheading max-w-sm sm:max-w-xl">{description}</p>
+        </div>
+    </FadeRevealOnScroll>
+
+    <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {
+            testimonials.map((testimonial) => (
+                <FadeRevealOnScroll>
+                    <figure class="testimonial-excerpt flex h-full flex-col justify-between gap-6 rounded-3xl bg-snow-50 p-6 ring-1 ring-snow-600 sm:p-8">
+                        <blockquote class="m-0 text-base font-light leading-relaxed text-gray-700">
+                            “{testimonial.excerpt ?? testimonial.text}”
+                        </blockquote>
+                        <figcaption class="flex items-center gap-4">
+                            <div class="size-12 shrink-0 overflow-hidden rounded-full bg-snow-600 shadow-md">
+                                {testimonial.image ? (
+                                    <Image
+                                        class="block size-full object-cover"
+                                        src={testimonial.image}
+                                        alt={testimonial.imageAlt ?? ""}
+                                        width={96}
+                                        height={96}
+                                        loading="lazy"
+                                    />
+                                ) : (
+                                    <div class="flex size-full items-center justify-center text-sm font-medium text-gray-900">
+                                        {testimonial.initials}
+                                    </div>
+                                )}
+                            </div>
+                            <div class="flex flex-col">
+                                <a
+                                    class="text-base font-normal text-gray-900 underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                                    href={testimonial.href}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    {testimonial.name}
+                                </a>
+                                <span class="inline-flex items-center gap-1 text-sm font-light text-gray-700">
+                                    <Star aria-hidden="true" class="size-3.5 text-blue-500" />
+                                    Avis Google vérifié
+                                </span>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </FadeRevealOnScroll>
+            ))
+        }
+    </div>
+
+    <style>
+        .testimonial-excerpt blockquote::before {
+            content: none;
+        }
+    </style>
+</section>
