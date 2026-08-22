@@ -49,46 +49,6 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    id: "le-fellic",
-    title: "SARL LE FELLIC",
-    href: "https://lefellic.fr/",
-    brand: {
-      logo: {
-        alt: "Logo SARL LE FELLIC",
-        className: "scale-[1.42]",
-        src: "/projects/le-fellic/logo.png",
-      },
-    },
-    summary:
-      "Site vitrine one-page pour une entreprise de maîtrise d'oeuvre à Rennes, pensé pour clarifier l'offre, rassurer une cible B2B et faciliter la prise de contact via un formulaire sécurisé.",
-    tags: [
-      { icon: "window-layout", label: "One-page" },
-      { icon: "globe", label: "B2B local" },
-      { icon: "window-pointer", label: "Contact clair" },
-    ],
-    stack: [
-      "Astro 6",
-      "TypeScript",
-      "Tailwind CSS 4",
-      "Cloudflare Workers",
-      "Turnstile",
-      "React Email",
-      "MapLibre GL",
-    ],
-    media: {
-      type: "video",
-      poster: leFellicHomePoster.src,
-      src: "/lefellic/lefellic-home.mp4",
-    },
-    caseStudy: {
-      overview:
-        "Site vitrine one-page conçu et développé pour SARL LE FELLIC - Maîtrise & Solutions, entreprise de maîtrise d'oeuvre d'exécution, OPC et suivi de chantier basée à Rennes.",
-      need: "Créer une présence web claire pour une société récente, sans donner l'impression d'une jeune expérience, en valorisant le parcours de Quentin LE FELLIC, son expertise terrain et sa zone d'intervention.",
-      solution:
-        "Une page unique orientée conversion avec hero métier, parcours, projets témoins, carte d'intervention, SEO local et formulaire sécurisé via Astro, Cloudflare Workers, Turnstile, rate limiting et notification email.",
-    },
-  },
-  {
     id: "persistance",
     title: "Persistance",
     href: "https://persistance-studio.fr/",
@@ -126,6 +86,46 @@ export const projects: Project[] = [
       need: "Présenter clairement l'univers, la méthode et les offres, valoriser les réalisations, publier des articles et rendre la cliente autonome sur les contenus via un CMS.",
       solution:
         "Architecture Astro légère avec Sanity pour administrer projets, articles, clients et témoignages, pages prestations structurées, SEO technique et formulaire sécurisé avec validation et Turnstile.",
+    },
+  },
+  {
+    id: "le-fellic",
+    title: "SARL LE FELLIC",
+    href: "https://lefellic.fr/",
+    brand: {
+      logo: {
+        alt: "Logo SARL LE FELLIC",
+        className: "scale-[1.42]",
+        src: "/projects/le-fellic/logo.png",
+      },
+    },
+    summary:
+      "Site vitrine one-page pour une entreprise de maîtrise d'oeuvre à Rennes, pensé pour clarifier l'offre, rassurer une cible B2B et faciliter la prise de contact via un formulaire sécurisé.",
+    tags: [
+      { icon: "window-layout", label: "One-page" },
+      { icon: "globe", label: "B2B local" },
+      { icon: "window-pointer", label: "Contact clair" },
+    ],
+    stack: [
+      "Astro 6",
+      "TypeScript",
+      "Tailwind CSS 4",
+      "Cloudflare Workers",
+      "Turnstile",
+      "React Email",
+      "MapLibre GL",
+    ],
+    media: {
+      type: "video",
+      poster: leFellicHomePoster.src,
+      src: "/lefellic/lefellic-home.mp4",
+    },
+    caseStudy: {
+      overview:
+        "Site vitrine one-page conçu et développé pour SARL LE FELLIC - Maîtrise & Solutions, entreprise de maîtrise d'oeuvre d'exécution, OPC et suivi de chantier basée à Rennes.",
+      need: "Créer une présence web claire pour une société récente, sans donner l'impression d'une jeune expérience, en valorisant le parcours de Quentin LE FELLIC, son expertise terrain et sa zone d'intervention.",
+      solution:
+        "Une page unique orientée conversion avec hero métier, parcours, projets témoins, carte d'intervention, SEO local et formulaire sécurisé via Astro, Cloudflare Workers, Turnstile, rate limiting et notification email.",
     },
   },
   {
