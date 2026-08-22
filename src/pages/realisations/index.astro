@@ -4,6 +4,7 @@ import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro
 import DiagnosticCta from "@/components/DiagnosticCta.astro";
 import ProjectListItem from "@/components/realisations/ProjectListItem.astro";
 import { projects } from "@/data/projects";
+import SocialProof from "@/components/SocialProof.astro";
 import Layout from "@/layout/Layout.astro";
 
 export const prerender = true;
@@ -72,5 +73,7 @@ const realisationsDiagnosticTitleParts = [
                 </section>
             )
         }
+        <SocialProof />
+
     </div>
 </Layout>

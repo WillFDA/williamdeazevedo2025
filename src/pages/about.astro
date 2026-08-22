@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import SocialProof from "../components/SocialProof.astro";
 import Layout from "../layout/Layout.astro";
 import AboutCallout from "../components/AboutCallout.astro";
 import FadeReveal from "../components/animations/FadeReveal.astro";
@@ -236,6 +237,8 @@ const clientAngles: ClientAngle[] = [
             </FadeRevealOnScroll>
         </section>
     </div>
+    <SocialProof />
+
 </Layout>
 
 <style>

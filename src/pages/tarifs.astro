@@ -13,6 +13,7 @@ import WindowPointer from "@/components/icons/nucleo/window-pointer-fill.svg";
 import { projects } from "@/data/projects";
 import { type IconTone, iconToneClasses } from "@/lib/iconTones";
 import Layout from "@/layout/Layout.astro";
+import SocialProof from "@/components/SocialProof.astro";
 
 export const prerender = true;
 
@@ -334,6 +335,8 @@ const aiBudgetPoints = [
     </div>
 
     <div class="mx-auto w-full max-w-5xl px-4 pb-12 md:pb-16">
+        <SocialProof />
+
         <FadeRevealOnScroll>
             <section class="relative left-1/2 isolate w-[calc(100dvw-1rem)] -translate-x-1/2 overflow-hidden rounded-4xl bg-coffee-300 py-12 text-snow-50 sm:w-[calc(100dvw-2rem)] md:py-16">
                 <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-4 px-4 text-center sm:px-8 md:gap-6">
