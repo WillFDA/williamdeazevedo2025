@@ -43,11 +43,11 @@ const testimonials = getPublishedTestimonials().slice(0, 3);
         </div>
     </FadeRevealOnScroll>
 
-    <div class="mt-10 grid gap-6 md:grid-cols-2">
+    <div class="mt-10 grid items-stretch gap-6 md:grid-cols-2">
         {
             testimonials.map((testimonial) => (
                 <FadeRevealOnScroll>
-                    <figure class="testimonial-excerpt flex h-full flex-col justify-between gap-6 rounded-3xl bg-snow-50 p-6 ring-1 ring-snow-600 sm:p-8">
+                    <figure class="testimonial-excerpt flex h-full min-h-64 flex-col justify-between gap-8 rounded-3xl bg-snow-50 p-6 ring-1 ring-snow-600 sm:p-8">
                         <blockquote class="m-0 text-base font-light leading-relaxed text-gray-700">
                             “{testimonial.excerpt ?? testimonial.text}”
                         </blockquote>
