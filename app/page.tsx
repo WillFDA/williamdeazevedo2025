@@ -5,7 +5,7 @@ import william from "@/public/pictures/william-low.png";
 
 export default function Home() {
   return (
-    <main className="flex flex-col gap-10 py-10 lg:max-w-2xl max-w-xl px-4 mx-auto w-full grow">
+    <main className="mx-auto flex w-full max-w-xl grow flex-col gap-10 px-4 py-10 lg:max-w-2xl">
       {/* Hero */}
       <section className="fade-up flex flex-col gap-4 [--animation-delay:200ms]">
         <div className="flex items-center gap-3">
@@ -13,30 +13,28 @@ export default function Home() {
             alt="Photo de profil"
             className="size-12 rounded-full"
             height={48}
+            priority
             src={william}
             width={48}
-            priority
           />
           <div>
-            <h1 className="text-lg font-medium text-gray-900">
+            <h1 className="font-medium text-gray-900 text-lg">
               William De Azevedo
             </h1>
-            <p className="text-sm text-gray-600">
-              Développeur Front-end
-            </p>
+            <p className="text-gray-600 text-sm">Développeur Front-end</p>
           </div>
         </div>
-        <p className="text-sm text-gray-600">
+        <p className="text-gray-600 text-sm">
           Développeur front-end avec compétences full stack. Passionné par
           l&apos;IA et la création de produits complets de A à Z.
         </p>
-        <p className="text-sm text-gray-600">
+        <p className="text-gray-600 text-sm">
           <span className="inline-flex items-center gap-1.5">
             <span className="size-1.5 rounded-full bg-green-500" />
             Disponible pour un CDI ou missions freelance
           </span>
         </p>
-        <p className="text-sm text-gray-600">
+        <p className="text-gray-600 text-sm">
           <a
             className="underline decoration-gray-300 underline-offset-2 transition-colors hover:text-gray-900"
             href="mailto:william.ferreirapro@gmail.com"
@@ -47,8 +45,8 @@ export default function Home() {
           <a
             className="underline decoration-gray-300 underline-offset-2 transition-colors hover:text-gray-900"
             href="https://github.com/WillFDA"
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             GitHub
           </a>
@@ -56,8 +54,8 @@ export default function Home() {
           <a
             className="underline decoration-gray-300 underline-offset-2 transition-colors hover:text-gray-900"
             href="https://www.linkedin.com/in/william-de-azevedo/"
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             LinkedIn
           </a>
@@ -65,16 +63,16 @@ export default function Home() {
           <a
             className="underline decoration-gray-300 underline-offset-2 transition-colors hover:text-gray-900"
             href="https://www.malt.fr/profile/williamferreiradeazevedo"
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             Malt
           </a>
           {" et "}
           <a
             className="underline decoration-gray-300 underline-offset-2 transition-colors hover:text-gray-900"
-            href="https://t9mucy7hbqrvpht0.public.blob.vercel-storage.com/cv-12-12-2025-R.pdf"
             download
+            href="https://t9mucy7hbqrvpht0.public.blob.vercel-storage.com/cv-12-12-2025-R.pdf"
             rel="noopener"
           >
             CV
@@ -102,62 +100,70 @@ export default function Home() {
 
       {/* Expérience */}
       <section className="fade-up flex flex-col gap-2 [--animation-delay:500ms]">
-        <h2 className="text-sm text-gray-400">Expérience · 2 ans</h2>
+        <h2 className="text-gray-400 text-sm">Expérience · 2 ans</h2>
         <div className="flex flex-col gap-1">
           <a
-            className="group flex items-baseline gap-1 text-sm text-gray-600 transition-colors hover:text-gray-900"
+            className="group flex items-baseline gap-1 text-gray-600 text-sm transition-colors hover:text-gray-900"
             href="https://susu.fr"
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             <span>Susu · Développeur Front-end</span>
             <span className="dot-leaders min-w-4 flex-1" />
-            <span className="text-gray-400 group-hover:text-gray-600">2024 - 2025</span>
+            <span className="text-gray-400 group-hover:text-gray-600">
+              2024 - 2025
+            </span>
           </a>
           <a
-            className="group flex items-baseline gap-1 text-sm text-gray-600 transition-colors hover:text-gray-900"
+            className="group flex items-baseline gap-1 text-gray-600 text-sm transition-colors hover:text-gray-900"
             href="https://komin.io"
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             <span>Komin · Développeur Front-end</span>
             <span className="dot-leaders min-w-4 flex-1" />
-            <span className="text-gray-400 group-hover:text-gray-600">2023 - 2024</span>
+            <span className="text-gray-400 group-hover:text-gray-600">
+              2023 - 2024
+            </span>
           </a>
         </div>
       </section>
 
       {/* Projets */}
       <section className="fade-up flex flex-col gap-2 [--animation-delay:600ms]">
-        <h2 className="text-sm text-gray-400">Projets</h2>
+        <h2 className="text-gray-400 text-sm">Projets</h2>
         <div className="flex flex-col gap-1">
           <a
-            className="group flex items-baseline gap-1 text-sm text-gray-600 transition-colors hover:text-gray-900"
+            className="group flex items-baseline gap-1 text-gray-600 text-sm transition-colors hover:text-gray-900"
             href="https://motivai.fr"
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             <span>Motivai</span>
             <span className="dot-leaders min-w-4 flex-1" />
-            <span className="text-gray-400 group-hover:text-gray-600">SaaS lettres de motivation IA</span>
+            <span className="text-gray-400 group-hover:text-gray-600">
+              SaaS lettres de motivation IA
+            </span>
           </a>
           <a
-            className="group flex items-baseline gap-1 text-sm text-gray-600 transition-colors hover:text-gray-900"
+            className="group flex items-baseline gap-1 text-gray-600 text-sm transition-colors hover:text-gray-900"
             href="https://github.com/WillFDA/williamdeazevedo2025"
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             <span>Portfolio 2025</span>
             <span className="dot-leaders min-w-4 flex-1" />
-            <span className="text-gray-400 group-hover:text-gray-600">Ce site</span>
+            <span className="text-gray-400 group-hover:text-gray-600">
+              Ce site
+            </span>
           </a>
         </div>
       </section>
 
       {/* Ce que je recherche */}
       <section className="fade-up flex flex-col gap-2 [--animation-delay:700ms]">
-        <h2 className="text-sm text-gray-400">Ce que je recherche</h2>
-        <p className="text-sm text-gray-600">
+        <h2 className="text-gray-400 text-sm">Ce que je recherche</h2>
+        <p className="text-gray-600 text-sm">
           CDI ou missions freelance · Startup/Scale-up · Paris/Remote
         </p>
       </section>

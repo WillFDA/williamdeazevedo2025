@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Arrow,
@@ -7,12 +7,12 @@ import {
   Provider,
   Root,
   Trigger,
-} from '@radix-ui/react-tooltip';
-import type { Certification } from '@/data/picturesandicons';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
+} from "@radix-ui/react-tooltip";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import type { Certification } from "@/data/picturesandicons";
+import { cn } from "@/lib/utils";
 
 export default function CertificationItem({
   certification,
@@ -22,14 +22,12 @@ export default function CertificationItem({
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const content = (
-    <div className="flex items-baseline gap-1 cursor-pointer group">
-      <span className="text-gray-900 shrink-0 transition-colors group-hover:text-gray-600">
+    <div className="group flex cursor-pointer items-baseline gap-1">
+      <span className="shrink-0 text-gray-900 transition-colors group-hover:text-gray-600">
         {certification.name}
       </span>
       <span className="dot-leaders min-w-4 flex-1" />
-      <span className="text-gray-600 text-right">
-        {certification.year}
-      </span>
+      <span className="text-right text-gray-600">{certification.year}</span>
     </div>
   );
 
@@ -40,8 +38,8 @@ export default function CertificationItem({
           {certification.url ? (
             <Link
               href={certification.url}
-              target="_blank"
               rel="noopener noreferrer"
+              target="_blank"
             >
               {content}
             </Link>
@@ -52,39 +50,39 @@ export default function CertificationItem({
         <Portal>
           <Content
             className={cn(
-              'z-50 origin-(--radix-tooltip-content-transform-origin)',
-              'animate-in fade-in-0 zoom-in-95 duration-200',
-              'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
-              'data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2',
-              'rounded-lg shadow-xl overflow-hidden',
-              'bg-white border border-gray-200'
+              "z-50 origin-(--radix-tooltip-content-transform-origin)",
+              "fade-in-0 zoom-in-95 animate-in duration-200",
+              "data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:animate-out",
+              "data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2",
+              "overflow-hidden rounded-lg shadow-xl",
+              "border border-gray-200 bg-white"
             )}
-            sideOffset={8}
             side="top"
+            sideOffset={8}
           >
-            <div className="relative w-72 aspect-[4/3]">
+            <div className="relative aspect-[4/3] w-72">
               {/* Skeleton de chargement */}
               {!imageLoaded && (
-                <div className="absolute inset-0 bg-gray-100 animate-pulse" />
+                <div className="absolute inset-0 animate-pulse bg-gray-100" />
               )}
               <Image
-                src={certification.certificate}
                 alt={`Certificat ${certification.name}`}
-                fill
-                sizes="288px"
                 className={cn(
-                  'object-contain transition-opacity duration-300',
-                  imageLoaded ? 'opacity-100' : 'opacity-0'
+                  "object-contain transition-opacity duration-300",
+                  imageLoaded ? "opacity-100" : "opacity-0"
                 )}
+                fill
                 onLoad={() => setImageLoaded(true)}
                 // Performance: placeholder blur pour transition douce
                 placeholder="blur"
                 // Performance: qualité réduite pour le tooltip (pas besoin de HD)
                 quality={75}
+                sizes="288px"
+                src={certification.certificate}
               />
             </div>
-            <div className="px-3 py-2 border-t border-gray-100 bg-gray-50">
-              <p className="text-xs text-gray-500">{certification.issuer}</p>
+            <div className="border-gray-100 border-t bg-gray-50 px-3 py-2">
+              <p className="text-gray-500 text-xs">{certification.issuer}</p>
             </div>
             <Arrow className="fill-white" />
           </Content>

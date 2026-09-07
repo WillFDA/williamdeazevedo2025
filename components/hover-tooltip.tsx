@@ -1,10 +1,10 @@
-'use client';
+"use client";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import type { SkillsIcons } from '@/data/picturesandicons';
+} from "@/components/ui/tooltip";
+import type { SkillsIcons } from "@/data/picturesandicons";
 
 export default function HoverTooltip({
   item,

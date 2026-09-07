@@ -1,147 +1,147 @@
 // pictures
 
-import type { StaticImageData } from 'next/image';
-import figmaIcon from '@/public/icons/figma-icon.svg';
+import type { StaticImageData } from "next/image";
+import figmaIcon from "@/public/icons/figma-icon.svg";
 // skills pictures
-import materialuiIcon from '@/public/icons/material-ui.svg';
-import nextIcon from '@/public/icons/next.svg'; // done
-import prismaIcon from '@/public/icons/prisma.svg'; // done
-import reactIcon from '@/public/icons/react-icon.svg'; // done
-import tanstackQueryIcon from '@/public/icons/react-query.svg'; // done
-import shadcnIcon from '@/public/icons/shadcn-ui.svg'; // done
-import tailwindIcon from '@/public/icons/tailwindcss.svg'; // done
-import typescriptIcon from '@/public/icons/typescript.svg'; // done
-import zustandIcon from '@/public/icons/zustand.svg'; // done
-import bourgetPicture from '@/public/pictures/bourget-opti.jpg';
-import setupPicture from '@/public/pictures/desktop-opti.jpg';
-import gokuPicture from '@/public/pictures/goku-opti.jpg';
-import madeira from '@/public/pictures/madere-opti.jpg';
-import majorquePicture from '@/public/pictures/majorque-opti.jpg';
+import materialuiIcon from "@/public/icons/material-ui.svg";
+import nextIcon from "@/public/icons/next.svg"; // done
+import prismaIcon from "@/public/icons/prisma.svg"; // done
+import reactIcon from "@/public/icons/react-icon.svg"; // done
+import tanstackQueryIcon from "@/public/icons/react-query.svg"; // done
+import shadcnIcon from "@/public/icons/shadcn-ui.svg"; // done
+import tailwindIcon from "@/public/icons/tailwindcss.svg"; // done
+import typescriptIcon from "@/public/icons/typescript.svg"; // done
+import zustandIcon from "@/public/icons/zustand.svg"; // done
 // certifications
-import learnJsCertificate from '@/public/learn-js-jade.png';
-import ocDevCertificate from '@/public/oc-dev-jav-react-2025.png';
-import ocIntegCertificate from '@/public/oc-integ-web-2023.png';
+import learnJsCertificate from "@/public/learn-js-jade.png";
+import ocDevCertificate from "@/public/oc-dev-jav-react-2025.png";
+import ocIntegCertificate from "@/public/oc-integ-web-2023.png";
+import bourgetPicture from "@/public/pictures/bourget-opti.jpg";
+import setupPicture from "@/public/pictures/desktop-opti.jpg";
+import gokuPicture from "@/public/pictures/goku-opti.jpg";
+import madeira from "@/public/pictures/madere-opti.jpg";
+import majorquePicture from "@/public/pictures/majorque-opti.jpg";
 
-export type Pictures = {
+export interface Pictures {
+  alt: string;
   id: number;
-  src: StaticImageData;
-  alt: string;
   rotate: string;
-};
+  src: StaticImageData;
+}
 
-export type SkillsIcons = {
-  src: string;
+export interface SkillsIcons {
   alt: string;
-};
+  src: string;
+}
 
 export const pictures: Pictures[] = [
   {
+    alt: "Bourget ✈️",
     id: 1,
+    rotate: "rotate-2 fade-up [--animation-delay:400ms]",
     src: bourgetPicture,
-    alt: 'Bourget ✈️',
-    rotate: 'rotate-2 fade-up [--animation-delay:400ms]',
   },
   {
+    alt: "Majorque 🚂",
     id: 2,
+    rotate: "-rotate-2 fade-up [--animation-delay:600ms]",
     src: majorquePicture,
-    alt: 'Majorque 🚂',
-    rotate: '-rotate-2 fade-up [--animation-delay:600ms]',
   },
   {
+    alt: "Madeira 🇵🇹",
     id: 3,
+    rotate: "rotate-2 fade-up [--animation-delay:800ms]",
     src: madeira,
-    alt: 'Madeira 🇵🇹',
-    rotate: 'rotate-2 fade-up [--animation-delay:800ms]',
   },
   {
+    alt: "Goku 🐈",
     id: 4,
+    rotate: "-rotate-2 md:block hidden fade-up [--animation-delay:1000ms] ",
     src: gokuPicture,
-    alt: 'Goku 🐈',
-    rotate: '-rotate-2 md:block hidden fade-up [--animation-delay:1000ms] ',
   },
   {
+    alt: "Setup 🖥️",
     id: 5,
+    rotate: "rotate-2 md:block hidden fade-up [--animation-delay:1200ms]",
     src: setupPicture,
-    alt: 'Setup 🖥️',
-    rotate: 'rotate-2 md:block hidden fade-up [--animation-delay:1200ms]',
   },
 ];
 
-export type Certification = {
-  id: number;
-  name: string;
-  issuer: string;
-  year: string;
+export interface Certification {
   certificate: StaticImageData;
+  id: number;
+  issuer: string;
+  name: string;
   url?: string;
-};
+  year: string;
+}
 
 export const certifications: Certification[] = [
   {
-    id: 1,
-    name: 'Learn JavaScript',
-    issuer: 'Jade Joubran',
-    year: '2024',
     certificate: learnJsCertificate,
-    url: 'https://learnjavascript.online',
+    id: 1,
+    issuer: "Jade Joubran",
+    name: "Learn JavaScript",
+    url: "https://learnjavascript.online",
+    year: "2024",
   },
   {
-    id: 2,
-    name: 'Developpeur integrateur web',
-    issuer: 'OpenClassrooms',
-    year: '2023',
     certificate: ocIntegCertificate,
-    url: 'https://openclassrooms.com',
+    id: 2,
+    issuer: "OpenClassrooms",
+    name: "Developpeur integrateur web",
+    url: "https://openclassrooms.com",
+    year: "2023",
   },
   {
-    id: 3,
-    name: 'Developpeur concepteur logiciel',
-    issuer: 'OpenClassrooms',
-    year: '2025',
     certificate: ocDevCertificate,
-    url: 'https://openclassrooms.com',
+    id: 3,
+    issuer: "OpenClassrooms",
+    name: "Developpeur concepteur logiciel",
+    url: "https://openclassrooms.com",
+    year: "2025",
   },
 ];
 
 export const skillsIcons: SkillsIcons[] = [
   {
+    alt: "React",
     src: reactIcon,
-    alt: 'React',
   },
   {
+    alt: "Next.js",
     src: nextIcon,
-    alt: 'Next.js',
   },
   {
+    alt: "Tailwind CSS",
     src: tailwindIcon,
-    alt: 'Tailwind CSS',
   },
   {
+    alt: "Typescript",
     src: typescriptIcon,
-    alt: 'Typescript',
   },
   {
+    alt: "Tanstack Query",
     src: tanstackQueryIcon,
-    alt: 'Tanstack Query',
   },
   {
+    alt: "Zustand",
     src: zustandIcon,
-    alt: 'Zustand',
   },
   {
+    alt: "Shadcn",
     src: shadcnIcon,
-    alt: 'Shadcn',
   },
   {
+    alt: "Prisma",
     src: prismaIcon,
-    alt: 'Prisma',
   },
   {
+    alt: "Material UI",
     src: materialuiIcon,
-    alt: 'Material UI',
   },
   {
+    alt: "Figma",
     src: figmaIcon,
-    alt: 'Figma',
   },
 ];
