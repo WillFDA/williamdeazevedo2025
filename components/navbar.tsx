@@ -4,9 +4,9 @@ import { useGetIsActive } from "@/lib/utils";
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-10 mx-auto flex w-full bg-white/50 backdrop-blur-sm p-4">
+    <header className="sticky top-0 z-10 mx-auto flex w-full bg-white/50 p-4 backdrop-blur-sm">
       <nav className="mx-auto w-2xl">
-        <ol className="flex items-center justify-center gap-6 w-full">
+        <ol className="flex w-full items-center justify-center gap-6">
           <li>
             <Link
               className={`fade-up rounded-full px-4 py-2 font-medium text-sm transition-all duration-300 ease-in-out [--animation-delay:50ms] ${

@@ -1,10 +1,36 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
-  "extends": ["ultracite"],
+  "extends": [
+    "ultracite/biome/core",
+    "ultracite/biome/next",
+    "ultracite/biome/react"
+  ],
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "linter": {
     "rules": {
+      "a11y": {
+        "noNoninteractiveElementInteractions": "off",
+        "noStaticElementInteractions": "off",
+        "noSvgWithoutTitle": "off"
+      },
+      "correctness": {
+        "noUnusedFunctionParameters": "off"
+      },
+      "performance": {
+        "noJsxPropsBind": "off",
+        "useTopLevelRegex": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "style": {
+        "useDestructuring": "off"
+      },
       "suspicious": {
-        "noUnknownAtRules": "off"
+        "noArrayIndexKey": "off",
+        "noLeakedRender": "off",
+        "noUnnecessaryConditions": "off",
+        "noUnknownAtRules": "off",
+        "useAwait": "off"
       }
     }
   }

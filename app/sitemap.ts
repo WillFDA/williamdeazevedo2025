@@ -1,6 +1,6 @@
-import { MetadataRoute } from "next";
+import path from "node:path";
 import { glob } from "fast-glob";
-import path from "path";
+import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://williamdeazevedo.fr";
@@ -8,22 +8,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Pages statiques
   const staticPages: MetadataRoute.Sitemap = [
     {
-      url: baseUrl,
-      lastModified: new Date(),
       changeFrequency: "weekly",
+      lastModified: new Date(),
       priority: 1,
+      url: baseUrl,
     },
     {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
+      lastModified: new Date(),
       priority: 0.8,
+      url: `${baseUrl}/about`,
     },
     {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
       changeFrequency: "weekly",
+      lastModified: new Date(),
       priority: 0.9,
+      url: `${baseUrl}/blog`,
     },
   ];
 
@@ -34,10 +34,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogPages: MetadataRoute.Sitemap = mdxFiles.map((file) => {
     const slug = file.replace(".mdx", "");
     return {
-      url: `${baseUrl}/blog/${slug}`,
-      lastModified: new Date(),
       changeFrequency: "monthly" as const,
+      lastModified: new Date(),
       priority: 0.7,
+      url: `${baseUrl}/blog/${slug}`,
     };
   });
 

@@ -4,22 +4,27 @@ import { ViewTransition } from "react";
 import Footer from "@/components/footer";
 import Navbar from "../components/navbar";
 import "./globals.css";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
   display: "swap",
+  subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://williamdeazevedo.fr"),
-  title: {
-    default: "William De Azevedo | Développeur Front-end React & Next.js",
-    template: "%s | William De Azevedo",
+  alternates: {
+    canonical: "https://williamdeazevedo.fr",
   },
+  authors: [{ name: "William De Azevedo", url: "https://williamdeazevedo.fr" }],
+  creator: "William De Azevedo",
   description:
     "Développeur Front-end avec 2 ans d'expérience, spécialisé en React, Next.js et TypeScript. Disponible pour CDI ou missions freelance en Île-de-France.",
+  formatDetection: {
+    address: false,
+    email: false,
+    telephone: false,
+  },
   keywords: [
     "développeur front-end",
     "développeur react",
@@ -33,54 +38,49 @@ export const metadata: Metadata = {
     "react developer",
     "front-end developer france",
   ],
-  authors: [{ name: "William De Azevedo", url: "https://williamdeazevedo.fr" }],
-  creator: "William De Azevedo",
-  publisher: "William De Azevedo",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  alternates: {
-    canonical: "https://williamdeazevedo.fr",
-  },
+  metadataBase: new URL("https://williamdeazevedo.fr"),
   openGraph: {
-    type: "website",
-    locale: "fr_FR",
-    url: "https://williamdeazevedo.fr",
-    siteName: "William De Azevedo - Portfolio",
-    title: "William De Azevedo | Développeur Front-end React & Next.js",
     description:
       "Développeur Front-end avec 2 ans d'expérience, spécialisé en React, Next.js et TypeScript. Découvrez mes projets et compétences.",
     images: [
       {
+        alt: "William De Azevedo - Développeur Front-end React & Next.js",
+        height: 630,
         url: `https://williamdeazevedo.fr/api/og?title=${encodeURIComponent("William De Azevedo - Développeur Front-end")}`,
         width: 1200,
-        height: 630,
-        alt: "William De Azevedo - Développeur Front-end React & Next.js",
       },
     ],
+    locale: "fr_FR",
+    siteName: "William De Azevedo - Portfolio",
+    title: "William De Azevedo | Développeur Front-end React & Next.js",
+    type: "website",
+    url: "https://williamdeazevedo.fr",
+  },
+  publisher: "William De Azevedo",
+  robots: {
+    follow: true,
+    googleBot: {
+      follow: true,
+      index: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+    index: true,
+  },
+  title: {
+    default: "William De Azevedo | Développeur Front-end React & Next.js",
+    template: "%s | William De Azevedo",
   },
   twitter: {
     card: "summary_large_image",
-    title: "William De Azevedo | Développeur Front-end React & Next.js",
+    creator: "@Williamdazevedo",
     description:
       "Développeur Front-end avec 2 ans d'expérience, spécialisé en React, Next.js et TypeScript.",
     images: [
       `https://williamdeazevedo.fr/api/og?title=${encodeURIComponent("William De Azevedo - Développeur Front-end")}`,
     ],
-    creator: "@Williamdazevedo",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
+    title: "William De Azevedo | Développeur Front-end React & Next.js",
   },
   // verification: {
   //   google: "VOTRE_CODE_GOOGLE_SEARCH_CONSOLE",
@@ -96,29 +96,17 @@ export default function RootLayout({
     <html lang="fr">
       <head>
         <script
-          type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              name: "William De Azevedo",
-              url: "https://williamdeazevedo.fr",
-              image: `https://williamdeazevedo.fr/api/og?title=${encodeURIComponent("William De Azevedo - Développeur Front-end")}`,
-              sameAs: [
-                "https://www.linkedin.com/in/william-de-azevedo/",
-                "https://github.com/WillFDA",
-                "https://www.malt.fr/profile/williamferreiradeazevedo",
-              ],
-              jobTitle: "Développeur Front-end",
-              worksFor: {
-                "@type": "Organization",
-                name: "Freelance",
-              },
               address: {
                 "@type": "PostalAddress",
-                addressRegion: "Île-de-France",
                 addressCountry: "FR",
+                addressRegion: "Île-de-France",
               },
+              image: `https://williamdeazevedo.fr/api/og?title=${encodeURIComponent("William De Azevedo - Développeur Front-end")}`,
+              jobTitle: "Développeur Front-end",
               knowsAbout: [
                 "React",
                 "Next.js",
@@ -127,22 +115,32 @@ export default function RootLayout({
                 "TailwindCSS",
                 "Front-end Development",
               ],
+              name: "William De Azevedo",
+              sameAs: [
+                "https://www.linkedin.com/in/william-de-azevedo/",
+                "https://github.com/WillFDA",
+                "https://www.malt.fr/profile/williamferreiradeazevedo",
+              ],
+              url: "https://williamdeazevedo.fr",
+              worksFor: {
+                "@type": "Organization",
+                name: "Freelance",
+              },
             }),
           }}
+          type="application/ld+json"
         />
       </head>
       <body
         className={`${inter.variable} flex min-h-screen flex-col overflow-x-hidden bg-white font-sans antialiased`}
       >
         <Navbar />
-        <ViewTransition name="page-transition">
-          {children}
-        </ViewTransition>
+        <ViewTransition name="page-transition">{children}</ViewTransition>
         <Footer />
         {process.env.NEXT_PUBLIC_BEAM_TOKEN && (
           <Script
-            src="https://beamanalytics.b-cdn.net/beam.min.js"
             data-token={process.env.NEXT_PUBLIC_BEAM_TOKEN}
+            src="https://beamanalytics.b-cdn.net/beam.min.js"
             strategy="afterInteractive"
           />
         )}
