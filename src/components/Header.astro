@@ -1,12 +1,11 @@
 ---
-import ArrowRight from "./icons/nucleo/arrow-right-fill.svg";
+import Phone from "./icons/phone.svg";
 import ChevronUp from "./icons/nucleo/chevron-up-fill.svg";
 import CodeEditor from "./icons/nucleo/code-editor-fill.svg";
 import ViewAll from "./icons/nucleo/view-all-fill.svg";
 import WindowPaintbrush from "./icons/nucleo/window-paintbrush-fill.svg";
 import WindowPointer from "./icons/nucleo/window-pointer-fill.svg";
 import { services } from "../data/services";
-import WaveIcon from "./ui/WaveIcon.astro";
 import WaveText from "./ui/WaveText.astro";
 import BrandMark from "./ui/BrandMark.astro";
 
@@ -15,6 +14,8 @@ interface Props {
 }
 
 const { pathName } = Astro.props;
+const phoneDisplay = "07 62 74 60 21";
+const phoneHref = "tel:+33762746021";
 const navItems = [
     { href: "/", id: "home", label: "Accueil" },
     { href: "/services/", id: "services", label: "Services" },
@@ -198,17 +199,14 @@ const items = navItems.map((item) => {
             }
         </ul>
         <a
-            aria-controls="cal-drawer"
-            aria-haspopup="dialog"
+            aria-label={`Appeler William au ${phoneDisplay}`}
             class="nav-contact-cta hidden lg:inline-flex lg:justify-self-end"
-            data-cal-location="header"
-            data-cal-open
-            href="mailto:william.deazevedopro@gmail.com"
+            data-analytics-location="header"
+            data-navbar-phone
+            href={phoneHref}
         >
-            <WaveText text="Me contacter" trigger="parent" />
-            <WaveIcon style="--wui-wave-icon-size: 0.75rem;" direction="right" trigger="parent">
-                <ArrowRight class="size-full" aria-hidden="true" />
-            </WaveIcon>
+            <Phone class="size-4 shrink-0" aria-hidden="true" />
+            <span>{phoneDisplay}</span>
         </a>
         <div id="mobile-menu" class="mobile-menu" data-mobile-menu hidden>
             <div class="mobile-menu__panel">
@@ -281,21 +279,14 @@ const items = navItems.map((item) => {
                     )
                 }
                 <a
-                    aria-controls="cal-drawer"
-                    aria-haspopup="dialog"
+                    aria-label={`Appeler William au ${phoneDisplay}`}
                     class="mobile-contact-cta"
-                    data-cal-location="mobile-header"
-                    data-cal-open
-                    href="mailto:william.deazevedopro@gmail.com"
+                    data-analytics-location="mobile-header"
+                    data-navbar-phone
+                    href={phoneHref}
                 >
-                    <span>Me contacter</span>
-                    <WaveIcon
-                        style="--wui-wave-icon-size: 0.8rem;"
-                        direction="right"
-                        trigger="parent"
-                    >
-                        <ArrowRight class="size-full" aria-hidden="true" />
-                    </WaveIcon>
+                    <Phone class="size-4 shrink-0" aria-hidden="true" />
+                    <span>{phoneDisplay}</span>
                 </a>
             </div>
         </div>
@@ -625,6 +616,7 @@ const items = navItems.map((item) => {
         overflow: hidden;
         position: relative;
         text-decoration: none;
+        white-space: nowrap;
     }
 
     .nav-contact-cta {
