@@ -1,0 +1,152 @@
+<aside class="floating-email" aria-label="Contact par e-mail" data-floating-email>
+    <a
+        class="floating-email__link"
+        href="mailto:william.deazevedopro@gmail.com"
+        aria-label="Envoyez-moi un mail ?"
+        data-analytics-location="floating-email-bubble"
+    >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="3" />
+            <path d="m4 7 8 6 8-6" />
+        </svg>
+        <span>Envoyez-moi un mail ?</span>
+    </a>
+    <button class="floating-email__close" type="button" aria-label="Masquer la bulle e-mail" data-floating-email-close>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" /></svg>
+    </button>
+</aside>
+
+<script>
+    let contentObserver: IntersectionObserver | undefined;
+    let resizeObserver: ResizeObserver | undefined;
+    let dismissed = false;
+
+    function setupFloatingEmail() {
+        contentObserver?.disconnect();
+        resizeObserver?.disconnect();
+        const bubble = document.querySelector<HTMLElement>("[data-floating-email]");
+        if (!bubble) return;
+        bubble.hidden = dismissed;
+        bubble.querySelector("[data-floating-email-close]")?.addEventListener("click", () => {
+            dismissed = true;
+            bubble.hidden = true;
+        }, { once: true });
+
+        const observeContent = () => {
+            contentObserver?.disconnect();
+            if (dismissed) return;
+            const rect = bubble.getBoundingClientRect();
+            if (!rect.width) return;
+            const overlapping = new Set<Element>();
+            // Observe only the bubble's footprint (with an 8px breathing room).
+            // Yield to text, images, controls and the footer instead of covering
+            // them. IntersectionObserver handles scrolling without a scroll loop.
+            const top = Math.max(0, rect.top - 8);
+            const right = Math.max(0, window.innerWidth - rect.right - 8);
+            const bottom = Math.max(0, window.innerHeight - rect.bottom - 8);
+            const left = Math.max(0, rect.left - 8);
+            contentObserver = new IntersectionObserver((entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) overlapping.add(entry.target);
+                    else overlapping.delete(entry.target);
+                }
+                bubble.toggleAttribute("data-content-overlap", overlapping.size > 0);
+            }, { rootMargin: `-${top}px -${right}px -${bottom}px -${left}px` });
+            document.querySelectorAll(
+                "main :is(a, button, p, h1, h2, h3, h4, h5, h6, li, pre, table, img, video, details, input, textarea, select), [data-site-footer]",
+            ).forEach((element) => contentObserver?.observe(element));
+        };
+        // Recalculate the footprint at breakpoints, after fonts load, and when
+        // an overlay closes. Visibility hiding keeps its geometry measurable.
+        resizeObserver = new ResizeObserver(observeContent);
+        resizeObserver.observe(bubble);
+        resizeObserver.observe(document.documentElement);
+    }
+
+    document.addEventListener("astro:page-load", setupFloatingEmail);
+    document.addEventListener("astro:before-swap", () => {
+        contentObserver?.disconnect();
+        resizeObserver?.disconnect();
+    });
+</script>
+
+<style>
+    .floating-email {
+        position: fixed;
+        right: max(1.5rem, env(safe-area-inset-right));
+        bottom: max(1.5rem, env(safe-area-inset-bottom));
+        z-index: 40;
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--color-snow-50);
+        border-radius: 999px;
+        background: var(--color-coffee-300);
+        color: var(--color-snow-50);
+        box-shadow: 0 8px 28px -10px rgb(34 42 55 / 45%);
+    }
+
+    .floating-email[data-content-overlap]:not(:focus-within) {
+        visibility: hidden;
+    }
+
+    .floating-email[hidden],
+    :global(body:has(dialog[open])) .floating-email,
+    :global(body:has([data-mobile-menu-open])) .floating-email {
+        display: none;
+    }
+
+    .floating-email__link {
+        display: inline-flex;
+        min-height: 52px;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.5rem 0.25rem 0.5rem 1rem;
+        color: inherit;
+        font-size: 0.875rem;
+        text-decoration: none;
+        border-radius: 999px;
+    }
+
+    .floating-email__close {
+        display: inline-flex;
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+    }
+
+    .floating-email__link:hover,
+    .floating-email__close:hover {
+        background: rgb(255 255 255 / 10%);
+    }
+
+    .floating-email__link:focus-visible,
+    .floating-email__close:focus-visible {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 4px;
+    }
+
+    @media (max-width: 767px) {
+        .floating-email {
+            right: max(0.75rem, env(safe-area-inset-right));
+            bottom: max(0.75rem, env(safe-area-inset-bottom));
+        }
+
+        .floating-email__link {
+            min-width: 48px;
+            min-height: 48px;
+            padding: 0.5rem;
+            justify-content: center;
+        }
+
+        .floating-email__link span {
+            display: none;
+        }
+    }
+</style>

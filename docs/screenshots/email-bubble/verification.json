@@ -1,0 +1,1244 @@
+[
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": false,
+          "y": 2146
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 4010
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/404.html",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 549
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 557
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/about/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 1311
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2355
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/articles/",
+      "samples": [
+        {
+          "collisions": 3,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 959
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1191
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/articles/premier-side-project-motivai/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 1809
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 3267
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/articles/site-600-euros-vs-site-2000-euros/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 1725
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 3373
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/creation-site-internet-artisan/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1977
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 4053
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/creation-site-internet-professionnel/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1841
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 3969
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/creation-site-vitrine/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 1964
+        },
+        {
+          "collisions": 3,
+          "visible": false,
+          "y": 4083
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/mentions-legales/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1202
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1779
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/realisations/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 1682
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 3254
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/realisations/le-fellic/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1125
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1622
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/realisations/motivai/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 1271
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2385
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/realisations/persistance/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1071
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1635
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/refonte-site-internet/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 1954
+        },
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 4066
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/services/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 1941
+        },
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 4088
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/services/developpeur-web-freelance/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2126
+        },
+        {
+          "collisions": 0,
+          "visible": false,
+          "y": 4111
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "desktop",
+    "result": {
+      "path": "/tarifs/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1981
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 4065
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/",
+      "samples": [
+        {
+          "collisions": 3,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 2392
+        },
+        {
+          "collisions": 3,
+          "visible": false,
+          "y": 4536
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/404.html",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 398
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 398
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/about/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1394
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2276
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/articles/",
+      "samples": [
+        {
+          "collisions": 3,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 897
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 966
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/articles/premier-side-project-motivai/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 3,
+          "visible": false,
+          "y": 1798
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 3424
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/articles/site-600-euros-vs-site-2000-euros/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1790
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 3401
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/creation-site-internet-artisan/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 2087
+        },
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 4354
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/creation-site-internet-professionnel/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 2104
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 4304
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/creation-site-vitrine/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 2074
+        },
+        {
+          "collisions": 3,
+          "visible": false,
+          "y": 4216
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/mentions-legales/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1165
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1631
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/realisations/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 1562
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2882
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/realisations/le-fellic/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1158
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1686
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/realisations/motivai/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1346
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2520
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/realisations/persistance/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1186
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1690
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/refonte-site-internet/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 2070
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 4303
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/services/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 2240
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 4677
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/services/developpeur-web-freelance/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1985
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 4236
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "tablette",
+    "result": {
+      "path": "/tarifs/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 2054
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 4160
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2337
+        },
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 5060
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/404.html",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 819
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 870
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/about/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 1623
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 3039
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/articles/",
+      "samples": [
+        {
+          "collisions": 3,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1154
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1846
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/articles/premier-side-project-motivai/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2011
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 4199
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/articles/site-600-euros-vs-site-2000-euros/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 2037
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 4179
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/creation-site-internet-artisan/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2178
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 4694
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/creation-site-internet-professionnel/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2180
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 4700
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/creation-site-vitrine/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2282
+        },
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 4724
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/mentions-legales/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1483
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2579
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/realisations/",
+      "samples": [
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 0
+        },
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 1596
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2881
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/realisations/le-fellic/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1277
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2099
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/realisations/motivai/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1374
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2607
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/realisations/persistance/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1253
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2118
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/refonte-site-internet/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": true,
+          "y": 2162
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 4511
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/services/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 2506
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 5047
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/services/developpeur-web-freelance/",
+      "samples": [
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 1886
+        },
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 4532
+        }
+      ]
+    }
+  },
+  {
+    "viewport": "mobile",
+    "result": {
+      "path": "/tarifs/",
+      "samples": [
+        {
+          "collisions": 1,
+          "visible": false,
+          "y": 0
+        },
+        {
+          "collisions": 0,
+          "visible": false,
+          "y": 2363
+        },
+        {
+          "collisions": 2,
+          "visible": false,
+          "y": 5203
+        }
+      ]
+    }
+  }
+]
