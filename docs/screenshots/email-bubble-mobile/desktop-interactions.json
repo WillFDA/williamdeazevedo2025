@@ -1,0 +1,68 @@
+{
+  "rest": {
+    "expanded": false,
+    "fine": true,
+    "height": 56,
+    "hover": true,
+    "labelOpacity": "0",
+    "leftPadding": 17,
+    "rightPadding": -138.640625,
+    "visible": "visible",
+    "width": 56
+  },
+  "hover": {
+    "expanded": true,
+    "fine": true,
+    "height": 56,
+    "hover": true,
+    "labelOpacity": "1",
+    "leftPadding": 17,
+    "rightPadding": 17,
+    "visible": "visible",
+    "width": 211.640625
+  },
+  "collapse": {
+    "expanded": false,
+    "fine": true,
+    "height": 56,
+    "hover": true,
+    "labelOpacity": "0",
+    "leftPadding": 17,
+    "rightPadding": -138.640625,
+    "visible": "visible",
+    "width": 56
+  },
+  "focus": {
+    "expanded": true,
+    "fine": true,
+    "height": 56,
+    "hover": true,
+    "labelOpacity": "1",
+    "leftPadding": 17,
+    "rightPadding": 17,
+    "visible": "visible",
+    "width": 211.640625
+  },
+  "longLabel": {
+    "expanded": true,
+    "fine": true,
+    "height": 56,
+    "hover": true,
+    "labelOpacity": "1",
+    "leftPadding": 17,
+    "rightPadding": 17,
+    "visible": "visible",
+    "width": 416.546875
+  },
+  "reducedMotion": {
+    "expanded": true,
+    "fine": true,
+    "height": 56,
+    "hover": true,
+    "labelOpacity": "1",
+    "leftPadding": 17,
+    "rightPadding": 17,
+    "visible": "visible",
+    "width": 416.546875
+  }
+}

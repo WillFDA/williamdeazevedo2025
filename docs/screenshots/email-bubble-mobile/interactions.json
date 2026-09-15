@@ -1,0 +1,128 @@
+{
+  "click": [
+    {
+      "name": "contact_email_click",
+      "properties": {
+        "email": "william.deazevedopro@gmail.com",
+        "label": "Envoyez-moi un mail ?",
+        "location": "floating-email-bubble",
+        "path": "/"
+      }
+    }
+  ],
+  "menu": {
+    "display": "none",
+    "open": true
+  },
+  "dialog": {
+    "display": "none",
+    "open": true
+  },
+  "clientNavigation": {
+    "events": [
+      {
+        "name": "contact_email_click",
+        "properties": {
+          "email": "william.deazevedopro@gmail.com",
+          "label": "Envoyez-moi un mail ?",
+          "location": "floating-email-bubble",
+          "path": "/services/"
+        }
+      }
+    ],
+    "loads": 1,
+    "path": "/services/",
+    "rect": {
+      "bottom": 832,
+      "height": 56,
+      "left": 322,
+      "right": 378,
+      "top": 776,
+      "width": 56,
+      "x": 322,
+      "y": 776
+    }
+  },
+  "resize": [
+    {
+      "height": 740,
+      "overflow": false,
+      "rect": {
+        "bottom": 728,
+        "height": 56,
+        "left": 252,
+        "right": 308,
+        "top": 672,
+        "width": 56,
+        "x": 252,
+        "y": 672
+      },
+      "visible": "visible",
+      "width": 320
+    },
+    {
+      "height": 780,
+      "overflow": false,
+      "rect": {
+        "bottom": 768,
+        "height": 56,
+        "left": 292,
+        "right": 348,
+        "top": 712,
+        "width": 56,
+        "x": 292,
+        "y": 712
+      },
+      "visible": "visible",
+      "width": 360
+    },
+    {
+      "height": 650,
+      "overflow": false,
+      "rect": {
+        "bottom": 638,
+        "height": 56,
+        "left": 322,
+        "right": 378,
+        "top": 582,
+        "width": 56,
+        "x": 322,
+        "y": 582
+      },
+      "visible": "visible",
+      "width": 390
+    },
+    {
+      "height": 844,
+      "overflow": false,
+      "rect": {
+        "bottom": 832,
+        "height": 56,
+        "left": 322,
+        "right": 378,
+        "top": 776,
+        "width": 56,
+        "x": 322,
+        "y": 776
+      },
+      "visible": "visible",
+      "width": 390
+    },
+    {
+      "height": 844,
+      "overflow": false,
+      "rect": {
+        "bottom": 832,
+        "height": 56,
+        "left": 699,
+        "right": 755,
+        "top": 776,
+        "width": 56,
+        "x": 699,
+        "y": 776
+      },
+      "visible": "visible",
+      "width": 767
+    }
+  ]
+}
