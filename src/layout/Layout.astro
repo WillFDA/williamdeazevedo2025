@@ -270,10 +270,15 @@ const personJsonLd = {
                 }
 
                 if (url.protocol === "tel:") {
-                    trackContactIntent("contact_phone_click", {
-                        ...baseProperties,
-                        phone: normalizeTrackingValue(url.pathname),
-                    });
+                    trackContactIntent(
+                        Object.hasOwn(link.dataset, "navbarPhone")
+                            ? "navbar_phone_click"
+                            : "contact_phone_click",
+                        {
+                            ...baseProperties,
+                            phone: normalizeTrackingValue(url.pathname),
+                        },
+                    );
                     return;
                 }
 
