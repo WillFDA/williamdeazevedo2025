@@ -44,7 +44,7 @@ const {
     <h2 id="capabilities-strip-title" class="sr-only">
         {title}
     </h2>
-    <ul class="grid w-full grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-center sm:gap-3 md:gap-4">
+    <ul class="grid w-full grid-cols-[repeat(auto-fit,minmax(min(100%,10rem),1fr))] gap-2 sm:flex sm:flex-wrap sm:justify-center sm:gap-3 md:gap-4">
         {
             capabilities.map((capability, index) => (
                 <li class="flex min-w-0">

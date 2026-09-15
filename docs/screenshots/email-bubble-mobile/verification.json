@@ -1,0 +1,3620 @@
+[
+  {
+    "route": "/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 12136.078125,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5977.078125,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 6159
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -181.921875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 12318
+      }
+    ]
+  },
+  {
+    "route": "/404.html",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 688.03125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 253.03125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 435
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -181.96875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 870
+      }
+    ]
+  },
+  {
+    "route": "/about/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 3502.21875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1660.21875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 1842
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -181.78125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 3684
+      }
+    ]
+  },
+  {
+    "route": "/articles/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1722.75,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 769.75,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 953
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -182.25,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 1905
+      }
+    ]
+  },
+  {
+    "route": "/articles/premier-side-project-motivai/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5528.96875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2672.96875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 2856
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -182.03125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 5711
+      }
+    ]
+  },
+  {
+    "route": "/articles/site-600-euros-vs-site-2000-euros/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5823.515625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2820.515625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 3003
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -182.484375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 6006
+      }
+    ]
+  },
+  {
+    "route": "/creation-site-internet-artisan/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 6632.390625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 3225.390625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 3407
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -181.609375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 6814
+      }
+    ]
+  },
+  {
+    "route": "/creation-site-internet-professionnel/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 6486.640625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 3151.640625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 3335
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -182.359375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 6669
+      }
+    ]
+  },
+  {
+    "route": "/creation-site-vitrine/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 6516.921875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 3166.921875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 3350
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -182.078125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 6699
+      }
+    ]
+  },
+  {
+    "route": "/mentions-legales/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2862.078125,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1340.078125,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 1522
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -181.921875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 3044
+      }
+    ]
+  },
+  {
+    "route": "/realisations/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2913.78125,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1365.78125,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 1548
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -182.21875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 3096
+      }
+    ]
+  },
+  {
+    "route": "/realisations/le-fellic/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2190.375,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1004.375,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 1186
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -181.625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 2372
+      }
+    ]
+  },
+  {
+    "route": "/realisations/motivai/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2425.125,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1279.75,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 1304
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -23.25,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 2607
+      }
+    ]
+  },
+  {
+    "route": "/realisations/persistance/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2114.375,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 966.375,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 1148
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -181.625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 2296
+      }
+    ]
+  },
+  {
+    "route": "/refonte-site-internet/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 6461.71875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 3139.71875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 3322
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -182.28125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 6644
+      }
+    ]
+  },
+  {
+    "route": "/services/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 8052.921875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 3934.921875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 4118
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -182.078125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 8235
+      }
+    ]
+  },
+  {
+    "route": "/services/developpeur-web-freelance/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 6694.265625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 3256.265625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 3438
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -181.734375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 6876
+      }
+    ]
+  },
+  {
+    "route": "/tarifs/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 8771.359375,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 4294.359375,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": true,
+        "y": 4477
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": -181.640625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 832,
+          "height": 56,
+          "left": 322,
+          "right": 378,
+          "top": 776,
+          "width": 56,
+          "x": 322,
+          "y": 776
+        },
+        "visible": false,
+        "y": 8953
+      }
+    ]
+  },
+  {
+    "route": "/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 9493,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 4901,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": true,
+        "y": 4592
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 310,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 9183
+      }
+    ]
+  },
+  {
+    "route": "/404.html",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 707.90625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 508.90625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 199
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 309.90625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 398
+      }
+    ]
+  },
+  {
+    "route": "/about/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2641.75,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1475.75,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": true,
+        "y": 1166
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 309.75,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 2332
+      }
+    ]
+  },
+  {
+    "route": "/articles/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1276.34375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 793.34375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 483
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 310.34375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 966
+      }
+    ]
+  },
+  {
+    "route": "/articles/premier-side-project-motivai/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 4132.5,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2220.5,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 1912
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 309.5,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 3823
+      }
+    ]
+  },
+  {
+    "route": "/articles/site-600-euros-vs-site-2000-euros/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 4099.375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2204.375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 1895
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 310.375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 3789
+      }
+    ]
+  },
+  {
+    "route": "/creation-site-internet-artisan/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5581.984375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2945.984375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 2636
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 309.984375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 5272
+      }
+    ]
+  },
+  {
+    "route": "/creation-site-internet-professionnel/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5687.9375,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2998.9375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 2689
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 309.9375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 5378
+      }
+    ]
+  },
+  {
+    "route": "/creation-site-vitrine/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5501.53125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2905.53125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 2596
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 309.53125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 5192
+      }
+    ]
+  },
+  {
+    "route": "/mentions-legales/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1941.90625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1125.90625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": true,
+        "y": 816
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 309.90625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 1632
+      }
+    ]
+  },
+  {
+    "route": "/realisations/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 3421.90625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1865.90625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": true,
+        "y": 1556
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 309.90625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 3112
+      }
+    ]
+  },
+  {
+    "route": "/realisations/le-fellic/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2000.75,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1154.75,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 846
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 309.75,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 1691
+      }
+    ]
+  },
+  {
+    "route": "/realisations/motivai/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2613.875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1866.875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 1152
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 714.875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 2304
+      }
+    ]
+  },
+  {
+    "route": "/realisations/persistance/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2000.75,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1154.75,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 846
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 309.75,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 1691
+      }
+    ]
+  },
+  {
+    "route": "/refonte-site-internet/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5484.25,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2897.25,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 2587
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 310.25,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 5174
+      }
+    ]
+  },
+  {
+    "route": "/services/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 6668.65625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 3488.65625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": true,
+        "y": 3180
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 309.65625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 6359
+      }
+    ]
+  },
+  {
+    "route": "/services/developpeur-web-freelance/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5700.125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 3005.125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 2695
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 310.125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 5390
+      }
+    ]
+  },
+  {
+    "route": "/tarifs/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "fine": false,
+    "hover": false,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5387.765625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2848.765625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 2539
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 309.765625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 1000,
+          "height": 56,
+          "left": 688,
+          "right": 744,
+          "top": 944,
+          "width": 56,
+          "x": 688,
+          "y": 944
+        },
+        "visible": false,
+        "y": 5078
+      }
+    ]
+  },
+  {
+    "route": "/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 8204.75,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 4194.75,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 4010
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 185.75,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 8019
+      }
+    ]
+  },
+  {
+    "route": "/404.html",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 743.46875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 464.46875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 279
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 186.46875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 557
+      }
+    ]
+  },
+  {
+    "route": "/about/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2652.265625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1419.265625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 1233
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 186.265625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 2466
+      }
+    ]
+  },
+  {
+    "route": "/articles/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1376.578125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 780.578125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 596
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 185.578125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 1191
+      }
+    ]
+  },
+  {
+    "route": "/articles/premier-side-project-motivai/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 4180.890625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2182.890625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 1998
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 185.890625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 3995
+      }
+    ]
+  },
+  {
+    "route": "/articles/site-600-euros-vs-site-2000-euros/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 4143.3125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2164.3125,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 1979
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 186.3125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 3957
+      }
+    ]
+  },
+  {
+    "route": "/creation-site-internet-artisan/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5639.875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2912.875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 2727
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 185.875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 5454
+      }
+    ]
+  },
+  {
+    "route": "/creation-site-internet-professionnel/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5655.203125,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2920.203125,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 2735
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 186.203125,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 5469
+      }
+    ]
+  },
+  {
+    "route": "/creation-site-vitrine/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5544.390625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2865.390625,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 2679
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 186.390625,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 5358
+      }
+    ]
+  },
+  {
+    "route": "/mentions-legales/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1977.46875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1081.46875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 896
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 186.46875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 1791
+      }
+    ]
+  },
+  {
+    "route": "/realisations/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 3941.46875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2063.46875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 1878
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 186.46875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 3755
+      }
+    ]
+  },
+  {
+    "route": "/realisations/le-fellic/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1827.96875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1006.96875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 821
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 185.96875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 1642
+      }
+    ]
+  },
+  {
+    "route": "/realisations/motivai/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2360.96875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1686.96875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 1088
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 599.96875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 2175
+      }
+    ]
+  },
+  {
+    "route": "/realisations/persistance/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1827.96875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 1006.96875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 821
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 185.96875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 1642
+      }
+    ]
+  },
+  {
+    "route": "/refonte-site-internet/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5469.609375,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2827.609375,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 2642
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 185.609375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 5284
+      }
+    ]
+  },
+  {
+    "route": "/services/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5372.609375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2778.609375,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 2594
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 185.609375,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 5187
+      }
+    ]
+  },
+  {
+    "route": "/services/developpeur-web-freelance/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5827.96875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 3006.96875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 2821
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 185.96875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 5642
+      }
+    ]
+  },
+  {
+    "route": "/tarifs/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "fine": true,
+    "hover": true,
+    "samples": [
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 5674.046875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 0
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 2930.046875,
+        "overflow": false,
+        "overlap": false,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": true,
+        "y": 2744
+      },
+      {
+        "bounds": true,
+        "collisions": [],
+        "footerTop": 186.046875,
+        "overflow": false,
+        "overlap": true,
+        "rect": {
+          "bottom": 876,
+          "height": 56,
+          "left": 1345,
+          "right": 1401,
+          "top": 820,
+          "width": 56,
+          "x": 1345,
+          "y": 820
+        },
+        "visible": false,
+        "y": 5488
+      }
+    ]
+  }
+]
