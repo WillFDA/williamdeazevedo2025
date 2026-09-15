@@ -14,14 +14,51 @@
 </aside>
 
 <script>
+    import { animate, utils } from "animejs";
+
     let contentObserver: IntersectionObserver | undefined;
     let resizeObserver: ResizeObserver | undefined;
+    let cleanup: (() => void) | undefined;
 
     function setupFloatingEmail() {
+        cleanup?.();
         contentObserver?.disconnect();
         resizeObserver?.disconnect();
         const bubble = document.querySelector<HTMLElement>("[data-floating-email]");
         if (!bubble) return;
+        const link = bubble.querySelector<HTMLAnchorElement>("a");
+        const label = bubble.querySelector<HTMLElement>("span");
+        const icon = bubble.querySelector("svg");
+        if (!link || !label || !icon) return;
+        const desktop = window.matchMedia("(min-width: 768px) and (hover: hover) and (pointer: fine)");
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const expandedWidth = () => {
+            const style = getComputedStyle(link);
+            return icon.getBoundingClientRect().width + label.getBoundingClientRect().width
+                + Number(getComputedStyle(label).marginLeft.replace("px", ""))
+                + Number(style.paddingLeft.replace("px", "")) + Number(style.paddingRight.replace("px", ""));
+        };
+        const syncWidth = () => {
+            const open = desktop.matches && (bubble.matches(":hover") || bubble.contains(document.activeElement));
+            utils.remove(bubble);
+            bubble.toggleAttribute("data-expanded", open);
+            animate(bubble, {
+                width: open ? expandedWidth() : 56,
+                duration: reducedMotion.matches ? 0 : 320,
+                ease: "outCubic",
+            });
+        };
+        const events = ["pointerenter", "pointerleave", "focusin", "focusout"];
+        for (const event of events) bubble.addEventListener(event, syncWidth);
+        desktop.addEventListener("change", syncWidth);
+        const labelObserver = new ResizeObserver(syncWidth);
+        labelObserver.observe(label);
+        cleanup = () => {
+            utils.remove(bubble);
+            labelObserver.disconnect();
+            for (const event of events) bubble.removeEventListener(event, syncWidth);
+            desktop.removeEventListener("change", syncWidth);
+        };
 
         const observeContent = () => {
             contentObserver?.disconnect();
@@ -36,7 +73,7 @@
             const bottom = Math.max(0, window.innerHeight - rect.bottom - 8);
             // Reserve the expanded desktop footprint to avoid hover flicker.
             const canExpand = window.matchMedia("(min-width: 768px) and (hover: hover) and (pointer: fine)").matches;
-            const footprintWidth = canExpand ? 248 : rect.width;
+            const footprintWidth = canExpand ? expandedWidth() : rect.width;
             const left = Math.max(0, rect.right - footprintWidth - 8);
             contentObserver = new IntersectionObserver((entries) => {
                 for (const entry of entries) {
@@ -58,6 +95,7 @@
 
     document.addEventListener("astro:page-load", setupFloatingEmail);
     document.addEventListener("astro:before-swap", () => {
+        cleanup?.();
         contentObserver?.disconnect();
         resizeObserver?.disconnect();
     });
@@ -75,7 +113,6 @@
         background: var(--color-coffee-300);
         color: var(--color-snow-50);
         box-shadow: 0 8px 28px -10px rgb(34 42 55 / 45%);
-        transition: width 320ms cubic-bezier(0.2, 0, 0, 1);
     }
 
     .floating-email[data-content-overlap]:not(:focus-within) {
@@ -119,13 +156,7 @@
     }
 
     @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
-        .floating-email:hover,
-        .floating-email:focus-within {
-            width: 248px;
-        }
-
-        .floating-email:hover span,
-        .floating-email:focus-within span {
+        .floating-email[data-expanded] span {
             opacity: 1;
             transition-delay: 100ms;
         }
