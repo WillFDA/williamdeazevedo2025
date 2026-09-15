@@ -64,6 +64,17 @@
             contentObserver?.disconnect();
             const rect = bubble.getBoundingClientRect();
             if (!rect.width) return;
+            // Mobile is a conventional overlay: never shrink the page or hide
+            // on individual content. Yield only when the footer enters view.
+            if (window.matchMedia("(max-width: 767px)").matches) {
+                delete bubble.dataset.contentOverlap;
+                contentObserver = new IntersectionObserver((entries) => {
+                    bubble.toggleAttribute("data-footer-visible", entries.some((entry) => entry.isIntersecting));
+                });
+                document.querySelectorAll("[data-site-footer]").forEach((footer) => contentObserver?.observe(footer));
+                return;
+            }
+            delete bubble.dataset.footerVisible;
             const overlapping = new Set<Element>();
             // Observe only the bubble's footprint (with an 8px breathing room).
             // Yield to text, images, controls and the footer instead of covering
@@ -115,6 +126,7 @@
         box-shadow: 0 8px 28px -10px rgb(34 42 55 / 45%);
     }
 
+    .floating-email[data-footer-visible],
     .floating-email[data-content-overlap]:not(:focus-within) {
         visibility: hidden;
     }
@@ -163,24 +175,6 @@
     }
 
     @media (max-width: 767px) {
-        /* A dedicated lane keeps the mobile action available while reading.
-           Padding at the page bottom alone cannot protect scrolling content.
-           Keep the collision observer as a guard (and yield to the footer). */
-        :global(body:has([data-floating-email]) main) {
-            margin-right: calc(56px + 8px + max(0.75rem, env(safe-area-inset-right)));
-            min-width: 0;
-            overflow-wrap: anywhere;
-        }
-
-        /* Full-bleed sections and intrinsic grid sizes must respect the lane. */
-        :global(body:has([data-floating-email]) main :is(section, h1, h2, h3, h4, h5, h6)) {
-            max-width: 100%;
-        }
-
-        :global(body:has([data-floating-email]) main :is(.grid, .flex) > *) {
-            min-width: 0;
-        }
-
         .floating-email {
             right: max(0.75rem, env(safe-area-inset-right));
             bottom: max(0.75rem, env(safe-area-inset-bottom));
