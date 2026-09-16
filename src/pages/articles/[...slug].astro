@@ -110,6 +110,9 @@ const getTagIcon = (tag: string) => {
 <Layout
     title={`${title} - William De Azevedo`}
     description={description}
+    image={image?.src}
+    imageAlt={image?.alt}
+    canonicalPath={`/articles/${article.id}/`}
     ogType="article"
     article={{
         publishedTime: pubDate.toISOString(),
@@ -241,7 +244,12 @@ const getTagIcon = (tag: string) => {
         }
     }
 
+    .article-body-shell > * {
+        min-width: 0;
+    }
+
     .article-prose {
+        overflow-wrap: anywhere;
         color: var(--color-gray-600);
         font-size: 1rem;
         font-weight: 400;
@@ -340,6 +348,37 @@ const getTagIcon = (tag: string) => {
         height: auto;
         margin-block: 1.75rem;
         width: 100%;
+    }
+
+    .article-table-scroll {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .article-table-scroll:focus-visible {
+        outline: 2px solid var(--color-blue-500);
+        outline-offset: 4px;
+    }
+
+    .article-prose table {
+        border-collapse: collapse;
+        font-size: 0.875rem;
+        width: 100%;
+    }
+
+    .article-prose th,
+    .article-prose td {
+        border-bottom: 1px solid var(--color-gray-200);
+        min-width: 9rem;
+        padding: 0.75rem;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .article-prose th {
+        background: var(--color-gray-100);
+        color: var(--color-gray-900);
+        font-weight: 500;
     }
 
     .article-prose hr {

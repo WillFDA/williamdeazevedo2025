@@ -5,6 +5,8 @@ import tailwindcss from "@tailwindcss/vite";
 // @ts-check
 import { defineConfig } from "astro/config";
 
+import rehypeAccessibleTables from "./scripts/rehype-accessible-tables.mjs";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://williamdeazevedo.fr/",
@@ -21,6 +23,7 @@ export default defineConfig({
   },
 
   markdown: {
+    rehypePlugins: [rehypeAccessibleTables],
     shikiConfig: {
       theme: "github-dark-dimmed",
       wrap: true,
