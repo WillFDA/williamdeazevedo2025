@@ -1,0 +1,87 @@
+---
+const items = [
+  "L’objectif principal est formulé en une phrase concrète.",
+  "Chaque page a un rôle et un responsable de contenu.",
+  "Les options sont séparées du lancement.",
+  "Budget initial et frais récurrents sont distingués.",
+  "Les dates tiennent compte de vos propres validations.",
+  "La livraison comporte des tests et une remise des accès.",
+  "L’identité est prête à transmettre, ou sa création et son budget distinct sont prévus.",
+];
+---
+
+<preparation-checklist class="preparation-checklist">
+  <fieldset>
+    <legend>Votre brief est-il prêt à partir ?</legend>
+    <p class="checklist-note">Cochez les points déjà clarifiés. Cette liste reste sur cette page : aucune réponse n’est enregistrée ni transmise. Elle n’est pas jointe à votre prise de contact.</p>
+    <ul class="checklist-items">
+      {items.map((item) => (
+        <li><label><input type="checkbox" /><span>{item}</span></label></li>
+      ))}
+    </ul>
+  </fieldset>
+  <div class="checklist-tools" hidden>
+    <p class="checklist-count" role="status" aria-live="polite" aria-atomic="true"></p>
+    <button type="button">Tout décocher</button>
+  </div>
+</preparation-checklist>
+
+<script>
+  class PreparationChecklist extends HTMLElement {
+    private controller?: AbortController;
+
+    connectedCallback() {
+      if (this.controller) return;
+      this.controller = new AbortController();
+      const inputs = [...this.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')];
+      const tools = this.querySelector<HTMLElement>(".checklist-tools");
+      const status = this.querySelector<HTMLElement>(".checklist-count");
+      const reset = this.querySelector<HTMLButtonElement>("button");
+      if (!tools || !status || !reset) return;
+      const update = () => {
+        const count = inputs.filter((input) => input.checked).length;
+        status.textContent = `${count} / ${inputs.length} points clarifiés${count === inputs.length ? " · Prêt à en discuter !" : ""}`;
+        reset.disabled = count === 0;
+      };
+      this.addEventListener("change", update, { signal: this.controller.signal });
+      reset.addEventListener("click", () => {
+        for (const input of inputs) input.checked = false;
+        update();
+        inputs[0]?.focus();
+      }, { signal: this.controller.signal });
+      update();
+      tools.hidden = false;
+    }
+
+    disconnectedCallback() {
+      this.controller?.abort();
+      this.controller = undefined;
+    }
+  }
+
+  // Custom elements reconnect automatically after Astro swaps; no global listeners.
+  if (!customElements.get("preparation-checklist")) {
+    customElements.define("preparation-checklist", PreparationChecklist);
+  }
+</script>
+
+<style>
+  .preparation-checklist { display: block; padding: clamp(1rem, 4vw, 1.75rem); border: 1px solid var(--color-gray-200); border-top: 3px solid var(--color-blue-500); border-radius: .75rem; background: var(--color-snow-500); color: var(--color-gray-700); }
+  .preparation-checklist fieldset { min-width: 0; padding: 0; margin: 0; border: 0; }
+  .preparation-checklist legend { padding: 0; font-size: 1.2rem; font-weight: 500; color: var(--color-gray-900); }
+  .checklist-note { margin: .5rem 0 1rem; font-size: .875rem; }
+  .preparation-checklist .checklist-items { padding: 0; margin: 0; list-style: none; }
+  .preparation-checklist .checklist-items li { margin: 0; border-top: 1px solid var(--color-gray-200); }
+  .checklist-items label { display: flex; align-items: flex-start; gap: .8rem; padding: .8rem .35rem; min-height: 44px; cursor: pointer; border-radius: .25rem; transition: background-color 160ms ease; }
+  .checklist-items label:hover { background: var(--color-blue-50); }
+  .checklist-items input { flex: 0 0 auto; width: 1.25rem; height: 1.25rem; margin: .25rem 0 0; accent-color: var(--color-blue-700); cursor: pointer; }
+  .checklist-items label:has(input:checked) { background: var(--color-blue-50); }
+  .checklist-items input:checked + span { color: var(--color-gray-900); }
+  .checklist-items label:has(input:focus-visible) { outline: 2px solid var(--color-blue-500); outline-offset: 2px; }
+  .checklist-items input:focus-visible, .checklist-tools button:focus-visible { outline: 2px solid var(--color-blue-500); outline-offset: 3px; }
+  .checklist-tools:not([hidden]) { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-gray-200); }
+  .checklist-count { margin: 0; color: var(--color-blue-700); font-size: .875rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .checklist-tools button { min-height: 44px; padding: .5rem .85rem; border: 1px solid var(--color-gray-300); border-radius: .4rem; color: var(--color-gray-900); background: var(--color-snow-50); font: inherit; font-size: .875rem; cursor: pointer; }
+  .checklist-tools button:disabled { color: var(--color-gray-600); cursor: default; }
+  @media (prefers-reduced-motion: reduce) { .checklist-items label { transition: none; } }
+</style>

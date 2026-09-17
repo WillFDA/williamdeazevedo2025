@@ -1,0 +1,82 @@
+[
+  {
+    "slug": "prix-site-vitrine",
+    "src": "/articles/prix-site-vitrine/cover.webp",
+    "alt": "Budget d’un site vitrine en quatre étapes : cadrer, concevoir, construire, puis faire vivre le site ; les trois premières relèvent du travail initial, la dernière des coûts récurrents.",
+    "width": 1200,
+    "height": 675,
+    "bytes": 35846
+  },
+  {
+    "slug": "cout-site-internet-par-mois",
+    "src": "/articles/cout-site-internet-par-mois/cover.webp",
+    "alt": "Quatre composantes des coûts récurrents autour de la vie du site : infrastructure, maintenance, services tiers et accompagnement.",
+    "width": 1200,
+    "height": 675,
+    "bytes": 34636
+  },
+  {
+    "slug": "prix-refonte-site-internet",
+    "src": "/articles/prix-refonte-site-internet/cover.webp",
+    "alt": "Arbre de décision : après diagnostic, des problèmes localisés avec un socle adapté orientent vers des corrections ciblées ; des limites structurelles orientent vers une refonte complète.",
+    "width": 1200,
+    "height": 675,
+    "bytes": 42108
+  },
+  {
+    "slug": "refonte-seo",
+    "src": "/articles/refonte-seo/cover.webp",
+    "alt": "Deux exemples de correspondance entre anciennes et nouvelles URL via des redirections 301, avec trois contrôles : redirections, liens internes et indexation.",
+    "width": 1200,
+    "height": 675,
+    "bytes": 38644
+  },
+  {
+    "slug": "cahier-des-charges-site-internet",
+    "src": "/articles/cahier-des-charges-site-internet/cover.webp",
+    "alt": "Brief organisé par priorité : objectif, public et action attendue sont indispensables ; contenus, budget et échéance sont à préciser ; options, intégrations et évolutions sont à arbitrer.",
+    "width": 1200,
+    "height": 675,
+    "bytes": 36416
+  },
+  {
+    "slug": "exemples-sites-vitrines",
+    "src": "/articles/exemples-sites-vitrines/cover.webp",
+    "alt": "Trois maquettes schématiques d’un parcours de site vitrine : une offre claire répond à ce qui est proposé, les preuves rassurent, puis le contact permet d’avancer.",
+    "width": 1200,
+    "height": 675,
+    "bytes": 38768
+  },
+  {
+    "slug": "site-internet-artisan-contenus",
+    "src": "/articles/site-internet-artisan-contenus/cover.webp",
+    "alt": "Quatre blocs de contenu pour un site d’artisan : services réalisés, zone d’intervention, preuves par les chantiers, photos et avis, puis coordonnées de contact.",
+    "width": 1200,
+    "height": 675,
+    "bytes": 35434
+  },
+  {
+    "slug": "creer-site-internet-ia",
+    "src": "/articles/creer-site-internet-ia/cover.webp",
+    "alt": "Parcours de création avec l’IA : générer une structure et des contenus, vérifier les faits, droits, accessibilité, sécurité et formulaires, puis publier et assurer le suivi.",
+    "width": 1200,
+    "height": 675,
+    "bytes": 33636
+  },
+  {
+    "slug": "tester-accessibilite-site-web",
+    "src": "/articles/tester-accessibilite-site-web/cover.webp",
+    "alt": "Trois tests d’accessibilité illustrés : touche Tab et focus visible, texte clair sur fond sombre pour le contraste, et champ e-mail doté d’un libellé explicite. Ce n’est pas un audit complet.",
+    "width": 1200,
+    "height": 675,
+    "bytes": 38318
+  },
+  {
+    "slug": "referencement-chatgpt",
+    "src": "/articles/referencement-chatgpt/cover.webp",
+    "alt": "Trois étapes distinctes en escalier : exploration des pages autorisées, indexation possible du contenu et citation éventuelle dans une réponse. Aucune étape ne garantit la suivante.",
+    "width": 1200,
+    "height": 675,
+    "bytes": 43546
+  }
+]
