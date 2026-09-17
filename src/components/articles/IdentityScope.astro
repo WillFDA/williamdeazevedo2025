@@ -1,0 +1,50 @@
+<div class="identity-scope">
+  <p class="scope-kicker">Deux périmètres à vérifier dans les devis</p>
+  <p class="scope-intro">L’identité donne les repères. Le site les met en usage.</p>
+  <p class="scope-hint">Comparez les livrables ; repliez un volet pour vous concentrer sur l’autre.</p>
+  <details open>
+    <summary><span class="scope-number" aria-hidden="true">01</span> Identité visuelle : quels livrables ?</summary>
+    <div class="scope-content">
+      <dl>
+        <div><dt>Logo</dt><dd>Création ou évolution, déclinaisons et fichiers exploitables. Persistance prévoit notamment des formats vectoriels et PNG transparents.</dd></div>
+        <div><dt>Palette et typographies</dt><dd>Les couleurs et les caractères qui identifient l’entreprise. Faites préciser les références, les licences et les usages prévus, notamment sur le web.</dd></div>
+        <div><dt>Charte graphique</dt><dd>Les règles pour utiliser ces éléments de façon cohérente. Demandez quels supports et quelles déclinaisons sont compris dans votre devis.</dd></div>
+      </dl>
+      <p class="scope-question">À demander : « Quels fichiers et quelles consignes pourrai-je transmettre à la personne qui réalise mon site ? »</p>
+    </div>
+  </details>
+  <details open>
+    <summary><span class="scope-number" aria-hidden="true">02</span> Site internet : quel travail à partir de cette base ?</summary>
+    <div class="scope-content">
+      <dl>
+        <div><dt>Structure et contenus</dt><dd>Hiérarchiser les informations, organiser les pages et rendre le parcours de contact compréhensible.</dd></div>
+        <div><dt>Mobile et accessibilité</dt><dd>Adapter les mises en page aux écrans, vérifier les contrastes, la navigation au clavier et les libellés. Une charte ne dispense pas de ces contrôles.</dd></div>
+        <div><dt>Intégration et livraison</dt><dd>Développer les pages, intégrer les contenus et tester les fonctions prévues. Le périmètre exact reste celui du devis du site.</dd></div>
+      </dl>
+      <p class="scope-question">À demander : « Que faut-il adapter pour le web, qui le valide et quels tests sont prévus ? »</p>
+    </div>
+  </details>
+  <p class="scope-footnote">Une charte graphique ne remplace pas la conception du site ; le devis du site ne comprend pas automatiquement la création d’une charte.</p>
+</div>
+
+<style>
+  .identity-scope { color: var(--color-gray-700); border-block: 2px solid var(--color-gray-900); padding-block: 1.5rem; }
+  .identity-scope .scope-kicker { color: var(--color-blue-700); font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; margin: 0 0 .5rem; }
+  .identity-scope .scope-intro { color: var(--color-gray-900); font-weight: 500; font-size: 1.25rem; line-height: 1.4; margin: 0; }
+  .scope-hint { font-size: .875rem; margin: .5rem 0 1.25rem; }
+  .identity-scope details { border-top: 1px solid var(--color-gray-200); }
+  .identity-scope summary { padding: 1rem .5rem; min-height: 44px; cursor: pointer; color: var(--color-gray-900); font-weight: 500; line-height: 1.5; transition: background-color 160ms ease; }
+  .identity-scope summary::marker { color: var(--color-blue-700); }
+  .identity-scope summary:hover { background: var(--color-blue-50); }
+  .identity-scope summary:focus-visible { outline: 2px solid var(--color-blue-500); outline-offset: 2px; }
+  .scope-number { color: var(--color-blue-700); margin-right: .5rem; font-size: .8rem; font-variant-numeric: tabular-nums; }
+  .scope-content { padding: 0 .5rem 1.25rem; }
+  .scope-content dl { margin: 0; }
+  .scope-content dl > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 1rem; padding-block: .75rem; }
+  .scope-content dt { color: var(--color-gray-900); font-weight: 500; }
+  .scope-content dd { margin: 0; }
+  .identity-scope .scope-question { margin: .75rem 0 0; padding: 1rem; border-left: 2px solid var(--color-blue-500); background: var(--color-blue-50); }
+  .scope-footnote { font-size: .875rem; margin: 1rem 0 0; }
+  @media (max-width: 480px) { .scope-content dl > div { grid-template-columns: minmax(0, 1fr); gap: .25rem; } }
+  @media (prefers-reduced-motion: reduce) { .identity-scope summary { transition: none; } }
+</style>

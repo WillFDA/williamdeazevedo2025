@@ -25,7 +25,15 @@ const evidence = [];
 
 for (const slug of slugs) {
   const path = `/articles/${slug}/`;
-  const source = read(`src/content/articles/${slug}.md`);
+  const sourcePaths = ["md", "mdx"]
+    .map((extension) => `src/content/articles/${slug}.${extension}`)
+    .filter((sourcePath) => existsSync(resolve(root, sourcePath)));
+  assert.equal(
+    sourcePaths.length,
+    1,
+    `${slug}: exactly one .md or .mdx source`
+  );
+  const source = read(sourcePaths[0]);
   const body = source.replace(/^---[\s\S]*?---/, "");
   const words = body.split(/\s+/).filter(Boolean).length;
   assert.ok(words >= 750, `${slug}: article incomplete (${words} words)`);
@@ -116,7 +124,87 @@ for (const slug of slugs) {
   evidence.push({ slug, words, coverBytes: cover.length });
 }
 assert.equal(new Set(evidence.map((entry) => entry.slug)).size, 10);
+
+const enrichments = [
+  ["prix-site-vitrine", "IdentityScope", "identity-scope"],
+  [
+    "cahier-des-charges-site-internet",
+    "PreparationChecklist",
+    "preparation-checklist",
+  ],
+  ["exemples-sites-vitrines", "PersistancePartner", "persistance-partner"],
+];
+for (const [slug, component, marker] of enrichments) {
+  assert.ok(
+    existsSync(resolve(root, `src/components/articles/${component}.astro`)),
+    `${slug}: missing enrichment component`
+  );
+  const html = read(`dist/articles/${slug}/index.html`);
+  assert.ok(
+    html.includes(`class="${marker}"`),
+    `${slug}: component not rendered`
+  );
+  assert.ok(
+    html.includes('href="https://persistance-studio.fr/identite-visuelle/"'),
+    `${slug}: missing public direct service link`
+  );
+  const source = read(`src/content/articles/${slug}.mdx`);
+  assert.ok(
+    source.includes("pubDate: 2026-09-16"),
+    `${slug}: original publication date`
+  );
+  assert.ok(
+    source.includes("updatedDate: 2026-09-17"),
+    `${slug}: enrichment date`
+  );
+}
+const price = read("dist/articles/prix-site-vitrine/index.html");
+assert.equal(
+  (price.match(/<details\b[^>]*\bopen\b/g) || []).length,
+  2,
+  "price: both comparison disclosures initially readable"
+);
+const preparation = read(
+  "dist/articles/cahier-des-charges-site-internet/index.html"
+);
+const checklist = preparation.match(
+  /<preparation-checklist\b[^>]*>(?<content>[\s\S]*?)<\/preparation-checklist>/
+)?.groups?.content;
+assert.ok(checklist, "brief: rendered custom checklist");
+assert.equal(
+  (checklist.match(/<input\b[^>]*type="checkbox"/g) || []).length,
+  7,
+  "brief: seven native checkboxes"
+);
+assert.equal(
+  (checklist.match(/<label\b/g) || []).length,
+  7,
+  "brief: seven wrapping labels"
+);
+assert.ok(
+  !/<input\b[^>]*\bdisabled\b/.test(checklist),
+  "brief: checkboxes work without JavaScript"
+);
+assert.ok(
+  /class="checklist-tools"[^>]*\bhidden\b/.test(checklist),
+  "brief: enhancement-only tools hidden initially"
+);
+assert.ok(
+  checklist.includes('role="status"'),
+  "brief: progress announced accessibly"
+);
+const examples = read("dist/articles/exemples-sites-vitrines/index.html");
+assert.ok(
+  examples.includes(
+    'src="/articles/exemples-sites-vitrines/persistance-home.webp"'
+  ),
+  "examples: real project image"
+);
+assert.ok(
+  examples.includes("pas d’une maquette de charte graphique"),
+  "examples: honest image caption"
+);
 console.table(evidence);
 console.log(
-  "PASS: 10 articles, listing, sitemap, canonical, schemas, OG covers and local links."
+  "PASS: 10 articles, unique MD/MDX sources, listing, sitemap, canonical, schemas, OG covers, local links and 3 Persistance enrichments."
 );
