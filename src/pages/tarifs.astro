@@ -85,12 +85,11 @@ const included = [
 ];
 
 const afterCosts = [
-    "nom de domaine",
-    "hébergement",
-    "outils tiers ou CMS",
-    "maintenance et corrections",
-    "évolutions de contenu",
-    "nouvelles pages ou fonctionnalités",
+    "nom de domaine : renouvellement généralement annuel",
+    "hébergement : facturation mensuelle ou annuelle selon l'offre retenue",
+    "outils tiers ou CMS : abonnements éventuels selon les services retenus",
+    "maintenance : suivi régulier ou interventions ponctuelles selon les besoins du site",
+    "contenus, nouvelles pages ou fonctionnalités : évolutions ponctuelles à chiffrer selon le travail demandé",
 ];
 
 const aiBudgetPoints = [
@@ -102,19 +101,20 @@ const aiBudgetPoints = [
 ---
 
 <Layout
-    title="Budget d'un site web freelance - William De Azevedo"
-    description="Comprendre ce qui fait varier le budget d'un site vitrine, d'une refonte ou d'une mission front-end freelance selon les freins à lever."
+    title="Prix d'un site vitrine : dès 2 000 € HT - William De Azevedo"
+    description="Création de site vitrine dès 2 000 € HT. Découvrez ce qui est compris, les critères du devis et les frais à prévoir après la mise en ligne."
 >
     <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-12 md:gap-16 md:py-16">
         <FadeReveal delay={0.1}>
             <section class="mx-auto flex max-w-4xl flex-col items-center gap-5 text-center">
                 <h1 class="page-heading">
-                    Le bon budget dépend surtout du problème à résoudre
+                    Quel prix pour la création d'un site vitrine ?
                 </h1>
                 <p class="page-subheading max-w-sm sm:max-w-lg">
-                    Un site lent, flou ou daté n'a pas toujours besoin d'une
-                    refonte complète. Le prix dépend du vrai périmètre : contenu,
-                    design, autonomie attendue, technique et priorités à traiter.
+                    Je crée votre site vitrine à partir de 2 000 € HT. Le devis
+                    dépend du nombre de pages, des contenus, du design et des
+                    fonctionnalités à prévoir. Une refonte ou une mission
+                    front-end se chiffre selon le travail à réaliser.
                 </p>
                 <CalButton
                     class="rounded-xl text-base font-normal"
@@ -230,6 +230,12 @@ const aiBudgetPoints = [
                     >
                         Voir les services associés
                     </a>
+                    <a
+                        class="w-fit text-base font-normal text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-blue-500 focus-visible:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                        href="/articles/site-600-euros-vs-site-2000-euros/"
+                    >
+                        Site à 600 € ou à 2 000 € : comparer les prestations
+                    </a>
                 </div>
                 <ul class="grid gap-3">
                     {
@@ -273,10 +279,18 @@ const aiBudgetPoints = [
                 </article>
             </FadeRevealOnScroll>
             <FadeRevealOnScroll class="flex" delay={0.08}>
-                <article class="w-full rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600">
+                <article
+                    id="couts-apres-livraison"
+                    class="w-full scroll-mt-24 rounded-xl bg-snow-50 p-6 ring-1 ring-snow-600"
+                >
                     <h2 class="mb-4 text-2xl font-normal leading-tight text-gray-900">
                         Les coûts à prévoir après la livraison
                     </h2>
+                    <p class="mb-4 text-base font-normal leading-relaxed text-gray-600">
+                        Le prix de création se distingue des frais récurrents et
+                        des évolutions ponctuelles. Il n'y a pas de montant
+                        mensuel unique : il dépend des outils et du suivi retenus.
+                    </p>
                     <ul class="flex flex-col gap-3">
                         {
                             afterCosts.map((item) => (
