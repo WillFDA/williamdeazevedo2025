@@ -7,7 +7,7 @@ draft: false
 tags: ["refonte", "SEO"]
 image:
   src: "/articles/refonte-seo/cover.webp"
-  alt: "Deux exemples de correspondance entre anciennes et nouvelles URL via des redirections 301, avec trois contrôles : redirections, liens internes et indexation."
+  alt: ""
 ---
 
 Une refonte peut modifier les adresses, les contenus et les liens qui permettent à Google de comprendre votre site. Pour limiter les risques SEO, il faut inventorier l’existant, décider du devenir de chaque page et vérifier la version publiée. Une belle maquette ne montre pas qu’une ancienne adresse mène désormais à une erreur.

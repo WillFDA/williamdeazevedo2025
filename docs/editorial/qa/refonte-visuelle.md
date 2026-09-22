@@ -1,8 +1,8 @@
 # Refonte visuelle des articles — 22 septembre 2026
 
-Couvertures et composants repris pour suivre le design du site (Geist, palette bleue, cartes arrondies) plutôt que l’ancien style beige généré avec Pillow.
+Composants et mise en page des articles repris pour suivre le design du site (Geist, palette bleue, cartes arrondies).
 
-- Dix couvertures redessinées en HTML (`scripts/editorial/covers.html`) et rendues en WebP 1600×900 par `render-covers.mjs` ; mêmes chemins, textes alternatifs conservés (celui de l’accessibilité est précisé).
+- Dix couvertures remplacées par des aplats gris provisoires (WebP 1600×900, mêmes chemins) en attendant les visuels définitifs ; anciens schémas Pillow et leur script supprimés, textes alternatifs vidés.
 - Bloc identité/site, encadré Persistance et checklist : cartes blanches bordées, pastilles numérotées, chevron à la place du triangle natif, barre de progression pour la checklist.
 - Tableaux dans un cadre arrondi, en-têtes discrets, montants alignés à droite et ligne de total mise en avant ; listes à cocher Markdown en carte, cases masquées aux lecteurs d’écran car non interactives.
 - `bun run build` (28 pages), `node scripts/check-editorial.mjs`, `bun run lint` et `git diff --check` réussis.
@@ -11,4 +11,4 @@ Couvertures et composants repris pour suivre le design du site (Geist, palette b
 
 Captures mises à jour dans ce dossier, avec en plus `listing-desktop.webp` :
 
-![Liste des articles avec les nouvelles couvertures](listing-desktop.webp)
+![Liste des articles avec les couvertures grises provisoires](listing-desktop.webp)

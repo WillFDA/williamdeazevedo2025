@@ -7,7 +7,7 @@ draft: false
 tags: ["refonte", "budget", "site vitrine"]
 image:
   src: "/articles/prix-refonte-site-internet/cover.webp"
-  alt: "Arbre de décision : après diagnostic, des problèmes localisés avec un socle adapté orientent vers des corrections ciblées ; des limites structurelles orientent vers une refonte complète."
+  alt: ""
 ---
 
 Le prix d’une refonte de site internet dépend autant de ce qu’il faut préserver que de ce qu’il faut reconstruire. Un formulaire défaillant, des textes dépassés et un système devenu impossible à maintenir ne justifient pas les mêmes travaux. Avant de demander « combien pour refaire mon site ? », préparez la liste des problèmes observés et des éléments qui fonctionnent encore.

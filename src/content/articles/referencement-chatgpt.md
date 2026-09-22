@@ -7,7 +7,7 @@ draft: false
 tags: ["SEO", "IA", "site vitrine"]
 image:
   src: "/articles/referencement-chatgpt/cover.webp"
-  alt: "Trois étapes distinctes en escalier : exploration des pages autorisées, indexation possible du contenu et citation éventuelle dans une réponse. Aucune étape ne garantit la suivante."
+  alt: ""
 ---
 
 Vous aimeriez que ChatGPT cite votre entreprise lorsqu’un utilisateur cherche un prestataire. Vous pouvez travailler la disponibilité de votre site et la qualité des informations qui le décrivent. En revanche, personne ne peut vous assurer une place permanente dans les réponses. OpenAI précise dans sa [documentation sur la recherche](https://help.openai.com/en/articles/9237897-chatgpt-search) que le placement n’est pas garanti.

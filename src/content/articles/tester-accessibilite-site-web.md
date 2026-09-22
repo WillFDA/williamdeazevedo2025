@@ -7,7 +7,7 @@ draft: false
 tags: ["accessibilité", "site vitrine"]
 image:
   src: "/articles/tester-accessibilite-site-web/cover.webp"
-  alt: "Trois tests d’accessibilité illustrés : touche Tab et focus visible, texte blanc sur fond sombre validé face à un texte trop pâle pour le contraste, et champ e-mail doté d’un libellé explicite. Ce n’est pas un audit complet."
+  alt: ""
 ---
 
 Un site peut sembler simple à utiliser avec une souris et devenir impraticable au clavier. Un formulaire peut fonctionner visuellement sans annoncer correctement ses champs à un lecteur d’écran. Tester l’accessibilité consiste à chercher ces obstacles, pas seulement à obtenir un bon score.

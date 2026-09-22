@@ -116,7 +116,7 @@ Une recherche web a échoué puis a été relancée avec une autre formulation. 
 
 - Quatre corps d’articles dans la cible de 850–1 300 mots, comptés par séparation des espaces hors frontmatter : 1 175, 1 122, 1 166 et 1 232 mots respectivement.
 - Date demandée `2026-09-16`, auteur exact, `draft: false`, vocabulaire de tags autorisé.
-- Quatre chemins d’image et textes alternatifs conformes à `scripts/editorial/manifest.json` ; fichiers WebP présents.
+- Quatre chemins d’image `public/articles/<slug>/cover.webp` ; fichiers WebP présents (couvertures grises provisoires, textes alternatifs à écrire avec les visuels définitifs).
 - Aucun récit client, résultat de mission, certification ou chiffre de performance inventé.
 - Les sources comparables servent à l’analyse des questions ; formulations, structures d’exemples et simulations rédigées indépendamment.
 - La validation du build commun et des dix articles relève de l’intégration globale ; cette livraison contrôle les quatre fichiers de son périmètre.

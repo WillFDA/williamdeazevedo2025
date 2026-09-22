@@ -7,7 +7,7 @@ draft: false
 tags: ["création de site", "IA", "site vitrine"]
 image:
   src: "/articles/creer-site-internet-ia/cover.webp"
-  alt: "Parcours de création avec l’IA : générer une structure et des contenus, vérifier les faits, droits, accessibilité, sécurité et formulaires, puis publier et assurer le suivi."
+  alt: ""
 ---
 
 Oui, vous pouvez créer un site internet avec l’IA. Elle peut proposer une structure, rédiger des textes, générer une interface et vous aider à la modifier. Pour un projet simple, cela constitue un point de départ tout à fait pertinent.

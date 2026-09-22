@@ -7,7 +7,7 @@ draft: false
 tags: ["site vitrine", "budget"]
 image:
   src: "/articles/cout-site-internet-par-mois/cover.webp"
-  alt: "Quatre composantes des coûts récurrents autour de la vie du site : infrastructure, maintenance, services tiers et accompagnement."
+  alt: ""
 ---
 
 Le coût mensuel d’un site internet ne se limite pas à son hébergement. Il peut comprendre le renouvellement du domaine, des outils payants, la maintenance et des interventions sur les contenus. Pour connaître votre budget, partez des factures et des engagements prévus au contrat, puis ramenez les dépenses annuelles au mois. Un prix affiché « par mois » n’est pas forcément prélevé chaque mois.

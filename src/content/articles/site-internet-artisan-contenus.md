@@ -7,7 +7,7 @@ draft: false
 tags: ["site vitrine", "artisan", "contenu"]
 image:
   src: "/articles/site-internet-artisan-contenus/cover.webp"
-  alt: "Quatre blocs de contenu pour un site d’artisan : services réalisés, zone d’intervention, preuves par les chantiers, photos et avis, puis coordonnées de contact."
+  alt: ""
 ---
 
 **Un site d’artisan doit permettre de vérifier ce que vous faites, où vous intervenez et comment vous confier une demande.** Avant de choisir les couleurs ou le logiciel, rassemblez les informations qui répondent à ces questions. Vous aurez une base utilisable pour rédiger vous-même ou travailler avec un prestataire.
