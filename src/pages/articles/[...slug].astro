@@ -314,6 +314,37 @@ const getTagIcon = (tag: string) => {
         margin-top: 0.35rem;
     }
 
+    .article-prose ul.contains-task-list {
+        background: var(--color-snow-50);
+        border: 1px solid var(--color-gray-200);
+        border-radius: 1rem;
+        list-style: none;
+        padding: 0.35rem 1.25rem;
+    }
+
+    .article-prose .task-list-item {
+        align-items: flex-start;
+        display: flex;
+        gap: 0.8rem;
+        padding-block: 0.7rem;
+    }
+
+    .article-prose .task-list-item + .task-list-item {
+        border-top: 1px solid var(--color-gray-100);
+        margin-top: 0;
+    }
+
+    .article-prose .task-list-item input {
+        appearance: none;
+        background: var(--color-snow-50);
+        border: 1.5px solid var(--color-gray-300);
+        border-radius: 0.3rem;
+        flex: none;
+        height: 1.1rem;
+        margin-top: 0.3rem;
+        width: 1.1rem;
+    }
+
     .article-prose blockquote {
         border-left: 2px solid var(--color-gray-200);
         color: var(--color-gray-500);
@@ -350,7 +381,23 @@ const getTagIcon = (tag: string) => {
         width: 100%;
     }
 
+    .article-prose p:has(> img:only-child) + p:has(> em:only-child) {
+        color: var(--color-gray-600);
+        font-size: 0.8125rem;
+        line-height: 1.6;
+        margin-top: -0.75rem;
+        text-align: center;
+    }
+
+    .article-prose p:has(> img:only-child) + p > em:only-child {
+        font-style: normal;
+    }
+
     .article-table-scroll {
+        background: var(--color-snow-50);
+        border: 1px solid var(--color-gray-200);
+        border-radius: 1rem;
+        margin-block: 1.75rem;
         max-width: 100%;
         overflow-x: auto;
     }
@@ -363,22 +410,44 @@ const getTagIcon = (tag: string) => {
     .article-prose table {
         border-collapse: collapse;
         font-size: 0.875rem;
+        line-height: 1.55;
         width: 100%;
     }
 
     .article-prose th,
     .article-prose td {
-        border-bottom: 1px solid var(--color-gray-200);
         min-width: 9rem;
-        padding: 0.75rem;
+        padding: 0.85rem 1rem;
         text-align: left;
         vertical-align: top;
     }
 
-    .article-prose th {
-        background: var(--color-gray-100);
+    .article-prose :is(th, td)[align="right"] {
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+    }
+
+    .article-prose td {
+        border-top: 1px solid var(--color-gray-100);
+    }
+
+    .article-prose td:first-child {
         color: var(--color-gray-900);
         font-weight: 500;
+    }
+
+    .article-prose th {
+        background: var(--color-surface-100);
+        color: var(--color-gray-600);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .article-prose tbody tr:last-child:has(strong) td {
+        background: var(--color-blue-50);
+        border-top-color: var(--color-blue-100);
     }
 
     .article-prose hr {

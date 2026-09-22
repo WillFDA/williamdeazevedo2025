@@ -6,6 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 import rehypeAccessibleTables from "./scripts/rehype-accessible-tables.mjs";
+import rehypeStaticTaskLists from "./scripts/rehype-static-task-lists.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -23,7 +24,7 @@ export default defineConfig({
   },
 
   markdown: {
-    rehypePlugins: [rehypeAccessibleTables],
+    rehypePlugins: [rehypeAccessibleTables, rehypeStaticTaskLists],
     shikiConfig: {
       theme: "github-dark-dimmed",
       wrap: true,

@@ -6,6 +6,8 @@ Cette série complète les pages de prestations avec des réponses pratiques aux
 
 Le site utilise déjà les collections Astro. Les dix textes sont dans `src/content/articles/*.md`, les visuels de couverture dans `public/articles/<slug>/cover.webp`. Aucun CMS ni service tiers supplémentaire n'est nécessaire.
 
+Les couvertures sont dessinées en HTML avec la police et les couleurs du site dans `scripts/editorial/covers.html`, une section par article. Après modification : `bun add --no-save playwright && bun scripts/editorial/render-covers.mjs` (Chrome local), puis mettre à jour le texte alternatif dans le frontmatter et `scripts/editorial/manifest.json`.
+
 Le frontmatter contient le titre, la description SEO, la date, les tags, l'auteur et le visuel. Le corps est du Markdown : titres `##`, listes, liens, tableaux et images. Ne pas ajouter de titre `#` dans le corps : le modèle de page génère déjà le H1.
 
 - `draft: true` exclut l'article du build de production, du listing et du sitemap.
