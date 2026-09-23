@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "build": "node scripts/check-client-router.mjs && astro build",
     "check:router": "node scripts/check-client-router.mjs",
+    "check:phone-tracking": "node scripts/check-phone-tracking.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "oxlint",
