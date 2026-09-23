@@ -15,7 +15,7 @@ Le site n'a pas de formulaire de contact ou de devis. Il n'existe donc pas d'év
 
 ## Configuration déjà observée dans Zaraz
 
-Audit de la zone `williamdeazevedo.fr` le 23 septembre 2026 : Zaraz est injecté automatiquement, Google Analytics 4 reçoit les pages vues et les événements, et l'outil Google Ads est actif avec Conversion Linker. Une action Google Ads nommée « Prise de rendez-vous » se déclenche lorsque le nom de l'événement est exactement `cal_booking_success`. Les clics e-mail et téléphone ne possèdent pas d'action Google Ads dans Zaraz à cette date.
+Audit de la zone `williamdeazevedo.fr` le 23 septembre 2026 : Zaraz est injecté automatiquement, Google Analytics 4 reçoit les pages vues et les événements, et l'outil Google Ads est actif avec Conversion Linker. Une action Google Ads nommée « Prise de rendez-vous » se déclenche lorsque le nom de l'événement est exactement `cal_booking_success`. Les déclencheurs « Email click » et « Phone click » correspondent respectivement à `contact_email_click` et `contact_phone_click`. Les clics e-mail et téléphone ne possèdent pas encore d'action Google Ads dans Zaraz.
 
 La configuration des actions Google Ads et leur statut principal/secondaire se gèrent dans les tableaux de bord. Le dépôt ne permet pas de confirmer que l'action « Prise de rendez-vous » est principale dans Google Ads, qu'elle est incluse dans l'objectif de la campagne, ni que son identifiant et son libellé correspondent à la conversion créée dans Google Ads.
 
@@ -30,7 +30,7 @@ Les [actions principales et secondaires](https://support.google.com/google-ads/a
 
 ## Si les clics de contact doivent apparaître dans Google Ads
 
-Créer deux actions **secondaires** distinctes dans Google Ads, par exemple « Clic e-mail » et « Clic téléphone », toutes deux comptées **Une** fois et sans valeur monétaire. Relever l'identifiant et le libellé de chacune. Dans Zaraz, créer un déclencheur sur **Event Name equals** `contact_email_click`, puis un autre sur `contact_phone_click`. Ajouter une action **Google Ads → Conversion** par déclencheur en y renseignant le libellé correspondant. Utiliser l'identifiant de conversion du même compte Google Ads. Les [déclencheurs Zaraz](https://developers.cloudflare.com/zaraz/custom-actions/create-trigger/) peuvent cibler directement les événements envoyés par [`zaraz.track()`](https://developers.cloudflare.com/zaraz/web-api/track/).
+Créer deux actions **secondaires** distinctes dans Google Ads, par exemple « Clic e-mail » et « Clic téléphone », toutes deux comptées **Une** fois et sans valeur monétaire. Relever l'identifiant et le libellé de chacune. Dans Zaraz, associer une action **Google Ads → Conversion** au déclencheur « Email click » et une autre à « Phone click », chacune avec le libellé correspondant. Utiliser l'identifiant de conversion du même compte Google Ads. Les [déclencheurs Zaraz](https://developers.cloudflare.com/zaraz/custom-actions/create-trigger/) ciblent les événements envoyés par [`zaraz.track()`](https://developers.cloudflare.com/zaraz/web-api/track/).
 
 Cette étape est facultative. Pour mesurer un **vrai appel** plutôt qu'un clic sur le numéro, utiliser ensuite une [conversion d'appel Google Ads](https://support.google.com/google-ads/answer/6095882) avec une durée minimale adaptée. Pour un e-mail, seul un suivi côté messagerie ou CRM pourrait confirmer la prise de contact.
 
