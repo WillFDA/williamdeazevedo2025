@@ -4,12 +4,12 @@ Le site appelle `trackAnalytics()` dans `src/scripts/analytics.ts`. Cette foncti
 
 ## Événements disponibles
 
-| Événement                   | Déclenchement réel                                                           | Usage recommandé dans Google Ads                                                                       |
-| --------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `cal_booking_success`       | Cal.com annonce la création réussie d'un rendez-vous dans le module intégré. | **Principale** : prise de rendez-vous.                                                                 |
-| `contact_email_click`       | Clic sur un lien `mailto:`.                                                  | **Secondaire** si l'on veut observer cette intention. Le clic ne prouve pas qu'un e-mail a été envoyé. |
-| `contact_phone_click`       | Clic sur un lien `tel:`, y compris dans la navigation.                       | **Secondaire** si l'on veut observer cette intention. Le clic ne prouve pas qu'un appel a eu lieu.     |
-| `cal_open`, `cal_cta_click` | Ouverture du calendrier ou clic sur son bouton.                              | Analyse du parcours dans GA4/Rybbit uniquement ; ne pas les importer comme conversions Ads.            |
+| Événement | Déclenchement réel | Usage recommandé dans Google Ads |
+| --- | --- | --- |
+| `cal_booking_success` | Cal.com annonce la création réussie d'un rendez-vous dans le module intégré. | **Principale** : prise de rendez-vous. |
+| `contact_email_click` | Clic sur un lien `mailto:`. | **Secondaire** si l'on veut observer cette intention. Le clic ne prouve pas qu'un e-mail a été envoyé. |
+| `contact_phone_click` | Clic sur un lien `tel:`, y compris dans la navigation. | **Secondaire** si l'on veut observer cette intention. Le clic ne prouve pas qu'un appel a eu lieu. |
+| `cal_open`, `cal_cta_click` | Ouverture du calendrier ou clic sur son bouton. | Analyse du parcours dans GA4/Rybbit uniquement ; ne pas les importer comme conversions Ads. |
 
 Le site n'a pas de formulaire de contact ou de devis. Il n'existe donc pas d'événement « formulaire envoyé » à mesurer. Un e-mail reçu, un appel abouti ou un devis signé nécessitent une autre source de preuve que le clic sur un lien.
 
