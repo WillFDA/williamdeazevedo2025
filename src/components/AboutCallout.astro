@@ -8,10 +8,11 @@ import DarkCalloutShell from "./ui/DarkCalloutShell.astro";
 import williamPortrait from "../assets/williamdeazevedo.webp";
 
 interface Props {
+    id?: string;
     title: string;
 }
 
-const { title } = Astro.props;
+const { id, title } = Astro.props;
 const titleWords = title.replace("design !", "design\u00A0!").split(" ");
 const aboutPoints = [
     {
@@ -36,6 +37,7 @@ const aboutPoints = [
 ---
 
 <DarkCalloutShell
+    id={id}
     class="about-callout"
     data-about-callout
     data-section-reveal="false"

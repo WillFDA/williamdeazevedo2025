@@ -1,5 +1,6 @@
 ---
 import CalButton from "@/components/CalButton.astro";
+import FaqSection from "@/components/FaqSection.astro";
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import FadeRevealOnScroll from "@/components/animations/FadeRevealOnScroll.astro";
 import PricingComparison from "@/components/PricingComparison.astro";
@@ -99,12 +100,65 @@ const aiBudgetPoints = [
     "direction design avant génération ou exécution",
     "contrôle humain sur le code, le responsive et la mise en ligne",
 ];
+
+const tarifsFaqItems = [
+    {
+        question:
+            "Combien coûte la création d'un site internet avec un freelance ?",
+        answer:
+            "Mes projets de sites web démarrent à 2 000 € HT. Le montant final dépend du nombre de pages, des contenus, du design, des fonctionnalités et du travail à reprendre. Après un premier échange, le devis détaille le périmètre et les postes inclus.",
+    },
+    {
+        question: "Que comprend le tarif de départ à 2 000 € HT ?",
+        answer:
+            "Pour un site vitrine simple et bien cadré, ce budget couvre généralement le cadrage, la structure des pages, le design responsive, le développement front-end, les bases du SEO technique, la performance, l'accessibilité, l'action de contact et la mise en ligne. Le devis confirme précisément ce qui est inclus dans votre projet.",
+    },
+    {
+        question: "Quels éléments font augmenter le prix d'un site internet ?",
+        answer:
+            "Le prix évolue surtout avec le nombre de pages, les contenus à produire ou restructurer, le niveau de design sur mesure, les animations, un CMS, les formulaires et intégrations, ainsi qu'une éventuelle migration avec redirections. Un délai très court ou des validations dispersées peuvent aussi élargir le travail nécessaire.",
+    },
+    {
+        question: "Quels frais restent à prévoir après la livraison ?",
+        answer:
+            "Il faut généralement prévoir le nom de domaine, l'hébergement et les éventuels abonnements à des outils tiers ou à un CMS. La maintenance, les nouvelles pages et les évolutions sont facturées seulement si vous en avez besoin. Le domaine, l'hébergement et les outils restent à votre nom.",
+    },
+    {
+        question: "La maintenance du site est-elle obligatoire ?",
+        answer:
+            "Non. Un site simple peut fonctionner avec des interventions ponctuelles, tandis qu'un CMS, des intégrations externes ou un site régulièrement enrichi peuvent justifier un suivi. Le niveau de maintenance utile est défini selon votre autonomie et la complexité technique, sans abonnement imposé.",
+    },
+    {
+        question: "Pourquoi faut-il un devis avant d'obtenir un prix final ?",
+        answer:
+            "Le nombre de pages ne suffit pas à mesurer le travail : deux sites de taille comparable peuvent demander des niveaux très différents de cadrage, de contenu, de design et de technique. Le devis fixe les livrables, les délais, les retours inclus et les éventuels coûts récurrents pour éviter les zones floues.",
+    },
+] as const;
+
+const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: tarifsFaqItems.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+        },
+    })),
+};
 ---
 
 <Layout
     title="Budget d'un site web freelance - William De Azevedo"
     description="Comprendre ce qui fait varier le budget d'un site vitrine, d'une refonte ou d'une mission front-end freelance selon les freins à lever."
 >
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(faqJsonLd)}
+    />
+
     <div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-12 md:gap-16 md:py-16">
         <FadeReveal delay={0.1}>
             <section class="mx-auto flex max-w-4xl flex-col items-center gap-5 text-center">
@@ -331,6 +385,15 @@ const aiBudgetPoints = [
                 </div>
             </section>
         </FadeRevealOnScroll>
+
+        <FaqSection
+            id="tarifs-faq"
+            items={tarifsFaqItems}
+            title="Questions fréquentes sur le prix d'un site web"
+            description="Des repères concrets pour comprendre le budget, ce qui est inclus et les frais à anticiper avant de demander un devis."
+            padded={false}
+            showCta={false}
+        />
     </div>
 
     <div class="mx-auto w-full max-w-5xl px-4 pb-12 md:pb-16">
