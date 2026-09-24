@@ -22,6 +22,7 @@ export default defineConfig({
     "prefer-const": "off",
     "prefer-destructuring": "off",
     "promise/prefer-await-to-then": "off",
+    "react/function-component-definition": "off",
     "require-unicode-regexp": "off",
     "sort-keys": "off",
     "typescript/array-type": "off",
@@ -32,6 +33,8 @@ export default defineConfig({
     "unicorn/no-nested-ternary": "off",
     "unicorn/no-useless-undefined": "off",
     "unicorn/numeric-separators-style": "off",
+    // parseFloat/parseInt are intentional: CSS durations like "0.3s" become NaN with Number().
+    "unicorn/prefer-number-coercion": "off",
     "unicorn/prefer-query-selector": "off",
     "unicorn/prefer-spread": "off",
   },
