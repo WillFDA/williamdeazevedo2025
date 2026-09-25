@@ -28,8 +28,11 @@ const getViewportMetrics = () => {
   };
 };
 
+// Include the footer's bottom margin so the gap below the rounded card stays reachable.
 const getFooterBottom = (footer: HTMLElement) =>
-  footer.getBoundingClientRect().bottom + window.scrollY;
+  footer.getBoundingClientRect().bottom +
+  window.scrollY +
+  (Number.parseFloat(getComputedStyle(footer).marginBottom) || 0);
 
 const isAtFooterBoundary = () => {
   const footer = getFooter();
