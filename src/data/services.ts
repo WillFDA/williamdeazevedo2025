@@ -87,9 +87,9 @@ export const services: Service[] = [
     rootPath: "/creation-site-vitrine/",
     navLabel: "Création site vitrine",
     title: "Création de site vitrine",
-    seoTitle: "Création de site vitrine freelance - William De Azevedo",
+    seoTitle: "Création de site vitrine sur mesure - William De Azevedo",
     description:
-      "Création de sites vitrines rapides, accessibles et pensés pour rassurer avant le premier contact. Accompagnement design, contenu, SEO technique et développement front-end.",
+      "Un site vitrine sur mesure pour présenter votre activité et faciliter les demandes de contact. Design responsive, développement et SEO technique inclus.",
     eyebrow: "Site vitrine freelance",
     h1: "Création de sites vitrines qui rassurent avant le premier contact",
     heroPillPhrases: ["sites vitrines", "premier contact"],
@@ -222,7 +222,7 @@ export const services: Service[] = [
     rootPath: "/refonte-site-internet/",
     navLabel: "Refonte site internet",
     title: "Refonte de site internet",
-    seoTitle: "Refonte de site internet rapide et soignée - William De Azevedo",
+    seoTitle: "Refonte de site internet : design, mobile et SEO",
     description:
       "Refonte de site internet pour clarifier votre offre, moderniser votre interface et améliorer performance, SEO technique et conversion.",
     eyebrow: "Refonte web",
@@ -353,9 +353,9 @@ export const services: Service[] = [
     slug: "developpeur-web-freelance",
     navLabel: "Développeur web freelance",
     title: "Développeur web freelance",
-    seoTitle: "Développeur web freelance front-end - William De Azevedo",
+    seoTitle: "Développeur front-end freelance React et Next.js",
     description:
-      "Développeur web freelance front-end pour sites vitrines, interfaces produit et intégrations rapides, accessibles et maintenables.",
+      "Renfort front-end freelance pour vos équipes : intégration Figma, composants React et Next.js, responsive, accessibilité et performance. Découvrez mes réalisations.",
     eyebrow: "Renfort front-end",
     h1: "Développeur front-end freelance pour rendre vos interfaces plus claires",
     heroPillPhrases: ["front-end freelance", "interfaces"],
@@ -463,7 +463,7 @@ export const services: Service[] = [
     rootPath: "/creation-site-internet-artisan/",
     navLabel: "Site artisan",
     title: "Création de site internet artisan",
-    seoTitle: "Création de site internet artisan - William De Azevedo",
+    seoTitle: "Création de site internet pour artisan - William De Azevedo",
     description:
       "Création de site internet pour artisan : site vitrine rapide, mobile, rassurant, avec réalisations, zone d'intervention, formulaire et base SEO locale.",
     eyebrow: "Site artisan",
@@ -594,9 +594,9 @@ export const services: Service[] = [
     rootPath: "/creation-site-internet-professionnel/",
     navLabel: "Site professionnel",
     title: "Création de site internet professionnel",
-    seoTitle: "Création de site internet professionnel - William De Azevedo",
+    seoTitle: "Création de site internet professionnel sur mesure",
     description:
-      "Création de site internet professionnel pour indépendants, petites structures et équipes produit : stratégie, design, développement front-end, performance, accessibilité et SEO technique.",
+      "Votre site professionnel sur mesure : structure, design, développement et SEO technique. Un interlocuteur du cadrage à la mise en ligne pour votre activité.",
     eyebrow: "Site professionnel",
     h1: "Création de site internet professionnel pour transformer une présence en support de confiance",
     heroPillPhrases: ["site internet professionnel", "support de confiance"],
