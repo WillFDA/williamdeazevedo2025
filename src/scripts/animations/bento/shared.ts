@@ -50,7 +50,7 @@ export type BentoScene = {
    * statique.
    */
   timeline: gsap.core.Timeline;
-  /** La scène gère elle-même le survol (pas de relecture automatique). */
+  /** La scène gère elle-même survol et focus (pas de relecture automatique). */
   customHover?: boolean;
 };
 
@@ -124,8 +124,14 @@ export type BentoPlayback = ReturnType<typeof createPlayback>;
  * Pilote la lecture d'une scène : quelques cycles à la première apparition,
  * puis pause sur l'état final. Rejoue au survol / focus clavier (en boucle
  * tant que le survol dure) et au retour dans le viewport. Pause hors écran.
+ * `visibleAtMount` : la zone est déjà à l'écran au montage (haut de page,
+ * retour ClientRouter) ; on garde alors l'état final et le premier cycle
+ * part de 0 (remise à zéro douce) au lieu de sauter à l'état "build".
  */
-export const createPlayback = (timeline: gsap.core.Timeline) => {
+export const createPlayback = (
+  timeline: gsap.core.Timeline,
+  { visibleAtMount = false }: { visibleAtMount?: boolean } = {}
+) => {
   let visible = false;
   let hovered = false;
   let started = false;
@@ -167,8 +173,10 @@ export const createPlayback = (timeline: gsap.core.Timeline) => {
     state = "resting";
   });
 
-  // Tant qu'elle n'a pas été vue, la scène attend dans son état initial.
-  timeline.pause(buildPosition);
+  // Tant qu'elle n'a pas été vue, la scène attend dans son état initial,
+  // sauf si elle est déjà affichée (elle reste alors sur l'état final).
+  const firstPosition = visibleAtMount ? 0 : buildPosition;
+  timeline.pause(firstPosition);
 
   return {
     setVisible(next: boolean) {
@@ -187,7 +195,7 @@ export const createPlayback = (timeline: gsap.core.Timeline) => {
       if (!started) {
         started = true;
         queued = FIRST_VIEW_CYCLES - 1;
-        playFrom(buildPosition);
+        playFrom(firstPosition);
         return;
       }
       if (state === "playing") timeline.resume();

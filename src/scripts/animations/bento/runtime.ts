@@ -78,7 +78,11 @@ const startScene = (root: HTMLElement, mod: BentoSceneModule) => {
   };
   if (!scene) return runCleanups;
 
-  playback = createPlayback(scene.timeline);
+  const rect = root.getBoundingClientRect();
+  playback = createPlayback(scene.timeline, {
+    visibleAtMount:
+      rect.width > 0 && rect.bottom > 0 && rect.top < window.innerHeight,
+  });
   const current = playback;
 
   const observer = new IntersectionObserver(
@@ -92,8 +96,9 @@ const startScene = (root: HTMLElement, mod: BentoSceneModule) => {
   observer.observe(root);
   cleanups.push(() => observer.disconnect());
 
-  if (card) {
-    if (!scene.customHover && ctx.canHover) {
+  // customHover : la scène gère elle-même survol ET focus clavier.
+  if (card && !scene.customHover) {
+    if (ctx.canHover) {
       listen(card, "pointerenter", () => current.hoverStart());
       listen(card, "pointerleave", () => current.hoverEnd());
     }
