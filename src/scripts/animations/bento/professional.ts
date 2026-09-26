@@ -1,347 +1,418 @@
 /**
- * Scène "Site internet professionnel" — de la page seule au site complet :
- * la page Accueil se démultiplie en Services, Preuves et Contact, les
- * connexions dessinent l'arborescence jusqu'à la base technique, un signal
- * s'allume sur Contact puis le badge "Présence complète" valide le tout.
- * Cycle ~9,3 s avec pause lisible. Trajets Accueil → pages mesurés au
- * chargement.
+ * Scène « Site internet professionnel » : le socle, en vue éclatée
+ * isométrique. Le socle sombre (base technique) ne quitte jamais la scène ;
+ * les trois plaques tombent dessus une à une, avec rebond et squash & stretch
+ * (CustomBounce), et chaque impact se propage vers le bas :
+ * 1. Services tombe, ses cubes sautillent ;
+ * 2. Preuves tombe, les cinq étoiles s'allument une à une ;
+ * 3. Pages clés tombe (temps fort) : le bouton de contact émet deux ondes,
+ *    une impulsion court dans les pistes du socle jusqu'à la LED, qui
+ *    s'allume franchement (et le point « en ligne » du libellé avec elle) ;
+ * 4. les lignes de rappel se tracent de bas en haut, les libellés suivent ;
+ * 5. tenue : les plaques flottent légèrement, la LED respire.
+ * Remise à zéro sans « pop » : libellés éteints, rappels rentrés, puis les
+ * plaques décollent dans l'ordre inverse (Pages clés d'abord) et ne
+ * s'effacent qu'une fois dégagées de la pile. Cycle ≈ 8,8 s.
+ * Tout est en unités de viewBox : aucune mesure du DOM (pas de needsMeasure).
  */
 
-import { animate, createTimeline, type Timeline, utils } from "animejs";
+import { gsap } from "gsap";
+import { CustomBounce } from "gsap/CustomBounce";
+import { CustomEase } from "gsap/CustomEase";
+import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 
 import {
-  addPlayer,
-  type BentoPlayer,
-  centerDelta,
+  BUILD_LABEL,
+  type BentoScene,
+  type BentoSceneContext,
   query,
   queryAll,
 } from "./shared";
 
-type Delta = { x: number; y: number };
+gsap.registerPlugin(CustomEase, CustomBounce, DrawSVGPlugin);
 
-type ProScene = {
-  badge: HTMLElement | null;
-  base: HTMLElement | null;
-  children: HTMLElement[];
-  drops: HTMLElement[];
-  glow: HTMLElement | null;
-  home: HTMLElement;
-  labels: HTMLElement[];
-  rail: HTMLElement | null;
-  signal: HTMLElement | null;
-  signalPing: HTMLElement | null;
-  trunk: HTMLElement | null;
+// Chute qui rebondit, et l'écrasement synchronisé sur chaque contact.
+CustomBounce.create("pro-bounce", {
+  squash: 2,
+  squashID: "pro-squash",
+  strength: 0.3,
+});
+
+/** Durée de la remise à zéro (état final → socle seul). */
+const RESET = 0.95;
+/** Décollage d'une plaque, et fondu final (une fois dégagée de la pile). */
+const LIFT_OFF = 0.5;
+const LIFT_FADE = 0.16;
+/** Durée d'une chute. */
+const DROP = 0.7;
+/** Départ des chutes (Services, Preuves, Pages clés) après "build". */
+const DROP_AT = [0.2, 0.65, 1.1] as const;
+/** Hauteur de chute, en unités SVG. */
+const FALL = 64;
+/** Amplitude du contrecoup des étages inférieurs, du plus proche au socle. */
+const THUD = [2.2, 1.6, 1.1];
+/** Ondes du bouton de contact (l'état final = RING_TO, invisible). */
+const RING_FROM = { rx: 16, ry: 8 };
+const RING_TO = { rx: 64, ry: 32 };
+/** Couleurs : doivent rester identiques au SVG de BentoVisualProfessional. */
+const STAR_ON = "#3e60d4";
+const STAR_OFF = "#d9dee6";
+/** Rayon des pastilles d'accroche des lignes de rappel (cf. SVG). */
+const PIN_R = 1.7;
+/** Opacité de repos des pistes et du halo de la LED (cf. SVG). */
+const TRACES_IDLE = 0.6;
+const HALO_IDLE = 0.75;
+
+/** Premier contact de la chute (part de la durée où l'ease atteint 1). */
+const firstContact = () => {
+  const ease = gsap.parseEase("pro-bounce");
+  for (let step = 0; step <= 1000; step++) {
+    if (ease(step / 1000) >= 0.999) return step / 1000;
+  }
+  return 0.6;
 };
 
-const CHILD_TILTS = [-6, 0, 6];
-const FLY_AT = [1200, 1680, 2160];
+export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
+  const floors = queryAll<SVGGElement>(root, "[data-pro-floor]");
+  const shades = queryAll<SVGGElement>(root, "[data-pro-shade]");
+  const traces = query<SVGGElement>(root, "[data-pro-traces]");
+  const halo = query<SVGCircleElement>(root, "[data-pro-led-halo]");
+  const cubes = queryAll<SVGGElement>(root, "[data-pro-cube]");
+  const stars = queryAll<SVGPathElement>(root, "[data-pro-star]");
+  const rings = queryAll<SVGEllipseElement>(root, "[data-pro-ring]");
+  const pulses = queryAll<SVGPathElement>(root, "[data-pro-pulse]");
+  const leaders = queryAll<SVGPathElement>(root, "[data-pro-leader]");
+  const pins = queryAll<SVGCircleElement>(root, "[data-pro-pin]");
+  const labels = queryAll(root, "[data-pro-label]");
+  const dot = query(root, "[data-pro-dot]");
 
-const setInitialState = (scene: ProScene, deltas: Delta[]) => {
-  utils.set(scene.home, { rotate: -2.5, y: 2 });
+  const [base, ...plates] = floors;
+  if (
+    !(
+      base &&
+      plates.length === 3 &&
+      shades.length === 3 &&
+      traces &&
+      halo &&
+      cubes.length &&
+      stars.length &&
+      rings.length &&
+      pulses.length &&
+      leaders.length === 4 &&
+      pins.length === 3 &&
+      labels.length === 3 &&
+      dot
+    )
+  ) {
+    return null;
+  }
 
-  scene.children.forEach((child, index) => {
-    const delta = deltas[index];
-    if (!delta) return;
-    utils.set(child, {
-      opacity: 0,
-      rotate: CHILD_TILTS[index],
-      scale: 0.72,
-      x: delta.x,
-      y: delta.y,
-    });
+  const plateLeaders = leaders.slice(1);
+  const impact = firstContact() * DROP;
+  /** Point d'appui de l'écrasement : milieu de l'arête basse avant. */
+  const originOf = (el: SVGElement) => el.dataset.proOrigin ?? "";
+
+  const tl = gsap.timeline({ paused: true });
+
+  // --- Remise à zéro : on éteint, on rentre les rappels, les plaques s'en vont.
+  tl.to(
+    labels.toReversed(),
+    {
+      autoAlpha: 0,
+      duration: 0.24,
+      ease: "power2.in",
+      stagger: 0.05,
+      x: -6,
+    },
+    0
+  )
+    .to(
+      plateLeaders.toReversed(),
+      {
+        drawSVG: "0% 0%",
+        duration: 0.28,
+        ease: "power2.in",
+        stagger: 0.05,
+      },
+      0.04
+    )
+    .to(
+      pins.toReversed(),
+      {
+        autoAlpha: 0,
+        duration: 0.2,
+        ease: "power2.in",
+        stagger: 0.05,
+      },
+      0.22
+    )
+    // Un trait de longueur nulle garde une pastille (bouts ronds) : on le masque.
+    .set(plateLeaders, { autoAlpha: 0 }, 0.44);
+
+  // Le fondu n'arrive qu'en fin de montée : une plaque translucide encore
+  // posée sur le socle sombre y dessinerait un losange gris.
+  plates.toReversed().forEach((plate, index) => {
+    const at = 0.18 + index * 0.09;
+    const shade = shades[plates.length - 1 - index];
+    tl.to(plate, { duration: LIFT_OFF, ease: "back.in(1.4)", y: -FALL }, at)
+      .to(
+        plate,
+        { autoAlpha: 0, duration: LIFT_FADE, ease: "power1.in" },
+        at + LIFT_OFF - LIFT_FADE
+      )
+      .to(shade ?? [], { duration: 0.3, ease: "power1.in", opacity: 0 }, at);
   });
 
-  if (scene.labels.length) utils.set(scene.labels, { opacity: 0, y: 4 });
-  if (scene.trunk) utils.set(scene.trunk, { scaleY: 0 });
-  if (scene.drops.length) utils.set(scene.drops, { scaleY: 0 });
-  if (scene.rail) utils.set(scene.rail, { scaleX: 0 });
-  if (scene.base) utils.set(scene.base, { opacity: 0, y: 8 });
-  if (scene.signal) utils.set(scene.signal, { opacity: 0 });
-  if (scene.badge) utils.set(scene.badge, { opacity: 0, scale: 0.92, y: 6 });
-};
+  // --- État initial : le socle seul, allumé. -------------------------------
+  // Un set() est annulé en dernier par revert() (après les tweens datés) :
+  // on le réserve aux propriétés qu'aucun tween antérieur n'a touchées, et on
+  // passe par fromTo() pour les autres.
+  tl.addLabel(BUILD_LABEL, RESET).set(stars, { fill: STAR_OFF }, RESET);
 
-// La page Accueil se redresse puis chaque page enfant s'envole vers sa place.
-const addUnfoldPhase = (
-  timeline: Timeline,
-  scene: ProScene,
-  deltas: Delta[]
-) => {
-  timeline.add(
-    scene.home,
-    { rotate: 0, y: 0, duration: 420, ease: "out(3)" },
-    1100
-  );
+  const at = (offset: number) => RESET + offset;
 
-  scene.children.forEach((child, index) => {
-    const delta = deltas[index];
-    const at = FLY_AT[index];
-    if (!(delta && at !== undefined)) return;
-
-    timeline.add(child, { opacity: 1, duration: 180 }, at);
-    timeline.add(
-      child,
+  /** Éclat bref puis retour au repos (opacité). */
+  const flash = (
+    target: Element,
+    idle: number,
+    time: number,
+    settle: number
+  ) => {
+    tl.to(
+      target,
       {
-        rotate: { to: 0, duration: 680, ease: "inOut(2)" },
-        scale: { to: 1, duration: 680, ease: "inOut(2)" },
-        x: { to: 0, duration: 680, ease: "inOut(2)" },
-        y: [
-          { to: delta.y * 0.5 - 10, duration: 320, ease: "out(2)" },
-          { to: 0, duration: 360, ease: "in(1.6)" },
+        keyframes: [
+          { duration: 0.08, ease: "power1.out", opacity: 1 },
+          { duration: settle, ease: "power1.inOut", opacity: idle },
         ],
       },
-      at + 60
+      time
     );
-    timeline.add(
-      child,
-      {
-        scale: [
-          { to: 1.04, duration: 130, ease: "out(2)" },
-          { to: 1, duration: 210, ease: "inOut(2)" },
-        ],
-      },
-      at + 760
-    );
-  });
-};
-
-// Le tronc, le rail puis les branches relient Accueil aux pages enfants.
-const addConnectPhase = (timeline: Timeline, scene: ProScene) => {
-  if (scene.trunk) {
-    timeline.add(
-      scene.trunk,
-      { scaleY: 1, duration: 360, ease: "out(3)" },
-      3300
-    );
-  }
-
-  if (scene.rail) {
-    timeline.add(
-      scene.rail,
-      { scaleX: 1, duration: 480, ease: "out(3)" },
-      3660
-    );
-  }
-
-  scene.drops.forEach((drop, index) => {
-    const dropAt = 4140 + index * 260;
-    timeline.add(drop, { scaleY: 1, duration: 240, ease: "out(2)" }, dropAt);
-
-    const label = scene.labels[index];
-    if (label) {
-      timeline.add(
-        label,
-        { opacity: 1, y: 0, duration: 300, ease: "out(3)" },
-        dropAt + 120
-      );
-    }
-
-    const child = scene.children[index];
-    if (child) {
-      timeline.add(
-        child,
-        {
-          scale: [
-            { to: 1.05, duration: 150, ease: "out(3)" },
-            { to: 1, duration: 220, ease: "inOut(2)" },
-          ],
-        },
-        dropAt + 140
-      );
-    }
-  });
-};
-
-// La base technique s'ancre, Contact réagit puis le badge valide le site.
-const addFinalePhase = (timeline: Timeline, scene: ProScene) => {
-  if (scene.base) {
-    timeline.add(
-      scene.base,
-      { opacity: 1, y: 0, duration: 420, ease: "out(3)" },
-      5300
-    );
-  }
-
-  const contact = scene.children[2];
-  if (contact) {
-    timeline.add(
-      contact,
-      {
-        y: [
-          { to: -3, duration: 150, ease: "out(3)" },
-          { to: 0, duration: 220, ease: "inOut(2)" },
-        ],
-      },
-      5900
-    );
-  }
-
-  if (scene.signal) {
-    timeline.add(scene.signal, { opacity: 1, duration: 260 }, 5950);
-  }
-
-  if (scene.badge) {
-    timeline.add(
-      scene.badge,
-      { opacity: 1, scale: 1, y: 0, duration: 400, ease: "out(4)" },
-      6300
-    );
-  }
-};
-
-// Pause lisible (6700 → 8400) puis les pages rentrent dans l'Accueil.
-const addResetPhase = (
-  timeline: Timeline,
-  scene: ProScene,
-  deltas: Delta[]
-) => {
-  if (scene.badge) {
-    timeline.add(
-      scene.badge,
-      { opacity: 0, scale: 0.92, y: 6, duration: 240, ease: "in(2)" },
-      8400
-    );
-  }
-  if (scene.labels.length) {
-    timeline.add(
-      scene.labels,
-      { opacity: 0, y: 4, duration: 240, ease: "in(2)" },
-      8400
-    );
-  }
-  if (scene.signal) {
-    timeline.add(scene.signal, { opacity: 0, duration: 200 }, 8400);
-  }
-  if (scene.base) {
-    timeline.add(
-      scene.base,
-      { opacity: 0, y: 8, duration: 260, ease: "in(2)" },
-      8420
-    );
-  }
-  if (scene.drops.length) {
-    timeline.add(
-      scene.drops,
-      { scaleY: 0, duration: 220, ease: "in(2)" },
-      8450
-    );
-  }
-  if (scene.rail) {
-    timeline.add(scene.rail, { scaleX: 0, duration: 260, ease: "in(2)" }, 8560);
-  }
-  if (scene.trunk) {
-    timeline.add(
-      scene.trunk,
-      { scaleY: 0, duration: 220, ease: "in(2)" },
-      8700
-    );
-  }
-
-  scene.children.forEach((child, index) => {
-    const delta = deltas[index];
-    if (!delta) return;
-    timeline.add(
-      child,
-      {
-        rotate: CHILD_TILTS[index],
-        scale: 0.72,
-        x: delta.x,
-        y: delta.y,
-        duration: 480,
-        ease: "inOut(2)",
-      },
-      8500 + index * 90
-    );
-  });
-
-  if (scene.children.length) {
-    timeline.add(
-      scene.children,
-      { opacity: 0, duration: 180, ease: "in(2)" },
-      8880
-    );
-  }
-
-  timeline.add(
-    scene.home,
-    { rotate: -2.5, y: 2, duration: 300, ease: "inOut(2)" },
-    8980
-  );
-};
-
-export const animateProfessional = (
-  root: HTMLElement,
-  players: BentoPlayer[]
-) => {
-  const glow = query(root, "[data-bento-pro-glow]");
-  const home = query(root, "[data-bento-pro-home]");
-  const children = queryAll(root, "[data-bento-pro-child]");
-  const labels = queryAll(root, "[data-bento-pro-label]");
-  const trunk = query(root, "[data-bento-pro-trunk]");
-  const rail = query(root, "[data-bento-pro-rail]");
-  const drops = queryAll(root, "[data-bento-pro-drop]");
-  const base = query(root, "[data-bento-pro-base]");
-  const signal = query(root, "[data-bento-pro-signal]");
-  const signalPing = query(root, "[data-bento-pro-signal-ping]");
-  const badge = query(root, "[data-bento-pro-badge]");
-
-  if (glow) {
-    utils.set(glow, { opacity: 0.35, scale: 1 });
-    addPlayer(
-      players,
-      animate(glow, {
-        opacity: 0.6,
-        scale: 1.06,
-        alternate: true,
-        duration: 4600,
-        ease: "inOut(2)",
-        loop: true,
-      })
-    );
-  }
-
-  if (signalPing) {
-    utils.set(signalPing, { opacity: 0.7, scale: 1 });
-    addPlayer(
-      players,
-      animate(signalPing, {
-        opacity: [0.7, 0],
-        scale: [1, 2.4],
-        duration: 1900,
-        ease: "out(2)",
-        loop: true,
-      })
-    );
-  }
-
-  if (!(home && children.length === 3)) return;
-
-  const scene: ProScene = {
-    badge,
-    base,
-    children,
-    drops,
-    glow,
-    home,
-    labels,
-    rail,
-    signal,
-    signalPing,
-    trunk,
   };
 
-  // Remise à zéro avant mesure (utile lors d'un re-init après resize),
-  // puis mesure des trajets Accueil → pages enfants.
-  utils.set(children, { rotate: 0, scale: 1, x: 0, y: 0 });
-  const deltas = children.map((child) => centerDelta(home, child));
+  // --- 1 à 3. Les chutes, et l'onde d'impact vers le bas. --------------------
+  plates.forEach((plate, index) => {
+    const start = at(DROP_AT[index] ?? 0);
+    const contact = start + impact;
+    const shade = shades[index];
 
-  setInitialState(scene, deltas);
+    tl.to(plate, { autoAlpha: 1, duration: 0.14, ease: "none" }, start)
+      .fromTo(
+        plate,
+        { y: -FALL },
+        { duration: DROP, ease: "pro-bounce", immediateRender: false, y: 0 },
+        start
+      )
+      .to(
+        plate,
+        {
+          duration: DROP,
+          ease: "pro-squash",
+          scaleX: 1.06,
+          scaleY: 0.92,
+          svgOrigin: originOf(plate),
+        },
+        start
+      )
+      // L'ombre se précise à mesure que la plaque approche.
+      .to(
+        shade ?? [],
+        { duration: impact, ease: "power2.in", opacity: 1 },
+        start
+      );
 
-  const timeline = createTimeline({ loop: true });
+    // Contrecoup : les étages du dessous encaissent, du plus proche au socle.
+    const below = plates.slice(0, index).toReversed().concat(base);
+    below.forEach((floor, depth) => {
+      const amplitude = THUD[depth] ?? 1;
+      tl.to(
+        floor,
+        {
+          keyframes: [
+            { duration: 0.09, ease: "power2.out", y: amplitude },
+            { duration: 0.18, ease: "power2.inOut", y: 0 },
+          ],
+        },
+        contact + depth * 0.04
+      );
+    });
 
-  addUnfoldPhase(timeline, scene, deltas);
-  addConnectPhase(timeline, scene);
-  addFinalePhase(timeline, scene);
-  addResetPhase(timeline, scene, deltas);
+    // L'énergie descend dans les fondations : les pistes flashent.
+    const reach = contact + (below.length - 1) * 0.04;
+    flash(traces, TRACES_IDLE, reach, 0.4);
+    // La LED répond aux deux premiers impacts (éclat bref : il doit être
+    // retombé avant le suivant) ; au dernier, elle attend l'impulsion qui
+    // court dans les pistes (voir plus bas).
+    if (index < plates.length - 1) flash(halo, HALO_IDLE, reach, 0.36);
+  });
 
-  addPlayer(players, timeline);
+  const [servicesAt, proofsAt, pagesAt] = DROP_AT.map(
+    (offset) => at(offset) + impact
+  ) as [number, number, number];
+
+  // Services : les cubes, emportés par l'inertie, sautillent à l'impact.
+  cubes.forEach((cube, index) => {
+    tl.to(
+      cube,
+      {
+        keyframes: [
+          { duration: 0.14, ease: "power2.out", y: -4 },
+          { duration: 0.22, ease: "power2.in", y: 0 },
+        ],
+      },
+      servicesAt + 0.02 + index * 0.035
+    );
+  });
+
+  // Preuves : les étoiles s'allument une à une.
+  stars.forEach((star, index) => {
+    const start = proofsAt + 0.12 + index * 0.08;
+    tl.to(
+      star,
+      { duration: 0.16, ease: "power1.out", fill: STAR_ON },
+      start
+    ).to(
+      star,
+      {
+        keyframes: [
+          { duration: 0.12, ease: "power2.out", scale: 1.4 },
+          { duration: 0.28, ease: "back.out(2.4)", scale: 1 },
+        ],
+        svgOrigin: star.dataset.origin ?? "",
+      },
+      start
+    );
+  });
+
+  // Pages clés : le bouton de contact émet deux ondes.
+  rings.forEach((ring, index) => {
+    const start = pagesAt + 0.04 + index * 0.24;
+    tl.fromTo(
+      ring,
+      { attr: RING_FROM },
+      {
+        attr: RING_TO,
+        duration: 1,
+        ease: "power2.out",
+        immediateRender: false,
+      },
+      start
+    ).fromTo(
+      ring,
+      { opacity: 0.85 },
+      { duration: 1, ease: "power1.in", immediateRender: false, opacity: 0 },
+      start
+    );
+  });
+
+  // Le socle s'illumine : une impulsion court de la puce vers les bords et
+  // la LED, qui s'allume franchement à son arrivée.
+  const PULSE = pagesAt + 0.1;
+  const PULSE_RUN = 0.6;
+  tl.set(pulses, { autoAlpha: 1, drawSVG: "0% 0%" }, PULSE)
+    .to(
+      pulses,
+      {
+        drawSVG: "78% 100%",
+        duration: PULSE_RUN,
+        ease: "power1.inOut",
+        stagger: 0.03,
+      },
+      PULSE
+    )
+    .to(
+      pulses,
+      { autoAlpha: 0, duration: 0.18, ease: "power1.in", stagger: 0.03 },
+      PULSE + PULSE_RUN - 0.12
+    );
+  const ONLINE = PULSE + PULSE_RUN + 0.1;
+  const ONLINE_SETTLE = 0.7;
+  flash(halo, HALO_IDLE, ONLINE, ONLINE_SETTLE);
+  // Le point « en ligne » du libellé répond à la LED.
+  tl.to(
+    dot,
+    {
+      keyframes: [
+        { duration: 0.12, ease: "power2.out", scale: 1.7 },
+        { duration: 0.45, ease: "back.out(2)", scale: 1 },
+      ],
+    },
+    ONLINE
+  );
+
+  // --- 4. Lignes de rappel (bas → haut), puis libellés. ----------------------
+  const LEADERS = at(1.9);
+  plateLeaders.forEach((leader, index) => {
+    const start = LEADERS + index * 0.1;
+    const label = labels[index];
+    const pin = pins[index];
+    tl.fromTo(
+      pin ?? [],
+      { attr: { r: 0 }, autoAlpha: 0 },
+      {
+        attr: { r: PIN_R },
+        autoAlpha: 1,
+        duration: 0.3,
+        ease: "back.out(3)",
+        immediateRender: false,
+      },
+      start - 0.04
+    )
+      .fromTo(
+        leader,
+        { autoAlpha: 1, drawSVG: "0% 0%" },
+        {
+          autoAlpha: 1,
+          drawSVG: "0% 100%",
+          duration: 0.32,
+          ease: "power2.out",
+          immediateRender: false,
+        },
+        start
+      )
+      .fromTo(
+        label ?? [],
+        { autoAlpha: 0, x: -6 },
+        {
+          autoAlpha: 1,
+          duration: 0.3,
+          ease: "power3.out",
+          immediateRender: false,
+          x: 0,
+        },
+        start + 0.14
+      );
+  });
+
+  // --- 5. Tenue : les plaques flottent, la LED respire. ----------------------
+  const HOLD = at(2.75);
+  const FLOAT = 1.15;
+  plates.forEach((plate, index) => {
+    tl.to(
+      plate,
+      {
+        keyframes: [-1.5, 0, -1.5, 0].map((y) => ({
+          duration: FLOAT,
+          ease: "sine.inOut",
+          y,
+        })),
+      },
+      HOLD + index * 0.2
+    );
+  });
+  // La respiration part une fois l'éclat « en ligne » retombé (jamais deux
+  // tweens d'opacité en même temps sur le halo).
+  tl.to(
+    halo,
+    {
+      keyframes: [0.4, HALO_IDLE, 0.4, HALO_IDLE].map((opacity) => ({
+        duration: 1.2,
+        ease: "sine.inOut",
+        opacity,
+      })),
+    },
+    ONLINE + 0.08 + ONLINE_SETTLE
+  );
+
+  return { timeline: tl };
 };

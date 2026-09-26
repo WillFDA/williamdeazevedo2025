@@ -1,13 +1,233 @@
 ---
-import SquareChartSearch from "@/components/icons/nucleo/square-chart-search-fill.svg";
-
 /**
- * Scène animée "SEO & mise en ligne" : une page de résultats où la ligne du
- * client grimpe de la 3e à la 2e puis à la 1re position (les rangs restent
- * fixes en gouttière), balayage lumineux à l'arrivée, badge "1ʳᵉ position"
- * Chorégraphie pilotée par src/scripts/animations/bento/seo.ts.
- * Sans JS : le client est 1er, badge visible.
+ * Scène « SEO & mise en ligne » : la loupe. Un champ typographique de noms
+ * d'entreprises, pâles et serrés : la concurrence. Une loupe en verre hésite
+ * sur deux concurrents, puis se pose sur « Vous ». Sous le verre, le nom
+ * devient net, bleu, agrandi et souligné comme un lien, avec une ligne de
+ * métadonnées qui n'existe que dans le verre (« 4,9 · Devis ») : trouvé,
+ * compris.
+ *
+ * Le verre contient une copie du champ (mêmes mots, mêmes positions)
+ * agrandie ×SEO_ZOOM ; la scène la déplace à l'inverse de la loupe, d'où
+ * l'effet de grossissement. Géométrie commune : seo-geometry.ts.
+ * Sur desktop, la loupe suit le pointeur et s'aimante sur « Vous ».
+ *
+ * Sans JS / reduced motion : état final (loupe posée sur « Vous »).
+ * Chorégraphie : src/scripts/animations/bento/seo.ts.
  */
+import StarFill from "@/components/icons/nucleo/star-fill.svg";
+import {
+	SEO_LENS_RADIUS,
+	SEO_NAME,
+	SEO_ROW_GAP,
+	SEO_STAGE,
+	SEO_STOPS,
+	SEO_ZOOM,
+	type SeoPoint,
+	seoCopyOffset,
+} from "@/scripts/animations/bento/seo-geometry";
+
+type Word = {
+	size: number;
+	text: string;
+	weight: number;
+	x: number;
+	y: number;
+};
+
+const round = (value: number) => Math.round(value * 100) / 100;
+
+// Noms du champ : métiers et enseignes locales, lus au passage de la loupe.
+const pool = [
+	"Garage Central",
+	"Coiffure Élise",
+	"Paysagiste",
+	"Cabinet Morel",
+	"Traiteur",
+	"Couvreur",
+	"Architecte",
+	"Boulangerie",
+	"Ostéopathe",
+	"Serrurier",
+	"Fleuriste",
+	"Carreleur",
+	"Opticien",
+	"Maçon",
+	"Chauffagiste",
+	"Vétérinaire",
+	"Auto-école",
+	"Fromagerie",
+	"Photographe",
+	"Charpentier",
+	"Pâtisserie",
+	"Avocat",
+	"Ébéniste",
+	"Toiletteur",
+	"Caviste",
+	"Librairie",
+	"Brasserie",
+	"Studio Yoga",
+	"Agence Immo",
+	"Salon Nova",
+	"Atelier Bois",
+	"Épicerie fine",
+	"Pressing",
+	"Cordonnier",
+	"Tapissier",
+	"Vitrier",
+	"Jardinerie",
+	"Café du Port",
+	"Déménageur",
+	"Pharmacie",
+	"Imprimerie",
+	"Pépinière",
+	"Cuisiniste",
+	"Ramoneur",
+	"Élagueur",
+	"Bijouterie",
+	"Barbier",
+	"Chocolatier",
+	"Primeur",
+	"Sophrologue",
+	"Kiné",
+	"Notaire",
+];
+
+/** Largeur estimée d'un mot (métriques moyennes de Geist), sans mesure DOM. */
+const estimateWidth = (text: string, size: number) => {
+	let sum = 0;
+	for (const char of text) {
+		if (char === " ") sum += 0.28;
+		else if ("iljtfr-'".includes(char)) sum += 0.34;
+		else if ("mw".includes(char)) sum += 0.82;
+		else if (char === char.toLowerCase()) sum += 0.56;
+		else sum += 0.68;
+	}
+	return sum * size;
+};
+
+// Générateur pseudo-aléatoire déterministe : le champ est identique à
+// chaque build (et identique entre le champ et sa copie grossie).
+let seed = 7;
+const random = () => {
+	seed = (seed * 16807) % 2147483647;
+	return (seed - 1) / 2147483646;
+};
+
+const sizes = [11, 10, 12, 11, 10, 11, 12, 10, 11, 13];
+const weights = [450, 450, 500, 450, 400, 500, 450, 450, 500, 450];
+
+// Mots épinglés : la cible, le mot de départ, les deux concurrents où la
+// loupe hésite et les voisins qui dépassent du bord de la loupe posée.
+const name: Word = { size: 13, text: "Vous", weight: 600, ...SEO_NAME };
+const pinned: Word[] = [
+	{ size: 12, text: "Serrurier", weight: 500, ...SEO_STOPS.first },
+	{ size: 12, text: "Électricien", weight: 500, ...SEO_STOPS.second },
+	{ size: 11, text: "Traiteur", weight: 450, ...SEO_STOPS.start },
+	{ size: 11, text: "Cabinet Morel", weight: 450, x: 132, y: SEO_NAME.y - SEO_ROW_GAP },
+	{ size: 11, text: "Couvreur", weight: 450, x: 124, y: SEO_NAME.y + SEO_ROW_GAP },
+];
+
+// Blancs autour de « Vous » : le verre posé ne montre que le nom et ses
+// métadonnées (aucun fragment de mot grossi pour leur voler la vedette).
+const blanks = [
+	{ from: 22, to: 96, y: SEO_NAME.y - SEO_ROW_GAP },
+	{ from: 18, to: 98, y: SEO_NAME.y },
+	{ from: 26, to: 94, y: SEO_NAME.y + SEO_ROW_GAP },
+];
+
+// Tirage des noms : le champ fait plusieurs fois le tour de la liste. Pour
+// chaque mot, on prend le nom dont l'occurrence la plus proche est la plus
+// éloignée (écart vertical doublé : la zone visible est plus large que
+// haute). Sans cela, la même suite de noms revient toutes les cinq rangées,
+// un motif très visible dans les grandes variantes.
+const pinnedTexts = new Set(pinned.map((word) => word.text));
+const names = pool.filter((text) => !pinnedTexts.has(text));
+for (let index = names.length - 1; index > 0; index--) {
+	const swap = Math.floor(random() * (index + 1));
+	[names[index], names[swap]] = [names[swap] ?? "", names[index] ?? ""];
+}
+const seen = new Map<string, SeoPoint[]>();
+const pickName = (x: number, y: number) => {
+	let best = names[0] ?? "Traiteur";
+	let bestSpread = -1;
+	for (const text of names) {
+		const spread = Math.min(
+			Infinity,
+			...(seen.get(text) ?? []).map((p) => Math.hypot(p.x - x, (p.y - y) * 2)),
+		);
+		if (spread > bestSpread) {
+			best = text;
+			bestSpread = spread;
+		}
+	}
+	return best;
+};
+
+/** Demi-largeur utile d'une rangée : le champ n'occupe que la zone visible. */
+const halfWidthAt = (y: number) =>
+	Math.abs(y) <= 80 ? 420 : Math.abs(y) <= 115 ? 330 : 150;
+
+const words: Word[] = [];
+let next = 0;
+for (let row = -6; row <= 6; row++) {
+	const y = SEO_NAME.y + row * SEO_ROW_GAP;
+	const half = halfWidthAt(y);
+	const anchors = [
+		...[name, ...pinned]
+			.filter((word) => word.y === y)
+			.map((word) => {
+				const width = estimateWidth(word.text, word.size);
+				return { from: word.x - width / 2 - 16, to: word.x + width / 2 + 16 };
+			}),
+		...blanks.filter((blank) => blank.y === y),
+	];
+	let cursor = -half - random() * 70;
+	while (cursor < half) {
+		const size = sizes[next % sizes.length] ?? 11;
+		const weight = weights[next % weights.length] ?? 450;
+		const text = pickName(cursor + 30, y);
+		const width = estimateWidth(text, size);
+		const start = cursor;
+		const clash = anchors.find(
+			(anchor) => start < anchor.to && start + width > anchor.from,
+		);
+		if (clash) {
+			cursor = clash.to + 4 + random() * 8;
+			continue;
+		}
+		const x = round(cursor + width / 2);
+		words.push({ size, text, weight, x, y });
+		seen.set(text, [...(seen.get(text) ?? []), { x, y }]);
+		cursor += width + 18 + random() * 16;
+		next++;
+	}
+}
+words.push(...pinned);
+
+// La copie grossie n'a besoin que de la zone que la loupe peut parcourir.
+const copyWords = words.filter((word) => {
+	const reach = Math.abs(word.y) <= 115 ? 285 : 165;
+	const half = estimateWidth(word.text, word.size) / 2;
+	return Math.abs(word.x) - half <= reach && Math.abs(word.y) <= 150;
+});
+
+const { height: H, width: W } = SEO_STAGE;
+const R = SEO_LENS_RADIUS;
+const rest = SEO_STOPS.rest;
+const copy = seoCopyOffset(rest);
+
+const place = (point: SeoPoint) =>
+	`left: ${round(W / 2 + point.x)}px; top: ${round(H / 2 + point.y)}px;`;
+const wordStyle = (word: Word) =>
+	`${place(word)} font-size: ${word.size}px; font-weight: ${word.weight};`;
+const translate = (point: SeoPoint) =>
+	`transform: translate(${round(point.x)}px, ${round(point.y)}px);`;
+
+const stageStyle = `width: ${W}px; height: ${H}px; margin: ${-H / 2}px 0 0 ${-W / 2}px;`;
+
+// La ligne de métadonnées, sous le nom (dans la copie seulement).
+const metaPoint = { x: SEO_NAME.x, y: SEO_NAME.y + 13.5 };
 ---
 
 <div
@@ -15,84 +235,333 @@ import SquareChartSearch from "@/components/icons/nucleo/square-chart-search-fil
 	data-bento-visual="seo"
 	aria-hidden="true"
 >
-	<div class="seo-stage relative scale-[var(--bento-scene-scale,1)] transition-transform duration-500 ease-out group-hover:scale-[calc(var(--bento-scene-scale,1)*1.03)]">
-		<div class="w-[196px] rounded-xl border border-gray-200/80 bg-white p-2.5 shadow-[0_18px_36px_-22px_rgba(34,42,55,0.4)]">
-			<div class="flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-[5px]">
-				<span class="seo-lens flex shrink-0" data-bento-seo-lens>
-					<SquareChartSearch class="size-[18px] text-gray-400" />
-				</span>
-				<span class="truncate text-[8px] font-medium text-gray-500">votre métier + votre ville</span>
+	{/* Le champ, estompé vers les bords (masque à l'échelle de la zone,
+	    d'où ce calque séparé de la scène). */}
+	<div class="seo-field-layer">
+		<div class="seo-stage" style={stageStyle}>
+			<div class="seo-field" data-seo-field>
+				{words.map((word) => (
+					<span class="seo-word" style={wordStyle(word)}>{word.text}</span>
+				))}
 			</div>
+		</div>
+	</div>
 
-			<div class="mt-2 flex gap-1.5">
-				<div class="flex flex-col gap-[5px]">
-					<span class="seo-rank">1</span>
-					<span class="seo-rank">2</span>
-					<span class="seo-rank">3</span>
-				</div>
+	<div class="seo-stage" style={stageStyle} data-seo-stage>
+		<span class="seo-word seo-name" style={wordStyle(name)} data-seo-name>
+			Vous<span class="seo-underline" data-seo-underline></span>
+		</span>
 
-				<div class="seo-list flex min-w-0 flex-1 flex-col gap-[5px]" data-bento-seo-list>
-					<div class="seo-row-mine relative flex h-5 items-center gap-1.5 overflow-hidden rounded-md bg-blue-50 px-1.5 ring-1 ring-blue-200/80" data-bento-seo-row="mine">
-						<span class="size-2 shrink-0 rounded-full bg-[#3e60d4]"></span>
-						<span class="h-1.5 w-16 rounded-full bg-gray-400/70"></span>
-						<span class="h-1.5 w-8 rounded-full bg-gray-200"></span>
-						<span class="seo-sweep absolute top-0 bottom-0 left-0 w-7 bg-gradient-to-r from-transparent via-white to-transparent" data-bento-seo-sweep></span>
+		<div
+			class="seo-lens"
+			style={`left: ${W / 2 - R}px; top: ${H / 2 - R}px; width: ${2 * R}px; height: ${2 * R}px; ${translate(rest)}`}
+			data-seo-lens
+		>
+			<div class="seo-lens-hover" data-seo-hover>
+				<div class="seo-lens-body" data-seo-body>
+					<span class="seo-halo" data-seo-halo></span>
+					<span class="seo-drop"></span>
+					<span class="seo-lift" data-seo-lift></span>
+					<span class="seo-handle">
+						<span class="seo-ferrule"></span>
+						<span class="seo-grip"></span>
+					</span>
+					<div class="seo-glass">
+						<div class="seo-copy" style={translate(copy)} data-seo-copy>
+							<div
+								class="seo-copy-field"
+								style={`left: ${R - W / 2}px; top: ${R - H / 2}px; width: ${W}px; height: ${H}px; transform: scale(${SEO_ZOOM});`}
+							>
+								{copyWords.map((word) => (
+									<span class="seo-word" style={wordStyle(word)}>{word.text}</span>
+								))}
+								<span class="seo-word seo-name" style={wordStyle(name)} data-seo-twin>
+									Vous<span class="seo-underline" data-seo-underline></span>
+								</span>
+								<span class="seo-meta" style={place(metaPoint)}>
+									<span class="seo-meta-line" data-seo-meta>
+										<StarFill class="seo-star" />
+										<span class="seo-rating">4,9</span>
+										<span class="seo-dot">·</span>
+										Devis
+									</span>
+								</span>
+							</div>
+						</div>
+						<span class="seo-sheen"></span>
 					</div>
-					<div class="seo-row flex h-5 items-center gap-1.5 rounded-md px-1.5" data-bento-seo-row="other-1">
-						<span class="size-2 shrink-0 rounded-full bg-gray-200"></span>
-						<span class="h-1.5 w-14 rounded-full bg-gray-200"></span>
-						<span class="h-1.5 w-6 rounded-full bg-gray-100"></span>
-					</div>
-					<div class="seo-row flex h-5 items-center gap-1.5 rounded-md px-1.5" data-bento-seo-row="other-2">
-						<span class="size-2 shrink-0 rounded-full bg-gray-200"></span>
-						<span class="h-1.5 w-12 rounded-full bg-gray-200"></span>
-						<span class="h-1.5 w-9 rounded-full bg-gray-100"></span>
-					</div>
+					<span class="seo-rim"></span>
 				</div>
 			</div>
 		</div>
-
-		<span class="seo-chip absolute -right-3 top-8 flex items-center gap-1 rounded-full bg-blue-500 px-2 py-1 text-[8px] font-semibold text-white shadow-sm" data-bento-seo-chip>
-			<svg class="size-2" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M8 13V3M4 7l4-4 4 4"></path>
-			</svg>
-			1ʳᵉ position
-		</span>
-
 	</div>
 </div>
 
 <style>
-	.seo-rank {
-		align-items: center;
-		color: rgba(112, 122, 135, 0.55);
-		display: flex;
-		font-family: var(--font-mono, ui-monospace, monospace);
-		font-size: 7px;
-		height: 1.25rem;
-		justify-content: center;
+	/* Échelle de la scène selon la hauteur de la zone (container-type: size).
+	   On n'utilise pas --bento-scene-scale : le champ reste à 10 px minimum. */
+	.seo-scene {
+		--seo-k: 1;
+		--seo-ink: var(--color-blue-600, #3152c7);
+		background: #f6f8fb;
+		font-family: var(--font-sans);
+	}
+
+	@container (min-height: 185px) {
+		.seo-scene {
+			--seo-k: 1.1;
+		}
+	}
+
+	@container (min-height: 215px) {
+		.seo-scene {
+			--seo-k: 1.22;
+		}
+	}
+
+	@container (min-height: 300px) {
+		.seo-scene {
+			--seo-k: 1.45;
+		}
+	}
+
+	@container (min-height: 400px) {
+		.seo-scene {
+			--seo-k: 1.6;
+		}
+	}
+
+	.seo-field-layer {
+		inset: 0;
+		-webkit-mask-image: radial-gradient(
+			ellipse 72% 88% at 50% 50%,
+			#000 38%,
+			rgba(0, 0, 0, 0.28) 100%
+		);
+		mask-image: radial-gradient(
+			ellipse 72% 88% at 50% 50%,
+			#000 38%,
+			rgba(0, 0, 0, 0.28) 100%
+		);
+		position: absolute;
+	}
+
+	.seo-stage {
+		left: 50%;
+		position: absolute;
+		top: 50%;
+		transform: scale(var(--seo-k));
+	}
+
+	.seo-field {
+		inset: 0;
+		opacity: 0.6;
+		position: absolute;
+	}
+
+	.seo-word {
+		color: var(--color-gray-300, #bcc4cf);
+		letter-spacing: -0.01em;
 		line-height: 1;
-		width: 0.65rem;
+		position: absolute;
+		translate: -50% -50%;
+		white-space: nowrap;
 	}
 
+	.seo-name {
+		color: var(--seo-ink);
+	}
+
+	.seo-underline {
+		background: var(--color-blue-500, #3e60d4);
+		border-radius: 1px;
+		height: 1px;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: calc(100% + 1.5px);
+		transform-origin: 0% 50%;
+	}
+
+	/* --- La loupe ----------------------------------------------------- */
 	.seo-lens {
-		transform-origin: center;
+		position: absolute;
 		will-change: transform;
 	}
 
-	.seo-row-mine,
-	.seo-row {
-		will-change: transform;
+	.seo-lens-hover,
+	.seo-lens-body {
+		height: 100%;
+		position: relative;
+		width: 100%;
 	}
 
-	.seo-sweep {
+	.seo-halo,
+	.seo-drop,
+	.seo-lift,
+	.seo-rim {
+		border-radius: 50%;
+		inset: -3px;
+		position: absolute;
+	}
+
+	.seo-halo {
+		border: 1.5px solid var(--color-blue-400, #5f7bea);
 		opacity: 0;
-		will-change: opacity, transform;
 	}
 
-	.seo-chip {
-		transform-origin: center;
-		will-change: opacity, transform;
+	/* Ombre commune des objets qui « lèvent » (sous le manche). */
+	.seo-drop {
+		box-shadow:
+			0 1px 2px rgba(31, 38, 52, 0.06),
+			0 18px 36px -22px rgba(31, 38, 52, 0.35);
 	}
 
+	/* Ombre portée plus longue quand la loupe est soulevée. */
+	.seo-lift {
+		box-shadow: 0 30px 38px -22px rgba(31, 38, 52, 0.42);
+		opacity: 0;
+	}
+
+	.seo-handle {
+		height: 0;
+		left: 50%;
+		position: absolute;
+		rotate: 45deg;
+		top: 50%;
+		width: 0;
+	}
+
+	.seo-ferrule,
+	.seo-grip {
+		position: absolute;
+	}
+
+	.seo-ferrule {
+		background: linear-gradient(#f8fafc, #d9dee6);
+		border-radius: 1.5px;
+		box-shadow: inset 0 0 0 0.5px rgba(31, 38, 52, 0.16);
+		height: 11px;
+		left: 47px;
+		top: -5.5px;
+		width: 9px;
+	}
+
+	.seo-grip {
+		background: linear-gradient(#404957, #1f2634 70%);
+		border-radius: 2px 5px 5px 2px;
+		box-shadow:
+			4px 5px 10px -5px rgba(31, 38, 52, 0.5),
+			inset 0 1px 0 rgba(255, 255, 255, 0.14);
+		height: 9px;
+		left: 55px;
+		top: -4.5px;
+		width: 34px;
+	}
+
+	.seo-glass {
+		background: radial-gradient(
+			circle at 50% 42%,
+			#ffffff 0%,
+			#fdfdfe 52%,
+			#f1f4f9 100%
+		);
+		border-radius: 50%;
+		clip-path: circle(50%);
+		height: 100%;
+		overflow: hidden;
+		position: relative;
+		width: 100%;
+	}
+
+	.seo-copy {
+		left: 0;
+		position: absolute;
+		top: 0;
+		will-change: transform;
+	}
+
+	.seo-copy-field {
+		position: absolute;
+		transform-origin: 50% 50%;
+	}
+
+	.seo-copy-field .seo-word {
+		color: var(--color-gray-400, #9ba4b1);
+	}
+
+	.seo-copy-field .seo-name {
+		color: var(--seo-ink);
+	}
+
+	.seo-meta {
+		font-size: 7.5px;
+		font-weight: 500;
+		line-height: 1;
+		position: absolute;
+		translate: -50% -50%;
+		white-space: nowrap;
+	}
+
+	.seo-meta-line {
+		align-items: center;
+		color: var(--color-gray-500, #707a87);
+		display: flex;
+		gap: 2px;
+	}
+
+	.seo-meta :global(.seo-star) {
+		color: var(--color-blue-500, #3e60d4);
+		height: 7px;
+		width: 7px;
+	}
+
+	.seo-rating {
+		color: var(--color-gray-800, #2f3642);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.seo-dot {
+		color: var(--color-gray-400, #9ba4b1);
+	}
+
+	/* Reflet du verre : un arc en haut à gauche, et l'épaisseur au bord. */
+	.seo-sheen {
+		border-radius: 50%;
+		box-shadow:
+			inset 0 -7px 14px -10px rgba(31, 38, 52, 0.22),
+			inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+		inset: 0;
+		position: absolute;
+	}
+
+	.seo-sheen::before {
+		border: 2px solid transparent;
+		border-top-color: rgba(255, 255, 255, 0.95);
+		border-radius: 50%;
+		content: "";
+		inset: 4px;
+		position: absolute;
+		rotate: -45deg;
+	}
+
+	.seo-rim {
+		border: 3px solid #ffffff;
+		box-shadow:
+			0 0 0 0.75px rgba(31, 38, 52, 0.12),
+			inset 0 0 0 0.75px rgba(31, 38, 52, 0.1);
+	}
+
+	/* Survol : l'anneau du verre se teinte de bleu (la loupe devient pilotable). */
+	@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+		.seo-rim {
+			transition: box-shadow 0.3s ease-out;
+		}
+
+		:global(.group:hover) .seo-rim {
+			box-shadow:
+				0 0 0 0.75px rgba(95, 123, 234, 0.55),
+				inset 0 0 0 0.75px rgba(95, 123, 234, 0.3);
+		}
+	}
 </style>

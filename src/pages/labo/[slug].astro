@@ -1,0 +1,104 @@
+---
+/**
+ * Labo des scènes bento : chaque visuel rendu dans toutes les variantes de
+ * carte, pour régler les animations. Page générée uniquement en dev
+ * (`bun dev` → /labo/bento/) ou si BENTO_LAB=1 au build : jamais en prod.
+ * Filtre : /labo/bento/?v=vitrine
+ */
+import ServiceBentoCard from "@/components/bento/ServiceBentoCard.astro";
+import ServicesBentoAnimations from "@/components/bento/ServicesBentoAnimations.astro";
+import type {
+    ServiceBentoItem,
+    ServiceBentoVariant,
+    ServiceBentoVisual,
+} from "@/data/serviceBento";
+import { servicesOverviewBentoItems } from "@/data/serviceBento";
+import "@/styles/global.css";
+
+export const getStaticPaths = () =>
+    import.meta.env.DEV || process.env.BENTO_LAB === "1"
+        ? [{ params: { slug: "bento" } }]
+        : [];
+
+const visuals: ServiceBentoVisual[] = [
+    "vitrine",
+    "refonte",
+    "frontend",
+    "seo",
+    "artisan",
+    "professional",
+];
+
+const items = new Map<ServiceBentoVisual, ServiceBentoItem>(
+    servicesOverviewBentoItems.map((item) => [item.visual, item]),
+);
+
+const variants: { variant: ServiceBentoVariant; width: string; label: string }[] =
+    [
+        { label: "feature", variant: "feature", width: "482px" },
+        { label: "wide", variant: "wide", width: "698px" },
+        { label: "small", variant: "small", width: "339px" },
+        { label: "support", variant: "support", width: "590px" },
+        { label: "relatedFeature (lg)", variant: "relatedFeature", width: "984px" },
+        { label: "relatedFeature (xl)", variant: "relatedFeature", width: "560px" },
+        { label: "relatedCompact", variant: "relatedCompact", width: "478px" },
+        { label: "related", variant: "related", width: "360px" },
+    ];
+---
+
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="noindex, nofollow" />
+        <title>Labo bento</title>
+    </head>
+    <body class="bg-snow-500 px-4 py-10 text-gray-900 sm:px-8">
+        <h1 class="text-2xl font-normal">Labo bento</h1>
+        <p class="mt-2 text-sm text-gray-500">
+            Chaque scène dans toutes les variantes de carte. Filtre :
+            <code>?v=vitrine</code>
+        </p>
+        {
+            visuals.map((visual) => {
+                const item = items.get(visual);
+                return (
+                    item && (
+                        <section class="mt-12" data-lab-visual={visual}>
+                            <h2 class="text-lg font-medium">{visual}</h2>
+                            <div class="mt-4 flex flex-wrap items-start gap-5">
+                                {variants.map(({ label, variant, width }) => (
+                                    <div
+                                        class="flex max-w-full flex-col gap-2"
+                                        style={`width: ${width}`}
+                                        data-lab-variant={label}
+                                    >
+                                        <span class="font-mono text-xs text-gray-500">
+                                            {label} · {width}
+                                        </span>
+                                        <ServiceBentoCard
+                                            item={item}
+                                            variant={variant}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )
+                );
+            })
+        }
+        <ServicesBentoAnimations />
+        <script>
+            const only = new URLSearchParams(window.location.search).get("v");
+            if (only) {
+                document
+                    .querySelectorAll<HTMLElement>("[data-lab-visual]")
+                    .forEach((section) => {
+                        if (section.dataset.labVisual !== only) section.remove();
+                    });
+            }
+        </script>
+    </body>
+</html>

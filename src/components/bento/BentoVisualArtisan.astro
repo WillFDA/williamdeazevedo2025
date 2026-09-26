@@ -1,423 +1,665 @@
 ---
 /**
- * Scène "Site internet artisan" : la carte locale. Le pin de l'artisan se
- * plante sur le quartier, sa fiche s'ouvre (prestations, réalisations),
- * la zone d'intervention se dessine, les maisons s'allument puis envoient
- * leurs demandes de devis vers le pin — toast, puis compteur "2 demandes".
- * Chorégraphie pilotée par src/scripts/animations/bento/artisan.ts.
- * Sans JS : carte complète, pin planté, fiche ouverte, toast et compteur.
+ * Scène « Site internet artisan » : l'isochrone, le territoire dessiné.
+ * Une carte topographique en traits fins (courbes de niveau, la Vilaine,
+ * la rocade, les routes de Pacé, Cesson et Bruz) avec l'atelier au centre.
+ * La zone d'intervention naît d'un point et s'étale en isochrone « 20 min »
+ * le long des routes rapides ; les chantiers réalisés s'y posent, puis des
+ * comètes remontent les routes vers l'atelier en déposant de nouveaux
+ * chantiers (« Zone 20 min · 12 chantiers »).
+ *
+ * Deux calques SVG alignés (même viewBox 340 × 200 en `meet`) : le fond de
+ * carte, jamais repeint, et le premier plan animé. La carte déborde du
+ * viewBox pour remplir toute la zone, quelle que soit la variante. Les
+ * textes sont en HTML, placés sur les coordonnées de la carte via --u
+ * (px par unité SVG) : ils gardent leur taille réelle à toutes les échelles.
+ *
+ * Sans JS / reduced motion : état final (zone, 12 chantiers, légende).
+ * Au survol : la zone s'agrandit et passe à « 30 min » (CSS seul).
+ * Chorégraphie : src/scripts/animations/bento/artisan.ts.
+ * Géométrie : src/scripts/animations/bento/artisan-geometry.ts.
  */
+import {
+	ARTISAN_VIEW,
+	ATELIER,
+	ATELIER_RADIUS,
+	artisanMap,
+	comets,
+	doneSites,
+	type Point,
+	TOWNS,
+} from "@/scripts/animations/bento/artisan-geometry";
+
+const viewBox = `0 0 ${ARTISAN_VIEW.width} ${ARTISAN_VIEW.height}`;
+const [ax, ay] = ATELIER;
+/** Côté d'un marqueur de chantier (unités SVG). */
+const SITE = 6;
+
+/** Position CSS d'un libellé HTML sur un point de la carte. */
+const at = ([x, y]: Point) => `--x: ${x}; --y: ${y};`;
+const [tagX, tagY] = artisanMap.tag;
 ---
 
 <div
-    class="artisan-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden px-4 py-4"
-    data-bento-visual="artisan"
-    aria-hidden="true"
+	class="artisan-scene pointer-events-none relative flex h-full w-full overflow-hidden"
+	data-bento-visual="artisan"
+	aria-hidden="true"
 >
-    <div class="artisan-stage relative w-[320px] scale-[var(--bento-scene-scale,1)] transition-transform duration-500 ease-out group-hover:scale-[calc(var(--bento-scene-scale,1)*1.03)] sm:w-[420px]">
-        <div class="artisan-map">
-            <span class="artisan-road artisan-road--h1"></span>
-            <span class="artisan-road artisan-road--h2"></span>
-            <span class="artisan-road artisan-road--v1"></span>
-            <span class="artisan-road artisan-road--v2"></span>
-            <span class="artisan-block artisan-block--one"></span>
-            <span class="artisan-block artisan-block--two"></span>
-            <span class="artisan-block artisan-block--three"></span>
-        </div>
+	<svg
+		class="artisan-layer"
+		viewBox={viewBox}
+		preserveAspectRatio="xMidYMid meet"
+		fill="none"
+		focusable="false"
+	>
+		<g class="artisan-contours">
+			<path d={artisanMap.relief.minor} />
+			<path class="artisan-contour--major" d={artisanMap.relief.major} />
+		</g>
+		<path class="artisan-river" d={artisanMap.river} />
+		<path class="artisan-river-core" d={artisanMap.river} />
+		<path class="artisan-casing" d={artisanMap.roads.main} />
+		<path class="artisan-road artisan-road--minor" d={artisanMap.roads.minor} />
+		<path class="artisan-road" d={artisanMap.roads.main} />
+		<g class="artisan-town-dots">
+			{TOWNS.map(({ at: [x, y] }) => <circle cx={x} cy={y} r="2.1" />)}
+		</g>
+	</svg>
 
-        <span class="artisan-zone-tag">Votre zone</span>
+	<svg
+		class="artisan-layer artisan-layer--front"
+		viewBox={viewBox}
+		preserveAspectRatio="xMidYMid meet"
+		fill="none"
+		focusable="false"
+	>
+		<g class="artisan-zone-wrap">
+			<path
+				class="artisan-zone"
+				d={artisanMap.zone}
+				data-artisan-zone
+				data-seed={artisanMap.seed}
+			/>
+		</g>
 
-        <span class="artisan-radius" data-bento-artisan-radius></span>
+		<g class="artisan-sites">
+			{
+				doneSites.map(({ at: [x, y], share }) => (
+					<rect
+						class="artisan-site"
+						x={x - SITE / 2}
+						y={y - SITE / 2}
+						width={SITE}
+						height={SITE}
+						rx="1.2"
+						data-artisan-site
+						data-share={share}
+					/>
+				))
+			}
+		</g>
 
-        <div class="artisan-house artisan-house--one">
-            <svg class="artisan-house__icon" viewBox="0 0 16 16" aria-hidden="true">
-                <path d="M8 2.4 13.8 7v5.2c0 .66-.54 1.2-1.2 1.2H3.4c-.66 0-1.2-.54-1.2-1.2V7L8 2.4Z" fill="currentColor"></path>
-                <rect x="6.7" y="9.2" width="2.6" height="4.2" rx="0.6" fill="#F6F8FB"></rect>
-            </svg>
-            <span class="artisan-house__ring" data-bento-artisan-house-ring></span>
-            <span class="artisan-house__badge" data-bento-artisan-house-badge></span>
-        </div>
+		<g class="artisan-comets">
+			{
+				comets.map(({ d, deposit, headEnd }) => (
+					<g data-artisan-comet data-deposit={deposit} data-head-end={headEnd}>
+						<path class="artisan-comet artisan-comet__trail" d={d} data-comet-trail />
+						<path class="artisan-comet artisan-comet__core" d={d} data-comet-core />
+						<g class="artisan-comet" data-comet-head>
+							<circle class="artisan-comet__halo" r="6.5" />
+							<circle class="artisan-comet__head" r="2.8" />
+						</g>
+					</g>
+				))
+			}
+		</g>
 
-        <div class="artisan-house artisan-house--two">
-            <svg class="artisan-house__icon" viewBox="0 0 16 16" aria-hidden="true">
-                <path d="M8 2.4 13.8 7v5.2c0 .66-.54 1.2-1.2 1.2H3.4c-.66 0-1.2-.54-1.2-1.2V7L8 2.4Z" fill="currentColor"></path>
-                <rect x="6.7" y="9.2" width="2.6" height="4.2" rx="0.6" fill="#F6F8FB"></rect>
-            </svg>
-            <span class="artisan-house__ring" data-bento-artisan-house-ring></span>
-            <span class="artisan-house__badge" data-bento-artisan-house-badge></span>
-        </div>
+		<g class="artisan-sites">
+			{
+				comets.map(({ offset: [dx, dy], share, site: [x, y] }) => (
+					<g>
+						<circle
+							class="artisan-ping"
+							cx={x}
+							cy={y}
+							r="3"
+							data-artisan-ping
+						/>
+						<rect
+							class="artisan-site artisan-site--new"
+							x={x - SITE / 2}
+							y={y - SITE / 2}
+							width={SITE}
+							height={SITE}
+							rx="1.2"
+							data-artisan-new
+							data-share={share}
+							data-from-x={dx}
+							data-from-y={dy}
+						/>
+					</g>
+				))
+			}
+		</g>
 
-        <div class="artisan-house artisan-house--three">
-            <svg class="artisan-house__icon" viewBox="0 0 16 16" aria-hidden="true">
-                <path d="M8 2.4 13.8 7v5.2c0 .66-.54 1.2-1.2 1.2H3.4c-.66 0-1.2-.54-1.2-1.2V7L8 2.4Z" fill="currentColor"></path>
-                <rect x="6.7" y="9.2" width="2.6" height="4.2" rx="0.6" fill="#F6F8FB"></rect>
-            </svg>
-            <span class="artisan-house__ring" data-bento-artisan-house-ring></span>
-            <span class="artisan-house__badge" data-bento-artisan-house-badge></span>
-        </div>
+		<g transform={`translate(${ax} ${ay})`}>
+			<circle class="artisan-atelier-halo" r={ATELIER_RADIUS * 1.6} />
+			<circle class="artisan-atelier-pulse" r={ATELIER_RADIUS} data-artisan-pulse />
+			<g data-artisan-atelier>
+				<circle class="artisan-atelier" r={ATELIER_RADIUS} />
+				{/* Mini camionnette de profil, bande de flocage comprise. */}
+				<path
+					class="artisan-van"
+					d="M-6.6 2.3V-2.7Q-6.6-3.7-5.6-3.7H1.5Q2.2-3.7 2.6-3.1L4.7-0.6Q5-0.2 5.6 0L6 .1Q6.6.3 6.6 1V2.3Q6.6 2.9 6 2.9H-6Q-6.6 2.9-6.6 2.3Z"
+				/>
+				<path class="artisan-van-glass" d="M2.1-2.7 3.9-.5H2.1Z" />
+				<path class="artisan-van-stripe" d="M-5.3.1H.8" />
+				<circle class="artisan-van-wheel" cx="-3.6" cy="3" r="1.55" />
+				<circle class="artisan-van-wheel" cx="3.5" cy="3" r="1.55" />
+			</g>
+		</g>
+	</svg>
 
-        <span class="artisan-pin-shadow" data-bento-artisan-pin-shadow></span>
-        <div class="artisan-pin" data-bento-artisan-pin>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 2c-4.4 0-8 3.5-8 7.9 0 5.6 7.1 11.6 7.4 11.9.3.3.9.3 1.2 0 .3-.3 7.4-6.3 7.4-11.9C20 5.5 16.4 2 12 2Z" fill="#3e60d4"></path>
-                <circle cx="12" cy="9.9" r="3" fill="#ffffff"></circle>
-            </svg>
-        </div>
+	{
+		TOWNS.map(({ at: point, name, side }) => (
+			<span class:list={["artisan-town", `artisan-town--${side}`]} style={at(point)}>
+				{name}
+			</span>
+		))
+	}
 
-        <div class="artisan-fiche" data-bento-artisan-fiche>
-            <div class="artisan-fiche__head">
-                <span class="artisan-fiche__logo"></span>
-                <span class="artisan-fiche__name"></span>
-                <span class="artisan-fiche__meta"></span>
-            </div>
-            <div class="artisan-fiche__tags">
-                <span class="artisan-fiche__tag">Prestations</span>
-                <span class="artisan-fiche__tag">Réalisations</span>
-            </div>
-            <span class="artisan-fiche__caret"></span>
-        </div>
+	<span
+		class="artisan-tag-pos"
+		style={`${at(artisanMap.tag)} --dx: ${tagX - ax}; --dy: ${tagY - ay};`}
+	>
+		<span class="artisan-tag-center">
+			<span class="artisan-tag" data-artisan-tag>
+				<svg class="artisan-tag__clock" viewBox="0 0 12 12" fill="none">
+					<circle cx="6" cy="6" r="4.6" />
+					<path d="M6 3.6V6l1.6 1" />
+				</svg>
+				<span class="artisan-swap">
+					<span class="artisan-swap__from">20&nbsp;min</span>
+					<span class="artisan-swap__to">30&nbsp;min</span>
+				</span>
+			</span>
+		</span>
+	</span>
 
-        <span class="artisan-request artisan-request--one" data-bento-artisan-request></span>
-        <span class="artisan-request artisan-request--two" data-bento-artisan-request></span>
+	<div class="artisan-scale">
+		<svg class="artisan-north" viewBox="1.5 0.7 7 8.4" fill="none">
+			<path d="M5 1.2 8 8.6 5 7.2 2 8.6Z" />
+		</svg>
+		<span class="artisan-scale__bar"></span>
+		<span>5&nbsp;km</span>
+	</div>
 
-        <div class="artisan-toast" data-bento-artisan-toast>
-            <span class="artisan-toast__check">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M3.5 8.5l3 3 6-7"></path>
-                </svg>
-            </span>
-            Nouvelle demande de devis
-        </div>
-
-        <span class="artisan-counter" data-bento-artisan-counter>2 demandes</span>
-    </div>
+	<div class="artisan-legend" data-artisan-legend>
+		<span class="artisan-legend__zone">
+			<span class="artisan-key artisan-key--zone"></span>
+			Zone
+			<span class="artisan-swap">
+				<span class="artisan-swap__from">20&nbsp;min</span>
+				<span class="artisan-swap__to">30&nbsp;min</span>
+			</span>
+			<span class="artisan-legend__sep">·</span>
+		</span>
+		<span class="artisan-legend__sites">
+			<span class="artisan-key artisan-key--site"></span>
+			<span class="artisan-count" data-artisan-count>12</span>
+			chantiers
+		</span>
+	</div>
 </div>
 
 <style>
-    .artisan-stage {
-        height: 12rem;
-    }
+	.artisan-scene {
+		/* px par unité SVG : échelle du viewBox 340 × 200 en `meet`. */
+		--u: min(100cqw / 340, 100cqh / 200);
+		--artisan-emerald: var(--color-emerald-500, #00bc7d);
+		--artisan-emerald-soft: var(--color-emerald-400, #00d492);
+		font-family: var(--font-sans);
+	}
 
-    .artisan-map {
-        background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.97),
-            rgba(248, 250, 252, 0.9)
-        );
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        border-radius: 1.35rem;
-        box-shadow: 0 22px 44px -30px rgba(34, 42, 55, 0.48);
-        inset: 0;
-        overflow: hidden;
-        position: absolute;
-    }
+	.artisan-layer {
+		inset: 0;
+		overflow: visible;
+		position: absolute;
+		height: 100%;
+		width: 100%;
+	}
 
-    .artisan-road {
-        background: rgba(148, 163, 184, 0.16);
-        position: absolute;
-    }
+	/* ---- Fond de carte (statique : traits fixes en px écran) ---- */
 
-    .artisan-road--h1 {
-        border-radius: 999em;
-        height: 3px;
-        left: 0;
-        right: 0;
-        top: 33%;
-    }
+	.artisan-contours path {
+		stroke: var(--color-gray-200);
+		stroke-width: 1px;
+		vector-effect: non-scaling-stroke;
+	}
 
-    .artisan-road--h2 {
-        border-radius: 999em;
-        height: 3px;
-        left: 0;
-        right: 0;
-        top: 72%;
-    }
+	.artisan-contours .artisan-contour--major {
+		stroke: #cdd4de;
+	}
 
-    .artisan-road--v1 {
-        border-radius: 999em;
-        bottom: 0;
-        left: 25%;
-        top: 0;
-        width: 3px;
-    }
+	.artisan-river {
+		stroke: var(--color-blue-100);
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 6;
+	}
 
-    .artisan-road--v2 {
-        border-radius: 999em;
-        bottom: 0;
-        left: 71%;
-        top: 0;
-        width: 3px;
-    }
+	.artisan-river-core {
+		stroke: var(--color-blue-200);
+		stroke-width: 1px;
+		vector-effect: non-scaling-stroke;
+	}
 
-    .artisan-block {
-        background: rgba(148, 163, 184, 0.1);
-        border-radius: 0.3rem;
-        position: absolute;
-    }
+	.artisan-casing {
+		stroke: #ffffff;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 4.6;
+	}
 
-    .artisan-block--one {
-        height: 16%;
-        left: 6%;
-        top: 10%;
-        width: 13%;
-    }
+	.artisan-road {
+		stroke: var(--color-gray-300);
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.1px;
+		vector-effect: non-scaling-stroke;
+	}
 
-    .artisan-block--two {
-        height: 18%;
-        right: 7%;
-        top: 44%;
-        width: 12%;
-    }
+	.artisan-road--minor {
+		stroke: var(--color-gray-200);
+		stroke-width: 1px;
+	}
 
-    .artisan-block--three {
-        bottom: 9%;
-        height: 12%;
-        left: 9%;
-        width: 10%;
-    }
+	.artisan-town-dots circle {
+		fill: #ffffff;
+		stroke: var(--color-gray-400);
+		stroke-width: 1.2px;
+		vector-effect: non-scaling-stroke;
+	}
 
-    .artisan-zone-tag {
-        background: rgba(255, 255, 255, 0.94);
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        border-radius: 999em;
-        color: var(--color-gray-500);
-        font-size: 0.5rem;
-        font-weight: 500;
-        left: 0.65rem;
-        line-height: 1;
-        padding: 0.32rem 0.5rem;
-        position: absolute;
-        top: 0.55rem;
-    }
+	/* ---- Premier plan ---- */
 
-    .artisan-radius {
-        background: rgba(34, 197, 94, 0.05);
-        border: 1.5px dashed rgba(34, 197, 94, 0.5);
-        border-radius: 999em;
-        height: 172px;
-        left: calc(50% - 86px);
-        position: absolute;
-        top: calc(53% - 86px);
-        width: 172px;
-        will-change: opacity, transform;
-    }
+	/* Calque à part : le fond de carte n'est pas repeint pendant l'animation. */
+	.artisan-layer--front {
+		will-change: transform;
+	}
 
-    .artisan-house {
-        color: var(--color-gray-400);
-        height: 15px;
-        position: absolute;
-        width: 15px;
-    }
+	.artisan-zone {
+		fill: var(--color-blue-500);
+		fill-opacity: 0.075;
+		stroke: var(--color-blue-500);
+		stroke-linejoin: round;
+		stroke-opacity: 0.6;
+		stroke-width: 1.25px;
+		vector-effect: non-scaling-stroke;
+	}
 
-    .artisan-house--one {
-        left: calc(50% - 66px);
-        top: calc(53% - 42px);
-    }
+	.artisan-site {
+		fill: var(--color-blue-500);
+		stroke: #ffffff;
+		stroke-width: 1.3;
+	}
 
-    .artisan-house--two {
-        left: calc(50% + 58px);
-        top: calc(53% - 34px);
-    }
+	.artisan-site--new {
+		fill: var(--artisan-emerald);
+	}
 
-    .artisan-house--three {
-        left: calc(50% - 48px);
-        top: calc(53% + 34px);
-    }
+	.artisan-comet,
+	.artisan-ping {
+		visibility: hidden;
+	}
 
-    .artisan-house__icon {
-        height: 100%;
-        width: 100%;
-    }
+	.artisan-comet__trail {
+		stroke: var(--artisan-emerald-soft);
+		stroke-linecap: round;
+		stroke-opacity: 0.45;
+		stroke-width: 2.2;
+	}
 
-    .artisan-house__ring {
-        background: rgba(34, 197, 94, 0.5);
-        border-radius: 999em;
-        height: 7px;
-        opacity: 0;
-        position: absolute;
-        right: -3px;
-        top: -3px;
-        width: 7px;
-        will-change: opacity, transform;
-    }
+	.artisan-comet__core {
+		stroke: var(--artisan-emerald);
+		stroke-linecap: round;
+		stroke-width: 2.8;
+	}
 
-    .artisan-house__badge {
-        background: #22c55e;
-        border: 1.5px solid #ffffff;
-        border-radius: 999em;
-        height: 8px;
-        position: absolute;
-        right: -3.5px;
-        top: -3.5px;
-        width: 8px;
-        will-change: opacity, transform;
-    }
+	.artisan-comet__halo {
+		fill: var(--artisan-emerald);
+		fill-opacity: 0.22;
+	}
 
-    .artisan-pin {
-        filter: drop-shadow(0 6px 8px rgba(34, 42, 55, 0.28));
-        height: 26px;
-        left: calc(50% - 13px);
-        position: absolute;
-        top: calc(53% - 26px);
-        width: 26px;
-        will-change: opacity, transform;
-    }
+	.artisan-comet__head {
+		fill: var(--artisan-emerald);
+		stroke: #ffffff;
+		stroke-width: 1.2;
+	}
 
-    .artisan-pin-shadow {
-        background: rgba(31, 41, 55, 0.16);
-        border-radius: 999em;
-        height: 5px;
-        left: calc(50% - 8px);
-        position: absolute;
-        top: calc(53% - 2.5px);
-        width: 16px;
-        will-change: opacity, transform;
-    }
+	.artisan-ping {
+		stroke: var(--artisan-emerald);
+		stroke-width: 1px;
+		vector-effect: non-scaling-stroke;
+	}
 
-    .artisan-fiche {
-        background: #ffffff;
-        border: 1px solid rgba(226, 232, 240, 0.95);
-        border-radius: 0.65rem;
-        box-shadow: 0 16px 30px -20px rgba(34, 42, 55, 0.5);
-        left: calc(50% - 82px);
-        padding: 0.4rem 0.5rem 0.45rem;
-        position: absolute;
-        top: calc(53% - 86px);
-        width: 164px;
-        will-change: opacity, transform;
-    }
+	.artisan-atelier-halo {
+		fill: var(--color-blue-500);
+		fill-opacity: 0.1;
+		stroke: var(--color-blue-500);
+		stroke-opacity: 0.22;
+		stroke-width: 1px;
+		vector-effect: non-scaling-stroke;
+	}
 
-    .artisan-fiche__head {
-        align-items: center;
-        display: flex;
-        gap: 0.3rem;
-    }
+	.artisan-atelier-pulse {
+		opacity: 0;
+		stroke: var(--color-blue-500);
+		stroke-width: 1.5px;
+		vector-effect: non-scaling-stroke;
+	}
 
-    .artisan-fiche__logo {
-        background: #3e60d4;
-        border-radius: 0.2rem;
-        height: 10px;
-        width: 10px;
-    }
+	.artisan-atelier {
+		fill: var(--color-blue-500);
+		stroke: #ffffff;
+		stroke-width: 1.8;
+	}
 
-    .artisan-fiche__name {
-        background: var(--color-gray-300);
-        border-radius: 999em;
-        height: 5px;
-        width: 3.4rem;
-    }
+	.artisan-van {
+		fill: #ffffff;
+	}
 
-    .artisan-fiche__meta {
-        background: var(--color-gray-100);
-        border-radius: 999em;
-        height: 5px;
-        width: 1.6rem;
-    }
+	.artisan-van-glass {
+		fill: var(--color-blue-500);
+	}
 
-    .artisan-fiche__tags {
-        display: flex;
-        gap: 0.35rem;
-        justify-content: center;
-        margin-top: 0.4rem;
-    }
+	.artisan-van-stripe {
+		stroke: var(--color-blue-300);
+		stroke-linecap: round;
+		stroke-width: 0.9;
+	}
 
-    .artisan-fiche__tag {
-        background: var(--color-gray-50);
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        border-radius: 999em;
-        color: var(--color-gray-600);
-        font-size: 0.5rem;
-        font-weight: 500;
-        line-height: 1;
-        padding: 0.28rem 0.36rem;
-        white-space: nowrap;
-    }
+	.artisan-van-wheel {
+		fill: var(--color-blue-700);
+		stroke: #ffffff;
+		stroke-width: 0.9;
+	}
 
-    .artisan-fiche__caret {
-        background: #ffffff;
-        border-bottom: 1px solid rgba(226, 232, 240, 0.95);
-        border-right: 1px solid rgba(226, 232, 240, 0.95);
-        bottom: -4.5px;
-        height: 8px;
-        left: calc(50% - 4px);
-        position: absolute;
-        transform: rotate(45deg);
-        width: 8px;
-    }
+	/* ---- Libellés HTML posés sur la carte ---- */
 
-    .artisan-request {
-        background: #22c55e;
-        border-radius: 999em;
-        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
-        height: 8px;
-        opacity: 0;
-        position: absolute;
-        width: 8px;
-        will-change: opacity, transform;
-    }
+	.artisan-town,
+	.artisan-tag-pos {
+		left: calc(50% + (var(--x) - 170) * var(--u));
+		position: absolute;
+		top: calc(50% + (var(--y) - 100) * var(--u));
+	}
 
-    .artisan-request--one {
-        left: calc(50% + 58px + 3.5px);
-        top: calc(53% - 34px + 3.5px);
-    }
+	.artisan-town {
+		color: var(--color-gray-500);
+		font-size: 10px;
+		font-weight: 500;
+		letter-spacing: 0.14em;
+		line-height: 1;
+		margin-right: -0.14em;
+		text-shadow:
+			0 0 2px #f6f8fb,
+			0 0 2px #f6f8fb,
+			0 0 3px #f6f8fb;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
 
-    .artisan-request--two {
-        left: calc(50% - 48px + 3.5px);
-        top: calc(53% + 34px + 3.5px);
-    }
+	.artisan-town--above {
+		transform: translate(-50%, calc(-100% - 5px));
+	}
 
-    .artisan-toast {
-        align-items: center;
-        background: #ffffff;
-        border: 1px solid rgba(226, 232, 240, 0.95);
-        border-radius: 0.55rem;
-        box-shadow: 0 14px 28px -16px rgba(34, 42, 55, 0.45);
-        color: var(--color-gray-700);
-        display: flex;
-        font-size: 0.56rem;
-        font-weight: 500;
-        gap: 0.3rem;
-        line-height: 1;
-        padding: 0.38rem 0.5rem;
-        position: absolute;
-        right: 0.55rem;
-        top: 0.55rem;
-        white-space: nowrap;
-        will-change: opacity, transform;
-    }
+	.artisan-town--below {
+		transform: translate(-50%, 6px);
+	}
 
-    .artisan-toast__check {
-        align-items: center;
-        background: #22c55e;
-        border-radius: 999em;
-        color: #ffffff;
-        display: inline-flex;
-        height: 0.8rem;
-        justify-content: center;
-        width: 0.8rem;
-    }
+	.artisan-town--left {
+		transform: translate(calc(-100% - 6px), -50%);
+	}
 
-    .artisan-toast__check svg {
-        height: 0.5rem;
-        width: 0.5rem;
-    }
+	.artisan-town--right {
+		transform: translate(6px, -50%);
+	}
 
-    .artisan-counter {
-        background: #1f2937;
-        border-radius: 999em;
-        bottom: 0.3rem;
-        box-shadow: 0 14px 26px -18px rgba(34, 42, 55, 0.6);
-        color: #ffffff;
-        font-size: 0.56rem;
-        font-weight: 500;
-        left: 0;
-        line-height: 1;
-        margin-inline: auto;
-        padding: 0.4rem 0.6rem;
-        position: absolute;
-        right: 0;
-        white-space: nowrap;
-        width: fit-content;
-        will-change: opacity, transform;
-    }
+	.artisan-tag-center {
+		display: block;
+		transform: translate(-50%, -50%);
+	}
+
+	.artisan-tag {
+		align-items: center;
+		background: #ffffff;
+		border-radius: 999px;
+		box-shadow:
+			0 0 0 1px rgb(62 96 212 / 0.28),
+			0 1px 2px rgba(31, 38, 52, 0.06),
+			0 18px 36px -22px rgba(31, 38, 52, 0.35);
+		color: var(--color-blue-600);
+		display: flex;
+		font-size: 11px;
+		font-variant-numeric: tabular-nums;
+		font-weight: 500;
+		gap: 4px;
+		line-height: 1;
+		padding: 3px 7px 3px 5px;
+		white-space: nowrap;
+	}
+
+	.artisan-tag__clock {
+		height: 11px;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.3;
+		width: 11px;
+	}
+
+	.artisan-swap {
+		display: inline-grid;
+	}
+
+	.artisan-swap > span {
+		grid-area: 1 / 1;
+	}
+
+	.artisan-swap__to {
+		opacity: 0;
+		transform: translateY(3px);
+	}
+
+	.artisan-scale {
+		align-items: center;
+		bottom: 10px;
+		color: var(--color-gray-500);
+		display: flex;
+		font-size: 10px;
+		font-variant-numeric: tabular-nums;
+		gap: 6px;
+		left: 12px;
+		line-height: 1;
+		position: absolute;
+		text-shadow:
+			0 0 2px #f6f8fb,
+			0 0 2px #f6f8fb,
+			0 0 3px #f6f8fb;
+	}
+
+	.artisan-north {
+		fill: var(--color-gray-400);
+		flex: none;
+		height: 10px;
+		margin-right: 2px;
+		width: 8.3px;
+	}
+
+	.artisan-scale__bar {
+		border: 1px solid var(--color-gray-400);
+		border-top: 0;
+		height: 4px;
+		width: calc(55 * var(--u));
+	}
+
+	.artisan-legend {
+		align-items: center;
+		background: rgb(255 255 255 / 0.9);
+		border: 1px solid var(--color-gray-200);
+		border-radius: 8px;
+		bottom: 10px;
+		color: var(--color-gray-600);
+		display: flex;
+		font-size: 11px;
+		gap: 6px;
+		line-height: 1;
+		padding: 5px 8px;
+		position: absolute;
+		right: 10px;
+		white-space: nowrap;
+	}
+
+	.artisan-legend__zone,
+	.artisan-legend__sites {
+		align-items: center;
+		display: inline-flex;
+		gap: 4px;
+	}
+
+	.artisan-legend__sep {
+		color: var(--color-gray-300);
+		margin-left: 2px;
+	}
+
+	.artisan-count {
+		color: var(--color-gray-900);
+		display: inline-block;
+		font-variant-numeric: tabular-nums;
+		font-weight: 500;
+		min-width: 2ch;
+		text-align: right;
+	}
+
+	.artisan-key {
+		display: inline-block;
+		flex: none;
+	}
+
+	.artisan-key--zone {
+		background: rgb(62 96 212 / 0.1);
+		border: 1px solid rgb(62 96 212 / 0.6);
+		border-radius: 3px;
+		height: 9px;
+		width: 12px;
+	}
+
+	.artisan-key--site {
+		background: var(--color-blue-500);
+		border-radius: 1.5px;
+		height: 7px;
+		width: 7px;
+	}
+
+	/* ---- Formats ---- */
+
+	@container (max-width: 400px) {
+		.artisan-scale {
+			display: none;
+		}
+	}
+
+	@container (max-width: 330px) {
+		.artisan-legend__zone {
+			display: none;
+		}
+	}
+
+	/* ---- Survol : la zone s'agrandit, « 20 min » devient « 30 min » ---- */
+
+	@media (prefers-reduced-motion: no-preference) {
+		.artisan-zone-wrap {
+			transform-box: view-box;
+			transform-origin: 170px 96px;
+			transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+		}
+
+		.artisan-zone {
+			transition: fill-opacity 0.6s ease;
+		}
+
+		.artisan-tag-pos {
+			transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+		}
+
+		.artisan-contours {
+			transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+		}
+
+		.artisan-swap > span {
+			transition:
+				opacity 0.35s ease,
+				transform 0.35s ease;
+		}
+
+		:global(.group:focus-visible) .artisan-zone-wrap {
+			transform: scale(1.1);
+		}
+
+		:global(.group:focus-visible) .artisan-zone {
+			fill-opacity: 0.12;
+		}
+
+		:global(.group:focus-visible) .artisan-tag-pos {
+			transform: translate(
+				calc(var(--dx) * 0.1 * var(--u)),
+				calc(var(--dy) * 0.1 * var(--u))
+			);
+		}
+
+		:global(.group:focus-visible) .artisan-contours {
+			transform: translateY(-3px);
+		}
+
+		:global(.group:focus-visible) .artisan-swap__from {
+			opacity: 0;
+			transform: translateY(-3px);
+		}
+
+		:global(.group:focus-visible) .artisan-swap__to {
+			opacity: 1;
+			transform: none;
+		}
+
+		@media (hover: hover) {
+			:global(.group:hover) .artisan-zone-wrap {
+				transform: scale(1.1);
+			}
+
+			:global(.group:hover) .artisan-zone {
+				fill-opacity: 0.12;
+			}
+
+			:global(.group:hover) .artisan-tag-pos {
+				transform: translate(
+					calc(var(--dx) * 0.1 * var(--u)),
+					calc(var(--dy) * 0.1 * var(--u))
+				);
+			}
+
+			:global(.group:hover) .artisan-contours {
+				transform: translateY(-3px);
+			}
+
+			:global(.group:hover) .artisan-swap__from {
+				opacity: 0;
+				transform: translateY(-3px);
+			}
+
+			:global(.group:hover) .artisan-swap__to {
+				opacity: 1;
+				transform: none;
+			}
+		}
+	}
 </style>
