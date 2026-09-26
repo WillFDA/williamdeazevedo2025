@@ -182,6 +182,8 @@ export const createPlayback = (timeline: gsap.core.Timeline) => {
         return;
       }
 
+      // La scène pilote elle-même (survol) : l'observer ne relance rien.
+      if (state === "manual") return;
       if (!started) {
         started = true;
         queued = FIRST_VIEW_CYCLES - 1;
@@ -205,6 +207,7 @@ export const createPlayback = (timeline: gsap.core.Timeline) => {
     takeOver() {
       clearWait();
       timeline.pause();
+      started = true;
       state = "manual";
     },
     release() {

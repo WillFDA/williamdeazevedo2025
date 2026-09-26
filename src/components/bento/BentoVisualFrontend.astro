@@ -1,12 +1,66 @@
 ---
 /**
- * Scène animée "Renfort front-end" : un mini éditeur sombre (numéros de
- * ligne, barre de statut) où un diff se joue en boucle — ligne fautive
- * barrée, lignes correctives qui se "tapent", statut "1 problème" →
- * "0 problème", badge "Corrigé" et halo vert de validation.
+ * Scène animée "Renfort front-end" : un bouton, tous ses états. Gros plan
+ * façon Storybook sur une trame de points : Tab trace l'anneau de focus
+ * (en tirets, étiqueté comme une spec), Entrée contracte la pilule en rond
+ * avec un spinner, puis le bouton se redéploie en vert « Envoyé ». Le rail
+ * REPOS · FOCUS · ENVOI · SUCCÈS suit l'état courant ; la cote « 44 px »
+ * (cible tactile) accompagne le bord du bouton dans tous ses états.
  * Chorégraphie pilotée par src/scripts/animations/bento/frontend.ts.
- * Sans JS : état corrigé (diff appliqué, statut à zéro, badge visible).
+ * Sans JS : état SUCCÈS (bouton vert, coche, rail sur SUCCÈS, cote).
  */
+
+/** Pilule du bouton, en px (le SVG est affiché à l'échelle 1). */
+const PILL_W = 140;
+const PILL_H = 44;
+/** Marge du SVG autour de la pilule : place de l'anneau de focus. */
+const PAD = 6;
+/** Écart entre la pilule et l'anneau de focus. */
+const RING_GAP = 4;
+/** Rayon du spinner de chargement. */
+const SPIN_R = 8;
+/** Vert du succès (emerald-700 : contraste du blanc ≈ celui du bleu 500). */
+const SUCCESS = "#047857";
+
+const svgW = PILL_W + PAD * 2;
+const svgH = PILL_H + PAD * 2;
+const cx = svgW / 2;
+const cy = svgH / 2;
+
+// Anneau en stade, dessiné depuis le bas-centre : sa moitié tombe au
+// haut-centre, d'où il se trace vers les deux côtés. Un <path> (et non un
+// <rect rx>) pour que la longueur de tracé soit exacte.
+const ring = {
+	h: PILL_H + RING_GAP * 2,
+	w: PILL_W + RING_GAP * 2,
+	x: PAD - RING_GAP,
+	y: PAD - RING_GAP,
+};
+const ringR = ring.h / 2;
+const ringPath = [
+	`M${ring.x + ring.w / 2} ${ring.y + ring.h}`,
+	`H${ring.x + ring.w - ringR}`,
+	`A${ringR} ${ringR} 0 0 0 ${ring.x + ring.w - ringR} ${ring.y}`,
+	`H${ring.x + ringR}`,
+	`A${ringR} ${ringR} 0 0 0 ${ring.x + ringR} ${ring.y + ring.h}`,
+	"Z",
+].join("");
+const ringLength = (2 * (ring.w - ring.h) + Math.PI * ring.h).toFixed(2);
+
+// Rayon qui couvre toute la pilule depuis son centre : le vert du succès
+// l'inonde depuis là (disque de découpe animé), sans mélange de teintes.
+const floodR = Math.ceil(Math.hypot(PILL_W / 2, PILL_H / 2)) + 2;
+
+// Cercle du spinner, départ à midi.
+const spinnerPath = `M${cx} ${cy - SPIN_R}a${SPIN_R} ${SPIN_R} 0 1 1 0 ${SPIN_R * 2}a${SPIN_R} ${SPIN_R} 0 1 1 0 ${-SPIN_R * 2}`;
+
+// Identifiants uniques : la scène peut apparaître plusieurs fois par page.
+const uid = `fe-${Math.random().toString(36).slice(2, 8)}`;
+
+const states = ["Repos", "Focus", "Envoi", "Succès"];
+const activeState = states.length - 1;
+const idleChars = [..."Envoyer"];
+const doneChars = [..."Envoyé"];
 ---
 
 <div
@@ -14,133 +68,553 @@
 	data-bento-visual="frontend"
 	aria-hidden="true"
 >
-	<div class="fe-stage relative scale-[var(--bento-scene-scale,1)] transition-transform duration-500 ease-out group-hover:scale-[calc(var(--bento-scene-scale,1)*1.03)]">
-		<span class="fe-glow absolute -inset-x-8 -inset-y-6 rounded-[2rem] bg-[radial-gradient(55%_60%_at_50%_55%,rgba(52,211,153,0.2),rgba(52,211,153,0)_70%)]" data-bento-fe-glow></span>
+	<span class="fe-grid absolute inset-0"></span>
 
-		<div class="fe-editor relative w-[196px] rounded-xl bg-gray-900 shadow-[0_20px_40px_-22px_rgba(31,38,52,0.7)] ring-1 ring-white/10" data-bento-fe-editor>
-			<div class="flex items-center gap-1.5 border-b border-white/[0.07] px-3 py-2">
-				<span class="size-1.5 rounded-full bg-gray-600"></span>
-				<span class="size-1.5 rounded-full bg-gray-600"></span>
-				<span class="size-1.5 rounded-full bg-gray-600"></span>
-				<span class="ml-1.5 rounded-md bg-white/[0.08] px-1.5 py-0.5 font-mono text-[7px] leading-none text-gray-400">header.tsx</span>
+	<div class="fe-stage relative flex flex-col items-center">
+		<div class="fe-rail">
+			{
+				states.map((label, index) => (
+					<span
+						class:list={["fe-state", index === activeState && "is-active"]}
+						data-fe-state
+					>
+						{label}
+					</span>
+				))
+			}
+			<span class="fe-bar" data-fe-bar></span>
+		</div>
+
+		<div class="fe-anchor relative" style={`width:${svgW}px;height:${svgH}px`}>
+			<div class="fe-callout" data-fe-callout>
+				<span class="fe-callout-text" data-fe-callout-text>focus</span>
+				<svg class="fe-leader" width="16" height="6" viewBox="0 0 16 6" fill="none">
+					<path d="M13 3H1" data-fe-leader></path>
+					<circle cx="13.5" cy="3" r="1.75"></circle>
+				</svg>
 			</div>
 
-			<div class="flex flex-col gap-[6px] px-2.5 pt-2.5 pb-2.5">
-				<span class="flex items-center gap-1.5">
-					<span class="fe-num">1</span>
-					<span class="h-1.5 w-7 rounded-full bg-[#c4b5fd]/70"></span>
-					<span class="h-1.5 w-11 rounded-full bg-sky-400/60"></span>
-				</span>
-				<span class="flex items-center gap-1.5">
-					<span class="fe-num">2</span>
-					<span class="ml-2 h-1.5 w-9 rounded-full bg-sky-300/50"></span>
-					<span class="h-1.5 w-6 rounded-full bg-gray-500/50"></span>
-				</span>
-				<span class="fe-line-del flex items-center gap-1.5" data-bento-fe-line-del>
-					<span class="fe-num">3</span>
-					<span class="ml-2 w-2 font-mono text-[9px] leading-none text-rose-400">−</span>
-					<span class="relative h-1.5 w-14 rounded-full bg-rose-400/50">
-						<span class="fe-strike absolute top-1/2 left-0 h-px w-full bg-rose-300" data-bento-fe-strike></span>
+			<span
+				class="fe-shadow"
+				style={`left:${PAD}px;top:${PAD + PILL_H / 2}px;width:${PILL_W}px`}
+				data-fe-shadow
+			></span>
+
+			<div class="fe-lift">
+				<div class="fe-btn relative" data-fe-btn>
+					<svg
+						class="fe-svg relative block"
+						width={svgW}
+						height={svgH}
+						viewBox={`0 0 ${svgW} ${svgH}`}
+						fill="none"
+					>
+						<defs>
+							<linearGradient id={`${uid}-sheen`} x1="0" y1="0" x2="0" y2="1">
+								<stop offset="0" stop-color="#fff" stop-opacity="0.15"></stop>
+								<stop offset="0.5" stop-color="#fff" stop-opacity="0"></stop>
+								<stop offset="1" stop-color="#000" stop-opacity="0.08"></stop>
+							</linearGradient>
+							<mask
+								id={`${uid}-ring`}
+								maskUnits="userSpaceOnUse"
+								x="0"
+								y="0"
+								width={svgW}
+								height={svgH}
+							>
+								<path
+									class="fe-ring-reveal"
+									d={ringPath}
+									style={`--fe-ring-length:${ringLength}px`}
+									data-fe-ring-reveal
+								></path>
+							</mask>
+							<clipPath id={`${uid}-flood`}>
+								<circle cx={cx} cy={cy} r={floodR} data-fe-flood></circle>
+							</clipPath>
+						</defs>
+
+						<path
+							class="fe-ring"
+							d={ringPath}
+							mask={`url(#${uid}-ring)`}
+							data-fe-ring
+						></path>
+						<rect
+							class="fe-ripple"
+							x={PAD}
+							y={PAD}
+							width={PILL_W}
+							height={PILL_H}
+							rx={PILL_H / 2}
+							stroke={SUCCESS}
+							data-fe-ripple
+						></rect>
+						<rect
+							class="fe-contact"
+							x={PAD}
+							y={PAD + 1}
+							width={PILL_W}
+							height={PILL_H}
+							rx={PILL_H / 2}
+							data-fe-contact
+						></rect>
+						<rect
+							x={PAD}
+							y={PAD}
+							width={PILL_W}
+							height={PILL_H}
+							rx={PILL_H / 2}
+							fill={SUCCESS}
+							data-fe-pill
+						></rect>
+						<rect
+							x={PAD}
+							y={PAD}
+							width={PILL_W}
+							height={PILL_H}
+							rx={PILL_H / 2}
+							fill={SUCCESS}
+							clip-path={`url(#${uid}-flood)`}
+							data-fe-success
+						></rect>
+						<rect
+							x={PAD}
+							y={PAD}
+							width={PILL_W}
+							height={PILL_H}
+							rx={PILL_H / 2}
+							fill={`url(#${uid}-sheen)`}
+							data-fe-sheen
+						></rect>
+						<path class="fe-track" d={spinnerPath} data-fe-track></path>
+						<path class="fe-spinner" d={spinnerPath} data-fe-spinner></path>
+					</svg>
+
+					<span class="fe-label fe-label-idle" data-fe-idle>
+						<span class="fe-mask">
+							{idleChars.map((char) => <span class="fe-ch" data-fe-idle-ch>{char}</span>)}
+							<span class="fe-ch fe-icon fe-icon-after" data-fe-idle-ch>
+								<svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+									<path d="M3 8h10M9 4l4 4-4 4"></path>
+								</svg>
+							</span>
+						</span>
 					</span>
-				</span>
-				<span class="fe-line-add flex items-center gap-1.5" data-bento-fe-line-add>
-					<span class="fe-num">4</span>
-					<span class="ml-2 w-2 font-mono text-[9px] leading-none text-emerald-400">+</span>
-					<span class="fe-add-pill h-1.5 w-10 rounded-full bg-emerald-400/60" data-bento-fe-add-pill></span>
-					<span class="fe-add-pill h-1.5 w-5 rounded-full bg-emerald-300/40" data-bento-fe-add-pill></span>
-				</span>
-				<span class="fe-line-add flex items-center gap-1.5" data-bento-fe-line-add>
-					<span class="fe-num">5</span>
-					<span class="ml-2 w-2 font-mono text-[9px] leading-none text-emerald-400">+</span>
-					<span class="fe-add-pill h-1.5 w-12 rounded-full bg-emerald-400/50" data-bento-fe-add-pill></span>
-				</span>
-				<span class="flex items-center gap-1.5">
-					<span class="fe-num">6</span>
-					<span class="ml-2 h-1.5 w-4 rounded-full bg-gray-500/50"></span>
-					<span class="fe-caret h-2.5 w-px bg-sky-300" data-bento-fe-caret></span>
-				</span>
+
+					<span class="fe-label">
+						<span class="fe-mask">
+							<span class="fe-ch fe-icon fe-icon-before" data-fe-done-icon>
+								<svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+									<path d="M3.5 8.5l3 3 6-7" data-fe-check></path>
+								</svg>
+							</span>
+							{doneChars.map((char) => <span class="fe-ch" data-fe-done-ch>{char}</span>)}
+						</span>
+					</span>
+				</div>
 			</div>
 
-			<div class="flex items-center justify-between border-t border-white/[0.07] px-3 py-1.5">
-				<span class="relative h-[10px] w-20">
-					<span class="fe-status-err absolute top-0 left-0 flex items-center gap-1" data-bento-fe-status-err>
-						<span class="size-1.5 rounded-full bg-rose-400"></span>
-						<span class="font-mono text-[7px] leading-[10px] text-gray-400">1 problème</span>
-					</span>
-					<span class="fe-status-ok absolute top-0 left-0 flex items-center gap-1" data-bento-fe-status-ok>
-						<span class="size-1.5 rounded-full bg-emerald-400"></span>
-						<span class="font-mono text-[7px] leading-[10px] text-gray-400">0 problème</span>
-					</span>
-				</span>
-				<span class="flex items-center gap-1">
-					<span class="size-1 rounded-full bg-sky-400/70"></span>
-					<span class="font-mono text-[7px] leading-[10px] text-gray-500">main</span>
-				</span>
+			<div
+				class="fe-cote"
+				style={`left:${svgW - PAD + 9}px;top:${PAD}px;height:${PILL_H}px`}
+				data-fe-cote
+			>
+				<svg width="7" height={PILL_H} viewBox={`0 0 7 ${PILL_H}`} fill="none">
+					<path d={`M0.5 0.5H6.5M3.5 0.5V${PILL_H - 0.5}M0.5 ${PILL_H - 0.5}H6.5`}></path>
+				</svg>
+				<span class="fe-cote-label">44&nbsp;px</span>
 			</div>
 		</div>
 
-		<span class="fe-chip absolute -right-3 bottom-3 flex items-center gap-1 rounded-full bg-emerald-500 px-2 py-1 text-[8px] font-semibold text-white shadow-sm" data-bento-fe-chip>
-			<svg class="size-2" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M3.5 8.5l3 3 6-7"></path>
-			</svg>
-			Corrigé
-		</span>
+		<div class="fe-keys">
+			<span class="fe-key">
+				<span class="fe-key-face" data-fe-key="tab">
+					Tab
+					<svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+						<path d="M1.5 6h7M6 3.5 8.5 6 6 8.5M10.5 3v6"></path>
+					</svg>
+				</span>
+			</span>
+			<span class="fe-key">
+				<span class="fe-key-face" data-fe-key="enter">
+					Entrée
+					<svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+						<path d="M10 2.5V6a1.5 1.5 0 0 1-1.5 1.5H2M4.5 5 2 7.5 4.5 10"></path>
+					</svg>
+				</span>
+			</span>
+		</div>
 	</div>
 </div>
 
 <style>
-	.fe-num {
-		color: rgba(156, 163, 175, 0.4);
-		font-family: var(--font-mono, ui-monospace, monospace);
-		font-size: 6.5px;
-		line-height: 1;
-		text-align: right;
-		width: 0.5rem;
+	/* Trame technique : points fins, fondus vers les bords. */
+	.fe-grid {
+		background-image: radial-gradient(
+			circle,
+			rgba(155, 164, 177, 0.42) 0.75px,
+			transparent 1.25px
+		);
+		background-position: center;
+		background-size: 12px 12px;
+		mask-image: radial-gradient(
+			ellipse 60% 72% at 50% 50%,
+			#000 30%,
+			transparent 100%
+		);
 	}
 
-	.fe-glow {
-		opacity: 0;
-		will-change: opacity;
+	/* Échelle propre à la scène (gros plan : jamais sous 1, le libellé du
+	   rail est déjà à 10 px). Paliers en fin de feuille. */
+	.fe-stage {
+		--fe-rail-gap: 15px;
+		--fe-keys-gap: 11px;
+		scale: var(--fe-scale, 1);
 	}
 
-	.fe-editor {
-		will-change: transform;
+	/* Rail des états. Le tracking final est annulé (marge négative) pour que
+	   l'indicateur épouse exactement les lettres. */
+	.fe-rail {
+		column-gap: 17px;
+		color: var(--color-gray-400);
+		display: grid;
+		font-size: 10px;
+		font-weight: 500;
+		grid-template-columns: repeat(4, auto);
+		letter-spacing: 0.14em;
+		line-height: 12px;
+		margin-bottom: var(--fe-rail-gap);
+		position: relative;
+		row-gap: 5px;
+		text-transform: uppercase;
+		white-space: nowrap;
 	}
 
-	.fe-strike {
+	.fe-state {
+		grid-row: 1;
+		margin-right: -0.14em;
+		position: relative;
+	}
+
+	.fe-state + .fe-state::before {
+		color: var(--color-gray-300);
+		content: "·";
+		left: -8.5px;
+		letter-spacing: 0;
+		position: absolute;
+		transform: translateX(-50%);
+	}
+
+	.fe-state.is-active {
+		color: var(--color-gray-900);
+	}
+
+	.fe-bar {
+		background: var(--color-blue-500);
+		border-radius: 1px;
+		grid-column: 4;
+		grid-row: 2;
+		height: 1.5px;
 		transform-origin: left center;
-		will-change: transform;
 	}
 
-	.fe-line-del {
-		opacity: 0.38;
-		will-change: opacity;
+	/* Bouton (l'ombre reste au sol, hors du calque soulevé au survol). */
+	.fe-lift {
+		height: 100%;
+		position: relative;
+		width: 100%;
 	}
 
-	.fe-line-add {
-		will-change: opacity, transform;
+	.fe-btn {
+		height: 100%;
+		width: 100%;
 	}
 
-	.fe-add-pill {
-		transform-origin: left center;
-		will-change: transform;
+	.fe-svg {
+		overflow: visible;
 	}
 
-	.fe-status-err {
+	/* Ombre portée : l'équivalent de l'ombre commune « qui lève »
+	   (0 18px 36px -22px) en ellipse douce, qui suit la pilule par scaleX
+	   sans se déformer ; le liseré de contact (1 px) est dans le SVG. */
+	.fe-shadow {
+		background: radial-gradient(
+			closest-side,
+			rgba(31, 38, 52, 0.2),
+			rgba(31, 38, 52, 0.08) 55%,
+			rgba(31, 38, 52, 0)
+		);
+		height: 36px;
+		position: absolute;
+	}
+
+	.fe-contact {
+		fill: rgba(31, 38, 52, 0.1);
+	}
+
+	.fe-ring {
 		opacity: 0;
-		will-change: opacity, transform;
+		stroke: var(--color-blue-500);
+		stroke-dasharray: 3 3.5;
+		stroke-linecap: round;
+		stroke-width: 1.5;
+		visibility: hidden;
 	}
 
-	.fe-status-ok {
-		will-change: opacity, transform;
+	/* Tracé de l'anneau piloté par --fe-ring (0 → 1), depuis le haut-centre. */
+	.fe-ring-reveal {
+		--fe-ring: 1;
+		fill: none;
+		stroke: #fff;
+		stroke-dasharray: calc(var(--fe-ring) * var(--fe-ring-length))
+			var(--fe-ring-length);
+		stroke-dashoffset: calc(
+			(var(--fe-ring) - 1) * var(--fe-ring-length) / 2
+		);
+		stroke-width: 5;
 	}
 
-	.fe-chip {
-		transform-origin: center;
-		will-change: opacity, transform;
+	.fe-ripple {
+		opacity: 0;
+		stroke-width: 1.5;
+		visibility: hidden;
 	}
 
-	.fe-caret {
-		will-change: opacity;
+	.fe-track,
+	.fe-spinner {
+		opacity: 0;
+		stroke-linecap: round;
+		stroke-width: 2;
+		visibility: hidden;
+	}
+
+	.fe-track {
+		stroke: rgba(255, 255, 255, 0.26);
+	}
+
+	.fe-spinner {
+		stroke: #fff;
+	}
+
+	/* Libellés HTML posés sur la pilule ; chaque lettre glisse dans le masque. */
+	.fe-label {
+		align-items: center;
+		color: #fff;
+		display: flex;
+		font-size: 15px;
+		font-weight: 500;
+		inset: 0;
+		justify-content: center;
+		letter-spacing: -0.005em;
+		line-height: 20px;
+		position: absolute;
+		white-space: nowrap;
+	}
+
+	.fe-label-idle {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	.fe-mask {
+		align-items: center;
+		display: inline-flex;
+		overflow: hidden;
+		padding: 2px 1px;
+	}
+
+	.fe-ch {
+		display: inline-block;
+	}
+
+	.fe-icon {
+		display: inline-flex;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.9;
+	}
+
+	.fe-icon-after {
+		margin-left: 6px;
+	}
+
+	.fe-icon-before {
+		margin-right: 6px;
+		stroke-width: 2.2;
+	}
+
+	/* Annotations de spec : étiquette « focus » et cote « 44 px ». */
+	.fe-callout {
+		align-items: center;
+		display: flex;
+		gap: 3px;
+		height: 100%;
+		opacity: 0;
+		position: absolute;
+		right: calc(100% - 3.5px);
+		top: 0;
+		visibility: hidden;
+	}
+
+	.fe-callout-text {
+		color: var(--color-blue-600);
+		font-size: 10px;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		line-height: 12px;
+	}
+
+	.fe-leader {
+		display: block;
+		fill: var(--color-blue-500);
+		stroke: var(--color-blue-300);
+		stroke-linecap: round;
+		stroke-width: 1;
+	}
+
+	.fe-cote {
+		align-items: center;
+		display: flex;
+		gap: 5px;
+		position: absolute;
+	}
+
+	.fe-cote svg {
+		display: block;
+		stroke: var(--color-gray-400);
+		stroke-linecap: round;
+		stroke-width: 1;
+	}
+
+	.fe-cote-label {
+		color: var(--color-gray-500);
+		font-size: 10px;
+		font-variant-numeric: tabular-nums;
+		font-weight: 500;
+		line-height: 12px;
+		white-space: nowrap;
+	}
+
+	/* Touches de clavier en relief : la face blanche s'enfonce sur son socle. */
+	.fe-keys {
+		display: flex;
+		gap: 8px;
+		margin-top: var(--fe-keys-gap);
+	}
+
+	.fe-key {
+		display: inline-flex;
+		padding-bottom: 2px;
+		position: relative;
+	}
+
+	.fe-key::before {
+		background: var(--color-gray-200);
+		border-radius: 6px;
+		box-shadow: 0 4px 8px -5px rgba(31, 38, 52, 0.28);
+		content: "";
+		inset: 2px 0 0;
+		position: absolute;
+	}
+
+	.fe-key-face {
+		align-items: center;
+		background: #fff;
+		border: 1px solid var(--color-gray-200);
+		border-radius: 6px;
+		color: var(--color-gray-600);
+		display: inline-flex;
+		font-size: 10px;
+		font-weight: 500;
+		gap: 4px;
+		height: 20px;
+		line-height: 12px;
+		padding: 0 7px;
+		position: relative;
+	}
+
+	.fe-key-face svg {
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.3;
+	}
+
+	/* Paliers d'échelle et de densité selon la taille de la zone (placés
+	   après les règles de base, qu'ils surchargent). */
+	@container (min-width: 340px) and (min-height: 184px) {
+		.fe-stage {
+			--fe-scale: 1.1;
+		}
+	}
+
+	@container (min-width: 330px) and (min-height: 300px) {
+		.fe-stage {
+			--fe-scale: 1.25;
+		}
+	}
+
+	@container (min-width: 440px) and (min-height: 215px) {
+		.fe-stage {
+			--fe-scale: 1.28;
+		}
+	}
+
+	@container (min-width: 460px) and (min-height: 320px) {
+		.fe-stage {
+			--fe-scale: 1.55;
+		}
+	}
+
+	@container (min-width: 460px) and (min-height: 400px) {
+		.fe-stage {
+			--fe-scale: 1.72;
+		}
+	}
+
+	@container (max-height: 150px) {
+		.fe-stage {
+			--fe-rail-gap: 12px;
+			--fe-keys-gap: 8px;
+		}
+	}
+
+	/* Trop bas pour trois étages : on garde le rail et le bouton. */
+	@container (max-height: 135px) {
+		.fe-keys {
+			display: none;
+		}
+	}
+
+	/* Survol / focus de la carte : le bouton se soulève, prêt à être pressé. */
+	@media (prefers-reduced-motion: no-preference) {
+		.fe-lift {
+			transition: translate 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+		}
+
+		.fe-shadow {
+			transition: opacity 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+		}
+
+		:global(.group:focus-visible) .fe-lift {
+			translate: 0 -2px;
+		}
+
+		:global(.group:focus-visible) .fe-shadow {
+			opacity: 0.75;
+		}
+	}
+
+	@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+		:global(.group:hover) .fe-lift {
+			translate: 0 -2px;
+		}
+
+		:global(.group:hover) .fe-shadow {
+			opacity: 0.75;
+		}
 	}
 </style>

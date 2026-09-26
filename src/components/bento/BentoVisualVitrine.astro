@@ -1,121 +1,481 @@
 ---
 /**
- * Scène animée "Création de site vitrine" en deux actes : le curseur
- * "William" construit la page bloc par bloc, puis le curseur "Prospect"
- * découvre le site, clique le CTA et un toast "Nouveau message" tombe.
- * Chorégraphie pilotée par src/scripts/animations/bento/vitrine.ts.
- * Sans JS : page construite + toast visible, curseurs masqués.
+ * Scène « Création de site vitrine » : on prend le mot au pied de la lettre.
+ * Une devanture de boutique dans une rue du soir, dont l'enseigne est le nom
+ * de domaine. Le rideau se lève à 18:30, la lumière s'allume, la nuit tombe
+ * et, à 22:47, une enveloppe glisse dans la fente de la porte : la vitrine
+ * travaille même boutique fermée.
+ *
+ * Illustration SVG en unités de viewBox : la rue (trottoir, façades voisines,
+ * lampadaires) déborde largement du cadre pour ne jamais « flotter » dans les
+ * formats larges. Le cadrage se fait en CSS (container queries) : devanture
+ * + ciel dans les zones hautes, gros plan sur la façade dans les zones basses.
+ * Les textes SVG qui passeraient sous 10 px sont masqués, jamais rétrécis.
+ *
+ * Sans JS / reduced motion : état final (nuit, vitrine allumée, enveloppe
+ * dans la fente, puce « 22:47 · 1 demande »).
+ * Chorégraphie : src/scripts/animations/bento/vitrine.ts.
  */
+
+type Block = { top: number; w: number; x: number };
+
+/** Identifiant unique : plusieurs instances de la scène par page. */
+const uid = `vt-${Math.random().toString(36).slice(2, 8)}`;
+const ref = (name: string) => `url(#${uid}-${name})`;
+
+const GROUND = 252;
+const round = (value: number) => Math.round(value * 100) / 100;
+const box = (x: number, y: number, w: number, h: number) =>
+	`M${round(x)} ${round(y)}h${round(w)}v${round(h)}h${round(-w)}z`;
+
+// Façades voisines (aplats) : la rue continue bien au-delà du cadre.
+const neighbors: Block[] = [
+	{ top: 110, w: 140, x: -720 },
+	{ top: 140, w: 134, x: -580 },
+	{ top: 104, w: 146, x: -446 },
+	{ top: 132, w: 124, x: -300 },
+	{ top: 98, w: 132, x: -176 },
+	{ top: 128, w: 106, x: -44 },
+	{ top: 112, w: 108, x: 298 },
+	{ top: 138, w: 118, x: 406 },
+	{ top: 100, w: 140, x: 524 },
+	{ top: 130, w: 130, x: 664 },
+	{ top: 106, w: 136, x: 794 },
+	{ top: 136, w: 150, x: 930 },
+];
+
+const neighborBodies = neighbors
+	.map(({ top, w, x }) => box(x, top, w, GROUND - top))
+	.join("");
+const neighborCornices = neighbors
+	.map(({ top, w, x }) => box(x - 2, top, w + 4, 5))
+	.join("");
+const neighborBands = neighbors
+	.map(({ w, x }) => box(x + 10, 186, w - 20, 7))
+	.join("");
+const neighborShutters = neighbors
+	.map(({ w, x }) => box(x + 10, 200, w - 20, GROUND - 200))
+	.join("");
+const neighborWindows = neighbors
+	.flatMap(({ top, w, x }) => {
+		const cols = Math.floor((w - 12) / 24);
+		const rows = Math.floor((176 - top - 14) / 28);
+		const left = x + (w - cols * 24) / 2 + 6.5;
+		return Array.from({ length: rows * cols }, (_, index) =>
+			box(
+				left + (index % cols) * 24,
+				top + 16 + Math.floor(index / cols) * 28,
+				11,
+				15,
+			),
+		);
+	})
+	.join("");
+
+// Silhouette lointaine (bleu nuit) qui dépasse entre les toits.
+// Rien derrière la devanture (x 50 → 300) : le ciel y reste dégagé.
+const skylineTowers: Block[] = [
+	[-720, 60, 70], [-660, 44, 48], [-600, 70, 86], [-520, 40, 56],
+	[-470, 56, 76], [-400, 36, 44], [-350, 64, 82], [-270, 44, 60],
+	[-210, 70, 90], [-130, 40, 52], [-80, 60, 76], [-12, 44, 62],
+	[300, 50, 74], [350, 40, 52], [396, 66, 86], [470, 44, 58],
+	[520, 70, 80], [600, 40, 46], [646, 60, 72], [716, 48, 60],
+	[770, 70, 88], [850, 44, 54], [900, 64, 78], [970, 50, 62],
+	[1026, 60, 84],
+].map(([x, w, top]) => ({ top, w, x }));
+const skyline = skylineTowers
+	.map(({ top, w, x }) => box(x, top, w, GROUND - top))
+	.join("");
+
+// Lampadaires répétés le long du trottoir.
+const lamps = [-490, -230, 30, 330, 590, 850];
+const lampPosts = lamps
+	.map(
+		(x) =>
+			`M${x} ${GROUND - 1}V116M${x - 7} 104L${x} 97.5L${x + 7} 104ZM${x - 5.5} 104H${x + 5.5}L${x + 4} 116H${x - 4}Z${box(x - 2.5, GROUND - 6, 5, 6)}`,
+	)
+	.join("");
+const lampGlass = lamps.map((x) => box(x - 3, 105.5, 6, 8.5)).join("");
+
+// Store rayé : bord supérieur, bord inférieur évasé, 10 festons.
+const AWNING = { bottom: 154, depth: 14, left: 68, right: 292, top: 136 };
+const scallop = (AWNING.right - AWNING.left) / 10;
+const awningPath = [
+	`M74 ${AWNING.top}H286L${AWNING.right} ${AWNING.bottom}`,
+	...Array.from({ length: 10 }, (_, index) => {
+		const from = AWNING.right - index * scallop;
+		return `Q${round(from - scallop / 2)} ${AWNING.bottom + AWNING.depth} ${round(from - scallop)} ${AWNING.bottom}`;
+	}),
+	"Z",
+].join("");
+
+// Croissant de lune : cercle r=11 moins un cercle r=9,5 décalé.
+const moonPath =
+	"M10.13 4.3A11 11 0 1 1-.97-10.96A9.5 9.5 0 0 0 10.13 4.3Z";
+
+// Étoiles (certaines au-dessus du viewBox pour les zones très hautes).
+const stars = [
+	[-24, 18, 1, 0.7], [30, 60, 0.9, 0.55], [84, 22, 1.1, 0.85],
+	[124, 50, 0.8, 0.5], [170, 14, 1.2, 0.9], [210, 60, 0.8, 0.5],
+	[318, 18, 1, 0.75], [384, 44, 0.9, 0.6], [110, -34, 0.9, 0.6],
+	[236, -22, 1, 0.7], [20, -48, 0.8, 0.5], [178, -58, 1, 0.65],
+	[292, -44, 0.8, 0.5], [70, -76, 1, 0.6],
+];
+
+const signLetters = [..."votre-nom.fr"];
+
+// Flaque de lumière de la vitrine sur le trottoir.
+const spill = `80,${GROUND} 280,${GROUND} 306,${GROUND + 26} 54,${GROUND + 26}`;
 ---
 
 <div
-	class="vitrine-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden px-3 pt-6 pb-7"
+	class="vitrine-scene pointer-events-none relative flex h-full w-full overflow-hidden"
 	data-bento-visual="vitrine"
 	aria-hidden="true"
 >
-	<div class="scale-[var(--bento-vitrine-boost,1)]">
-		<div class="vitrine-stage relative w-[300px] scale-[var(--bento-scene-scale,1)] transition-transform duration-500 ease-out group-hover:scale-[calc(var(--bento-scene-scale,1)*1.03)] sm:w-[328px]">
-			<span class="vitrine-glow absolute -inset-x-8 -inset-y-6 rounded-[3rem] bg-[radial-gradient(60%_60%_at_50%_42%,rgba(62,96,212,0.14),rgba(62,96,212,0)_70%)]" data-bento-vitrine-glow></span>
+	<div class="vitrine-sky absolute inset-0"></div>
+	<div class="vitrine-dusk absolute inset-0" data-vitrine-dusk></div>
 
-			<div class="relative w-full rounded-xl bg-white shadow-[0_24px_56px_-28px_rgba(34,42,55,0.38)]">
-				<div class="flex items-center gap-1.5 px-3.5 py-2 shadow-[inset_0_-1px_0_rgba(226,232,240,0.72)]">
-					<span class="size-1.5 rounded-full bg-[#f87171]/70"></span>
-					<span class="size-1.5 rounded-full bg-[#fbbf24]/70"></span>
-					<span class="size-1.5 rounded-full bg-[#34d399]/70"></span>
-					<span class="ml-2 flex h-4 min-w-0 flex-1 items-center gap-1 rounded-full bg-gray-100 px-2">
-						<span class="size-1 shrink-0 rounded-full bg-emerald-400/90"></span>
-						<span class="truncate text-[7px] font-medium leading-none text-gray-400">votre-domaine.fr</span>
-					</span>
-				</div>
+	<svg
+		class="vitrine-svg absolute"
+		viewBox="55 0 250 300"
+		fill="none"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<defs>
+			<pattern id={`${uid}-stripes`} patternUnits="userSpaceOnUse" x={AWNING.left} y="0" width={scallop * 2} height="40">
+				<rect width={scallop} height="40" fill="#3e60d4"></rect>
+				<rect x={scallop} width={scallop} height="40" fill="#ffffff"></rect>
+			</pattern>
+			<pattern id={`${uid}-slats`} patternUnits="userSpaceOnUse" width="8" height="5">
+				<rect width="8" height="5" fill="#bcc4cf"></rect>
+				<rect y="4" width="8" height="1" fill="#9ba4b1"></rect>
+			</pattern>
+			<pattern id={`${uid}-steel`} patternUnits="userSpaceOnUse" width="8" height="6">
+				<rect width="8" height="6" fill="#d9dee6"></rect>
+				<rect y="5" width="8" height="1" fill="#9ba4b1"></rect>
+			</pattern>
+			<radialGradient id={`${uid}-lit`} cx="42%" cy="38%" r="75%">
+				<stop offset="0" stop-color="#ffffff"></stop>
+				<stop offset="0.6" stop-color="#eef3ff"></stop>
+				<stop offset="1" stop-color="#b8c8ff"></stop>
+			</radialGradient>
+			<linearGradient id={`${uid}-spill`} x1="0" y1="0" x2="0" y2="1">
+				<stop offset="0" stop-color="#eef3ff" stop-opacity="0.95"></stop>
+				<stop offset="1" stop-color="#eef3ff" stop-opacity="0"></stop>
+			</linearGradient>
+			<radialGradient id={`${uid}-halo`}>
+				<stop offset="0" stop-color="#eef3ff" stop-opacity="0.55"></stop>
+				<stop offset="1" stop-color="#eef3ff" stop-opacity="0"></stop>
+			</radialGradient>
+			<radialGradient id={`${uid}-sign-glow`}>
+				<stop offset="0" stop-color="#5f7bea" stop-opacity="0.75"></stop>
+				<stop offset="1" stop-color="#5f7bea" stop-opacity="0"></stop>
+			</radialGradient>
+			<clipPath id={`${uid}-opening`}>
+				<rect x="80" y="166" width="198" height="86"></rect>
+			</clipPath>
+			<clipPath id={`${uid}-slot`}>
+				<rect x="-800" y="-400" width="1900" height="633.75"></rect>
+			</clipPath>
+		</defs>
 
-				<div class="flex min-h-[152px] items-start gap-5 px-5 pt-5 pb-5" data-bento-vitrine-page>
-					<div class="flex min-w-0 flex-1 flex-col gap-3">
-						<span class="vitrine-row h-3.5 w-[92%] rounded-full bg-gray-200" data-bento-vitrine-row></span>
-						<span class="vitrine-row h-3.5 w-[68%] rounded-full bg-gray-200/80" data-bento-vitrine-row></span>
-						<span class="vitrine-row h-3 w-[78%] rounded-full bg-gray-100" data-bento-vitrine-row></span>
-						<span class="vitrine-cta mt-2 inline-flex w-fit items-center rounded-full bg-blue-500 px-3 py-1 text-[10px] font-medium text-white shadow-sm" data-bento-vitrine-cta>
-							Contact
-						</span>
-					</div>
-					<div class="vitrine-image flex h-[126px] w-[116px] shrink-0 items-center justify-center rounded-lg bg-blue-50 shadow-[0_16px_34px_-28px_rgba(62,96,212,0.55)]" data-bento-vitrine-image>
-						<svg xmlns="http://www.w3.org/2000/svg" class="size-[18px] text-blue-200" viewBox="0 0 18 18" aria-hidden="true">
-							<title>image-mountain</title>
-							<g fill="currentColor">
-								<path d="M5.5 6C6.60457 6 7.5 5.10457 7.5 4C7.5 2.89543 6.60457 2 5.5 2C4.39543 2 3.5 2.89543 3.5 4C3.5 5.10457 4.39543 6 5.5 6Z" fill="currentColor"></path>
-								<path d="M12.661 6.401C11.995 5.495 10.506 5.495 9.83998 6.401L7.12498 10.093L6.28498 8.951C5.61898 8.044 4.13098 8.044 3.46498 8.951L1.06698 12.213C0.673982 12.748 0.615982 13.447 0.915982 14.04C1.21598 14.633 1.81398 15 2.47798 15H15.523C16.186 15 16.785 14.632 17.085 14.04C17.385 13.448 17.326 12.748 16.934 12.213L12.661 6.401Z" fill="currentColor" fill-opacity="0.4"></path>
-							</g>
-						</svg>
-					</div>
-				</div>
-			</div>
+		<!-- Ciel : lune et étoiles -->
+		<g class="vitrine-moon-anchor" transform="translate(268 40)">
+			<g data-vitrine-moon>
+				<circle r="30" fill={ref("halo")} opacity="0.5"></circle>
+				<path d={moonPath} fill="#eef3ff"></path>
+			</g>
+		</g>
+		<g fill="#ffffff">
+			{stars.map(([cx, cy, r, o]) => <circle cx={cx} cy={cy} r={r} opacity={o} data-vitrine-star />)}
+		</g>
 
-			<span class="vitrine-click-ring absolute top-[118px] left-[38px] size-10 rounded-full border-2 border-blue-400" data-bento-vitrine-click-ring></span>
+		<!-- Rue : silhouette lointaine, façades voisines, trottoir, lampadaires -->
+		<path d={skyline} fill="#1b2b60"></path>
+		<path d={neighborBodies} fill="#d9dee6"></path>
+		<path d={neighborCornices} fill="#bcc4cf"></path>
+		<path d={neighborWindows} fill="#bcc4cf"></path>
+		<path d={neighborBands} fill="#bcc4cf"></path>
+		<path d={neighborShutters} fill={ref("slats")}></path>
 
-			<div class="vitrine-toast absolute -top-3 -right-1 flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1.5 shadow-[0_18px_34px_-18px_rgba(34,42,55,0.5)]" data-bento-vitrine-toast>
-				<span class="flex size-3.5 items-center justify-center rounded-full bg-emerald-500">
-					<svg class="size-2 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-						<path d="M3.5 8.5l3 3 6-7"></path>
-					</svg>
-				</span>
-				<span class="text-[9px] font-medium text-gray-700">Nouveau message</span>
-			</div>
+		<rect x="-720" y={GROUND} width="1800" height="26" fill="#bcc4cf"></rect>
+		<rect x="-720" y={GROUND + 26} width="1800" height="3" fill="#9ba4b1"></rect>
+		<rect x="-720" y={GROUND + 29} width="1800" height="60" fill="#2f3642"></rect>
+		<path d={`M-720 ${GROUND + 44}H1080`} stroke="#5c626b" stroke-width="1.5" stroke-dasharray="16 14"></path>
+		<path d={`M-720 ${GROUND}H1080`} stroke="#1f2634" stroke-width="1.5"></path>
 
-			<div class="vitrine-cursor absolute top-0 left-0 flex items-start" data-bento-vitrine-cursor-builder>
-				<svg xmlns="http://www.w3.org/2000/svg" class="size-[18px] text-blue-500 drop-shadow-sm" viewBox="0 0 18 18" aria-hidden="true">
-					<title>pointer</title>
-					<g fill="currentColor">
-						<path d="M15.154,6.253L3.731,2.079h0c-.477-.175-.994-.058-1.353,.3-.357,.358-.473,.876-.298,1.352L6.254,15.154c.188,.517,.66,.846,1.208,.846,.009,0,.019,0,.027,0,.559-.011,1.03-.362,1.2-.895l1.556-4.86,4.859-1.555c.532-.17,.884-.642,.896-1.201,.011-.559-.321-1.044-.846-1.236Z" fill="currentColor"></path>
-					</g>
-				</svg>
-				<span class="mt-2.5 -ml-0.5 rounded-full bg-blue-500 px-1.5 py-0.5 text-[8px] font-semibold text-white shadow-sm">William</span>
-			</div>
+		<g fill="#eef3ff">
+			{lamps.map((x) => <ellipse cx={x} cy={GROUND + 10} rx="24" ry="4" opacity="0.35" data-vitrine-lamp-pool />)}
+		</g>
+		<g data-vitrine-spill>
+			<polygon points={spill} fill={ref("spill")}></polygon>
+			<polygon class="vitrine-boost" points={spill} fill={ref("spill")}></polygon>
+		</g>
 
-			<div class="vitrine-cursor absolute top-0 left-0 flex items-start" data-bento-vitrine-cursor-visitor>
-				<svg xmlns="http://www.w3.org/2000/svg" class="size-[18px] text-emerald-500 drop-shadow-sm" viewBox="0 0 18 18" aria-hidden="true">
-					<title>pointer</title>
-					<g fill="currentColor">
-						<path d="M15.154,6.253L3.731,2.079h0c-.477-.175-.994-.058-1.353,.3-.357,.358-.473,.876-.298,1.352L6.254,15.154c.188,.517,.66,.846,1.208,.846,.009,0,.019,0,.027,0,.559-.011,1.03-.362,1.2-.895l1.556-4.86,4.859-1.555c.532-.17,.884-.642,.896-1.201,.011-.559-.321-1.044-.846-1.236Z" fill="currentColor"></path>
-					</g>
-				</svg>
-				<span class="mt-2.5 -ml-0.5 rounded-full bg-emerald-500 px-1.5 py-0.5 text-[8px] font-semibold text-white shadow-sm">Prospect</span>
-			</div>
-		</div>
+		<path d={lampPosts} fill="#2f3642" stroke="#2f3642" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path>
+		<path class="vitrine-lamp-glass" d={lampGlass} data-vitrine-lamp-glass></path>
+		{lamps.map((x) => <circle cx={x} cy="110" r="26" fill={ref("halo")} data-vitrine-lamp-halo />)}
+
+		<!-- Devanture -->
+		<g stroke="#1f2634" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+			<rect x="64" y="100" width="232" height={GROUND - 100} fill="#ffffff"></rect>
+			<rect x="58" y="92" width="244" height="8" rx="1.5" fill="#ffffff"></rect>
+
+			<!-- Enseigne : le nom de domaine -->
+			<rect x="84" y="106" width="192" height="26" rx="3" fill="#1b2b60"></rect>
+		</g>
+		<ellipse cx="180" cy="119" rx="80" ry="12" fill={ref("sign-glow")} data-vitrine-sign-glow></ellipse>
+		<text class="vitrine-sign" x="180" y="124.6" text-anchor="middle">{signLetters.map((letter) => <tspan data-vitrine-letter>{letter}</tspan>)}</text>
+
+		<!-- Vitrine : un mini-site en vrais mots -->
+		<g stroke="#1f2634" stroke-width="1.5" stroke-linejoin="round">
+			<rect x="80" y="170" width="128" height="70" fill="#1b2b60"></rect>
+			<rect x="218" y="166" width="60" height="86" fill="#3e60d4"></rect>
+			<rect x="225" y="173" width="46" height="44" fill="#1b2b60"></rect>
+		</g>
+		<g data-vitrine-lit>
+			<rect x="80.75" y="170.75" width="126.5" height="68.5" fill={ref("lit")}></rect>
+			<rect x="225.75" y="173.75" width="44.5" height="42.5" fill={ref("lit")}></rect>
+			<rect class="vitrine-boost" x="80.75" y="170.75" width="126.5" height="68.5" fill="#ffffff"></rect>
+		</g>
+
+		<text class="vitrine-title" x="89" y="187" data-vitrine-hero>Menuiserie</text>
+		<g class="vitrine-title-2"><text class="vitrine-title" x="89" y="200" data-vitrine-hero>sur mesure</text></g>
+		<text class="vitrine-sub" x="89" y="212" data-vitrine-hero>Nantes et alentours</text>
+		<g data-vitrine-hero>
+			<rect x="89" y="219" width="66" height="13" rx="6.5" fill="#3e60d4"></rect>
+			<text class="vitrine-cta" x="122" y="228.1" text-anchor="middle">Nous contacter</text>
+			<text class="vitrine-cta-short" x="122" y="228.7" text-anchor="middle">Contact</text>
+		</g>
+		<path
+			d="M178 213H202M181 213L178.5 237M199 213L201.5 237M180.5 226H199.5"
+			stroke="#8da5f7"
+			stroke-width="1.75"
+			stroke-linecap="round"
+			data-vitrine-hero
+		></path>
+
+		<!-- Clochette derrière la vitre de la porte -->
+		<g data-vitrine-bell>
+			<path d="M248 173.75V177" stroke="#404957" stroke-width="1.25" stroke-linecap="round"></path>
+			<path d="M243.25 186.5C243.25 180.25 245.25 177 248 177S252.75 180.25 252.75 186.5Z" fill="#404957"></path>
+			<circle cx="248" cy="188.25" r="1.5" fill="#404957"></circle>
+		</g>
+
+		<g stroke="#1f2634" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+			<rect x="80" y="240" width="128" height="12" fill="#eef1f5"></rect>
+			<path d="M228 221.5V229.5"></path>
+			<rect x="231" y="229" width="34" height="10" rx="2" fill="#eef1f5" stroke-width="1.25"></rect>
+		</g>
+
+		<!-- Store (se déroule) et sa barre d'enroulement -->
+		<g data-vitrine-awning>
+			<path d={awningPath} transform="translate(0 5)" fill="#1f2634" opacity="0.1"></path>
+			<path d={awningPath} fill={ref("stripes")} stroke="#1f2634" stroke-width="1.5" stroke-linejoin="round"></path>
+		</g>
+		<rect x="71" y="133.5" width="218" height="4.5" rx="2.25" fill="#203682" stroke="#1f2634" stroke-width="1.5"></rect>
+
+		<!-- La demande : l'enveloppe arrive par la rue et glisse dans la fente -->
+		<g clip-path={ref("slot")}>
+			<path class="vitrine-trail" d="M-90 160Q120-40 248 219.5" stroke="#eef3ff" stroke-opacity="0.8" stroke-width="1.25" stroke-linecap="round" data-vitrine-trail></path>
+			<g data-vitrine-envelope>
+				<rect x="235" y="223" width="26" height="17" rx="1.5" fill="#ffffff" stroke="#1f2634" stroke-width="1.25"></rect>
+				<path d="M236 224L248 231.25L260 224" stroke="#1f2634" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
+			</g>
+		</g>
+		<rect x="234" y="232.25" width="28" height="3" rx="1.5" fill="#1f2634"></rect>
+
+		<!-- Rideau métallique (levé : seule sa lame basse dépasse) -->
+		<g clip-path={ref("opening")}>
+			<g transform="translate(0 -82)" data-vitrine-shutter>
+				<rect x="80" y="166" width="198" height="82" fill={ref("steel")}></rect>
+				<rect x="80" y="248" width="198" height="4" fill="#9ba4b1"></rect>
+			</g>
+		</g>
+	</svg>
+
+	<div class="vitrine-chip absolute top-3 left-3 z-10 flex items-center rounded-full bg-white py-[7px] pr-3 pl-2.5 text-[11px] leading-none font-medium whitespace-nowrap text-gray-600">
+		<svg class="mr-1.5 size-3 shrink-0 text-blue-500" viewBox="-12 -12 24 24" aria-hidden="true">
+			<path d={moonPath} fill="currentColor"></path>
+		</svg>
+		<span class="text-gray-900 tabular-nums" data-vitrine-time>22:47</span>
+		<span class="vitrine-more grid" data-vitrine-more>
+			<span class="flex min-w-0 items-center overflow-hidden">
+				<span class="px-1.5 text-gray-300">·</span>
+				<span class="mr-1.5 size-1.5 shrink-0 rounded-full bg-emerald-500" data-vitrine-dot></span>
+				<span>1&nbsp;demande</span>
+			</span>
+		</span>
 	</div>
 </div>
 
 <style>
-	.vitrine-glow {
-		will-change: opacity, transform;
+	.vitrine-scene {
+		font-family: var(--font-sans);
 	}
 
-	.vitrine-cursor {
+	/* Ciel du soir : nuit (état final) et crépuscule superposé (début du récit). */
+	.vitrine-sky {
+		background: linear-gradient(180deg, #1b2b60 0%, #203682 58%, #2744a8 100%);
+	}
+
+	.vitrine-dusk {
+		background: linear-gradient(180deg, #203682 0%, #2744a8 48%, #3152c7 100%);
 		opacity: 0;
-		will-change: transform;
+		will-change: opacity;
 	}
 
-	.vitrine-row {
-		transform-origin: left center;
-		will-change: transform;
+	/*
+	 * Cadrage « meet » sur la devanture et le ciel (250 × 300 unités), ancré
+	 * en bas : --u = taille d'une unité de viewBox en px. La rue déborde.
+	 */
+	.vitrine-svg {
+		--u: min(100cqw / 250, 100cqh / 300);
+		bottom: 0;
+		left: 50%;
+		width: calc(var(--u) * 250);
+		height: calc(var(--u) * 300);
+		overflow: visible;
+		translate: -50% 0;
 	}
 
-	.vitrine-image {
-		transform-origin: center;
-		will-change: opacity, transform;
+	.vitrine-sign {
+		fill: #eef3ff;
+		font-size: 16.5px;
+		font-weight: 600;
+		letter-spacing: 0.02em;
 	}
 
-	.vitrine-cta {
-		transform-origin: left center;
-		will-change: opacity, transform;
+	.vitrine-title {
+		fill: #1f2634;
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: -0.01em;
 	}
 
-	.vitrine-click-ring {
+	.vitrine-sub {
+		display: none;
+		fill: #707a87;
+		font-size: 8.5px;
+	}
+
+	.vitrine-cta,
+	.vitrine-cta-short {
+		display: none;
+		fill: #ffffff;
+		font-size: 7.5px;
+		font-weight: 500;
+	}
+
+	.vitrine-cta-short {
+		font-size: 9px;
+	}
+
+	.vitrine-lamp-glass {
+		fill: #eef3ff;
+	}
+
+	.vitrine-trail {
 		opacity: 0;
-		transform-origin: center;
-		will-change: opacity, transform;
 	}
 
-	.vitrine-toast {
-		transform-origin: center;
-		will-change: opacity, transform;
+	.vitrine-boost {
+		opacity: 0;
+		transition: opacity 0.5s ease;
+	}
+
+	.vitrine-more {
+		grid-template-columns: 1fr;
+	}
+
+	.vitrine-chip {
+		box-shadow:
+			0 1px 2px rgba(31, 38, 52, 0.06),
+			0 18px 36px -22px rgba(31, 38, 52, 0.35);
+		contain: layout paint;
+	}
+
+	/* Textes du mini-site : affichés seulement s'ils restent ≥ 10 px. */
+	@container (min-width: 295px) and (min-height: 354px) {
+		.vitrine-sub {
+			display: inline;
+		}
+	}
+
+	/* Bouton : « Contact » (9 unités) puis « Nous contacter » (7,5 unités). */
+	@container (min-width: 278px) and (min-height: 334px) {
+		.vitrine-cta-short {
+			display: inline;
+		}
+	}
+
+	@container (min-width: 334px) and (min-height: 400px) {
+		.vitrine-cta {
+			display: inline;
+		}
+
+		.vitrine-cta-short {
+			display: none;
+		}
+	}
+
+	/*
+	 * Zones basses (≤ 250 px) : gros plan sur la façade (250 × 208 unités,
+	 * y 56 → 264). Le titre de la vitrine grossit (15 unités ≥ 10 px dès
+	 * 144 px de haut), la lune descend dans la bande de ciel.
+	 */
+	@container (max-height: 15.625rem) {
+		.vitrine-svg {
+			--u: min(100cqw / 250, 100cqh / 208);
+			bottom: calc(var(--u) * -36);
+		}
+
+		.vitrine-title {
+			font-size: 15px;
+		}
+
+		.vitrine-title-2 {
+			translate: 0 3px;
+		}
+
+		.vitrine-moon-anchor {
+			translate: 0 36px;
+		}
+	}
+
+	/* Zones très étroites : le titre passerait sous 10 px. */
+	@container (max-width: 13rem) {
+		.vitrine-title {
+			display: none;
+		}
+	}
+
+	/* Zones très basses (< 140 px) : la puce remonte, l'enseigne reste lisible. */
+	@container (max-height: 8.75rem) {
+		.vitrine-svg {
+			bottom: calc(var(--u) * -42);
+		}
+
+		.vitrine-chip {
+			top: 0.5rem;
+		}
+
+		.vitrine-title {
+			display: none;
+		}
+	}
+
+	/* Survol / focus : la vitrine s'éclaire un peu plus. */
+	@media (prefers-reduced-motion: no-preference) {
+		@media (hover: hover) {
+			:global(.group:hover) .vitrine-boost {
+				opacity: 0.45;
+			}
+		}
+
+		:global(.group:focus-visible) .vitrine-boost {
+			opacity: 0.45;
+		}
 	}
 </style>

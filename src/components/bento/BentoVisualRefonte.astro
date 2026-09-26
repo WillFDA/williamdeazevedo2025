@@ -1,106 +1,291 @@
 ---
 /**
- * Scène animée "Refonte" : les contenus quittent la fenêtre "Avant" (terne,
- * penchée) et volent un par un vers leurs emplacements en pointillés dans la
- * fenêtre "Après" — arc de trajectoire, balayage lumineux, badge final.
+ * Scène animée "Refonte" : l'épreuve corrigée. La vieille accroche du site
+ * (serif italique) est relue au stylo bleu : on barre ce qui bloque, on
+ * entoure ce qui rassure, on crochète ce qui ralentit. Le mot gardé,
+ * « depuis 1998 », passe dans la nouvelle accroche, soulignée en vert.
  * Chorégraphie pilotée par src/scripts/animations/bento/refonte.ts.
- * Sans JS : les deux fenêtres pleines, badge visible.
+ * Sans JS : l'épreuve annotée et la nouvelle accroche (état final).
  */
+import { refonteEllipsePath } from "@/scripts/animations/bento/refonte-ellipse";
+
+// Taille nominale de l'ellipse (recalculée à la taille réelle par la scène).
+const ELLIPSE_WIDTH = 84;
+const ELLIPSE_HEIGHT = 23;
+const ellipsePath = refonteEllipsePath(ELLIPSE_WIDTH, ELLIPSE_HEIGHT);
+const headline = ["Plombier", "à", "Lyon"];
+const promise = ["Devis", "en", "48 h."];
 ---
 
 <div
-	class="refonte-scene pointer-events-none relative flex h-full w-full items-center justify-center overflow-hidden"
+	class="refonte-scene pointer-events-none relative flex h-full w-full items-center overflow-hidden"
 	data-bento-visual="refonte"
 	aria-hidden="true"
 >
-	<div class="refonte-stage relative flex items-center gap-3 scale-[var(--bento-scene-scale,1)] transition-transform duration-500 ease-out group-hover:scale-[calc(var(--bento-scene-scale,1)*1.03)] sm:gap-4">
-		<div class="relative w-[136px] -rotate-[1.5deg] rounded-lg border border-red-200/70 bg-red-50/60 shadow-[0_12px_26px_-18px_rgba(34,42,55,0.35)] sm:w-[152px]">
-			<div class="flex items-center gap-1 border-b border-red-100/80 px-2.5 py-1.5">
-				<span class="size-1 rounded-full bg-red-300/90"></span>
-				<span class="size-1 rounded-full bg-red-300/70"></span>
-				<span class="size-1 rounded-full bg-red-300/50"></span>
-			</div>
-			<div class="flex flex-col gap-[6px] px-2.5 pt-2.5 pb-3">
-				<span class="refonte-source h-2 w-[88%] rounded-full bg-red-300/70" data-bento-refonte-source></span>
-				<span class="refonte-source h-2 w-[52%] translate-x-2 -rotate-2 rounded-full bg-red-200/70" data-bento-refonte-source></span>
-				<span class="refonte-source h-2 w-[70%] -translate-x-0.5 rotate-1 rounded-full bg-red-200/50" data-bento-refonte-source></span>
-				<span class="refonte-source h-3 w-8 rotate-1 rounded-sm bg-red-300/60" data-bento-refonte-source></span>
-			</div>
-			<span class="absolute -top-2 left-2 rounded-full border border-red-200 bg-red-50 px-1.5 py-0.5 text-[8px] font-medium text-red-700 shadow-sm">Avant</span>
+	<div class="refonte-sheet">
+		<div class="refonte-copy">
+			<p class="refonte-old">
+				<span class="refonte-fragment"><span class="refonte-strike" data-refonte-strike>Bienvenue sur notre site&#8239;!</span></span>
+				<span class="refonte-kept-old" data-refonte-kept-old><span data-refonte-kept-ink>depuis 1998</span><svg
+						class="refonte-ellipse"
+						viewBox={`0 0 ${ELLIPSE_WIDTH} ${ELLIPSE_HEIGHT}`}
+						preserveAspectRatio="none"
+						fill="none"
+						data-refonte-ellipse-svg
+					><path d={ellipsePath} data-refonte-ellipse></path></svg></span>
+				<span class="refonte-fragment"><span class="refonte-slow" data-refonte-slow>Chargement…&nbsp;<span class="refonte-counter" data-refonte-counter>4,2</span>&nbsp;s</span></span>
+			</p>
+
+			<p class="refonte-new">
+				<span class="refonte-sentence">{headline.map((word) => (
+					<><span class="refonte-mask"><span class="refonte-word" data-refonte-word="headline">{word}</span></span>{" "}</>
+				))}<span class="refonte-kept" data-refonte-kept>depuis 1998.</span></span>{" "}
+				<span class="refonte-sentence refonte-promise" data-refonte-promise>{promise.map((word, index) => (
+					<>{index > 0 && " "}<span class="refonte-mask"><span class="refonte-word" data-refonte-word="promise">{word}</span></span></>
+				))}</span>
+			</p>
 		</div>
 
-		<span class="refonte-arrow flex size-7 shrink-0 items-center justify-center rounded-full border border-gray-100 bg-white shadow-[0_10px_20px_-12px_rgba(34,42,55,0.45)]" data-bento-refonte-arrow>
-			<svg class="size-3 text-emerald-600" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M2.5 8h11M9.5 4l4 4-4 4"></path>
-			</svg>
-		</span>
-
-		<div class="relative w-[136px] rounded-lg border border-emerald-200/80 bg-white shadow-[0_16px_32px_-22px_rgba(34,42,55,0.35)] sm:w-[152px]" data-bento-refonte-apres>
-			<div class="flex items-center gap-1 border-b border-emerald-100/80 px-2.5 py-1.5">
-				<span class="size-1 rounded-full bg-emerald-300/90"></span>
-				<span class="size-1 rounded-full bg-emerald-300/70"></span>
-				<span class="size-1 rounded-full bg-emerald-300/50"></span>
-			</div>
-			<div class="flex flex-col gap-[6px] px-2.5 pt-2.5 pb-3">
-				<span class="relative flex h-2 w-[85%]">
-					<span class="refonte-slot absolute -inset-[2px] rounded-full" data-bento-refonte-slot></span>
-					<span class="refonte-fly h-full w-full rounded-full bg-emerald-300" data-bento-refonte-fly></span>
-				</span>
-				<span class="relative flex h-2 w-[62%]">
-					<span class="refonte-slot absolute -inset-[2px] rounded-full" data-bento-refonte-slot></span>
-					<span class="refonte-fly h-full w-full rounded-full bg-gray-200" data-bento-refonte-fly></span>
-				</span>
-				<span class="relative flex h-2 w-[74%]">
-					<span class="refonte-slot absolute -inset-[2px] rounded-full" data-bento-refonte-slot></span>
-					<span class="refonte-fly h-full w-full rounded-full bg-gray-100" data-bento-refonte-fly></span>
-				</span>
-				<span class="relative flex h-3.5 w-10">
-					<span class="refonte-slot absolute -inset-[2px] rounded-full" data-bento-refonte-slot></span>
-					<span class="refonte-fly h-full w-full rounded-full bg-emerald-500 shadow-sm" data-bento-refonte-fly></span>
-				</span>
-			</div>
-			<span class="absolute -top-2 left-2 rounded-full border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[8px] font-medium text-emerald-700 shadow-sm">Après</span>
-
-			<span class="absolute inset-0 overflow-hidden rounded-lg">
-				<span class="refonte-shine absolute top-0 bottom-0 -left-10 w-8 bg-gradient-to-r from-transparent via-white to-transparent" data-bento-refonte-shine></span>
-			</span>
-
-			<span class="refonte-chip absolute -right-2 -bottom-2.5 flex items-center gap-1 rounded-full bg-emerald-500 px-2 py-1 text-[8px] font-semibold text-white shadow-sm" data-bento-refonte-chip>
-				<svg class="size-2" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M3.5 8.5l3 3 6-7"></path>
-				</svg>
-				Plus lisible
-			</span>
+		<div class="refonte-legend">
+			<p class="refonte-legend-title">Relecture</p>
+			<ul class="refonte-legend-list">
+				<li class="refonte-legend-item" data-refonte-legend>
+					<svg viewBox="0 0 22 12" fill="none"><path d="M2 6.5h18"></path></svg>
+					bloque
+				</li>
+				<li class="refonte-legend-item" data-refonte-legend>
+					<svg viewBox="0 0 22 12" fill="none"><path d="M5.2 2.6C8.6 1.2 17.8 1.5 19.6 4.4c1.8 2.9-2.7 5.5-9.1 5.6C4.6 10.1 1.4 8.3 2.2 5.8c.6-1.9 3.4-3.1 7.4-3.5"></path></svg>
+					rassure
+				</li>
+				<li class="refonte-legend-item" data-refonte-legend>
+					<svg viewBox="0 0 22 12" fill="none"><path d="M2 5.5v4h18v-4"></path></svg>
+					ralentit
+				</li>
+			</ul>
 		</div>
 	</div>
 </div>
 
 <style>
-	.refonte-source {
-		will-change: opacity;
+	/* Tailles en unités de conteneur (zone visuelle en container-type: size),
+	   avec planchers lisibles : 11 px pour la vieille phrase, 15 px pour la
+	   nouvelle accroche. */
+	.refonte-scene {
+		--refonte-ink: var(--color-blue-500, #3e60d4);
+		--refonte-new: clamp(15px, min(6.6cqi, 16cqh), 40px);
+		--refonte-old: clamp(11px, calc(var(--refonte-new) * 0.64), 17px);
+		padding-inline: clamp(16px, 4.4cqi, 44px);
 	}
 
-	.refonte-slot {
-		border: 1.5px dashed rgba(148, 163, 184, 0.55);
-		opacity: 0;
+	/* Bande étroite : l'accroche passe sur deux lignes, on garde de l'air. */
+	@container (max-width: 460px) {
+		.refonte-scene {
+			--refonte-new: clamp(15px, min(6.6cqi, 14.5cqh), 40px);
+		}
 	}
 
-	.refonte-fly {
-		will-change: opacity, transform;
+	.refonte-sheet {
+		display: flex;
+		align-items: center;
+		width: 100%;
 	}
 
-	.refonte-shine {
-		opacity: 0;
-		will-change: opacity, transform;
+	.refonte-copy {
+		flex: 1 1 auto;
+		min-width: 0;
 	}
 
-	.refonte-arrow {
-		transform-origin: center;
-		will-change: transform;
+	/* L'ancienne accroche : serif système, comme une épreuve imprimée. */
+	.refonte-old {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		column-gap: 0.75em;
+		color: var(--color-gray-600, #5c626b);
+		font-family: Georgia, "Times New Roman", serif;
+		font-size: var(--refonte-old);
+		font-style: italic;
+		line-height: 1.55;
 	}
 
-	.refonte-chip {
-		transform-origin: center;
-		will-change: opacity, transform;
+	/* Marques du correcteur : dégradés en arrière-plan, qui suivent le texte
+	   quand il passe à la ligne. La scène anime les variables --refonte-*. */
+	.refonte-strike {
+		--refonte-strike: 1;
+		--refonte-strike-x: 0%;
+		background-image: linear-gradient(var(--refonte-ink), var(--refonte-ink));
+		background-position: var(--refonte-strike-x) 60%;
+		background-repeat: no-repeat;
+		background-size: calc(var(--refonte-strike) * 100%) 1.5px;
+		padding-inline: 0.12em;
+	}
+
+	.refonte-kept-old {
+		position: relative;
+		display: inline-block;
+		margin-inline: 0.55em;
+		white-space: nowrap;
+	}
+
+	.refonte-ellipse {
+		position: absolute;
+		top: calc(50% - 0.86em);
+		left: -0.7em;
+		width: calc(100% + 1.4em);
+		height: 1.62em;
+		overflow: visible;
+	}
+
+	/* Épaisseur constante en statique (tracé étiré) ; la scène repasse le
+	   tracé en échelle 1:1 et retire vector-effect pour DrawSVG. */
+	.refonte-ellipse path {
+		stroke: var(--refonte-ink);
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.4px;
+		vector-effect: non-scaling-stroke;
+	}
+
+	.refonte-slow {
+		--refonte-tick-start: 1;
+		--refonte-bracket: 1;
+		--refonte-bracket-x: 0%;
+		--refonte-tick-end: 1;
+		background-image:
+			linear-gradient(var(--refonte-ink), var(--refonte-ink)),
+			linear-gradient(var(--refonte-ink), var(--refonte-ink)),
+			linear-gradient(var(--refonte-ink), var(--refonte-ink));
+		background-position:
+			0 100%,
+			var(--refonte-bracket-x) 100%,
+			100% 100%;
+		background-repeat: no-repeat;
+		background-size:
+			1.5px calc(var(--refonte-tick-start) * 0.36em),
+			calc(var(--refonte-bracket) * 100%) 1.5px,
+			1.5px calc(var(--refonte-tick-end) * 0.36em);
+		padding: 0 0.14em 0.12em;
+		white-space: nowrap;
+	}
+
+	.refonte-counter {
+		display: inline-block;
+		min-width: 1.35em;
+		text-align: right;
+	}
+
+	/* La nouvelle accroche : Geist, serrée, une phrase par groupe insécable. */
+	.refonte-new {
+		margin-top: calc(var(--refonte-new) * 0.42);
+		color: var(--color-gray-900, #1f2634);
+		font-size: var(--refonte-new);
+		font-weight: 500;
+		letter-spacing: -0.02em;
+		line-height: 1.2;
+	}
+
+	.refonte-sentence {
+		white-space: nowrap;
+	}
+
+	.refonte-mask {
+		display: inline-block;
+		overflow: clip;
+		padding-bottom: 0.12em;
+		margin-bottom: -0.12em;
+		vertical-align: top;
+	}
+
+	.refonte-word,
+	.refonte-kept {
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.refonte-promise {
+		--refonte-underline: 1;
+		--refonte-underline-x: 0%;
+		--refonte-underline-size: 1.5px;
+		color: var(--color-blue-600, #3152c7);
+		background-image: linear-gradient(
+			var(--color-emerald-500, #10b981),
+			var(--color-emerald-500, #10b981)
+		);
+		background-position: var(--refonte-underline-x) 100%;
+		background-repeat: no-repeat;
+		background-size: calc(var(--refonte-underline) * 100%)
+			var(--refonte-underline-size);
+		padding-bottom: 0.1em;
+	}
+
+	/* Légende de marge : seulement quand la bande est assez large. */
+	.refonte-legend {
+		--refonte-legend: clamp(11px, 1.3cqi, 13px);
+		display: none;
+	}
+
+	@container (min-width: 680px) {
+		.refonte-legend {
+			display: block;
+			flex: none;
+			margin-left: clamp(20px, 3.4cqi, 40px);
+			padding-left: clamp(16px, 2.4cqi, 28px);
+			border-left: 1px solid var(--color-gray-200, #d9dee6);
+		}
+	}
+
+	.refonte-legend-title {
+		color: var(--color-gray-500, #707a87);
+		font-size: calc(var(--refonte-legend) - 1px);
+		letter-spacing: 0.14em;
+		line-height: 1;
+		text-transform: uppercase;
+	}
+
+	.refonte-legend-list {
+		display: grid;
+		gap: calc(var(--refonte-legend) * 0.45);
+		margin-top: calc(var(--refonte-legend) * 0.8);
+	}
+
+	.refonte-legend-item {
+		display: flex;
+		align-items: center;
+		gap: 0.7em;
+		color: var(--color-gray-600, #5c626b);
+		font-size: var(--refonte-legend);
+		line-height: 1.3;
+	}
+
+	.refonte-legend-item svg {
+		width: 2em;
+		height: 1.1em;
+		flex: none;
+		stroke: var(--refonte-ink);
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.4px;
+	}
+
+	.refonte-legend-item path {
+		vector-effect: non-scaling-stroke;
+	}
+
+	/* Survol : calme, le soulignement s'épaissit à peine. */
+	@property --refonte-underline-size {
+		syntax: "<length>";
+		inherits: false;
+		initial-value: 1.5px;
+	}
+
+	@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+		.refonte-promise {
+			transition: --refonte-underline-size 0.4s ease;
+		}
+
+		:global(.group:hover) .refonte-promise,
+		:global(.group:focus-visible) .refonte-promise {
+			--refonte-underline-size: 2.5px;
+		}
 	}
 </style>
