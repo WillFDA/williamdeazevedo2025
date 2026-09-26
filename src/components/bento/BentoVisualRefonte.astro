@@ -6,12 +6,14 @@
  * « depuis 1998 », passe dans la nouvelle accroche, soulignée en vert.
  * Chorégraphie pilotée par src/scripts/animations/bento/refonte.ts.
  * Sans JS : l'épreuve annotée et la nouvelle accroche (état final).
+ * Survol en CSS seulement (la scène ne se relance pas) : l'épreuve
+ * s'estompe, le soulignement de la promesse s'épaissit.
  */
 import { refonteEllipsePath } from "@/scripts/animations/bento/refonte-ellipse";
 
 // Taille nominale de l'ellipse (recalculée à la taille réelle par la scène).
-const ELLIPSE_WIDTH = 84;
-const ELLIPSE_HEIGHT = 23;
+const ELLIPSE_WIDTH = 98;
+const ELLIPSE_HEIGHT = 26;
 const ellipsePath = refonteEllipsePath(ELLIPSE_WIDTH, ELLIPSE_HEIGHT);
 const headline = ["Plombier", "à", "Lyon"];
 const promise = ["Devis", "en", "48 h."];
@@ -39,7 +41,7 @@ const promise = ["Devis", "en", "48 h."];
 			<p class="refonte-new">
 				<span class="refonte-sentence">{headline.map((word) => (
 					<><span class="refonte-mask"><span class="refonte-word" data-refonte-word="headline">{word}</span></span>{" "}</>
-				))}<span class="refonte-kept" data-refonte-kept>depuis 1998.</span></span>{" "}
+				))}<span class="refonte-kept" data-refonte-kept><span data-refonte-kept-text>depuis 1998</span><span data-refonte-kept-dot>.</span></span></span>{" "}
 				<span class="refonte-sentence refonte-promise" data-refonte-promise>{promise.map((word, index) => (
 					<>{index > 0 && " "}<span class="refonte-mask"><span class="refonte-word" data-refonte-word="promise">{word}</span></span></>
 				))}</span>
@@ -72,7 +74,7 @@ const promise = ["Devis", "en", "48 h."];
 	   nouvelle accroche. */
 	.refonte-scene {
 		--refonte-ink: var(--color-blue-500, #3e60d4);
-		--refonte-new: clamp(15px, min(6.6cqi, 16cqh), 40px);
+		--refonte-new: clamp(15px, min(6.5cqi, 16cqh), 40px);
 		--refonte-old: clamp(11px, calc(var(--refonte-new) * 0.64), 17px);
 		padding-inline: clamp(16px, 4.4cqi, 44px);
 	}
@@ -80,7 +82,7 @@ const promise = ["Devis", "en", "48 h."];
 	/* Bande étroite : l'accroche passe sur deux lignes, on garde de l'air. */
 	@container (max-width: 460px) {
 		.refonte-scene {
-			--refonte-new: clamp(15px, min(6.6cqi, 14.5cqh), 40px);
+			--refonte-new: clamp(15px, min(6.5cqi, 14.5cqh), 40px);
 		}
 	}
 
@@ -123,16 +125,19 @@ const promise = ["Devis", "en", "48 h."];
 	.refonte-kept-old {
 		position: relative;
 		display: inline-block;
-		margin-inline: 0.55em;
+		margin-inline: 0.8em;
 		white-space: nowrap;
 	}
 
+	/* Ellipse proche de l'enveloppe minimale du mot (demi-axes ≈ √2 × ceux
+	   du texte) pour ne pas mordre les extrémités ; centrée sur l'œil des
+	   glyphes plutôt que sur la boîte de ligne, décalée pour l'italique. */
 	.refonte-ellipse {
 		position: absolute;
 		top: calc(50% - 0.86em);
-		left: -0.7em;
-		width: calc(100% + 1.4em);
-		height: 1.62em;
+		left: -1.12em;
+		width: calc(100% + 2.3em);
+		height: 1.9em;
 		overflow: visible;
 	}
 
@@ -225,6 +230,11 @@ const promise = ["Devis", "en", "48 h."];
 	}
 
 	@container (min-width: 680px) {
+		/* La légende prend ~150 px : l'accroche plafonne en largeur. */
+		.refonte-scene {
+			--refonte-new: clamp(15px, min(5.2cqi, 16cqh), 40px);
+		}
+
 		.refonte-legend {
 			display: block;
 			flex: none;
@@ -271,7 +281,8 @@ const promise = ["Devis", "en", "48 h."];
 		vector-effect: non-scaling-stroke;
 	}
 
-	/* Survol : calme, le soulignement s'épaissit à peine. */
+	/* Survol : calme, sans relecture de la scène. L'épreuve s'estompe un peu
+	   et le soulignement de la promesse s'épaissit. */
 	@property --refonte-underline-size {
 		syntax: "<length>";
 		inherits: false;
@@ -279,8 +290,17 @@ const promise = ["Devis", "en", "48 h."];
 	}
 
 	@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+		.refonte-old {
+			transition: opacity 0.4s ease;
+		}
+
 		.refonte-promise {
 			transition: --refonte-underline-size 0.4s ease;
+		}
+
+		:global(.group:hover) .refonte-old,
+		:global(.group:focus-visible) .refonte-old {
+			opacity: 0.62;
 		}
 
 		:global(.group:hover) .refonte-promise,

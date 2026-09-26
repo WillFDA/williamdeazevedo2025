@@ -28,15 +28,16 @@ const round = (value: number) => Math.round(value * 100) / 100;
 const box = (x: number, y: number, w: number, h: number) =>
 	`M${round(x)} ${round(y)}h${round(w)}v${round(h)}h${round(-w)}z`;
 
-// Façades voisines (aplats) : la rue continue bien au-delà du cadre.
+// Façades voisines (aplats) : la rue continue bien au-delà du cadre. Les
+// deux plus proches sont jointives avec la devanture (x 64 → 296).
 const neighbors: Block[] = [
 	{ top: 110, w: 140, x: -720 },
 	{ top: 140, w: 134, x: -580 },
 	{ top: 104, w: 146, x: -446 },
 	{ top: 132, w: 124, x: -300 },
 	{ top: 98, w: 132, x: -176 },
-	{ top: 128, w: 106, x: -44 },
-	{ top: 112, w: 108, x: 298 },
+	{ top: 128, w: 108, x: -44 },
+	{ top: 112, w: 110, x: 296 },
 	{ top: 138, w: 118, x: 406 },
 	{ top: 100, w: 140, x: 524 },
 	{ top: 130, w: 130, x: 664 },
@@ -126,6 +127,13 @@ const signLetters = [..."votre-nom.fr"];
 
 // Flaque de lumière de la vitrine sur le trottoir.
 const spill = `80,${GROUND} 280,${GROUND} 306,${GROUND + 26} 54,${GROUND + 26}`;
+
+// Vol de l'enveloppe (et sa traîne) : elle tombe du ciel à droite de la
+// lune, longe le bord droit de la façade (x ≈ 290, après la fin de
+// l'enseigne à x 276 : jamais sur le nom de domaine) et vient se poser
+// 12 unités au-dessus de la fente (centre posé : 248 231.5). Tout le vol
+// reste dans la largeur du viewBox, donc visible même sur mobile.
+const flightPath = "M296 -26C294 40 292 96 290 140S266 212 248 219.5";
 ---
 
 <div
@@ -181,7 +189,7 @@ const spill = `80,${GROUND} 280,${GROUND} 306,${GROUND + 26} 54,${GROUND + 26}`;
 		</defs>
 
 		<!-- Ciel : lune et étoiles -->
-		<g class="vitrine-moon-anchor" transform="translate(268 40)">
+		<g class="vitrine-moon-anchor" transform="translate(250 40)">
 			<g data-vitrine-moon>
 				<circle r="30" fill={ref("halo")} opacity="0.5"></circle>
 				<path d={moonPath} fill="#eef3ff"></path>
@@ -276,9 +284,9 @@ const spill = `80,${GROUND} 280,${GROUND} 306,${GROUND + 26} 54,${GROUND + 26}`;
 		</g>
 		<rect x="71" y="133.5" width="218" height="4.5" rx="2.25" fill="#203682" stroke="#1f2634" stroke-width="1.5"></rect>
 
-		<!-- La demande : l'enveloppe arrive par la rue et glisse dans la fente -->
+		<!-- La demande : l'enveloppe tombe du ciel et glisse dans la fente -->
 		<g clip-path={ref("slot")}>
-			<path class="vitrine-trail" d="M-90 160Q120-40 248 219.5" stroke="#eef3ff" stroke-opacity="0.8" stroke-width="1.25" stroke-linecap="round" data-vitrine-trail></path>
+			<path class="vitrine-trail" d={flightPath} stroke="#eef3ff" stroke-opacity="0.8" stroke-width="1.25" stroke-linecap="round" data-vitrine-trail></path>
 			<g data-vitrine-envelope>
 				<rect x="235" y="223" width="26" height="17" rx="1.5" fill="#ffffff" stroke="#1f2634" stroke-width="1.25"></rect>
 				<path d="M236 224L248 231.25L260 224" stroke="#1f2634" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -441,6 +449,17 @@ const spill = `80,${GROUND} 280,${GROUND} 306,${GROUND + 26} 54,${GROUND + 26}`;
 
 		.vitrine-moon-anchor {
 			translate: 0 36px;
+		}
+	}
+
+	/*
+	 * Formats très allongés (bandeaux) : la devanture glisse vers la droite,
+	 * juste assez pour que la puce (bord droit ≈ 10,5rem) ne morde pas sur
+	 * sa corniche (x 58, soit 122 unités à gauche du centre).
+	 */
+	@container (min-aspect-ratio: 13/5) {
+		.vitrine-svg {
+			translate: calc(-50% + max(0px, 11rem - 50cqw + var(--u) * 122)) 0;
 		}
 	}
 

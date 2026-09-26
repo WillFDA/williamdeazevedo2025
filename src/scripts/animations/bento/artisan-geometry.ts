@@ -24,9 +24,11 @@ export const ATELIER: Point = [170, 96];
 /** Rayon du disque de l'atelier (unités SVG). */
 export const ATELIER_RADIUS = 11;
 
-const round = (value: number) => Math.round(value * 10) / 10;
-const fmt = ([x, y]: Point) => `${round(x)} ${round(y)}`;
+const round = (value: number, digits = 1) => Number(value.toFixed(digits));
+const fmt = ([x, y]: Point, digits = 1) =>
+  `${round(x, digits)} ${round(y, digits)}`;
 const distance = (a: Point, b: Point) => Math.hypot(b[0] - a[0], b[1] - a[1]);
+const last = <T>(items: readonly T[]) => items.at(-1) as T;
 
 /* ------------------------------------------------------------------ */
 /* Courbes lisses                                                      */
@@ -40,8 +42,8 @@ const catmullRom = (points: Point[], closed: boolean): Cubic[] => {
       ? points[(index + count) % count]
       : points[Math.max(0, Math.min(count - 1, index))];
   const segments: Cubic[] = [];
-  const last = closed ? count : count - 1;
-  for (let i = 0; i < last; i++) {
+  const total = closed ? count : count - 1;
+  for (let i = 0; i < total; i++) {
     const p0 = at(i - 1);
     const p1 = at(i);
     const p2 = at(i + 1);
@@ -56,22 +58,20 @@ const catmullRom = (points: Point[], closed: boolean): Cubic[] => {
   return segments;
 };
 
-const toPath = (segments: Cubic[], closed = false) => {
+const toPath = (segments: Cubic[], closed = false, digits = 1) => {
   if (!segments.length) return "";
-  let d = `M${fmt(segments[0][0])}`;
+  let d = `M${fmt(segments[0][0], digits)}`;
   for (const [, c1, c2, end] of segments) {
-    d += `C${fmt(c1)} ${fmt(c2)} ${fmt(end)}`;
+    d += `C${fmt(c1, digits)} ${fmt(c2, digits)} ${fmt(end, digits)}`;
   }
   return closed ? `${d}Z` : d;
 };
 
-const smoothPath = (points: Point[], closed = false) =>
-  toPath(catmullRom(points, closed), closed);
+const smoothPath = (points: Point[], closed = false, digits = 1) =>
+  toPath(catmullRom(points, closed), closed, digits);
 
 const reverseCubics = (segments: Cubic[]): Cubic[] =>
-  segments
-    .toReversed()
-    .map(([p0, c1, c2, p1]) => [p1, c2, c1, p0] as const);
+  segments.toReversed().map(([p0, c1, c2, p1]) => [p1, c2, c1, p0] as const);
 
 const cubicAt = ([p0, c1, c2, p1]: Cubic, t: number): Point => {
   const u = 1 - t;
@@ -92,30 +92,31 @@ const sampleCubics = (segments: Cubic[], perSegment = 48) => {
   for (const segment of segments) {
     for (let step = 1; step <= perSegment; step++) {
       const point = cubicAt(segment, step / perSegment);
-      lengths.push(lengths.at(-1)! + distance(points.at(-1)!, point));
+      lengths.push(last(lengths) + distance(last(points), point));
       points.push(point);
     }
   }
-  return { lengths, points, total: lengths.at(-1)! };
+  return { lengths, points, total: last(lengths) };
 };
 
 /** Ramer-Douglas-Peucker : allège une polyligne avant lissage. */
 const simplify = (points: Point[], tolerance: number): Point[] => {
   if (points.length < 3) return points;
   const [ax, ay] = points[0];
-  const [bx, by] = points.at(-1)!;
+  const [bx, by] = last(points);
   const length = Math.hypot(bx - ax, by - ay) || 1;
   let farthest = 0;
   let index = 0;
   for (let i = 1; i < points.length - 1; i++) {
     const [px, py] = points[i];
-    const gap = Math.abs((bx - ax) * (ay - py) - (ax - px) * (by - ay)) / length;
+    const gap =
+      Math.abs((bx - ax) * (ay - py) - (ax - px) * (by - ay)) / length;
     if (gap > farthest) {
       farthest = gap;
       index = i;
     }
   }
-  if (farthest <= tolerance) return [points[0], points.at(-1)!];
+  if (farthest <= tolerance) return [points[0], last(points)];
   return [
     ...simplify(points.slice(0, index + 1), tolerance).slice(0, -1),
     ...simplify(points.slice(index), tolerance),
@@ -150,12 +151,62 @@ const heightAt = (x: number, y: number) => {
   return height;
 };
 
-const GRID = { step: 8, x0: -360, x1: 704, y0: -160, y1: 368 } as const;
+const GRID = { step: 8, x0: -336, x1: 680, y0: -104, y1: 304 } as const;
+/**
+ * La zone n'est jamais visible hors d'une « croix » : en `meet`, soit le
+ * cadre est plus large que 340 × 200 et seule la bande y 0…200 déborde en x,
+ * soit il est plus haut et seule la bande x 0…340 déborde en y. On ne trace
+ * le relief que dans cette croix (marge : traits et parallaxe du survol).
+ */
+const CROSS_MARGIN = 10;
+const inCross = (x0: number, y0: number, x1: number, y1: number) =>
+  (x1 >= -CROSS_MARGIN && x0 <= ARTISAN_VIEW.width + CROSS_MARGIN) ||
+  (y1 >= -CROSS_MARGIN && y0 <= ARTISAN_VIEW.height + CROSS_MARGIN);
 /** Niveaux tracés ; le 4e est une courbe maîtresse (trait plus marqué). */
 const LEVELS = [0.16, 0.3, 0.44, 0.58, 0.72, 0.86];
 const INDEX_LEVEL = 0.58;
 
-/** Marching squares : polylignes d'un niveau, raccordées bout à bout. */
+/**
+ * Marching squares : segments de chaque cas, entre arêtes de la cellule
+ * (0 haut, 1 droite, 2 bas, 3 gauche). Cas 5 et 10 (cols) : centre bas ;
+ * SADDLE_HIGH donne la variante quand le centre est au-dessus du niveau.
+ */
+const CASES: (readonly (readonly [number, number])[])[] = [
+  [],
+  [[3, 2]],
+  [[2, 1]],
+  [[3, 1]],
+  [[0, 1]],
+  [
+    [3, 2],
+    [0, 1],
+  ],
+  [[0, 2]],
+  [[3, 0]],
+  [[3, 0]],
+  [[0, 2]],
+  [
+    [3, 0],
+    [2, 1],
+  ],
+  [[0, 1]],
+  [[3, 1]],
+  [[2, 1]],
+  [[3, 2]],
+  [],
+];
+const SADDLE_HIGH: Record<number, (readonly [number, number])[]> = {
+  5: [
+    [3, 0],
+    [2, 1],
+  ],
+  10: [
+    [0, 1],
+    [3, 2],
+  ],
+};
+
+/** Polylignes d'un niveau, raccordées bout à bout. */
 const contourLines = (values: number[][], level: number): Point[][] => {
   const { step, x0, y0 } = GRID;
   const rows = values.length - 1;
@@ -187,66 +238,29 @@ const contourLines = (values: number[][], level: number): Point[][] => {
 
   for (let j = 0; j < rows; j++) {
     for (let i = 0; i < cols; i++) {
-      const tl = values[j][i];
-      const tr = values[j][i + 1];
-      const br = values[j + 1][i + 1];
-      const bl = values[j + 1][i];
-      const code =
-        (tl > level ? 8 : 0) |
-        (tr > level ? 4 : 0) |
-        (br > level ? 2 : 0) |
-        (bl > level ? 1 : 0);
-      const top = `h${i},${j}`;
-      const right = `v${i + 1},${j}`;
-      const bottom = `h${i},${j + 1}`;
-      const left = `v${i},${j}`;
-      const center = (tl + tr + br + bl) / 4 > level;
-      switch (code) {
-        case 1:
-        case 14:
-          link(left, bottom);
-          break;
-        case 2:
-        case 13:
-          link(bottom, right);
-          break;
-        case 3:
-        case 12:
-          link(left, right);
-          break;
-        case 4:
-        case 11:
-          link(top, right);
-          break;
-        case 6:
-        case 9:
-          link(top, bottom);
-          break;
-        case 7:
-        case 8:
-          link(left, top);
-          break;
-        case 5:
-          if (center) {
-            link(left, top);
-            link(bottom, right);
-          } else {
-            link(left, bottom);
-            link(top, right);
-          }
-          break;
-        case 10:
-          if (center) {
-            link(top, right);
-            link(left, bottom);
-          } else {
-            link(left, top);
-            link(bottom, right);
-          }
-          break;
-        default:
-          break;
-      }
+      const cx = x0 + i * step;
+      const cy = y0 + j * step;
+      if (!inCross(cx, cy, cx + step, cy + step)) continue;
+      const corners = [
+        values[j][i],
+        values[j][i + 1],
+        values[j + 1][i + 1],
+        values[j + 1][i],
+      ];
+      const code = corners.reduce(
+        (sum, value, index) => sum + (value > level ? 8 / 2 ** index : 0),
+        0
+      );
+      const edges = [
+        `h${i},${j}`,
+        `v${i + 1},${j}`,
+        `h${i},${j + 1}`,
+        `v${i},${j}`,
+      ];
+      const centerHigh =
+        corners.reduce((sum, value) => sum + value, 0) / 4 > level;
+      const segments = (centerHigh && SADDLE_HIGH[code]) || CASES[code];
+      for (const [a, b] of segments) link(edges[a], edges[b]);
     }
   }
 
@@ -283,18 +297,22 @@ const buildRelief = () => {
     for (let x = x0; x <= x1; x += step) row.push(heightAt(x, y));
     values.push(row);
   }
-  return LEVELS.flatMap((level) =>
-    contourLines(values, level)
+  // Un seul <path> par famille de courbes (sous-chemins concaténés).
+  const trace = (levels: number[]) =>
+    levels
+      .flatMap((level) => contourLines(values, level))
       .filter((chain) => chain.length > 5)
       .map((chain) => {
-        const closed = distance(chain[0], chain.at(-1)!) < step * 1.5;
-        const points = simplify(closed ? chain.slice(0, -1) : chain, 0.9);
-        return {
-          d: smoothPath(points, closed),
-          major: level === INDEX_LEVEL,
-        };
+        const closed = distance(chain[0], last(chain)) < step * 1.5;
+        const points = simplify(closed ? chain.slice(0, -1) : chain, 1.5);
+        // Traits de fond à 1 px écran : l'unité près suffit.
+        return smoothPath(points, closed, 0);
       })
-  );
+      .join("");
+  return {
+    major: trace([INDEX_LEVEL]),
+    minor: trace(LEVELS.filter((level) => level !== INDEX_LEVEL)),
+  };
 };
 
 /* ------------------------------------------------------------------ */
@@ -306,21 +324,21 @@ const RIVER: Point[] = [
   [720, 168],
   [600, 150],
   [500, 160],
-  [420, 140],
-  [356, 136],
-  [304, 128],
-  [258, 124],
-  [222, 130],
-  [192, 126],
-  [160, 122],
-  [128, 126],
-  [96, 122],
-  [62, 130],
-  [34, 150],
-  [6, 172],
-  [-34, 204],
-  [-120, 240],
-  [-220, 256],
+  [420, 142],
+  [356, 140],
+  [304, 136],
+  [258, 134],
+  [222, 140],
+  [192, 138],
+  [160, 134],
+  [128, 138],
+  [96, 134],
+  [62, 142],
+  [34, 160],
+  [6, 180],
+  [-34, 210],
+  [-120, 244],
+  [-220, 258],
   [-380, 296],
 ];
 
@@ -370,17 +388,68 @@ const MAIN_ROADS: Record<RoadName, Point[]> = {
 /** Routes secondaires (fond de carte seulement). */
 const MINOR_ROADS: Point[][] = [
   // Nord (Saint-Malo)
-  [ATELIER, [176, 70], [182, 42], [186, 12], [190, -24], [198, -90], [206, -180]],
+  [
+    ATELIER,
+    [176, 70],
+    [182, 42],
+    [186, 12],
+    [190, -24],
+    [198, -90],
+    [206, -180],
+  ],
   // Sud-est (Angers)
-  [ATELIER, [198, 110], [228, 126], [262, 146], [298, 170], [342, 198], [410, 240], [500, 290], [660, 390]],
+  [
+    ATELIER,
+    [198, 110],
+    [228, 126],
+    [262, 146],
+    [298, 170],
+    [342, 198],
+    [410, 240],
+    [500, 290],
+    [660, 390],
+  ],
   // Ouest (Lorient)
-  [ATELIER, [140, 100], [106, 104], [72, 104], [36, 100], [-20, 96], [-120, 94], [-380, 90]],
+  [
+    ATELIER,
+    [140, 100],
+    [106, 104],
+    [72, 104],
+    [36, 100],
+    [-20, 96],
+    [-120, 94],
+    [-380, 90],
+  ],
   // Liaisons locales
-  [[254, 84], [262, 116], [262, 146]],
-  [[102, 60], [106, 84], [106, 104]],
-  [[314, 74], [330, 40], [352, -4], [380, -60], [420, -170]],
-  [[36, 100], [22, 64], [24, 18]],
-  [[76, 192], [40, 176], [6, 172], [-40, 150], [-140, 140]],
+  [
+    [254, 84],
+    [262, 116],
+    [262, 146],
+  ],
+  [
+    [102, 60],
+    [106, 84],
+    [106, 104],
+  ],
+  [
+    [314, 74],
+    [330, 40],
+    [352, -4],
+    [380, -60],
+    [420, -170],
+  ],
+  [
+    [36, 100],
+    [22, 64],
+    [24, 18],
+  ],
+  [
+    [76, 192],
+    [40, 176],
+    [6, 172],
+    [-40, 150],
+    [-140, 140],
+  ],
 ];
 
 /** La rocade : anneau irrégulier autour du centre. */
@@ -411,15 +480,17 @@ const LOBES = [
 ];
 
 export const zoneRadius = (angle: number) => {
-  const rx = 70;
-  const ry = 44;
+  const rx = 74;
+  const ry = 48;
   let radius =
     (rx * ry) / Math.hypot(ry * Math.cos(angle), rx * Math.sin(angle));
   for (const lobe of LOBES) {
     const gap = wrap(angle - lobe.angle);
     radius += lobe.amp * Math.exp(-(gap * gap) / (2 * lobe.width ** 2));
   }
-  return radius + 2.5 * Math.sin(3 * angle + 0.6) + 1.6 * Math.sin(7 * angle + 1.3);
+  return (
+    radius + 2.5 * Math.sin(3 * angle + 0.6) + 1.6 * Math.sin(7 * angle + 1.3)
+  );
 };
 
 const zonePoint = (angle: number, scale = 1): Point => {
@@ -470,27 +541,32 @@ export const TOWNS: { at: Point; name: string; side: Side }[] = [
 
 /** Chantiers déjà réalisés (dans la zone, à l'écart des routes). */
 const DONE_SITES: Point[] = [
-  [134, 112],
-  [146, 62],
-  [204, 70],
-  [236, 104],
-  [214, 136],
-  [118, 86],
-  [124, 140],
-  [242, 70],
-  [188, 142],
+  [146, 56],
+  [216, 74],
+  [250, 112],
+  [206, 124],
+  [118, 118],
+  [98, 86],
+  [186, 116],
+  [144, 110],
+  [232, 98],
 ];
 
 export const doneSites = DONE_SITES.map((at) => ({
   at,
-  share: round(radialShare(at) * 100) / 100,
+  share: round(radialShare(at), 2),
 }));
 
 /** Comètes : départ (indice du point de route au bord du cadre) et dépôt. */
-const COMETS: { deposit: number; road: RoadName; side: 1 | -1; start: number }[] = [
-  { deposit: 0.46, road: "pace", side: 1, start: 6 },
+const COMETS: {
+  deposit: number;
+  road: RoadName;
+  side: 1 | -1;
+  start: number;
+}[] = [
+  { deposit: 0.6, road: "pace", side: -1, start: 6 },
   { deposit: 0.5, road: "cesson", side: 1, start: 5 },
-  { deposit: 0.4, road: "bruz", side: -1, start: 5 },
+  { deposit: 0.55, road: "bruz", side: 1, start: 5 },
 ];
 
 const DEPOSIT_OFFSET = 7.5;
@@ -511,11 +587,12 @@ export const comets = COMETS.map(({ deposit, road, side, start }) => {
   ];
   return {
     d: toPath(path),
-    deposit: round(lengths[index] / total * 1000) / 1000,
+    deposit: round(lengths[index] / total, 3),
     // La tête s'arrête au bord du disque de l'atelier.
-    headEnd: round((1 - (ATELIER_RADIUS + 1.5) / total) * 1000) / 1000,
+    headEnd: round(1 - (ATELIER_RADIUS + 1.5) / total, 3),
     length: round(total),
     offset: [round(on[0] - site[0]), round(on[1] - site[1])] as Point,
+    share: round(radialShare(site), 2),
     site,
   };
 });
@@ -528,11 +605,14 @@ const TAG_ANGLE = -0.95;
 
 export const artisanMap = {
   relief: buildRelief(),
-  ring: smoothPath(RING, true),
-  river: smoothPath(RIVER),
+  river: smoothPath(RIVER, false, 0),
   roads: {
-    main: Object.values(MAIN_ROADS).map((points) => smoothPath(points)),
-    minor: MINOR_ROADS.map((points) => smoothPath(points)),
+    // Grandes routes et rocade (double trait), puis routes secondaires.
+    main: [
+      ...Object.values(MAIN_ROADS).map((points) => smoothPath(points)),
+      smoothPath(RING, true),
+    ].join(""),
+    minor: MINOR_ROADS.map((points) => smoothPath(points, false, 0)).join(""),
   },
   seed,
   /** Étiquette « 20 min » posée sur le bord de l'isochrone. */

@@ -4,11 +4,14 @@
  * « Bienvenue sur notre site ! » (bloque), une ellipse entoure « depuis 1998 »
  * (rassure), un crochet souligne « Chargement… 4,2 s » (ralentit). Le mot
  * gardé est recomposé en Geist dans son ellipse puis voyage (FLIP manuel)
- * jusqu'à sa place dans la nouvelle accroche, dont les autres mots montent de
- * leur masque ; « Devis en 48 h. » est enfin souligné en vert.
+ * jusqu'à sa place dans la nouvelle accroche, où il reçoit son point final ;
+ * les autres mots montent de leur masque et « Devis en 48 h. » est enfin
+ * souligné en vert.
  * Les ratures sont des dégradés CSS pilotés par variables (ils suivent le
  * texte à la ligne) ; seule l'ellipse passe par DrawSVG, recalculée à sa
  * taille réelle pour tracer à échelle proportionnelle.
+ * Survol volontairement calme (CSS du composant) : c'est la carte qu'on lit,
+ * la scène ne se relance donc pas au pointeur (customHover).
  */
 
 import { gsap } from "gsap";
@@ -58,6 +61,8 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
   const slow = query(root, "[data-refonte-slow]");
   const counter = query(root, "[data-refonte-counter]");
   const kept = query(root, "[data-refonte-kept]");
+  const keptText = query(root, "[data-refonte-kept-text]");
+  const keptDot = query(root, "[data-refonte-kept-dot]");
   const promise = query(root, "[data-refonte-promise]");
   const headlineWords = queryAll(root, '[data-refonte-word="headline"]');
   const promiseWords = queryAll(root, '[data-refonte-word="promise"]');
@@ -73,6 +78,8 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
       slow &&
       counter &&
       kept &&
+      keptText &&
+      keptDot &&
       promise &&
       headlineWords.length &&
       promiseWords.length
@@ -94,9 +101,17 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
     gsap.set(ellipseSvg, { attr: { viewBox: `0 0 ${width} ${height}` } });
     gsap.set(ellipse, { attr: { d: refonteEllipsePath(width, height) } });
   }
-  const delta = centerDelta(keptOld, kept);
+  // Le voyage se mesure sur le texte seul (sans le point final, qui n'existe
+  // pas dans la vieille phrase) : échelle et origine centrées sur ce texte.
+  const delta = centerDelta(keptInk, keptText);
   const startScale =
-    kept.offsetWidth > 0 ? keptOld.offsetWidth / kept.offsetWidth : 1;
+    keptText.offsetWidth > 0 ? keptInk.offsetWidth / keptText.offsetWidth : 1;
+  const keptBox = kept.getBoundingClientRect();
+  const textBox = keptText.getBoundingClientRect();
+  const keptScale = scaleOf(kept);
+  const originX = (textBox.left + textBox.width / 2 - keptBox.left) / keptScale;
+  const originY = (textBox.top + textBox.height / 2 - keptBox.top) / keptScale;
+  gsap.set(kept, { transformOrigin: `${originX}px ${originY}px` });
   const oldColor = getComputedStyle(keptOld).color;
   const newColor = getComputedStyle(kept).color;
 
@@ -122,7 +137,12 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
       { duration: 0.36, ease: "power2.in", stagger: 0.022, yPercent: -120 },
       0
     )
-    .to(kept, { autoAlpha: 0, duration: 0.3, ease: "power1.in" }, 0.1);
+    // Le mot gardé n'a pas de masque : il sort avec les autres en fondu.
+    .to(
+      kept,
+      { autoAlpha: 0, duration: 0.32, ease: "power2.in", yPercent: -60 },
+      0.08
+    );
   put(promise, { "--refonte-underline-x": "100%" }, 0);
   timeline.to(
     promise,
@@ -161,9 +181,16 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
   put(words, { yPercent: 120 }, ready);
   put(
     kept,
-    { color: oldColor, scale: startScale, x: delta.x, y: delta.y },
+    {
+      color: oldColor,
+      scale: startScale,
+      x: delta.x,
+      y: delta.y,
+      yPercent: 0,
+    },
     ready
   );
+  put(keptDot, { opacity: 0 }, ready);
   put(ellipse, { drawSVG: "0% 0%" }, ready);
   put(strike, { "--refonte-strike-x": "0%" }, ready);
   put(slow, { "--refonte-bracket-x": "0%" }, ready);
@@ -226,6 +253,7 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
       { color: newColor, duration: 0.8, ease: "power3.inOut", scale: 1 },
       at(2.16)
     )
+    .to(keptDot, { duration: 0.24, ease: "power1.out", opacity: 1 }, at(2.86))
     .to(
       headlineWords,
       { duration: 0.6, ease: "power3.out", stagger: 0.06, yPercent: 0 },
@@ -245,5 +273,5 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
     // Tenue : l'épreuve corrigée et la nouvelle accroche, lisibles ensemble.
     .to({}, { duration: HOLD }, at(3.52));
 
-  return { timeline };
+  return { customHover: true, timeline };
 };

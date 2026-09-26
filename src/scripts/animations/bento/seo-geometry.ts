@@ -25,13 +25,14 @@ export const SEO_NAME: SeoPoint = { x: 58, y: -8 };
 /**
  * Arrêts de la loupe (centre du verre) : départ, deux concurrents sur
  * lesquels elle hésite, puis la cible (le nom et sa ligne de métadonnées
- * centrés dans le verre).
+ * centrés dans le verre). Le départ reste entier dans une zone de 280 px
+ * (small sur un écran de 320 px).
  */
 export const SEO_STOPS = {
   first: { x: -58, y: SEO_NAME.y - SEO_ROW_GAP },
   rest: { x: SEO_NAME.x, y: SEO_NAME.y + 5 },
   second: { x: -6, y: SEO_NAME.y + SEO_ROW_GAP },
-  start: { x: -104, y: SEO_NAME.y },
+  start: { x: -92, y: SEO_NAME.y },
 } satisfies Record<string, SeoPoint>;
 
 /** Position de la copie grossie (dans le verre) pour une loupe centrée en `p`. */

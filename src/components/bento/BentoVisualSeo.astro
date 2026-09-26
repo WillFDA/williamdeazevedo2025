@@ -94,14 +94,17 @@ const pool = [
 ];
 
 /** Largeur estimée d'un mot (métriques moyennes de Geist), sans mesure DOM. */
-const estimateWidth = (text: string, size: number) =>
-	[...text].reduce((sum, char) => {
-		if (char === " ") return sum + 0.28;
-		if ("iljtfr-'".includes(char)) return sum + 0.34;
-		if ("mw".includes(char)) return sum + 0.82;
-		if (char !== char.toLowerCase()) return sum + 0.68;
-		return sum + 0.56;
-	}, 0) * size;
+const estimateWidth = (text: string, size: number) => {
+	let sum = 0;
+	for (const char of text) {
+		if (char === " ") sum += 0.28;
+		else if ("iljtfr-'".includes(char)) sum += 0.34;
+		else if ("mw".includes(char)) sum += 0.82;
+		else if (char === char.toLowerCase()) sum += 0.56;
+		else sum += 0.68;
+	}
+	return sum * size;
+};
 
 // Générateur pseudo-aléatoire déterministe : le champ est identique à
 // chaque build (et identique entre le champ et sa copie grossie).
@@ -115,27 +118,51 @@ const sizes = [11, 10, 12, 11, 10, 11, 12, 10, 11, 13];
 const weights = [450, 450, 500, 450, 400, 500, 450, 450, 500, 450];
 
 // Mots épinglés : la cible, le mot de départ, les deux concurrents où la
-// loupe hésite et les voisins entrevus dans le verre une fois posé.
+// loupe hésite et les voisins qui dépassent du bord de la loupe posée.
 const name: Word = { size: 13, text: "Vous", weight: 600, ...SEO_NAME };
 const pinned: Word[] = [
 	{ size: 12, text: "Serrurier", weight: 500, ...SEO_STOPS.first },
 	{ size: 12, text: "Électricien", weight: 500, ...SEO_STOPS.second },
 	{ size: 11, text: "Traiteur", weight: 450, ...SEO_STOPS.start },
 	{ size: 11, text: "Cabinet Morel", weight: 450, x: 132, y: SEO_NAME.y - SEO_ROW_GAP },
-	{ size: 11, text: "Couvreur", weight: 450, x: 84, y: SEO_NAME.y + SEO_ROW_GAP },
+	{ size: 11, text: "Couvreur", weight: 450, x: 124, y: SEO_NAME.y + SEO_ROW_GAP },
 ];
 
-// Blancs : le haut du verre posé sur « Vous » reste dégagé.
-const blanks = [{ from: 22, to: 96, y: SEO_NAME.y - SEO_ROW_GAP }];
+// Blancs autour de « Vous » : le verre posé ne montre que le nom et ses
+// métadonnées (aucun fragment de mot grossi pour leur voler la vedette).
+const blanks = [
+	{ from: 22, to: 96, y: SEO_NAME.y - SEO_ROW_GAP },
+	{ from: 18, to: 98, y: SEO_NAME.y },
+	{ from: 26, to: 94, y: SEO_NAME.y + SEO_ROW_GAP },
+];
 
-// Ordre mélangé une fois : deux occurrences d'un même nom restent loin
-// l'une de l'autre (le champ fait deux fois le tour de la liste).
+// Tirage des noms : le champ fait plusieurs fois le tour de la liste. Pour
+// chaque mot, on prend le nom dont l'occurrence la plus proche est la plus
+// éloignée (écart vertical doublé : la zone visible est plus large que
+// haute). Sans cela, la même suite de noms revient toutes les cinq rangées,
+// un motif très visible dans les grandes variantes.
 const pinnedTexts = new Set(pinned.map((word) => word.text));
 const names = pool.filter((text) => !pinnedTexts.has(text));
 for (let index = names.length - 1; index > 0; index--) {
 	const swap = Math.floor(random() * (index + 1));
 	[names[index], names[swap]] = [names[swap] ?? "", names[index] ?? ""];
 }
+const seen = new Map<string, SeoPoint[]>();
+const pickName = (x: number, y: number) => {
+	let best = names[0] ?? "Traiteur";
+	let bestSpread = -1;
+	for (const text of names) {
+		const spread = Math.min(
+			Infinity,
+			...(seen.get(text) ?? []).map((p) => Math.hypot(p.x - x, (p.y - y) * 2)),
+		);
+		if (spread > bestSpread) {
+			best = text;
+			bestSpread = spread;
+		}
+	}
+	return best;
+};
 
 /** Demi-largeur utile d'une rangée : le champ n'occupe que la zone visible. */
 const halfWidthAt = (y: number) =>
@@ -159,16 +186,19 @@ for (let row = -6; row <= 6; row++) {
 	while (cursor < half) {
 		const size = sizes[next % sizes.length] ?? 11;
 		const weight = weights[next % weights.length] ?? 450;
-		const text = names[next % names.length] ?? "Traiteur";
+		const text = pickName(cursor + 30, y);
 		const width = estimateWidth(text, size);
+		const start = cursor;
 		const clash = anchors.find(
-			(anchor) => cursor < anchor.to && cursor + width > anchor.from,
+			(anchor) => start < anchor.to && start + width > anchor.from,
 		);
 		if (clash) {
 			cursor = clash.to + 4 + random() * 8;
 			continue;
 		}
-		words.push({ size, text, weight, x: round(cursor + width / 2), y });
+		const x = round(cursor + width / 2);
+		words.push({ size, text, weight, x, y });
+		seen.set(text, [...(seen.get(text) ?? []), { x, y }]);
 		cursor += width + 18 + random() * 16;
 		next++;
 	}

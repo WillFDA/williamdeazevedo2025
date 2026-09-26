@@ -7,7 +7,7 @@
  * se redéploie en vert, la coche se trace, « Envoyé » monte lettre à lettre
  * et une onde valide. Le rail REPOS · FOCUS · ENVOI · SUCCÈS suit l'état ; la
  * cote « 44 px » accompagne le bord du bouton, qui ne quitte jamais l'écran.
- * Rythme sec (gestes de 0,5 s au plus). Cycle ~7,8 s, état final = SUCCÈS.
+ * Rythme sec (gestes de 0,5 s au plus). Cycle ~7,6 s, état final = SUCCÈS.
  */
 
 import { gsap } from "gsap";
@@ -48,6 +48,8 @@ const HOLD = 2.8;
 const SNAP = 0.001;
 
 // L'indicateur du rail se cale sur la largeur des libellés : Geist chargée.
+// Pas de needsMeasure : ces mesures sont en repère local et le rail ne dépend
+// pas de la largeur de la zone (seule l'échelle change, par container query).
 export const needsFonts = true;
 
 /** Nœuds de la scène ; null si l'un manque (le HTML statique reste). */
@@ -101,7 +103,7 @@ const queryParts = (root: HTMLElement) => {
  */
 const measureRail = (states: HTMLElement[], bar: HTMLElement) => {
   const rail = bar.parentElement ?? bar;
-  const k = scaleOf(rail);
+  const k = scaleOf(rail) || 1;
   const barBox = bar.getBoundingClientRect();
   const boxes = states.map((state) => state.getBoundingClientRect());
   const active = states.findIndex((state) =>
@@ -165,6 +167,9 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
   });
 
   gsap.set(spinner, { svgOrigin: origin });
+  // Pression du bouton en 2D : un calque composité laissé par un scale 3D
+  // décale le libellé d'un pixel physique au repos (écart avec le statique).
+  gsap.set(btn, { force3D: false });
 
   const timeline = gsap.timeline({ paused: true });
   // Pose instantanée mais datée : au revert, GSAP annule les tweens par date
@@ -226,6 +231,15 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
   };
 
   const floodR = flood.r.baseVal.value;
+  // Tour de l'anneau : longueur du tiret unique du masque de révélation.
+  const ringLength =
+    Number.parseFloat(ringReveal.getAttribute("stroke-dasharray") ?? "") ||
+    ringReveal.getTotalLength();
+  /** Part tracée de l'anneau (0 → 1), symétrique autour du haut-centre. */
+  const ringDraw = (part: number) => ({
+    "stroke-dasharray": `${part * ringLength} ${ringLength}`,
+    "stroke-dashoffset": ((part - 1) * ringLength) / 2,
+  });
 
   // --- Remise à zéro : « Envoyé » remonte, le vert se retire vers le centre
   // et découvre le bleu, « Envoyer » revient d'en bas ; l'indicateur
@@ -242,12 +256,13 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
     0.04
   );
   railTo(0, 0.06, 0.62, "power3.inOut", 0.3);
-  put(idle, { autoAlpha: 1 }, 0.4);
-  put(idleChars, { yPercent: 120 }, 0.4);
+  // Entrée calée pour finir avant le label : l'état initial est posé net.
+  put(idle, { autoAlpha: 1 }, 0.38);
+  put(idleChars, { yPercent: 120 }, 0.38);
   timeline.to(
     idleChars,
-    { duration: 0.36, ease: "power3.out", stagger: 0.018, yPercent: 0 },
-    0.4 + SNAP
+    { duration: 0.3, ease: "power3.out", stagger: 0.016, yPercent: 0 },
+    0.38 + SNAP
   );
 
   // --- État initial (REPOS), posé hors champ avant le label.
@@ -255,7 +270,7 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
   put(doneChars, { yPercent: 120 }, ready);
   put(doneIcon, { yPercent: 0 }, ready);
   put(check, { autoAlpha: 0, drawSVG: "0%" }, ready);
-  put(ringReveal, { "--fe-ring": 0 }, ready);
+  put(ringReveal, { attr: ringDraw(0) }, ready);
   put(leader, { drawSVG: "0%" }, ready);
   put(calloutText, { autoAlpha: 0, x: 5 }, ready);
   put(spinner, { drawSVG: "0% 12%", rotation: 0 }, ready);
@@ -268,7 +283,7 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
   put(ring, { autoAlpha: 0.9 }, at(0.4));
   timeline.to(
     ringReveal,
-    { "--fe-ring": 1, duration: 0.46, ease: "power2.inOut" },
+    { attr: ringDraw(1), duration: 0.46, ease: "power2.inOut" },
     at(0.4) + SNAP
   );
   railTo(1, at(0.44));

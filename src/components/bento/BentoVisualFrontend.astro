@@ -45,7 +45,14 @@ const ringPath = [
 	`A${ringR} ${ringR} 0 0 0 ${ring.x + ringR} ${ring.y + ring.h}`,
 	"Z",
 ].join("");
-const ringLength = (2 * (ring.w - ring.h) + Math.PI * ring.h).toFixed(2);
+const ringLength = 2 * (ring.w - ring.h) + Math.PI * ring.h;
+// Tirets de 3 : un nombre entier de motifs sur le tour, sinon le dernier
+// tiret se colle au premier (raccord visible en bas de l'anneau).
+const RING_DASH = 3;
+const ringDash = `${RING_DASH} ${(ringLength / Math.round(ringLength / 6.5) - RING_DASH).toFixed(3)}`;
+// Masque de révélation : tiret unique de la longueur du tour. La scène
+// tween ces attributs (pas de calc() dans les tirets, inégal selon les moteurs).
+const ringFull = `${ringLength.toFixed(2)} ${ringLength.toFixed(2)}`;
 
 // Rayon qui couvre toute la pilule depuis son centre : le vert du succès
 // l'inonde depuis là (disque de découpe animé), sans mélange de teintes.
@@ -126,7 +133,8 @@ const doneChars = [..."Envoyé"];
 								<path
 									class="fe-ring-reveal"
 									d={ringPath}
-									style={`--fe-ring-length:${ringLength}px`}
+									stroke-dasharray={ringFull}
+									stroke-dashoffset="0"
 									data-fe-ring-reveal
 								></path>
 							</mask>
@@ -138,6 +146,7 @@ const doneChars = [..."Envoyé"];
 						<path
 							class="fe-ring"
 							d={ringPath}
+							stroke-dasharray={ringDash}
 							mask={`url(#${uid}-ring)`}
 							data-fe-ring
 						></path>
@@ -354,25 +363,20 @@ const doneChars = [..."Envoyé"];
 		fill: rgba(31, 38, 52, 0.1);
 	}
 
+	/* Anneau de focus en tirets (motif réparti dans le markup). */
 	.fe-ring {
 		opacity: 0;
 		stroke: var(--color-blue-500);
-		stroke-dasharray: 3 3.5;
 		stroke-linecap: round;
 		stroke-width: 1.5;
 		visibility: hidden;
 	}
 
-	/* Tracé de l'anneau piloté par --fe-ring (0 → 1), depuis le haut-centre. */
+	/* Masque qui trace l'anneau depuis le haut-centre (tirets en attributs,
+	   pilotés par la scène). */
 	.fe-ring-reveal {
-		--fe-ring: 1;
 		fill: none;
 		stroke: #fff;
-		stroke-dasharray: calc(var(--fe-ring) * var(--fe-ring-length))
-			var(--fe-ring-length);
-		stroke-dashoffset: calc(
-			(var(--fe-ring) - 1) * var(--fe-ring-length) / 2
-		);
 		stroke-width: 5;
 	}
 

@@ -7,7 +7,8 @@
  *    « votre-nom.fr » s'allume lettre par lettre ;
  * 3. la nuit tombe : le crépuscule s'efface, lune, étoiles, lampadaires,
  *    l'horloge de la puce défile jusqu'à 22:47 ;
- * 4. une enveloppe arrive de la rue en arc et glisse dans la fente ;
+ * 4. une enveloppe tombe du ciel le long de la façade et glisse dans la
+ *    fente de la porte ;
  * 5. la clochette oscille une fois ;
  * 6. la puce devient « 22:47 · 1 demande ».
  * Remise à zéro sans « pop » : le rideau redescend et masque les changements
@@ -69,11 +70,14 @@ const sampleFlight = (path: SVGPathElement, rest: { x: number; y: number }) => {
   return points.map((point, index) => {
     const next = points[Math.min(index + 1, steps)] ?? point;
     const prev = points[Math.max(index - 1, 0)] ?? point;
-    const angle = Math.atan2(next.y - prev.y, next.x - prev.x);
+    const angle =
+      (Math.atan2(next.y - prev.y, next.x - prev.x) * 180) / Math.PI;
+    // Pente du vol ramenée à ±90° : le bord avant plonge, que l'enveloppe
+    // vole vers la gauche ou vers la droite.
+    const slope = angle > 90 ? angle - 180 : angle < -90 ? angle + 180 : angle;
     // Légère inclinaison dans le sens du vol, redressée à l'approche.
     const settle = Math.min(1, (steps - index) / 4);
-    const tilt =
-      gsap.utils.clamp(-20, 20, ((angle * 180) / Math.PI) * 0.35) * settle;
+    const tilt = gsap.utils.clamp(-20, 20, slope * 0.35) * settle;
     return { r: tilt, x: point.x - rest.x, y: point.y - rest.y };
   });
 };
@@ -120,8 +124,9 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
     return null;
   }
 
-  // Trajectoire de l'enveloppe : le tracé de la traîne, qui finit juste
-  // au-dessus de la fente (12 unités au-dessus de l'enveloppe posée).
+  // Trajectoire de l'enveloppe : le tracé de la traîne, qui tombe du ciel le
+  // long du bord droit de la façade et finit juste au-dessus de la fente
+  // (12 unités au-dessus de l'enveloppe posée).
   const box = envelope.getBBox();
   if (!box.width) return null;
   const flight = sampleFlight(trail, {
@@ -130,7 +135,6 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
   });
   const [start] = flight;
   if (!start) return null;
-  const path = flight.slice(1);
 
   /** Opacité finale d'une étoile ou d'une flaque de lumière : son attribut. */
   const staticOpacity = (_: number, el: Element) =>
@@ -283,22 +287,25 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
       at(2.9)
     );
 
-  // --- 4. L'enveloppe arrive par la rue et glisse dans la fente. -------------
+  // --- 4. L'enveloppe tombe du ciel et glisse dans la fente. -----------------
   const FLIGHT = at(4.85);
   const FLIGHT_DURATION = 0.95;
   const LANDED = FLIGHT + FLIGHT_DURATION;
-  tl.set(trail, { autoAlpha: 1 }, FLIGHT)
+  // Traîne en opacité seule (jamais visibility: hidden, qui change le rendu
+  // de ses voisins dans Chrome : l'état final ne serait plus au pixel près).
+  tl.set(trail, { opacity: 1 }, FLIGHT)
     .to(envelope, { autoAlpha: 1, duration: 0.2, ease: "none" }, FLIGHT)
     .to(
       envelope,
       {
         duration: FLIGHT_DURATION,
         ease: "power1.inOut",
+        // Le 1er point (0 %) est la position de départ posée par le set.
         keyframes: {
           easeEach: "none",
-          rotation: path.map((point) => point.r),
-          x: path.map((point) => point.x),
-          y: path.map((point) => point.y),
+          rotation: flight.map((point) => point.r),
+          x: flight.map((point) => point.x),
+          y: flight.map((point) => point.y),
         },
       },
       FLIGHT
@@ -314,11 +321,7 @@ export const createScene = ({ root }: BentoSceneContext): BentoScene | null => {
       },
       FLIGHT
     )
-    .to(
-      trail,
-      { autoAlpha: 0, duration: 0.35, ease: "power1.in" },
-      FLIGHT + 0.45
-    )
+    .to(trail, { duration: 0.35, ease: "power1.in", opacity: 0 }, FLIGHT + 0.45)
     .to(envelope, { duration: 0.3, ease: "power2.in", y: 0 }, LANDED)
     // --- 5. La clochette oscille. ------------------------------------------
     .to(

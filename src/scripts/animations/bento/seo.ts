@@ -275,15 +275,44 @@ const setupHover = (
     liftOpacity,
   ];
 
-  const foundTl = gsap.timeline({
-    defaults: { immediateRender: false },
-    paused: true,
-  });
+  // « Trouvé » rejoué par l'aimant : timeline indépendante (jamais imbriquée).
+  // Ses fromTo gardent immediateRender (valeur par défaut) : l'état éteint
+  // est posé dès maintenant (sans effet visible, le runtime place aussitôt
+  // la scène sur "build", où « trouvé » est éteint) et, surtout, un retour à
+  // 0 (reverse) rend bien l'état éteint. Avec immediateRender: false, GSAP
+  // restaurerait en revenant avant le début les valeurs relevées au premier
+  // rendu (« trouvé » allumé) : l'aimant ne s'éteindrait jamais.
+  const foundTl = gsap.timeline({ paused: true });
   found(foundTl, parts, true, 0);
 
-  // Les tweens créés plus tard (dans les écouteurs) rejoignent ce contexte,
-  // lui-même rattaché à celui de la scène : tout est annulé au revert.
-  const scope = gsap.context(() => {});
+  // Tweens du survol créés une fois et rejoués à chaque entrée / sortie :
+  // rien ne s'accumule, et le revert de la scène les annule.
+  const settleBody = gsap.to(body, { ...soft, paused: true, scale: 1 });
+  const pulse = gsap.fromTo(
+    halo,
+    { opacity: 0.45, scale: 1 },
+    {
+      duration: 0.7,
+      ease: "power2.out",
+      immediateRender: false,
+      opacity: 0,
+      paused: true,
+      scale: 1.4,
+    }
+  );
+  // Retour sur « Vous » terminé (et « trouvé » rejoué jusqu'au bout) : la
+  // timeline se pose sur son état final.
+  const settle = gsap
+    .delayedCall(Math.max(FOLLOW.duration, foundTl.duration()) + 0.05, () => {
+      manual = false;
+      followers.forEach((follower) => follower.tween.pause());
+      foundTl.pause();
+      // Rendu forcé : le survol a pu modifier des propriétés que la
+      // timeline, déjà au bout, ne réécrirait pas d'elle-même.
+      tl.pause().seek(0, true);
+      ctx.release();
+    })
+    .pause();
 
   /** Pointeur au-dessus de la carte. */
   let active = false;
@@ -292,7 +321,6 @@ const setupHover = (
   let fresh = true;
   let magnet = false;
   let pointer: { x: number; y: number } | null = null;
-  let settle: gsap.core.Tween | null = null;
 
   // Toujours relancé (sans effet s'il est déjà au bout) : à la reprise,
   // « trouvé » peut être à mi-course.
@@ -324,7 +352,8 @@ const setupHover = (
 
   const track = () => {
     if (!(active && pointer)) return;
-    // La lecture automatique a pu reprendre (entrée dans le viewport).
+    // Garde-fou : le runtime ne relance rien en mode manuel, mais si la
+    // lecture automatique avait repris, la scène reprend la main.
     if (tl.isActive()) {
       ctx.takeOver();
       fresh = true;
@@ -363,8 +392,7 @@ const setupHover = (
 
   const enter = (event: Event) => {
     if ((event as PointerEvent).pointerType === "touch") return;
-    settle?.kill();
-    settle = null;
+    settle.pause();
     readPointer(event);
     fresh = true;
     active = true;
@@ -380,14 +408,8 @@ const setupHover = (
         .pause();
       // La loupe se pose (appui de la timeline neutralisé) et une onde part
       // du verre : elle est désormais pilotable.
-      scope.add(() => {
-        gsap.to(body, { ...soft, scale: 1 });
-        gsap.fromTo(
-          halo,
-          { opacity: 0.45, scale: 1 },
-          { duration: 0.7, ease: "power2.out", opacity: 0, scale: 1.4 }
-        );
-      });
+      settleBody.invalidate().restart();
+      pulse.restart();
     }
     track();
   };
@@ -398,21 +420,7 @@ const setupHover = (
     pointer = null;
     magnet = true;
     moveTo(rest, true);
-    // Une fois revenue sur « Vous » (et « trouvé » rejoué jusqu'au bout),
-    // la timeline se pose sur son état final.
-    const delay = Math.max(FOLLOW.duration, foundTl.duration()) + 0.05;
-    scope.add(() => {
-      settle = gsap.delayedCall(delay, () => {
-        settle = null;
-        manual = false;
-        followers.forEach((follower) => follower.tween.pause());
-        foundTl.pause();
-        // Rendu forcé : le survol a pu modifier des propriétés que la
-        // timeline, déjà au bout, ne réécrirait pas d'elle-même.
-        tl.pause().seek(0, true);
-        ctx.release();
-      });
-    });
+    settle.restart(true);
   };
 
   ctx.listen(card, "pointerenter", enter);
@@ -467,7 +475,7 @@ export const createScene = (ctx: BentoSceneContext): BentoScene | null => {
     {
       duration: 0.9,
       ease: "power2.inOut",
-      points: [start, { x: -90, y: -28 }, first],
+      points: [start, { x: -82, y: -27 }, first],
     },
     at(0.12)
   );
