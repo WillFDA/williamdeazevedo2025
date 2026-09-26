@@ -79,10 +79,11 @@ const descriptionClasses =
     >
         <div
             class:list={[
-                "relative m-1 shrink-0 overflow-hidden rounded-3xl bg-[#F6F8FB]",
+                "relative m-1 shrink-0 overflow-hidden rounded-3xl bg-[#F6F8FB] [container-type:size]",
                 visualClasses[variant],
                 sceneScaleClasses[variant],
             ]}
+            data-bento-variant={variant}
         >
             {item.visual === "artisan" && <BentoVisualArtisan />}
             {item.visual === "frontend" && <BentoVisualFrontend />}
