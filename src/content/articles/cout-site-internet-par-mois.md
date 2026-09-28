@@ -3,7 +3,7 @@ title: "Combien coûte un site internet par mois après sa création ?"
 description: "Hébergement, domaine, maintenance et outils : calculez le coût mensuel réel de votre site, les renouvellements et le budget à prévoir sur trois ans."
 pubDate: 2026-09-16
 author: "William De Azevedo"
-draft: false
+draft: true
 tags: ["site vitrine", "budget"]
 image:
   src: "/articles/cout-site-internet-par-mois/cover.webp"

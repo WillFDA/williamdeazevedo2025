@@ -3,7 +3,7 @@ title: "Créer un site internet avec l’IA : du premier jet au site publiable"
 description: "Ce que l’IA peut vraiment faire pour votre site, les limites du gratuit et une méthode pour vérifier le contenu, les coûts et la mise en ligne."
 pubDate: 2026-09-16
 author: "William De Azevedo"
-draft: false
+draft: true
 tags: ["création de site", "IA", "site vitrine"]
 image:
   src: "/articles/creer-site-internet-ia/cover.webp"

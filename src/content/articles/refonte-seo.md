@@ -3,7 +3,7 @@ title: "Refonte et SEO : les contrôles à prévoir avant de changer votre site"
 description: "Inventaire des pages, redirections, indexation et suivi : une checklist de refonte SEO pour limiter les risques et préserver les accès utiles à votre site."
 pubDate: 2026-09-16
 author: "William De Azevedo"
-draft: false
+draft: true
 tags: ["refonte", "SEO"]
 image:
   src: "/articles/refonte-seo/cover.webp"

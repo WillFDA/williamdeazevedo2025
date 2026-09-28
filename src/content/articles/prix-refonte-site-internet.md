@@ -3,7 +3,7 @@ title: "Prix d’une refonte de site internet : faut-il vraiment tout refaire ?"
 description: "Corrections ciblées ou refonte complète : identifiez les travaux utiles, chiffrez la migration et comparez les devis sans sacrifier l’existant."
 pubDate: 2026-09-16
 author: "William De Azevedo"
-draft: false
+draft: true
 tags: ["refonte", "budget", "site vitrine"]
 image:
   src: "/articles/prix-refonte-site-internet/cover.webp"

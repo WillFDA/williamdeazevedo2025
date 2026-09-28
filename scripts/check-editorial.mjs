@@ -4,7 +4,8 @@ import nodePath from "node:path";
 
 const { resolve } = nodePath;
 
-// Run after `npm run build`. No third-party test dependency needed.
+// Run after `bun run build`. No third-party test dependency needed.
+// Articles marked `draft: true` must stay out of the build; the others are checked.
 const slugs = [
   "prix-site-vitrine",
   "cout-site-internet-par-mois",
@@ -22,6 +23,7 @@ const read = (path) => readFileSync(resolve(root, path), "utf-8");
 const listing = read("dist/articles/index.html");
 const sitemap = read("dist/sitemap-0.xml");
 const evidence = [];
+const drafts = new Set();
 
 for (const slug of slugs) {
   const path = `/articles/${slug}/`;
@@ -34,6 +36,21 @@ for (const slug of slugs) {
     `${slug}: exactly one .md or .mdx source`
   );
   const source = read(sourcePaths[0]);
+  const frontmatter = source.match(/^---[\s\S]*?---/)?.[0] ?? "";
+  if (/^draft:\s*true\s*$/m.test(frontmatter)) {
+    drafts.add(slug);
+    assert.ok(
+      !existsSync(resolve(root, `dist${path}index.html`)),
+      `${slug}: draft must not be built`
+    );
+    assert.ok(!listing.includes(`href="${path}"`), `${slug}: draft listed`);
+    assert.ok(
+      !sitemap.includes(`https://williamdeazevedo.fr${path}`),
+      `${slug}: draft in sitemap`
+    );
+    evidence.push({ slug, status: "draft" });
+    continue;
+  }
   const body = source.replace(/^---[\s\S]*?---/, "");
   const words = body.split(/\s+/).filter(Boolean).length;
   assert.ok(words >= 750, `${slug}: article incomplete (${words} words)`);
@@ -121,7 +138,7 @@ for (const slug of slugs) {
     "WEBP",
     `${slug}: cover not WebP`
   );
-  evidence.push({ slug, words, coverBytes: cover.length });
+  evidence.push({ slug, status: "published", words, coverBytes: cover.length });
 }
 assert.equal(new Set(evidence.map((entry) => entry.slug)).size, 10);
 
@@ -135,6 +152,7 @@ const enrichments = [
   ["exemples-sites-vitrines", "PersistancePartner", "persistance-partner"],
 ];
 for (const [slug, component, marker] of enrichments) {
+  if (drafts.has(slug)) continue;
   assert.ok(
     existsSync(resolve(root, `src/components/articles/${component}.astro`)),
     `${slug}: missing enrichment component`
@@ -158,53 +176,59 @@ for (const [slug, component, marker] of enrichments) {
     `${slug}: enrichment date`
   );
 }
-const price = read("dist/articles/prix-site-vitrine/index.html");
-assert.equal(
-  (price.match(/<details\b[^>]*\bopen\b/g) || []).length,
-  2,
-  "price: both comparison disclosures initially readable"
-);
-const preparation = read(
-  "dist/articles/cahier-des-charges-site-internet/index.html"
-);
-const checklist = preparation.match(
-  /<preparation-checklist\b[^>]*>(?<content>[\s\S]*?)<\/preparation-checklist>/
-)?.groups?.content;
-assert.ok(checklist, "brief: rendered custom checklist");
-assert.equal(
-  (checklist.match(/<input\b[^>]*type="checkbox"/g) || []).length,
-  7,
-  "brief: seven native checkboxes"
-);
-assert.equal(
-  (checklist.match(/<label\b/g) || []).length,
-  7,
-  "brief: seven wrapping labels"
-);
-assert.ok(
-  !/<input\b[^>]*\bdisabled\b/.test(checklist),
-  "brief: checkboxes work without JavaScript"
-);
-assert.ok(
-  /class="checklist-tools"[^>]*\bhidden\b/.test(checklist),
-  "brief: enhancement-only tools hidden initially"
-);
-assert.ok(
-  checklist.includes('role="status"'),
-  "brief: progress announced accessibly"
-);
-const examples = read("dist/articles/exemples-sites-vitrines/index.html");
-assert.ok(
-  examples.includes(
-    'src="/articles/exemples-sites-vitrines/persistance-home.webp"'
-  ),
-  "examples: real project image"
-);
-assert.ok(
-  examples.includes("pas d’une maquette de charte graphique"),
-  "examples: honest image caption"
-);
+if (!drafts.has("prix-site-vitrine")) {
+  const price = read("dist/articles/prix-site-vitrine/index.html");
+  assert.equal(
+    (price.match(/<details\b[^>]*\bopen\b/g) || []).length,
+    2,
+    "price: both comparison disclosures initially readable"
+  );
+}
+if (!drafts.has("cahier-des-charges-site-internet")) {
+  const preparation = read(
+    "dist/articles/cahier-des-charges-site-internet/index.html"
+  );
+  const checklist = preparation.match(
+    /<preparation-checklist\b[^>]*>(?<content>[\s\S]*?)<\/preparation-checklist>/
+  )?.groups?.content;
+  assert.ok(checklist, "brief: rendered custom checklist");
+  assert.equal(
+    (checklist.match(/<input\b[^>]*type="checkbox"/g) || []).length,
+    7,
+    "brief: seven native checkboxes"
+  );
+  assert.equal(
+    (checklist.match(/<label\b/g) || []).length,
+    7,
+    "brief: seven wrapping labels"
+  );
+  assert.ok(
+    !/<input\b[^>]*\bdisabled\b/.test(checklist),
+    "brief: checkboxes work without JavaScript"
+  );
+  assert.ok(
+    /class="checklist-tools"[^>]*\bhidden\b/.test(checklist),
+    "brief: enhancement-only tools hidden initially"
+  );
+  assert.ok(
+    checklist.includes('role="status"'),
+    "brief: progress announced accessibly"
+  );
+}
+if (!drafts.has("exemples-sites-vitrines")) {
+  const examples = read("dist/articles/exemples-sites-vitrines/index.html");
+  assert.ok(
+    examples.includes(
+      'src="/articles/exemples-sites-vitrines/persistance-home.webp"'
+    ),
+    "examples: real project image"
+  );
+  assert.ok(
+    examples.includes("pas d’une maquette de charte graphique"),
+    "examples: honest image caption"
+  );
+}
 console.table(evidence);
 console.log(
-  "PASS: 10 articles, unique MD/MDX sources, listing, sitemap, canonical, schemas, OG covers, local links and 3 Persistance enrichments."
+  `PASS: ${slugs.length - drafts.size} published article(s) checked (unique MD/MDX sources, listing, sitemap, canonical, schemas, OG covers, local links, enrichments) and ${drafts.size} draft(s) kept out of the build.`
 );

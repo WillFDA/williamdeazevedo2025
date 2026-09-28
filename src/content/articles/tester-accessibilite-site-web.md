@@ -1,13 +1,13 @@
 ---
 title: "Tester l’accessibilité d’un site web : un premier contrôle concret"
 description: "Clavier, formulaires, contrastes, zoom : repérez les obstacles de votre site et distinguez un contrôle rapide d’un véritable audit d’accessibilité."
-pubDate: 2026-09-16
+pubDate: 2026-09-28
 author: "William De Azevedo"
 draft: false
 tags: ["accessibilité", "site vitrine"]
 image:
   src: "/articles/tester-accessibilite-site-web/cover.webp"
-  alt: ""
+  alt: "Quatre cartes résument les contrôles du guide : clavier (touches Tab et Maj), formulaires (message d’erreur sous un champ e-mail), contrastes (ratio de 6,15:1 réussi) et zoom à 200 %."
 ---
 
 Un site peut sembler simple à utiliser avec une souris et devenir impraticable au clavier. Un formulaire peut fonctionner visuellement sans annoncer correctement ses champs à un lecteur d’écran. Tester l’accessibilité consiste à chercher ces obstacles, pas seulement à obtenir un bon score.
@@ -87,4 +87,4 @@ Traitez d’abord les obstacles empêchant une action : menu inaccessible, impos
 
 Conservez ce relevé et recommencez après les modifications importantes. N’annoncez pas une conformité générale sur la seule base de ce contrôle : une évaluation formelle nécessite un périmètre, une méthode et des compétences adaptés. Les obligations applicables en France dépendent notamment de l’organisme et du service concerné ; elles doivent être examinées séparément. Le [champ d’application présenté sur le site officiel du RGAA](https://accessibilite.numerique.gouv.fr/obligations/champ-application/) constitue un point de départ pour l’article 47 de la loi de 2005, pas une réponse exhaustive à toutes les réglementations sectorielles.
 
-Si ces obstacles s’accumulent dans votre site actuel, préparez votre [projet de refonte](/refonte-site-internet) avec les adresses et les étapes qui posent problème. Cette liste permettra de distinguer les corrections ciblées d’une reconstruction réellement nécessaire.
+Si ces obstacles s’accumulent dans votre site actuel, préparez votre [projet de refonte](/refonte-site-internet/) avec les adresses et les étapes qui posent problème. Cette liste permettra de distinguer les corrections ciblées d’une reconstruction réellement nécessaire.

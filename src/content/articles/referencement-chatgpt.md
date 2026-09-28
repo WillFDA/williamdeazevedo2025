@@ -3,7 +3,7 @@ title: "Référencement sur ChatGPT : rendre son site disponible, utile et véri
 description: "GEO, robots OpenAI, contenu et suivi : les actions utiles pour rendre votre entreprise visible dans les recherches IA, sans promettre de citation."
 pubDate: 2026-09-16
 author: "William De Azevedo"
-draft: false
+draft: true
 tags: ["SEO", "IA", "site vitrine"]
 image:
   src: "/articles/referencement-chatgpt/cover.webp"

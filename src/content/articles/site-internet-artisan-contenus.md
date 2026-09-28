@@ -3,7 +3,7 @@ title: "Site internet d’artisan : quelles pages et quels contenus préparer ?"
 description: "Prestations, photos de chantiers, zone d’intervention, contact : préparez les contenus utiles de votre site d’artisan, sans multiplier les pages vides."
 pubDate: 2026-09-16
 author: "William De Azevedo"
-draft: false
+draft: true
 tags: ["site vitrine", "artisan", "contenu"]
 image:
   src: "/articles/site-internet-artisan-contenus/cover.webp"

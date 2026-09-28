@@ -15,7 +15,7 @@ Le frontmatter contient le titre, la description SEO, la date, les tags, l'auteu
 - En développement, les brouillons et les dates futures sont visibles pour relecture.
 - Une date future ne programme pas un déploiement : il faut un nouveau build après cette date.
 
-Les dix nouveaux articles sont proposés avec `draft: false` et `pubDate: 2026-09-16` : ils seront donc publiés ensemble si la PR est fusionnée et déployée après cette date. La PR seule ne les publie pas. Pour échelonner la publication, modifier ces champs et prévoir les builds correspondants. Éviter des liens vers des articles encore masqués.
+Seul `tester-accessibilite-site-web` est publié, le 28 septembre 2026. Les neuf autres articles sont en `draft: true` et restent hors du site. Pour publier l'un d'eux : passer `draft` à `false`, mettre sa `pubDate` au jour de publication et retirer une `updatedDate` antérieure à cette date. Le site est reconstruit à chaque push sur `2026`. Éviter des liens vers des articles encore masqués.
 
 ## Ciblage
 
@@ -38,12 +38,12 @@ Volumes estimés mensuels France/français provenant de la recherche OpenSEO ré
 
 ```sh
 bun install --frozen-lockfile
-npm run build
+bun run build
 node scripts/check-editorial.mjs
-npm run lint
+bun run lint
 ```
 
-Le contrôle éditorial vérifie explicitement les dix fichiers, leur présence dans le listing et le sitemap, le H1, la canonical, les données structurées, la couverture Open Graph, les images WebP et les liens locaux du HTML généré. Ce contrôle technique ne remplace pas la relecture humaine du contenu et des sources.
+Le contrôle éditorial vérifie que les brouillons restent hors du build et, pour chaque article publié, sa présence dans le listing et le sitemap, le H1, la canonical, les données structurées, la couverture Open Graph, les images WebP et les liens locaux du HTML généré. Ce contrôle technique ne remplace pas la relecture humaine du contenu et des sources.
 
 Les essais de navigation doivent être faits sur une prévisualisation locale, en bloquant les requêtes de mesure externes pour ne pas créer de fausses visites ou conversions de production. Ne pas envoyer de formulaire ni réserver de rendez-vous réel.
 
