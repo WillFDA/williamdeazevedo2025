@@ -366,7 +366,7 @@ export default function ArticleFilters({ tags, years }: Props) {
       </div>
       <fieldset
         aria-label="Filtrer par tag"
-        className="flex min-w-0 max-w-4xl flex-wrap gap-2"
+        className="flex max-w-4xl min-w-0 flex-wrap gap-2"
       >
         <legend className="sr-only">Filtrer par tag</legend>
         {tags.map((tagName) => {
