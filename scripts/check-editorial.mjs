@@ -17,6 +17,7 @@ const slugs = [
   "creer-site-internet-ia",
   "tester-accessibilite-site-web",
   "referencement-chatgpt",
+  "mentions-legales-site-internet-professionnel",
 ];
 const root = resolve(import.meta.dirname, "..");
 const read = (path) => readFileSync(resolve(root, path), "utf-8");
@@ -140,7 +141,7 @@ for (const slug of slugs) {
   );
   evidence.push({ slug, status: "published", words, coverBytes: cover.length });
 }
-assert.equal(new Set(evidence.map((entry) => entry.slug)).size, 10);
+assert.equal(new Set(evidence.map((entry) => entry.slug)).size, slugs.length);
 
 const enrichments = [
   ["prix-site-vitrine", "IdentityScope", "identity-scope"],
