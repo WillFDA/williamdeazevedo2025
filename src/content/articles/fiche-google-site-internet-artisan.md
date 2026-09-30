@@ -20,7 +20,7 @@ Quand une personne cherche un professionnel près de chez elle, la fiche peut lu
 
 Sur le site, vous avez davantage de place pour expliquer les travaux que vous acceptez, les limites d’une intervention, les étapes d’un devis et les preuves disponibles. Une photo légendée d’un chantier réellement réalisé, par exemple, apporte un contexte qu’une courte description de fiche ne peut pas toujours contenir.
 
-Les deux parcours se complètent, mais Google ne présente pas un site internet comme une condition universelle pour créer une fiche : ses consignes demandent d’indiquer le numéro de téléphone de l’établissement ou un site qui le représente. Un site reste utile pour présenter votre offre en détail et recevoir une demande mieux préparée. Il ne constitue pas, à lui seul, une garantie d’améliorer le classement de la fiche.
+Les deux parcours se complètent, mais Google ne présente pas un site internet comme une condition universelle pour créer une fiche : ses consignes demandent d’indiquer le numéro de téléphone de l’établissement ou un site qui le représente. Un site reste utile pour présenter votre offre en détail et fournir aux prospects les informations qui leur manquent avant de vous contacter. Il ne constitue pas, à lui seul, une garantie d’améliorer le classement de la fiche.
 
 ## Établissez une fiche de référence avant de modifier les pages
 
