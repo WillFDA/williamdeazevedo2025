@@ -1,0 +1,90 @@
+---
+title: "Mentions légales d’un site internet professionnel : la checklist d’une TPE"
+description: "Éditeur, hébergeur, statut, formulaires, cookies et vente en ligne : vérifiez les mentions d’un site professionnel sans copier un modèle générique."
+pubDate: 2026-09-29
+author: "William De Azevedo"
+draft: true
+tags: ["site vitrine", "artisan", "conformité"]
+image:
+  src: "/articles/mentions-legales-site-internet-professionnel/cover.webp"
+  alt: "Illustration d’une page web reliée à une fiche d’identité d’entreprise et à un hébergeur, avec un lien signalé dans le pied de page."
+---
+
+import LegalPagesMap from "../../components/articles/LegalPagesMap.astro";
+import PreparationChecklist from "../../components/articles/PreparationChecklist.astro";
+import PublisherIdentity from "../../components/articles/PublisherIdentity.astro";
+
+**Un lien « Mentions légales » en bas de page ne suffit pas si les informations qu’il ouvre ne correspondent plus à votre entreprise.** Ces mentions servent d’abord à identifier l’éditeur du site et à permettre de le contacter. Elles sont obligatoires sur tout site professionnel, même un simple site vitrine, et leur absence est sanctionnée : Service Public indique jusqu’à 1 an d’emprisonnement et 75 000 € d’amende pour un entrepreneur individuel, et 375 000 € d’amende pour une société.
+
+Ce guide aide une TPE ou un artisan à préparer cette vérification. Il ne remplace ni les textes officiels, ni un conseil juridique pour une activité réglementée ou un montage particulier. L’objectif est de savoir quoi contrôler, pas de fournir un paragraphe universel à copier-coller.
+
+## Commencez par qualifier le site
+
+Avant d’ouvrir un générateur de mentions, notez ce que le site permet réellement de faire :
+
+- présenter l’entreprise et recevoir une demande de contact ou de devis ;
+- recueillir des renseignements dans un formulaire ou une newsletter ;
+- utiliser des cookies ou d’autres traceurs, par exemple pour la mesure d’audience, des vidéos intégrées ou la publicité ;
+- vendre un produit ou un service directement en ligne ;
+- exercer une activité réglementée ou soumise à autorisation.
+
+Chaque réponse ajoute ses propres vérifications. Un site vitrine avec un formulaire n’est pas une boutique en ligne ; à l’inverse, ajouter une réservation payante, un abonnement ou un parcours de commande fait entrer le projet dans des règles supplémentaires.
+
+## Identifiez l’éditeur selon son statut
+
+La première vérification porte sur la personne ou l’entreprise qui édite le site. Les informations ne sont pas les mêmes pour un entrepreneur individuel, micro-entrepreneur compris, et pour une société : Service Public consacre une fiche à [l’entrepreneur individuel](https://entreprendre.service-public.fr/vosdroits/F31228) et une autre à [la société](https://entreprendre.service-public.fr/vosdroits/F37351).
+
+<PublisherIdentity />
+
+Ne recopiez pas une ligne d’immatriculation ou de TVA depuis un ancien modèle ou le site d’un confrère : repartez de vos données d’entreprise à jour. Le nom du directeur de la publication, prévu par la [loi pour la confiance dans l’économie numérique](https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000054744218), est en général celui du dirigeant dans une TPE.
+
+Si votre métier est soumis à autorisation ou à des règles professionnelles particulières, vérifiez aussi les mentions propres à cette activité auprès de l’organisme compétent. Une liste générale ne peut pas trancher ces cas à votre place.
+
+## Distinguez l’hébergeur du prestataire qui a créé le site
+
+L’hébergeur est le fournisseur qui stocke et sert le site. Ce n’est pas forcément la personne qui a conçu les pages, ni le fournisseur du nom de domaine, ni l’éditeur du logiciel qui gère le site.
+
+Repartez de la facture ou du contrat d’hébergement en cours, puis relevez le nom ou la dénomination de ce fournisseur, son adresse et son téléphone. Après une migration, l’ancienne agence ou l’ancien hébergeur reste souvent mentionné par oubli.
+
+## Ne mélangez pas mentions légales, RGPD, cookies et CGV
+
+Ces sujets peuvent être réunis sur une même page ou répartis sur plusieurs pages reliées entre elles, mais ils ne répondent pas à la même question.
+
+<LegalPagesMap />
+
+- **Données personnelles.** Pour un site vitrine avec formulaire, la CNIL recommande une information à proximité du formulaire et un moyen de contact pour exercer ses droits. Son guide [RGPD en pratique : communiquer en ligne](https://www.cnil.fr/fr/rgpd-en-pratique-communiquer-en-ligne) distingue ces informations des mentions qui identifient l’éditeur.
+- **Cookies et traceurs.** Certains traceurs nécessitent un consentement préalable, d’autres bénéficient d’exemptions limitées. N’ajoutez donc pas un bandeau par réflexe, et ne concluez pas qu’un outil de mesure est exempté sans vérifier ses conditions : voir [Cookies et traceurs : que dit la loi ?](https://www.cnil.fr/fr/cookies-et-autres-traceurs/que-dit-la-loi).
+- **Vente en ligne.** Les informations précontractuelles et les CGV varient selon la clientèle ; un formulaire de demande de devis n’est pas, à lui seul, une commande. Si vous vendez à des particuliers, Service Public demande aussi un lien vers la médiation de la consommation. Depuis le 19 juin 2026, les contrats conclus en ligne doivent en outre proposer une fonctionnalité de rétractation en ligne lorsque ce droit s’applique ([Faire du commerce en ligne](https://entreprendre.service-public.fr/vosdroits/F23455)).
+
+Cette séparation évite deux erreurs courantes : croire qu’une politique de confidentialité remplace l’identification de l’éditeur, ou penser qu’une page de mentions légales rend automatiquement conformes un formulaire et ses traceurs.
+
+## Faites une vérification concrète avant la mise en ligne
+
+Une revue courte suffit pour repérer les informations périmées ou oubliées. Cochez les points au fur et à mesure.
+
+<PreparationChecklist
+  legend="Vos mentions légales sont-elles à jour ?"
+  note="Cette liste reste sur cette page : aucune réponse n’est enregistrée ni transmise."
+  countLabel="points vérifiés"
+  doneLabel="Prêt pour la mise en ligne"
+  items={[
+    "Le statut et les coordonnées correspondent aux données officielles actuelles de l’entreprise.",
+    "L’hébergeur indiqué est celui du contrat ou de la facture en cours, avec nom, adresse et téléphone.",
+    "Formulaires, réservations, paiements, newsletters, vidéos et outils de mesure ont été repérés sur tout le site.",
+    "Le lien vers les mentions légales est présent sur toutes les pages et fonctionne au clavier et sur mobile.",
+    "Une date de relecture est prévue après tout déménagement, changement de statut, d’hébergeur ou de fonctionnalité.",
+  ]}
+/>
+
+Le dirigeant reste la bonne personne pour fournir et valider les informations de l’entreprise. Un développeur peut intégrer la page, maintenir son lien, vérifier les formulaires et expliquer où les contenus sont affichés ; il ne peut pas décider à votre place de la base juridique d’un traitement ni confirmer un régime professionnel particulier.
+
+Pour préparer les pages et le parcours de contact d’un projet artisanal, vous pouvez aussi consulter la page [création de site internet pour artisan](/creation-site-internet-artisan/). Les mentions exactes restent à valider en fonction de votre activité.
+
+## Sources officielles
+
+- [Service Public — Mentions obligatoires sur le site internet d’un entrepreneur individuel](https://entreprendre.service-public.fr/vosdroits/F31228) (vérifiée le 31 juillet 2023) : identité, contact, immatriculation, TVA, hébergeur, activité réglementée et sanctions.
+- [Service Public — Mentions obligatoires sur le site internet d’une société](https://entreprendre.service-public.fr/vosdroits/F37351) (vérifiée le 31 juillet 2023) : dénomination, forme juridique, siège, capital et sanctions propres aux sociétés.
+- [Service Public — Faire du commerce en ligne : règles à respecter](https://entreprendre.service-public.fr/vosdroits/F23455) (vérifiée le 21 janvier 2026) : règles de vente et fonctionnalité de rétractation en ligne depuis le 19 juin 2026.
+- [Légifrance — Loi pour la confiance dans l’économie numérique, article 6](https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000054744218) : texte de référence des informations d’identification de l’éditeur.
+- [CNIL — RGPD en pratique : communiquer en ligne](https://www.cnil.fr/fr/rgpd-en-pratique-communiquer-en-ligne) : sites vitrines, formulaires, droits et traceurs.
+- [CNIL — Cookies et traceurs : que dit la loi ?](https://www.cnil.fr/fr/cookies-et-autres-traceurs/que-dit-la-loi) : traceurs soumis au consentement et exemptions limitées.

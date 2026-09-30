@@ -1,0 +1,51 @@
+---
+const pages = [
+  {
+    title: "Mentions légales",
+    question: "Qui édite le site et comment le joindre ?",
+    when: "Tout site professionnel",
+  },
+  {
+    title: "Données personnelles",
+    question: "Qui collecte quoi, pourquoi, et comment exercer ses droits ?",
+    when: "Dès qu’un formulaire ou une newsletter recueille des données",
+  },
+  {
+    title: "Cookies et traceurs",
+    question: "Quels outils déposent des traceurs, et faut-il un consentement ?",
+    when: "Selon les outils réellement installés : mesure, vidéos, publicité…",
+  },
+  {
+    title: "CGV et parcours de vente",
+    question: "À quelles conditions le client achète-t-il ?",
+    when: "Vente, réservation payante ou abonnement en ligne",
+  },
+];
+---
+
+<div class="legal-pages-map">
+  <p class="map-kicker">Quatre sujets, quatre questions</p>
+  <ul class="map-list">
+    {pages.map((page) => (
+      <li class="map-card">
+        <p class="map-title">{page.title}</p>
+        <p class="map-question">{page.question}</p>
+        <p class="map-when"><span>Concerné</span>{page.when}</p>
+      </li>
+    ))}
+  </ul>
+  <p class="map-footnote">Une même page peut regrouper plusieurs sujets, mais aucun ne remplace les autres.</p>
+</div>
+
+<style>
+  .legal-pages-map { padding: clamp(1.25rem, 4vw, 2rem); border: 1px solid var(--color-gray-200); border-radius: 1rem; background: var(--color-snow-50); color: var(--color-gray-600); }
+  .legal-pages-map .map-kicker { margin: 0 0 1rem; color: var(--color-blue-500); font-size: .75rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+  .legal-pages-map .map-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin: 0; padding: 0; list-style: none; }
+  .legal-pages-map .map-card { display: flex; flex-direction: column; margin: 0; padding: 1rem; border-radius: .75rem; background: var(--color-surface-100); }
+  .legal-pages-map .map-title { margin: 0; color: var(--color-gray-900); font-weight: 500; line-height: 1.4; }
+  .legal-pages-map .map-question { margin: .35rem 0 1rem; font-size: .9375rem; line-height: 1.55; }
+  .legal-pages-map .map-when { margin: auto 0 0; padding: .55rem .7rem; border-radius: .5rem; background: var(--color-blue-50); color: var(--color-blue-800); font-size: .8125rem; line-height: 1.45; }
+  .map-when span { display: block; margin-bottom: .1rem; color: var(--color-blue-600); font-size: .6875rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+  .legal-pages-map .map-footnote { margin: 1rem 0 0; font-size: .8125rem; line-height: 1.6; }
+  @media (max-width: 560px) { .legal-pages-map .map-list { grid-template-columns: minmax(0, 1fr); } }
+</style>

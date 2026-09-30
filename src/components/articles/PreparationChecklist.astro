@@ -1,5 +1,13 @@
 ---
-const items = [
+interface Props {
+  items?: string[];
+  legend?: string;
+  note?: string;
+  countLabel?: string;
+  doneLabel?: string;
+}
+
+const defaultItems = [
   "L’objectif principal est formulé en une phrase concrète.",
   "Chaque page a un rôle et un responsable de contenu.",
   "Les options sont séparées du lancement.",
@@ -8,12 +16,19 @@ const items = [
   "La livraison comporte des tests et une remise des accès.",
   "L’identité est prête à transmettre, ou sa création et son budget distinct sont prévus.",
 ];
+const {
+  items = defaultItems,
+  legend = "Votre brief est-il prêt à partir ?",
+  note = "Cochez les points déjà clarifiés. Cette liste reste sur cette page : aucune réponse n’est enregistrée ni transmise. Elle n’est pas jointe à votre prise de contact.",
+  countLabel = "points clarifiés",
+  doneLabel = "Prêt à en discuter !",
+} = Astro.props;
 ---
 
-<preparation-checklist class="preparation-checklist">
+<preparation-checklist class="preparation-checklist" data-count-label={countLabel} data-done-label={doneLabel}>
   <fieldset>
-    <legend>Votre brief est-il prêt à partir ?</legend>
-    <p class="checklist-note">Cochez les points déjà clarifiés. Cette liste reste sur cette page : aucune réponse n’est enregistrée ni transmise. Elle n’est pas jointe à votre prise de contact.</p>
+    <legend>{legend}</legend>
+    <p class="checklist-note">{note}</p>
     <ul class="checklist-items">
       {items.map((item) => (
         <li><label><input type="checkbox" /><span>{item}</span></label></li>
@@ -42,9 +57,11 @@ const items = [
       const reset = this.querySelector<HTMLButtonElement>("button");
       const bar = this.querySelector<HTMLElement>(".checklist-bar > span");
       if (!tools || !status || !reset || !bar) return;
+      const countLabel = this.dataset.countLabel ?? "";
+      const doneLabel = this.dataset.doneLabel ?? "";
       const update = () => {
         const count = inputs.filter((input) => input.checked).length;
-        status.textContent = `${count} / ${inputs.length} points clarifiés${count === inputs.length ? " · Prêt à en discuter !" : ""}`;
+        status.textContent = `${count} / ${inputs.length} ${countLabel}${count === inputs.length && doneLabel ? ` · ${doneLabel}` : ""}`;
         reset.disabled = count === 0;
         bar.style.transform = `scaleX(${count / inputs.length})`;
       };

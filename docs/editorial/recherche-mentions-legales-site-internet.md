@@ -43,3 +43,7 @@ Aucun témoignage, tarif, classement, volume, gain de trafic ou expérience pers
 ## Publication
 
 Le frontmatter reste `draft: true`; le build de production doit donc exclure la page, le listing et le sitemap. La PR est laissée en brouillon tant que l’OpenSEO ne peut pas fournir les données ciblées et que la correspondance du projet avec le site n’est pas établie. Une validation éditoriale et métier de William reste requise avant de changer le statut du contenu.
+
+## Révision du 30 septembre 2026
+
+Article passé en MDX avec trois composants : comparaison EI / société (`PublisherIdentity`), carte des quatre sujets voisins (`LegalPagesMap`) et checklist interactive (`PreparationChecklist` paramétrée). Ajouts vérifiés sur les fiches Service Public F31228 et F37351 relues le 30 septembre : sanctions (1 an d’emprisonnement et 75 000 € d’amende pour un entrepreneur individuel, 375 000 € d’amende pour une société) et lien vers la médiation de la consommation pour les ventes aux particuliers. Le directeur de la publication est mentionné d’après l’article 6 de la LCEN ; Légifrance restant inaccessible à la récupération automatique, ce point doit être confirmé à la relecture.
