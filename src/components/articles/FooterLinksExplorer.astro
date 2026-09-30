@@ -1,0 +1,124 @@
+---
+/**
+ * Pied de page cliquable : chaque lien ouvre un aperçu de ce que la page
+ * correspondante contient, avec le cas où elle est nécessaire. Onglets en
+ * radios + :has, sans JavaScript ; sans :has, le premier aperçu reste affiché.
+ */
+const links = [
+  { id: "mentions", label: "Mentions légales", question: "Qui édite le site et comment le joindre ?", when: "Tout site professionnel" },
+  { id: "donnees", label: "Confidentialité", question: "Qui collecte quoi, pourquoi, et comment exercer ses droits ?", when: "Dès qu’un formulaire ou une newsletter recueille des données" },
+  { id: "cookies", label: "Cookies", question: "Quels outils déposent des traceurs, et faut-il un consentement ?", when: "Selon les outils installés : mesure d’audience, vidéos, publicité" },
+  { id: "cgv", label: "CGV", question: "À quelles conditions le client achète-t-il ?", when: "Vente, réservation payante ou abonnement en ligne" },
+];
+---
+
+<div class="footer-explorer">
+  <p class="explorer-hint">Cliquez sur un lien du pied de page</p>
+  <div class="explorer-footer">
+    <span class="explorer-brand" aria-hidden="true">Atelier Martin</span>
+    <fieldset>
+      <legend>Liens du pied de page</legend>
+      {links.map((link, index) => (
+        <label>
+          <input type="radio" name="footer-explorer" value={link.id} checked={index === 0} />
+          <span>{link.label}</span>
+        </label>
+      ))}
+    </fieldset>
+  </div>
+
+  <div class="explorer-panels">
+    {links.map((link) => (
+      <div class:list={["explorer-panel", `explorer-panel--${link.id}`]}>
+        <div class="explorer-copy">
+          <p class="explorer-question">{link.question}</p>
+          <p class="explorer-when"><span>Nécessaire</span>{link.when}</p>
+        </div>
+        <div class="explorer-visual" aria-hidden="true">
+          {link.id === "mentions" && (
+            <div class="mini-card">
+              <span class="mini-label">Éditeur</span>
+              <span class="mini-line">Julien Martin, EI</span>
+              <span class="mini-label">Hébergeur</span>
+              <span class="mini-line">Hébergeur Exemple SAS</span>
+            </div>
+          )}
+          {link.id === "donnees" && (
+            <div class="mini-card">
+              <span class="mini-input">Votre nom</span>
+              <span class="mini-input">Votre e-mail</span>
+              <span class="mini-button">Demander un devis</span>
+              <span class="mini-info">Vos données servent uniquement à répondre à votre demande. <u>En savoir plus</u></span>
+            </div>
+          )}
+          {link.id === "cookies" && (
+            <div class="mini-card mini-card--banner">
+              <span class="mini-line">Ce site utilise des traceurs de mesure d’audience.</span>
+              <span class="mini-actions"><span class="mini-button mini-button--ghost">Tout refuser</span><span class="mini-button mini-button--ghost">Tout accepter</span></span>
+            </div>
+          )}
+          {link.id === "cgv" && (
+            <div class="mini-card">
+              <span class="mini-row"><span>Stage menuiserie, 1 jour</span><strong>180 €</strong></span>
+              <span class="mini-button">Commander et payer</span>
+              <span class="mini-info">Depuis le 19 juin 2026 : fonction de rétractation en ligne, si le droit s’applique.</span>
+            </div>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+  <p class="explorer-footnote">Une même page peut regrouper plusieurs sujets, mais aucun ne remplace les autres.</p>
+</div>
+
+<style>
+  .footer-explorer { display: block; padding: clamp(1rem, 3.5vw, 1.75rem); border: 1px solid var(--color-gray-200); border-radius: 1.25rem; background: var(--color-snow-50); color: var(--color-gray-600); }
+  .footer-explorer .explorer-hint { display: flex; align-items: center; gap: .5rem; margin: 0 0 .75rem; color: var(--color-blue-500); font-size: .75rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+  .explorer-hint::before { content: ""; width: .5rem; height: .5rem; border-radius: 999px; background: var(--color-blue-500); box-shadow: 0 0 0 4px var(--color-blue-100); animation: explorer-pulse 1.8s ease-in-out infinite; }
+
+  .explorer-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem 1.5rem; padding: 1rem 1.1rem; border-radius: 1rem; background: var(--color-coffee-300); color: var(--color-snow-50); }
+  .explorer-brand { font-weight: 500; font-size: .9375rem; letter-spacing: -.01em; }
+  .explorer-footer fieldset { display: flex; flex-wrap: wrap; gap: .25rem; min-width: 0; margin: 0; padding: 0; border: 0; }
+  .explorer-footer legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .explorer-footer label { position: relative; cursor: pointer; }
+  .explorer-footer input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+  .explorer-footer label span { display: block; padding: .45rem .7rem; border-radius: .55rem; color: var(--color-coffee-200); font-size: .8125rem; line-height: 1.2; text-decoration: underline; text-decoration-color: rgba(174, 184, 200, .35); text-underline-offset: 3px; transition: background-color 200ms ease, color 200ms ease; }
+  .explorer-footer label:hover span { color: var(--color-snow-50); }
+  .explorer-footer input:checked + span { background: var(--color-snow-50); color: var(--color-coffee-300); text-decoration-color: transparent; }
+  .explorer-footer input:focus-visible + span { outline: 2px solid var(--color-blue-300); outline-offset: 2px; }
+
+  .explorer-panels { margin-top: .75rem; }
+  .explorer-panel { display: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; align-items: center; padding: 1.1rem; border-radius: 1rem; background: var(--color-surface-100); animation: explorer-in 320ms cubic-bezier(.2, 0, 0, 1); }
+  .explorer-panel--mentions { display: grid; }
+  .footer-explorer:has(input:checked) .explorer-panel { display: none; }
+  .footer-explorer:has(input[value="mentions"]:checked) .explorer-panel--mentions,
+  .footer-explorer:has(input[value="donnees"]:checked) .explorer-panel--donnees,
+  .footer-explorer:has(input[value="cookies"]:checked) .explorer-panel--cookies,
+  .footer-explorer:has(input[value="cgv"]:checked) .explorer-panel--cgv { display: grid; }
+
+  .footer-explorer .explorer-question { margin: 0; color: var(--color-gray-900); font-size: 1.0625rem; font-weight: 500; line-height: 1.4; letter-spacing: -.01em; }
+  .footer-explorer .explorer-when { margin: .75rem 0 0; font-size: .875rem; line-height: 1.5; }
+  .explorer-when span { display: block; margin-bottom: .15rem; color: var(--color-blue-600); font-size: .6875rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+
+  .explorer-visual { display: flex; justify-content: center; }
+  .mini-card { display: flex; flex-direction: column; gap: .4rem; width: 100%; max-width: 16rem; padding: .9rem; border: 1px solid rgba(226, 232, 240, .9); border-radius: .85rem; background: var(--color-snow-50); box-shadow: 0 22px 44px -30px rgba(34, 42, 55, .48); font-size: .75rem; line-height: 1.4; transform: rotate(-1.5deg); }
+  .mini-label { color: var(--color-gray-400); font-size: .625rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+  .mini-label + .mini-line { margin-top: -.2rem; }
+  .mini-line { color: var(--color-gray-900); }
+  .mini-input { padding: .4rem .55rem; border: 1px solid var(--color-gray-200); border-radius: .45rem; color: var(--color-gray-400); }
+  .mini-button { align-self: flex-start; padding: .4rem .7rem; border-radius: .45rem; background: var(--color-blue-500); color: var(--color-snow-50); font-weight: 500; }
+  .mini-button--ghost { background: var(--color-snow-50); color: var(--color-gray-900); box-shadow: inset 0 0 0 1px var(--color-gray-200); }
+  .mini-info { padding: .35rem .5rem; border-radius: .45rem; background: var(--color-blue-50); color: var(--color-blue-800); font-size: .6875rem; }
+  .mini-card--banner { transform: rotate(1.5deg); }
+  .mini-actions { display: flex; gap: .4rem; }
+  .mini-actions .mini-button { flex: 1; text-align: center; }
+  .mini-row { display: flex; justify-content: space-between; gap: .5rem; padding-bottom: .4rem; border-bottom: 1px solid var(--color-gray-100); color: var(--color-gray-700); }
+  .mini-row strong { color: var(--color-gray-900); font-weight: 500; }
+
+  .footer-explorer .explorer-footnote { margin: 1rem 0 0; font-size: .8125rem; line-height: 1.6; }
+
+  @keyframes explorer-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes explorer-pulse { 50% { box-shadow: 0 0 0 7px transparent; } }
+  @media (max-width: 560px) { .explorer-panel { grid-template-columns: minmax(0, 1fr); } }
+  @media (prefers-reduced-motion: reduce) { .explorer-panel, .explorer-hint::before { animation: none; } .explorer-footer label span { transition: none; } }
+</style>
