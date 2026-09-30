@@ -1,12 +1,13 @@
+// @ts-check
+import { satteri } from "@astrojs/markdown-satteri";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
-// @ts-check
 import { defineConfig } from "astro/config";
 
-import rehypeAccessibleTables from "./scripts/rehype-accessible-tables.mjs";
-import rehypeStaticTaskLists from "./scripts/rehype-static-task-lists.mjs";
+import hastAccessibleTables from "./scripts/hast-accessible-tables.mjs";
+import hastStaticTaskLists from "./scripts/hast-static-task-lists.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,7 +25,11 @@ export default defineConfig({
   },
 
   markdown: {
-    rehypePlugins: [rehypeAccessibleTables, rehypeStaticTaskLists],
+    // Sätteri (Astro's native pipeline) also renders .mdx: @astrojs/mdx
+    // inherits markdown.processor, so both plugins apply to every article.
+    processor: satteri({
+      hastPlugins: [hastAccessibleTables, hastStaticTaskLists],
+    }),
     shikiConfig: {
       theme: "github-dark-dimmed",
       wrap: true,
