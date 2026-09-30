@@ -37,6 +37,7 @@ const calLink = String(
             </svg>
         </button>
     </div>
+    <p class="px-4 pb-3 text-sm text-snow-50/80">Le calendrier est fourni par Cal.com. Vos coordonnées servent à organiser le rendez-vous. <a class="underline" href="/mentions-legales/#reservation">Confidentialité</a></p>
     <div
         aria-label="Réserver un appel avec William De Azevedo"
         class="cal-drawer__embed mx-auto h-full min-h-0 w-full overflow-auto"
@@ -219,27 +220,6 @@ const calLink = String(
         }
     });
 
-    // Mount the Cal embed lazily on the first sign of booking intent (hovering
-    // or keyboard-focusing any CTA) so it's ready by the time the drawer opens,
-    // WITHOUT pulling Cal's ~850 KiB of JS/CSS into every page load. Previously
-    // this mounted eagerly on load, which tanked Performance (the embed renders
-    // a full booking iframe in the hidden dialog for every visitor, even those
-    // who never click). openCalDrawer() still mounts on a direct click (touch /
-    // keyboard / programmatic) as the final fallback.
-    function warmCalEmbed(event) {
-        const target = event.target;
-        if (!(target instanceof Element) || !target.closest("[data-cal-open]"))
-            return;
-
-        mountCalEmbed();
-        document.removeEventListener("pointerover", warmCalEmbed);
-        document.removeEventListener("focusin", warmCalEmbed);
-        document.removeEventListener("touchstart", warmCalEmbed);
-    }
-
-    document.addEventListener("pointerover", warmCalEmbed);
-    document.addEventListener("focusin", warmCalEmbed);
-    document.addEventListener("touchstart", warmCalEmbed, { passive: true });
 </script>
 
 <style>
