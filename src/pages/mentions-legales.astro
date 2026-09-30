@@ -2,7 +2,7 @@
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import Layout from "../layout/Layout.astro";
 
-const googleEnabled = Boolean(import.meta.env.PUBLIC_ZARAZ_AUDIENCE_PURPOSE && import.meta.env.PUBLIC_ZARAZ_MARKETING_PURPOSE);
+const audienceEnabled = import.meta.env.PUBLIC_RYBBIT_EXEMPT_AUDIENCE === "true";
 const sections = [
     {
         id: "editeur",
@@ -73,22 +73,20 @@ const sections = [
         id: "mesure-audience",
         title: "Mesure d'audience",
         paragraphs: [
-            "Avec votre consentement, Rybbit mesure les pages consultées, la provenance des visites, des caractéristiques techniques de navigation et les interactions avec le site, notamment les clics sur les liens de contact et les boutons de réservation. Ces statistiques servent à comprendre l'utilisation du site et à améliorer les contenus. Refuser cette mesure n'empêche ni la consultation du site ni la prise de contact.",
-            "Le script Rybbit est servi depuis analytics.williamdeazevedo.fr. Il peut lire ou créer un identifiant dans le stockage local du navigateur. Les événements en attente sont gardés uniquement en mémoire pendant la page courante : aucune file de mesure n'est enregistrée dans le stockage de session par le site. Le module de consentement ne transmet pas les événements de contact avant votre accord.",
-            "L'enregistrement des sessions est désactivé dans la configuration observée le 30 septembre 2026. Les réglages du serveur contrôlent les autres captures automatiques, notamment les clics, copies, erreurs et paramètres d'URL. Vous pouvez retirer votre accord depuis « Gérer mes cookies ».",
-            ...(googleEnabled ? [
-                "Avec votre accord pour la mesure d'audience, Google Analytics 4 reçoit également des données de navigation via Cloudflare Zaraz. Avec votre accord distinct pour la mesure publicitaire, Google Ads mesure les rendez-vous provenant des annonces. La publicité personnalisée n'est pas activée par les signaux de consentement de ce site. Ces traitements reposent sur votre consentement.",
-            ] : []),
+            audienceEnabled
+                ? "Rybbit est utilisé pour mesurer l'audience du site : pages consultées, provenance des visites et caractéristiques techniques nécessaires aux statistiques. Cette mesure sert à améliorer les contenus et la navigation. Elle doit rester limitée aux statistiques d'audience du site, sans suivi publicitaire ni recoupement entre sites."
+                : "La mesure d'audience Rybbit est désactivée dans cette version du site. Elle pourra être activée après vérification de sa configuration et mise à jour des informations de confidentialité correspondantes.",
+            "Les clics sur les liens de contact ne prouvent pas qu'un email a été envoyé ou qu'un appel a abouti. Le contenu des emails et les coordonnées saisies pour un rendez-vous ne sont pas transmis par les événements de mesure du site.",
+            "Google Analytics et Google Ads ne sont pas utilisés pour la mesure de cette version du site. Google Search Console est un service distinct, décrit ci-dessous.",
         ],
     },
     {
         id: "cookies",
         title: "Cookies et autres traceurs",
         paragraphs: [
-            "Les règles relatives aux traceurs concernent aussi le stockage local et les identifiants, pas seulement les cookies HTTP. Les outils facultatifs de mesure sont soumis à votre choix préalable. « Tout refuser » et « Tout accepter » sont proposés au même niveau ; vous pouvez aussi enregistrer un choix personnalisé.",
-            "Votre choix est conservé dans le stockage local sous la clé wui:privacy-consent:v1 pendant 180 jours à compter de son enregistrement, pour respecter vos préférences. Ce stockage de préférence est nécessaire à la gestion de votre choix. Après expiration, un nouveau choix est demandé.",
-            "Le lien « Gérer mes cookies », présent dans le pied de page, permet de modifier votre choix ou de retirer votre consentement. Un retrait recharge la page pour arrêter les outils déjà chargés ; il ne supprime pas rétroactivement les données déjà transmises. Pour demander leur effacement, utilisez l'adresse de contact.",
-            "L'hébergement, la sécurité et les statistiques techniques Cloudflare peuvent traiter des informations de connexion nécessaires au fonctionnement et à la protection du site. Les liens vers les réseaux sociaux ouvrent des sites tiers : leurs propres règles de confidentialité s'appliquent après votre navigation.",
+            "Ce site n'affiche pas de bandeau de cookies. Aucun choix de consentement n'est enregistré dans le navigateur par le site. L'absence de bandeau ne dispense pas de respecter les règles relatives aux cookies et autres traceurs : une mesure d'audience sans consentement préalable doit remplir les conditions d'exemption applicables.",
+            "Le code du site ne conserve aucune file d'événements de mesure dans le stockage local ou de session. Les événements en attente, lorsque la mesure est activée, sont gardés uniquement en mémoire pendant la page courante.",
+            "Cloudflare fournit l'hébergement et la protection du site ; des informations techniques de connexion peuvent être traitées pour ces finalités. Les liens vers les réseaux sociaux ouvrent des sites tiers, dont les propres règles de confidentialité s'appliquent après votre navigation.",
         ],
     },
     {
@@ -119,7 +117,7 @@ const sections = [
 
 <Layout
     title="Mentions légales et confidentialité - William De Azevedo"
-    description="Mentions légales, confidentialité, cookies et choix de consentement du site de William De Azevedo."
+    description="Mentions légales, confidentialité, cookies et mesure d'audience du site de William De Azevedo."
 >
     <section class="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-12 md:py-16">
         <FadeReveal delay={0.1}>
@@ -134,7 +132,7 @@ const sections = [
                 </p>
             </div>
         </FadeReveal>
-        <p class="text-sm text-gray-600">Mise à jour : 30 septembre 2026. <button class="cursor-pointer underline" type="button" data-privacy-open>Gérer mes cookies</button></p>
+        <p class="text-sm text-gray-600">Mise à jour : 30 septembre 2026.</p>
         <nav aria-label="Références de confidentialité" class="flex flex-wrap gap-4 text-sm underline">
             <a href="https://www.cnil.fr/fr/plaintes">CNIL et réclamations</a>
             <a href="https://cal.com/privacy">Confidentialité Cal.com</a>
