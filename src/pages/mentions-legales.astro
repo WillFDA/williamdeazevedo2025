@@ -2,6 +2,7 @@
 import FadeReveal from "@/components/animations/FadeReveal.astro";
 import Layout from "../layout/Layout.astro";
 
+const audienceEnabled = import.meta.env.PUBLIC_RYBBIT_EXEMPT_AUDIENCE === "true";
 const sections = [
     {
         id: "editeur",
@@ -26,7 +27,7 @@ const sections = [
         id: "contact",
         title: "Contact",
         paragraphs: [
-            "Pour toute demande, vous pouvez écrire à william.deazevedopro@gmail.com.",
+            "Pour toute demande, vous pouvez écrire à william.deazevedopro@gmail.com ou appeler le 07 62 74 60 21.",
         ],
     },
     {
@@ -40,7 +41,7 @@ const sections = [
         id: "hebergement",
         title: "Hébergement",
         paragraphs: [
-            "Le site est hébergé par Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, États-Unis.",
+            "Le site est hébergé par Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, États-Unis. Téléphone : +1 650 319 8930.",
         ],
     },
     {
@@ -54,17 +55,61 @@ const sections = [
         id: "confidentialite",
         title: "Données personnelles",
         paragraphs: [
-            "Les informations envoyées par email sont utilisées uniquement pour répondre à votre demande et ne font l'objet d'aucune cession.",
-            "Des données techniques de navigation peuvent être collectées afin de comprendre l'utilisation du site, améliorer les contenus, détecter des erreurs et mesurer les demandes de contact.",
-            "Conformément au RGPD, vous pouvez demander l'accès, la rectification, l'effacement, la limitation ou l'opposition au traitement de vos données à tout moment via l'adresse de contact ci-dessus. Vous pouvez également introduire une réclamation auprès de la CNIL.",
+            "William Ferreira De Azevedo, identifié dans la rubrique Éditeur, est responsable des traitements liés à ce site. Pour toute question ou demande concernant vos données : william.deazevedopro@gmail.com.",
+            "Lorsque vous écrivez par email ou demandez un rendez-vous, les données traitées comprennent vos coordonnées, le contenu de votre demande et, pour une réservation, le créneau choisi. Elles servent à répondre à votre demande, préparer un devis ou organiser un échange. Les démarches liées à un projet reposent sur les mesures précontractuelles prises à votre demande ; les autres demandes reposent sur l'intérêt légitime à répondre aux personnes qui nous contactent.",
+            "Vos coordonnées ne sont pas vendues. Elles sont accessibles à William Ferreira De Azevedo et aux prestataires nécessaires au service : Google pour la messagerie Gmail, Cal.com pour la réservation et Cloudflare pour l'hébergement et la sécurité du site.",
+            "Les échanges sont conservés pendant le traitement de votre demande et la préparation éventuelle de votre projet. Si une relation contractuelle commence, les données nécessaires sont conservées pendant cette relation ; certaines pièces doivent ensuite être archivées pour respecter les obligations légales ou défendre des droits. Vous pouvez demander la suppression des informations qui ne sont plus nécessaires.",
+        ],
+    },
+    {
+        id: "reservation",
+        title: "Rendez-vous avec Cal.com",
+        paragraphs: [
+            "Le calendrier Cal.com est chargé uniquement lorsque vous cliquez sur un bouton de réservation. Il reçoit alors les informations techniques nécessaires à la connexion, puis les renseignements que vous saisissez pour organiser le rendez-vous. La mesure de réussite d'une réservation n'inclut pas votre nom, votre adresse email ni le contenu de votre demande.",
+            "Les données nécessaires à l'organisation du rendez-vous reposent sur les mesures précontractuelles demandées par vous. Les traitements propres à Cal.com sont décrits dans sa politique de confidentialité : https://cal.com/privacy.",
         ],
     },
     {
         id: "mesure-audience",
         title: "Mesure d'audience",
         paragraphs: [
-            "Le site utilise Rybbit Analytics pour mesurer la fréquentation et comprendre les parcours de navigation.",
-            "Cloudflare Zaraz peut également transmettre des événements de mesure, par exemple l'ouverture d'un module de réservation ou la réussite d'une demande de rendez-vous.",
+            audienceEnabled
+                ? "Rybbit est utilisé pour mesurer l'audience du site : pages consultées, provenance des visites et caractéristiques techniques nécessaires aux statistiques. Cette mesure sert à améliorer les contenus et la navigation. Elle doit rester limitée aux statistiques d'audience du site, sans suivi publicitaire ni recoupement entre sites."
+                : "La mesure d'audience Rybbit est désactivée dans cette version du site. Elle pourra être activée après vérification de sa configuration et mise à jour des informations de confidentialité correspondantes.",
+            "Les clics sur les liens de contact ne prouvent pas qu'un email a été envoyé ou qu'un appel a abouti. Le contenu des emails et les coordonnées saisies pour un rendez-vous ne sont pas transmis par les événements de mesure du site.",
+            "Google Analytics et Google Ads ne sont pas utilisés pour la mesure de cette version du site. Google Search Console est un service distinct, décrit ci-dessous.",
+        ],
+    },
+    {
+        id: "cookies",
+        title: "Cookies et autres traceurs",
+        paragraphs: [
+            "Ce site n'affiche pas de bandeau de cookies. Aucun choix de consentement n'est enregistré dans le navigateur par le site. L'absence de bandeau ne dispense pas de respecter les règles relatives aux cookies et autres traceurs : une mesure d'audience sans consentement préalable doit remplir les conditions d'exemption applicables.",
+            "Le code du site ne conserve aucune file d'événements de mesure dans le stockage local ou de session. Les événements en attente, lorsque la mesure est activée, sont gardés uniquement en mémoire pendant la page courante.",
+            "Cloudflare fournit l'hébergement et la protection du site ; des informations techniques de connexion peuvent être traitées pour ces finalités. Les liens vers les réseaux sociaux ouvrent des sites tiers, dont les propres règles de confidentialité s'appliquent après votre navigation.",
+        ],
+    },
+    {
+        id: "search-console",
+        title: "Google Search Console",
+        paragraphs: [
+            "Google Search Console permet de consulter les performances du site dans les résultats Google : impressions, clics, requêtes et indexation. Ce service est distinct de Google Analytics. La validation du site par DNS ou fichier HTML n'ajoute pas, à elle seule, de traceur dans le navigateur des visiteurs.",
+        ],
+    },
+    {
+        id: "droits",
+        title: "Vos droits",
+        paragraphs: [
+            "Selon le traitement concerné, vous pouvez demander l'accès, la rectification, l'effacement, la limitation ou la portabilité de vos données. Vous pouvez vous opposer aux traitements reposant sur l'intérêt légitime et retirer à tout moment un consentement, sans remettre en cause les traitements antérieurs à ce retrait.",
+            "Adressez votre demande à william.deazevedopro@gmail.com. Une réponse vous est apportée en principe dans un délai d'un mois ; une prolongation motivée peut s'appliquer aux demandes complexes. Vous pouvez également introduire une réclamation auprès de la CNIL : https://www.cnil.fr/fr/plaintes.",
+        ],
+    },
+    {
+        id: "prestataires",
+        title: "Prestataires et transferts",
+        paragraphs: [
+            "Le recours à Google, Cloudflare et Cal.com peut entraîner des traitements en dehors de l'Union européenne. Les garanties applicables et les durées de conservation propres aux services doivent être examinées dans les contrats et politiques des prestataires. Le nom de domaine du serveur Rybbit ne permet pas, à lui seul, de déterminer son lieu d'hébergement.",
+            "Informations des prestataires : https://www.cloudflare.com/privacypolicy/, https://policies.google.com/privacy et https://cal.com/privacy. Pour obtenir des précisions sur les traitements de ce site ou exercer vos droits, contactez William Ferreira De Azevedo.",
         ],
     },
 ];
@@ -72,7 +117,7 @@ const sections = [
 
 <Layout
     title="Mentions légales et confidentialité - William De Azevedo"
-    description="Mentions légales, données personnelles et mesure d'audience du site de William De Azevedo."
+    description="Mentions légales, confidentialité, cookies et mesure d'audience du site de William De Azevedo."
 >
     <section class="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-12 md:py-16">
         <FadeReveal delay={0.1}>
@@ -87,6 +132,13 @@ const sections = [
                 </p>
             </div>
         </FadeReveal>
+        <p class="text-sm text-gray-600">Mise à jour : 30 septembre 2026.</p>
+        <nav aria-label="Références de confidentialité" class="flex flex-wrap gap-4 text-sm underline">
+            <a href="https://www.cnil.fr/fr/plaintes">CNIL et réclamations</a>
+            <a href="https://cal.com/privacy">Confidentialité Cal.com</a>
+            <a href="https://policies.google.com/privacy">Confidentialité Google</a>
+            <a href="https://www.cloudflare.com/privacypolicy/">Confidentialité Cloudflare</a>
+        </nav>
         <div class="flex flex-col divide-y divide-snow-600/80">
             {
                 sections.map((section) => (
