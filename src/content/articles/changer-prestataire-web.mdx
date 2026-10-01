@@ -1,0 +1,89 @@
+---
+title: "Changer de prestataire web : préparer la reprise de votre site"
+description: "Domaine, DNS, hébergement, messagerie et sauvegardes : les étapes pour mieux maîtriser les accès lors d’un changement de prestataire web."
+pubDate: 2026-10-01
+author: "William De Azevedo"
+draft: true
+tags: ["site vitrine", "refonte", "tpe"]
+image:
+  src: "/articles/changer-prestataire-web/cover.webp"
+  alt: "Deux personnes se transmettent une maquette de site et une liste de contrôle ; des pictogrammes distinguent domaine, DNS, hébergement et fichiers."
+---
+
+import PreparationChecklist from "../../components/articles/PreparationChecklist.astro";
+
+**Changer de prestataire web ne signifie pas forcément transférer le nom de domaine.** Un site s’appuie sur plusieurs comptes : le bureau d’enregistrement du domaine, la zone DNS, l’hébergement, le CMS, la messagerie et parfois un dépôt de code ou des services tiers. Ils peuvent être regroupés chez un même fournisseur, mais leurs rôles restent différents.
+
+Avant de demander une « migration », faites l’inventaire de ce qui doit vraiment changer. Vous réduisez le risque de déplacer un service inutilement ou de couper le site — voire les e-mails — en modifiant un réglage qui n’était pas concerné.
+
+## Distinguer le domaine, le DNS et l’hébergement
+
+Le **nom de domaine** est l’adresse de votre site. Le **bureau d’enregistrement** gère l’inscription et le renouvellement du nom. Les **DNS** indiquent où diriger les requêtes pour le site, la messagerie et d’autres services. L’**hébergement** reçoit les fichiers ou fait fonctionner la plateforme qui affiche vos pages. Le **CMS** sert à administrer les contenus, lorsque votre solution en utilise un.
+
+Un changement de webmaster ou d’hébergeur n’exige donc pas automatiquement un changement de bureau d’enregistrement. Pour les extensions gérées par l’Afnic, comme le `.fr`, le transfert vers un autre bureau suit sa propre procédure, avec notamment un code `Auth_info`. Les autres extensions ont leurs règles et leurs interlocuteurs : vérifiez la procédure applicable à votre domaine avant d’agir.
+
+## Faire l’inventaire avant toute modification
+
+### Domaine et coordonnées de récupération
+
+Relevez le titulaire enregistré, le bureau d’enregistrement, la date de renouvellement et l’adresse e-mail qui reçoit les avis importants. Assurez-vous que cette adresse est accessible à votre entreprise ou à la personne qui en est responsable. Un compte administrateur sur le site ne prouve pas, à lui seul, qui est titulaire du domaine.
+
+Si un transfert de bureau est réellement nécessaire, demandez la procédure au registrar concerné. Traitez le code d’autorisation comme un secret : transmettez-le uniquement dans le cadre de l’opération prévue, et pas dans un document public ou un fil de discussion partagé sans contrôle.
+
+### Zone DNS et messagerie
+
+Notez où la zone DNS est administrée et conservez-en une copie exploitable avant de la modifier. Les enregistrements du site et ceux du courrier électronique ne sont pas interchangeables : une zone incomplète peut laisser le site en ligne tout en empêchant l’envoi ou la réception de messages.
+
+La documentation OVHcloud illustre un risque concret : si vous changez de serveurs DNS, l’ancienne zone cesse de s’appliquer lorsque la nouvelle n’a pas été préparée. C’est une procédure propre à son service, mais le principe est général : identifiez le gestionnaire DNS actuel et reproduisez les réglages nécessaires avant la bascule.
+
+### Site, fichiers et sauvegardes
+
+Demandez quelle plateforme fait fonctionner le site, où sont ses fichiers et ses médias, comment accéder à l’administration et quelle sauvegarde peut être restaurée. Sur WordPress, la documentation officielle distingue notamment les fichiers du site et la base de données ; un export partiel n’est pas nécessairement une copie complète. Pour un autre CMS ou un site développé sur mesure, le contenu à sauvegarder dépend de son architecture.
+
+Une archive créée n’est pas encore une preuve de reprise. Si possible, prévoyez un test de restauration dans un environnement de préproduction avant de remplacer le site en ligne. Notez aussi les éléments qui ne suivent pas automatiquement le site : licences d’extensions, polices, comptes de formulaires, dépôt de code ou services externes.
+
+### Comptes, contrat et données
+
+Listez les comptes nécessaires : hébergement, CMS, domaine, messagerie, formulaires, statistiques et outils reliés au site. Quand la plateforme le permet, créez un accès nominatif pour le nouveau prestataire avec les droits utiles plutôt que de partager le compte principal. Le guide ReCyF de l’ANSSI présente l’identification des utilisateurs et la gestion des accès comme des pratiques de sécurité ; il est non prescriptif et vise un contexte déterminé, pas une obligation universelle pour chaque petite entreprise.
+
+Relisez ensuite le devis et le contrat : quels fichiers, textes ou éléments personnalisés sont remis ? Quels composants dépendent d’une licence tierce ? Une assistance de sortie ou des frais sont-ils prévus ? N’en déduisez pas automatiquement que l’accès administrateur ou le paiement d’une facture règle à lui seul tous les droits sur le code et les contenus. Si le prestataire traite des données personnelles pour votre compte, vérifiez également les clauses applicables à leur restitution ou à leur suppression en fin de prestation ; ce point ne transfère pas le code du site.
+
+## Organiser la passation dans le bon ordre
+
+1. **Décidez ce qui bouge.** Distinguez une simple création de comptes d’accès, un changement d’hébergement, une reprise du CMS ou un transfert de domaine. Une seule de ces opérations peut suffire.
+2. **Conservez l’existant pendant la préparation.** Ne résiliez pas l’hébergement et ne modifiez pas les serveurs DNS tant que le nouveau site, ses accès et les réglages de messagerie n’ont pas été vérifiés. Convenez avec les prestataires de la période de transition adaptée au projet.
+3. **Copiez et vérifiez.** Faites l’inventaire des pages, fichiers, bases de données, formulaires et services reliés. Testez la restauration et contrôlez les parcours importants sur la version de travail.
+4. **Planifiez la bascule.** Si les DNS doivent changer, préparez la nouvelle zone avant le changement et traitez la messagerie séparément. Pour une refonte, vérifiez aussi les anciennes adresses qui doivent être conservées ou redirigées.
+5. **Terminez proprement.** Une fois la nouvelle version validée, confirmez que le site et les services attendus fonctionnent, mettez à jour les contacts de renouvellement, puis retirez les accès devenus inutiles et renouvelez les secrets partagés si nécessaire.
+
+Cette méthode réduit les oublis, mais ne garantit pas une interruption nulle : le fonctionnement dépend des contrats, des fournisseurs, de la configuration et du site concerné.
+
+## Checklist avant de valider la reprise
+
+<PreparationChecklist
+  legend="Les éléments essentiels sont-ils prêts ?"
+  note="Cochez uniquement les points vérifiés avec vos prestataires. Cette liste reste dans votre navigateur : elle n’est ni enregistrée ni transmise."
+  countLabel="points vérifiés"
+  doneLabel="Passation prête à confirmer"
+  items={[
+    "Le titulaire du domaine, son bureau d’enregistrement, le renouvellement et l’adresse de récupération sont identifiés.",
+    "Le gestionnaire DNS est connu et une copie de la zone actuelle est conservée.",
+    "Les réglages de la messagerie sont distingués de ceux du site.",
+    "Les fichiers, médias et données nécessaires ont une sauvegarde dont la restauration est prévue.",
+    "Le contrat précise les livrables, les licences, les données et les conditions de sortie.",
+    "Le nouveau site et ses accès sont vérifiés avant toute bascule DNS.",
+    "Le site, les formulaires et la messagerie ont un plan de test défini.",
+    "Les accès devenus inutiles seront retirés après la passation.",
+  ]}
+/>
+
+Si vous profitez de cette transition pour revoir la structure ou reconstruire le site, vous pouvez consulter mon accompagnement en [refonte de site internet](/refonte-site-internet/). Le bon choix dépend de l’état de l’existant et des éléments que vous souhaitez conserver ; une reprise ne signifie pas forcément qu’il faut tout refaire.
+
+## Sources de référence
+
+- [Afnic — Gérer son nom de domaine](https://www.afnic.fr/noms-de-domaine/tout-savoir/gerer-son-nom-de-domaine/) et [FAQ sur les noms de domaine](https://www.afnic.fr/noms-de-domaine/faq/) : procédures pour les extensions gérées par l’Afnic.
+- [ICANN — Inter-Registrar Transfer Policy](https://www.icann.org/en/contracted-parties/accredited-registrars/resources/domain-name-transfers/policy) : politique de transfert entre registrars accrédités, dans son champ d’application.
+- [OVHcloud — Éditer une zone DNS](https://docs.ovhcloud.com/fr/guides/web-cloud/domains/dns-zone-edit) : exemple de configuration propre à OVHcloud.
+- [WordPress.org — Backups](https://developer.wordpress.org/advanced-administration/security/backup/) : documentation spécifique aux sauvegardes WordPress.
+- [ANSSI — Gestion des identités, ReCyF en pratique](https://messervices.cyber.gouv.fr/documents-guides/Fiche_Gestion-des-identites_Protection_VF.pdf) : fiche non prescriptive à portée déterminée.
+- [CNIL — RGPD, article 28](https://www.cnil.fr/fr/reglement-europeen-protection-donnees/chapitre4#Article28) : obligations contractuelles relatives à la sous-traitance de données personnelles.
