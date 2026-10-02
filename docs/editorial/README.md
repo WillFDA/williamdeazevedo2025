@@ -15,7 +15,7 @@ Le frontmatter contient le titre, la description SEO, la date, les tags, l'auteu
 - En développement, les brouillons et les dates futures sont visibles pour relecture.
 - Une date future ne programme pas un déploiement : il faut un nouveau build après cette date.
 
-Seul `tester-accessibilite-site-web` est publié, le 28 septembre 2026. Les dix autres articles sont en `draft: true` et restent hors du site. Pour publier l'un d'eux : passer `draft` à `false`, mettre sa `pubDate` au jour de publication et retirer une `updatedDate` antérieure à cette date. Le site est reconstruit à chaque push sur `2026`. Éviter des liens vers des articles encore masqués.
+`tester-accessibilite-site-web` est publié le 28 septembre 2026 et `mentions-legales-site-internet-professionnel` le 2 octobre 2026. Les neuf autres articles sont en `draft: true` et restent hors du site. Pour publier l'un d'eux : passer `draft` à `false`, mettre sa `pubDate` au jour de publication et retirer une `updatedDate` antérieure à cette date. Le site est reconstruit à chaque push sur `2026`. Éviter des liens vers des articles encore masqués.
 
 ## Ciblage
 
