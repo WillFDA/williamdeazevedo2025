@@ -196,24 +196,34 @@ export const services: Service[] = [
     ],
     faq: [
       {
-        question: "Combien de pages faut-il prévoir ?",
+        question: "Combien coûte la création d'un site vitrine freelance ?",
         answer:
-          "Cela dépend de votre offre. Une activité simple peut tenir sur une page, tandis qu'une offre plus riche mérite souvent plusieurs pages pour mieux guider le visiteur.",
+          "Un site vitrine sur mesure débute à 2 000 € HT. Le prix final dépend des pages, des contenus, du design et des options retenues, comme un formulaire personnalisé (+500 € HT) ou un CMS (+1 000 € HT). Le devis précise aussi le délai, généralement compris entre 10 jours et 5 semaines selon le périmètre.",
       },
       {
-        question: "Pouvez-vous m'aider à structurer les contenus ?",
+        question: "Combien de pages faut-il prévoir pour un site vitrine ?",
         answer:
-          "Oui. Le cadrage sert justement à clarifier les messages, les sections utiles et l'ordre des informations avant de passer au design.",
+          "Cela dépend surtout de ce que vos prospects doivent comprendre avant de vous contacter. Une page d'accueil, des pages de services, des preuves ou réalisations et une page de contact suffisent souvent ; l'arborescence est définie pendant le cadrage.",
       },
       {
-        question: "Le référencement est-il compris ?",
+        question: "Faut-il choisir un site one-page ou multipage ?",
         answer:
-          "J'intègre une base SEO technique propre : titres, descriptions, structure HTML, performance, sitemap et indexation. Le contenu éditorial ou une stratégie SEO continue peuvent demander un périmètre dédié.",
+          "Le one-page convient à une offre simple et à un parcours court. Un site multipage est plus adapté si vous avez plusieurs services, publics ou sujets à développer, notamment pour donner à chaque intention une page claire.",
       },
       {
-        question: "Pourrai-je modifier le site après la livraison ?",
+        question: "Pouvez-vous m'aider à structurer les textes et contenus ?",
         answer:
-          "Oui si le projet prévoit une partie administrable. Sinon, je peux aussi intervenir ponctuellement pour les évolutions.",
+          "Oui. Je vous aide à organiser les messages, les sections, les preuves et les appels à l'action à partir de votre matière existante. Une rédaction éditoriale complète peut faire l'objet d'un périmètre dédié.",
+      },
+      {
+        question: "Le référencement naturel est-il prévu dès la création ?",
+        answer:
+          "Oui pour le socle initial : structure HTML, métadonnées, performance, sitemap, indexation et configuration de Search Console. Ce travail facilite l'exploration du site, mais ne garantit pas une position sur Google ; les contenus et la stratégie continue restent déterminants.",
+      },
+      {
+        question: "Pourrai-je modifier mes contenus après la livraison ?",
+        answer:
+          "Oui si vous choisissez un site administrable avec l'option CMS à 1 000 € HT. Sans CMS, le site reste évolutif et je peux intervenir ponctuellement ; un contrat de maintenance n'est pas inclus automatiquement.",
       },
     ],
   },
@@ -327,25 +337,37 @@ export const services: Service[] = [
     ],
     faq: [
       {
-        question: "Vais-je perdre mon référencement ?",
+        question:
+          "Comment savoir s'il faut corriger ou refaire complètement mon site ?",
         answer:
-          "L'objectif est justement de limiter ce risque : inventaire des pages utiles, conservation des contenus importants, URLs cohérentes et redirections lorsque nécessaire.",
+          "Un audit de l'existant permet de séparer les défauts localisés des problèmes de fond. Si la structure, le message et la base technique restent solides, des corrections peuvent suffire ; sinon, une refonte évite d'empiler des rustines.",
       },
       {
-        question: "Faut-il forcément tout refaire ?",
+        question: "Combien coûte la refonte d'un site internet ?",
         answer:
-          "Non. Une refonte commence par identifier ce qui fonctionne déjà. Parfois quelques pages ou sections prioritaires suffisent.",
+          "Le prix dépend de l'état du site, des pages et contenus à reprendre, du nouveau design, de la migration et des redirections. Un premier audit permet de chiffrer séparément une amélioration ciblée ou une reconstruction complète.",
+      },
+      {
+        question: "Comment préserver mon référencement pendant la refonte ?",
+        answer:
+          "Je commence par inventorier les pages, contenus, métadonnées et URLs qui apportent déjà de la valeur. La nouvelle structure conserve ces signaux quand ils restent pertinents, puis Search Console aide à contrôler l'indexation après la mise en ligne, sans garantir le maintien de chaque position.",
       },
       {
         question:
-          "Pouvez-vous reprendre un site fait par un autre prestataire ?",
+          "Quelles redirections faut-il prévoir après un changement d'URL ?",
         answer:
-          "Oui, si l'accès au projet et l'état technique permettent une reprise propre. Sinon, je vous indique clairement les limites avant de chiffrer.",
+          "Chaque ancienne URL utile qui change doit pointer en 301 vers la page nouvelle la plus proche, et non vers l'accueil par défaut. Ce plan limite les pages introuvables et aide les moteurs comme les visiteurs à retrouver le bon contenu.",
       },
       {
-        question: "Le site doit-il être coupé pendant la refonte ?",
+        question: "Mon site restera-t-il accessible pendant les travaux ?",
         answer:
-          "Dans la plupart des cas, le nouveau site se prépare à côté de l'ancien puis remplace l'existant au moment de la mise en ligne.",
+          "Dans la plupart des cas, le nouveau site est préparé sur un environnement séparé pendant que l'ancien reste en ligne. Le remplacement intervient seulement après les tests, avec une bascule aussi courte que possible.",
+      },
+      {
+        question:
+          "Peut-on conserver mes contenus, mon domaine et certaines pages ?",
+        answer:
+          "Oui. Les contenus et pages encore utiles sont conservés, corrigés ou réorganisés après l'audit. Votre domaine peut rester le même ; seules sa configuration et la mise en ligne sont adaptées au nouveau site.",
       },
     ],
   },
@@ -437,24 +459,38 @@ export const services: Service[] = [
     ],
     faq: [
       {
-        question: "Travaillez-vous avec des équipes existantes ?",
+        question: "Sur quels types de missions front-end intervenez-vous ?",
         answer:
-          "Oui. Je peux intervenir avec un designer, une équipe produit, une agence ou directement avec un fondateur selon le contexte.",
+          "J'interviens sur l'intégration de maquettes, la création de composants, l'amélioration d'interfaces existantes et la correction de problèmes responsive, d'accessibilité ou de performance. La mission peut être ponctuelle ou organisée en plusieurs livraisons.",
       },
       {
-        question: "Pouvez-vous intégrer une maquette Figma ?",
+        question: "Pouvez-vous intégrer une maquette Figma avec précision ?",
         answer:
-          "Oui, à condition que le périmètre, les états principaux et les versions responsive soient suffisamment clairs ou cadrés au démarrage.",
+          "Oui. Je traduis la direction visuelle en composants responsives en tenant compte des états, interactions et contraintes réelles du navigateur. Les éléments manquants dans la maquette sont clarifiés au démarrage plutôt qu'improvisés en cours d'intégration.",
       },
       {
-        question: "Intervenez-vous sur un projet React ou Next.js existant ?",
+        question:
+          "Pouvez-vous rejoindre un projet Astro, React ou Next.js existant ?",
         answer:
-          "Oui, après lecture rapide du projet pour vérifier que l'intervention peut se faire proprement.",
+          "Oui. Je réalise d'abord une lecture courte du code, des conventions et du mode de livraison afin de confirmer le périmètre et d'intervenir sans fragiliser l'existant.",
       },
       {
-        question: "Faites-vous seulement du développement ?",
+        question:
+          "Comment se déroule la collaboration avec une équipe ou une agence ?",
         answer:
-          "Je peux intervenir uniquement en développement, mais mon intérêt est aussi d'aider à repérer les détails UX, responsive et accessibilité qui fragilisent souvent une interface.",
+          "Je m'adapte à vos outils : tickets, GitHub, revues de code et points courts. Le travail est découpé en livraisons vérifiables, avec une documentation légère lorsque l'équipe doit reprendre les composants.",
+      },
+      {
+        question:
+          "Comment une mission de développeur web freelance est-elle chiffrée ?",
+        answer:
+          "Le chiffrage dépend du périmètre, de l'état du projet, des maquettes, des délais et du niveau d'autonomie attendu. La proposition précise les livrables, les hypothèses et le rythme de collaboration avant le démarrage.",
+      },
+      {
+        question:
+          "Prenez-vous aussi en charge le responsive, l'accessibilité et la performance ?",
+        answer:
+          "Oui, ces sujets font partie de l'intégration front-end. Je teste les composants sur différentes tailles d'écran, corrige les obstacles d'usage principaux et limite le coût technique des médias, scripts et animations.",
       },
     ],
   },
@@ -567,25 +603,39 @@ export const services: Service[] = [
     ],
     faq: [
       {
+        question: "Combien coûte un site internet pour un artisan ?",
+        answer:
+          "La création d'un site d'artisan sur mesure débute à 2 000 € HT. Le devis évolue selon le nombre de pages, les réalisations à présenter, les contenus, les photos et les options, tout en distinguant les éventuels coûts récurrents.",
+      },
+      {
         question:
-          "Je n'ai pas de logo ou de charte graphique, est-ce bloquant ?",
+          "Un site est-il utile si mes clients viennent déjà du bouche-à-oreille ?",
         answer:
-          "Ce n'est pas bloquant pour démarrer, mais un site fonctionne mieux avec une base visuelle claire. Si vous partez de zéro, je peux vous orienter vers Persistance Studio pour cadrer logo, charte, supports ou photos avant le site.",
+          "Oui, car une personne recommandée vérifie souvent votre activité avant d'appeler. Le site confirme votre sérieux, montre vos réalisations, précise votre zone d'intervention et facilite la demande de devis.",
       },
       {
-        question: "Est-ce utile si je travaille déjà par bouche-à-oreille ?",
+        question:
+          "Quelles pages et quels contenus prévoir pour un site d'artisan ?",
         answer:
-          "Oui, parce que vos recommandations ont souvent besoin d'un support crédible. Un site clair confirme le sérieux, explique votre méthode et facilite la demande de devis.",
+          "Le site doit au minimum expliquer vos prestations, votre méthode, votre zone d'intervention et la façon de vous contacter. Des pages de réalisations, des avis et des réponses aux questions fréquentes renforcent la confiance lorsqu'ils apportent des preuves concrètes.",
       },
       {
-        question: "Le SEO local est-il inclus ?",
+        question:
+          "Un site d'artisan suffit-il pour être visible sur Google localement ?",
         answer:
-          "J'intègre les bases techniques : structure, titres, descriptions, performance, zone d'intervention et pages utiles. Une stratégie locale plus poussée peut ensuite être travaillée séparément.",
+          "Le site pose un socle technique et local propre, mais il ne garantit pas une position. La visibilité dépend aussi de la concurrence, des contenus, des avis, des liens et d'une fiche Google Business Profile cohérente et régulièrement tenue à jour.",
       },
       {
-        question: "Puis-je ajouter des réalisations plus tard ?",
+        question:
+          "Comment présenter mes réalisations, mes avis et ma zone d'intervention ?",
         answer:
-          "Oui, si le périmètre prévoit un site administrable. Sinon, on peut garder une structure prête à évoluer avec des ajouts ponctuels.",
+          "Chaque réalisation gagne à préciser le contexte, le besoin, le résultat et la commune, avec des photos de qualité et l'accord du client. Les avis restent authentiques et la zone d'intervention est formulée clairement, sans créer des pages locales artificielles.",
+      },
+      {
+        question:
+          "Pourrai-je ajouter de nouveaux chantiers après la mise en ligne ?",
+        answer:
+          "Oui avec l'option CMS à 1 000 € HT, qui vous permet de publier vos réalisations. Sans espace administrable, je peux effectuer des ajouts ponctuels ; la maintenance continue n'est pas incluse automatiquement.",
       },
     ],
   },
@@ -694,24 +744,37 @@ export const services: Service[] = [
     ],
     faq: [
       {
-        question: "Quelle différence avec un site vitrine classique ?",
+        question: "Quel est le prix d'un site internet professionnel ?",
         answer:
-          "Le site vitrine présente. Le site professionnel doit aussi clarifier, rassurer, guider et tenir techniquement dans le temps. La différence se joue dans le cadrage et les détails.",
+          "Un site professionnel sur mesure débute à 2 000 € HT. Le tarif final dépend des pages, du niveau de personnalisation, des contenus et des fonctionnalités ; le devis distingue la conception initiale des éventuels coûts récurrents.",
       },
       {
-        question: "Peut-on partir d'un template ?",
+        question:
+          "Que comprend la création d'un site professionnel sur mesure ?",
         answer:
-          "On peut s'en inspirer, mais je préfère éviter les sites interchangeables. Un bon site doit refléter votre offre, vos preuves et votre manière de travailler.",
+          "Le projet réunit le cadrage de l'offre, l'architecture des pages, le design responsive, le développement front-end, l'accessibilité, le socle SEO technique et la mise en ligne. Le périmètre exact et les cycles de retours sont détaillés dans le devis.",
       },
       {
-        question: "Est-ce que vous faites le contenu ?",
+        question:
+          "Quel format choisir : one-page, multipage ou administrable ?",
         answer:
-          "Je structure les messages, les sections et les formulations clés. Si le projet demande une identité éditoriale ou beaucoup de contenus, on peut cadrer un périmètre dédié.",
+          "Le choix dépend du nombre d'offres, des publics visés et de la fréquence de publication. Une activité simple peut tenir sur une page ; plusieurs services ou objectifs SEO appellent souvent un site multipage, avec un CMS si vous publiez régulièrement.",
       },
       {
-        question: "Que faire si je n'ai pas encore d'identité visuelle ?",
+        question: "Pouvez-vous m'aider à clarifier mon offre et mes contenus ?",
         answer:
-          "On peut commencer par cadrer le besoin, mais si vous n'avez ni logo, ni charte, ni visuels, je recommande souvent de travailler avec Persistance Studio pour poser une base solide avant le site.",
+          "Oui. Je vous aide à hiérarchiser l'offre, les bénéfices, les objections et les preuves afin de construire des pages faciles à comprendre. Une production éditoriale plus large peut être chiffrée séparément.",
+      },
+      {
+        question:
+          "Peut-on intégrer un CMS, un formulaire ou des outils externes ?",
+        answer:
+          "Oui après validation du besoin et de la faisabilité. L'option CMS est à 1 000 € HT et un formulaire personnalisé à 500 € HT ; les prises de rendez-vous, outils métier ou autres services externes sont précisés dans le devis.",
+      },
+      {
+        question: "Que se passe-t-il après la mise en ligne ?",
+        answer:
+          "Je vérifie le site, Search Console et la mesure des conversions, puis un point de suivi est prévu à 30 jours. La maintenance et les évolutions régulières ne sont pas incluses automatiquement et peuvent être organisées selon vos besoins.",
       },
     ],
   },
