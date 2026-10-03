@@ -1,0 +1,95 @@
+---
+title: "Suivi des contacts d’un site internet : du clic au client"
+description: "Un clic sur téléphone n’est pas un appel abouti. Distinguez interactions, demandes reçues, prospects qualifiés et contrats signés pour lire vos résultats."
+pubDate: 2026-10-02
+author: "William De Azevedo"
+draft: true
+tags: ["site vitrine", "conversion", "tpe"]
+image:
+  src: "/articles/mesurer-contacts-site-internet/cover.webp"
+  alt: "Un formulaire de site envoie une seule interaction vers une demande reçue, tandis que les clics non confirmés s’arrêtent avant les étapes de qualification et de projet conclu."
+---
+
+import PreparationChecklist from "../../components/articles/PreparationChecklist.astro";
+
+Des clics sur un bouton de téléphone, des ouvertures de calendrier ou des formulaires affichés comme envoyés apparaissent dans vos statistiques. Mais ces événements ne prouvent pas tous qu’une demande est arrivée, encore moins qu’un projet a été signé.
+
+Un clic sur `tel:` peut seulement ouvrir l’application d’appel. Un lien `mailto:` peut ouvrir un message qui ne sera jamais envoyé. Un calendrier peut s’ouvrir sans qu’aucun créneau soit réservé. Même un bouton de formulaire peut être cliqué alors que la validation échoue ensuite.
+
+Pour évaluer l’utilité d’un site professionnel, la question n’est donc pas seulement « combien de clics ? », mais **quelle étape chaque chiffre confirme-t-il réellement ?** Voici une façon simple de séparer les signaux, les contacts et leur suite commerciale.
+
+## Quatre états à ne pas confondre
+
+### 1. Le clic : une intention
+
+Le clic sur « Appeler », « Envoyer un e-mail » ou « Prendre rendez-vous » indique qu’une personne a tenté une action. C’est utile pour repérer un bouton visible ou un parcours qui attire l’attention. Ce n’est pas une preuve d’appel abouti, de courriel envoyé ou de réservation confirmée.
+
+Gardez ce chiffre dans une catégorie « interaction » si vous le suivez. Évitez de le présenter comme un nouveau contact ou une conversion commerciale.
+
+### 2. La demande reçue : un échange effectivement arrivé
+
+Une demande par formulaire peut être comptée lorsque le site confirme l’envoi après la réponse positive du service qui la reçoit, et pas au simple clic sur le bouton. Une demande téléphonique peut être vérifiée dans l’historique d’appels de l’entreprise. Pour un rendez-vous, recherchez une confirmation plutôt que l’ouverture du module de réservation.
+
+Le niveau de preuve dépend du canal : un événement navigateur seul ne confirme pas toujours que l’e-mail a été remis ou que l’appel a été décroché. Si vous ne pouvez pas vérifier l’étape, classez-la comme « à confirmer » plutôt que de la transformer en résultat certain.
+
+### 3. Le prospect qualifié : une demande qui correspond à votre activité
+
+Une demande reçue ne convient pas nécessairement à votre entreprise. Selon votre métier, la qualification peut dépendre de la prestation recherchée, de la zone d’intervention, du calendrier ou du périmètre du projet. Définissez ces critères simplement avec les personnes qui répondent aux contacts, puis notez le statut dans votre outil de suivi habituel.
+
+Il s’agit d’un jugement commercial distinct d’un événement d’audience. Le clic d’un bouton ne peut pas, à lui seul, déterminer si la demande est pertinente.
+
+### 4. Le projet gagné : un résultat commercial
+
+Un devis accepté ou une commande est un résultat différent d’un prospect qualifié. Si vous souhaitez savoir si le site contribue aux ventes, il faut relier les demandes à leur issue dans votre suivi commercial, dans la mesure où votre organisation et vos outils le permettent.
+
+Cette attribution n’est pas toujours certaine : une personne peut découvrir votre entreprise sur le site puis vous appeler plus tard, ou arriver par recommandation. Gardez une catégorie « origine inconnue » lorsque vous ne savez pas. Ne forcez pas chaque vente dans la colonne « site web ».
+
+Ces étapes ne forment pas toujours un tunnel parfaitement mesurable. Un client peut vous appeler sans que le clic initial soit observé, et plusieurs interactions peuvent concerner une seule personne. Il vaut mieux conserver des catégories séparées que d’additionner tous les signaux comme s’ils représentaient des contacts uniques.
+
+## Adapter le suivi au canal de contact
+
+**Formulaire.** Déclenchez l’événement de réussite après la confirmation d’envoi par votre site ou par le service qui reçoit le formulaire. Testez aussi le cas d’erreur : un champ manquant, un problème réseau ou un envoi rejeté ne doit pas produire le même signal qu’une demande reçue. Prévoyez de repérer le spam et les doubles envois avant de comparer les périodes.
+
+**Téléphone.** Vous pouvez suivre séparément le clic sur le numéro et les appels effectivement observés. Google Ads propose différents types de suivi des conversions par appel, avec notamment des règles de durée minimale selon la configuration. Une durée peut servir de filtre opérationnel ; elle ne prouve pas à elle seule que l’échange était pertinent ou qu’un devis a été signé.
+
+**E-mail et rendez-vous.** Le clic `mailto:` ne prouve pas que le message a été envoyé. De même, l’ouverture d’un calendrier n’est pas une réservation. Si votre outil de rendez-vous fournit un état de confirmation, utilisez cette étape pour distinguer une visite du module d’un créneau réellement réservé. Tenez compte des annulations lorsque vous relisez les résultats.
+
+Dans Google Analytics 4, `generate_lead` figure parmi les événements recommandés pour représenter une génération de prospect. Il faut toutefois configurer l’événement pour son site : le nom ne déclenche pas automatiquement un suivi juste, et il ne transforme pas un clic en contact confirmé. Les outils d’analyse comptent ce qu’on leur demande d’enregistrer ; vérifiez le moment exact où l’événement part.
+
+## Un suivi simple avant d’ajouter des outils
+
+Commencez par écrire une définition courte de « demande reçue » et de « demande qualifiée ». Puis vérifiez pour chaque canal quel élément peut confirmer l’étape : réponse positive du formulaire, appel constaté, réservation confirmée ou statut consigné après échange.
+
+Un tableau ou l’outil que vous utilisez déjà peut suffire pour suivre, sans données personnelles dans les statistiques, la date, le canal, la page d’entrée si elle est connue, le statut et l’issue. Conservez les coordonnées du prospect dans votre boîte de réception ou votre outil commercial approprié, avec des accès adaptés ; ne les copiez pas dans les propriétés d’un événement analytique.
+
+Pour comparer des périodes, gardez la même définition et le même périmètre. Si vous calculez un taux, précisez son numérateur, son dénominateur et sa période : par exemple, des demandes reçues rapportées aux sessions d’un périmètre donné. Ne le mélangez pas avec un taux calculé sur des clics ou sur des devis gagnés. Et si plusieurs clics viennent du même parcours, ne les comptez pas comme autant de nouveaux prospects.
+
+Une revue régulière des demandes reçues, des contacts qualifiés et des projets gagnés aide à repérer où le suivi manque. Elle ne donne pas forcément une attribution parfaite, mais elle évite de piloter un site sur un indicateur qui ne représente qu’un clic.
+
+<PreparationChecklist
+  legend="Votre suivi distingue-t-il les clics des contacts réels ?"
+  note="Cochez uniquement les points que vous avez vérifiés sur vos propres outils. Cette liste reste dans votre navigateur : aucune réponse n’est enregistrée ni transmise."
+  countLabel="points vérifiés"
+  doneLabel="Suivi mieux défini"
+  items={[
+    "Un clic sur un lien téléphone ou e-mail est séparé d’un appel ou message effectivement reçu.",
+    "Le formulaire n’enregistre une réussite qu’après confirmation de l’envoi.",
+    "Les erreurs, spams et doubles envois ne sont pas comptés comme de nouvelles demandes fiables.",
+    "Une ouverture de calendrier est séparée d’un rendez-vous confirmé.",
+    "Les critères de qualification correspondent à mon activité et sont compris par la personne qui répond.",
+    "Les demandes, contacts qualifiés et projets gagnés ont des statuts distincts.",
+    "Les coordonnées et le contenu des messages ne sont pas envoyés dans les événements analytiques.",
+    "Les interactions répétées d’un même parcours ne sont pas présentées comme autant de nouveaux prospects.",
+  ]}
+/>
+
+La collecte de statistiques doit également être examinée selon les outils, les réglages et la finalité retenus. La CNIL décrit des conditions précises pour que certains traceurs de mesure d’audience puissent être exemptés de consentement ; cette possibilité n’est pas automatique pour tout outil ni toute configuration. Vérifiez votre cas et l’information fournie aux visiteurs avant d’activer un nouveau suivi.
+
+Pour réfléchir en amont aux pages et aux parcours de contact, consultez aussi ma page sur la [création de site vitrine](/creation-site-vitrine/). Ici, l’objectif est différent : choisir des indicateurs honnêtes une fois le site utilisé.
+
+## Sources officielles
+
+- [Google Analytics — Événements recommandés](https://developers.google.com/analytics/devguides/collection/ga4/reference/events?hl=fr) : événements que les équipes peuvent configurer, dont `generate_lead`.
+- [Google Ads — Suivi des conversions par appel téléphonique](https://support.google.com/google-ads/answer/6100664?hl=fr) : types d’appels mesurables et règles de durée selon la configuration.
+- [Rybbit — Suivre des événements](https://rybbit.com/docs/track-events) : événements personnalisés déclenchés par le code ou des attributs d’éléments.
+- [CNIL — Cookies : solutions pour les outils de mesure d’audience](https://www.cnil.fr/fr/cookies-solutions-pour-les-outils-de-mesure-daudience) : conditions liées à la finalité et aux données pour certaines exemptions.
